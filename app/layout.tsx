@@ -1,13 +1,13 @@
-import type { Metadata } from "next";
-import { Inter as FontSans } from "next/font/google";
-import "./globals.css";
-import "@radix-ui/themes/styles.css";
-import QueryClientProvider from "../Providers/QueryClientProvider";
-import { Theme } from "@radix-ui/themes";
+import { ThemeProvider } from "@/Providers/ThemeProvider";
 import NavBar from "@/components/NavBar";
 import { cn } from "@/lib/utils";
+import { Theme } from "@radix-ui/themes";
+import "@radix-ui/themes/styles.css";
+import type { Metadata } from "next";
+import { Inter as FontSans } from "next/font/google";
+import QueryClientProvider from "../Providers/QueryClientProvider";
 import AuthProvider from "./auth/Provider";
-import { ThemeProvider } from "@/Providers/ThemeProvider";
+import "./globals.css";
 
 export const fontSans = FontSans({
   subsets: ["latin"],
@@ -34,7 +34,12 @@ export default function RootLayout({
       >
         <QueryClientProvider>
           <AuthProvider>
-            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
               <Theme>
                 <NavBar />
                 {children}

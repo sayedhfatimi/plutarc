@@ -1,12 +1,4 @@
 "use client";
-import localFont from "next/font/local";
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,11 +7,19 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Avatar, Box, Flex, Heading, Text } from "@radix-ui/themes";
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
+import { Avatar, Box, Flex, Text } from "@radix-ui/themes";
+import { useSession } from "next-auth/react";
+import localFont from "next/font/local";
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
 import { PropsWithChildren, ReactNode } from "react";
-import { useSession } from "next-auth/react";
 import Spinner from "./Spinner";
 import ThemeToggle from "./ThemeToggle";
 
@@ -85,9 +85,9 @@ const ProfileMenu = () => {
 
   if (status === "loading")
     return (
-      <NavigationMenuItem>
+      <Box pr={"3"}>
         <Spinner />
-      </NavigationMenuItem>
+      </Box>
     );
 
   if (status === "unauthenticated")
