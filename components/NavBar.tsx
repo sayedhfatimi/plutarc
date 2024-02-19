@@ -63,9 +63,11 @@ const NavMenu = () => {
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <Text className={`${Gugi.className} pl-2`} size="5">
-            plutarc
-          </Text>
+          <Link href="/">
+            <Text className={`${Gugi.className}`} size="5">
+              plutarc
+            </Text>
+          </Link>
         </NavigationMenuItem>
         {status === "authenticated" &&
           NavLinks.map((link) => (
