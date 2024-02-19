@@ -22,6 +22,7 @@ import { usePathname } from "next/navigation";
 import { PropsWithChildren, ReactNode } from "react";
 import Spinner from "./Spinner";
 import ThemeToggle from "./ThemeToggle";
+import { Skeleton } from "./ui/skeleton";
 
 const Gugi = localFont({
   src: "../assets/fonts/Gugi.ttf",
@@ -32,8 +33,19 @@ const NavBar = () => {
     <>
       <Box className="border-b p-1 shadow-sm" width="100%">
         <Flex justify="between">
-          <Flex align="center" gap="3">
-            <NavMenu />
+          <Flex align="center">
+            <NavigationMenu>
+              <NavigationMenuList>
+                <NavigationMenuItem>
+                  <Link href="/">
+                    <Text className={`${Gugi.className}`} size="5">
+                      plutarc
+                    </Text>
+                  </Link>
+                </NavigationMenuItem>
+                <NavMenu />
+              </NavigationMenuList>
+            </NavigationMenu>{" "}
           </Flex>
           <NavigationMenu>
             <NavigationMenuList>
@@ -59,24 +71,17 @@ const NavMenu = () => {
     { label: "Help", href: "/help" },
   ];
 
+  if (status === "loading") return <Skeleton className="h-4 w-[200px]" />;
+
   return (
-    <NavigationMenu>
-      <NavigationMenuList>
-        <NavigationMenuItem>
-          <Link href="/">
-            <Text className={`${Gugi.className}`} size="5">
-              plutarc
-            </Text>
-          </Link>
-        </NavigationMenuItem>
-        {status === "authenticated" &&
-          NavLinks.map((link) => (
-            <NavigationMenuItem key={link.label}>
-              <Link href={link.href}>{link.label}</Link>
-            </NavigationMenuItem>
-          ))}
-      </NavigationMenuList>
-    </NavigationMenu>
+    <>
+      {status === "authenticated" &&
+        NavLinks.map((link) => (
+          <NavigationMenuItem key={link.label}>
+            <Link href={link.href}>{link.label}</Link>
+          </NavigationMenuItem>
+        ))}
+    </>
   );
 };
 
@@ -114,7 +119,7 @@ const ProfileMenu = () => {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem>Profile</DropdownMenuItem>
-        <DropdownMenuItem>
+        <DropdownMenuItem asChild>
           <NextLink href="/settings/userApiCredentials">API Keys</NextLink>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
