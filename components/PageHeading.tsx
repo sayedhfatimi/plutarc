@@ -1,18 +1,26 @@
-import { Blockquote, Heading } from "@radix-ui/themes";
+import { Blockquote, Box, Flex, Heading } from "@radix-ui/themes";
+import { ReactNode } from "react";
 
 const PageHeading = ({
   heading,
   description,
+  children,
 }: {
   heading: string;
   description: string;
+  children?: ReactNode;
 }) => {
   return (
     <>
-      <Heading>{heading}</Heading>
-      <Blockquote color="gray" size="2">
-        {description}
-      </Blockquote>
+      <Flex justify="between" align="center" className="border-b p-2">
+        <Box className="p-2">
+          <Heading>{heading}</Heading>
+          <Blockquote color="gray" size="2">
+            {description}
+          </Blockquote>
+        </Box>
+        <Box>{children}</Box>
+      </Flex>
     </>
   );
 };

@@ -1,14 +1,23 @@
 "use client";
 import PageHeading from "@/components/PageHeading";
+import { Button } from "@/components/ui/button";
+import { PlusIcon } from "@radix-ui/react-icons";
 import { Box } from "@radix-ui/themes";
+import Link from "next/link";
 
 const UserAPICredentialsPage = () => {
   return (
     <Box className="border p-2 shadow-sm">
       <PageHeading
         heading="Manage API Keys"
-        description="List of all APIs associated with this account"
-      />
+        description="manage your api keys here"
+      >
+        <Button asChild>
+          <Link href="/settings/userApiCredentials/new">
+            <PlusIcon className="mr-2 h-4 w-4" /> Add New Key
+          </Link>
+        </Button>
+      </PageHeading>
     </Box>
   );
 };

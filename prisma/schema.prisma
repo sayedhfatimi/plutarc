@@ -13,6 +13,7 @@ datasource db {
 model UserAPICredentials {
   id        String   @id @default(cuid())
   userId    String
+  label     String   @db.VarChar(255)
   exchange  Exchange
   apiKey    String   @db.VarChar(255)
   apiSecret String   @db.VarChar(255)

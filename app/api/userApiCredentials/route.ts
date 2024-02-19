@@ -15,11 +15,12 @@ export async function POST(request: NextRequest) {
   if (!validation.success)
     return NextResponse.json(validation.error.errors, { status: 400 });
 
-  const { userId, exchange, apiKey, apiSecret } = body;
+  const { userId, label, exchange, apiKey, apiSecret } = body;
 
   const newApi = await prisma.userAPICredentials.create({
     data: {
       userId,
+      label,
       exchange,
       apiKey,
       apiSecret,
