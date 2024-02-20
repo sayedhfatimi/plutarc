@@ -10,14 +10,11 @@ import {
 } from "@/components/ui/table";
 import { UserAPICredential } from "@/entities/types";
 import { TrashIcon } from "@radix-ui/react-icons";
-import { useQuery } from "@tanstack/react-query";
 
 const UserApiKeysTable = () => {
-  const { data: apiKeysObj } = useQuery({
-    queryKey: ["userApiCredentials"],
-  });
-
-  if (!apiKeysObj) return null;
+  const apiKeysObj = JSON.parse(
+    window.localStorage.getItem("userApiCredentials")!
+  );
 
   return (
     <Table>
@@ -34,7 +31,7 @@ const UserApiKeysTable = () => {
       </TableHeader>
       <TableBody>
         {apiKeysObj &&
-          apiKeysObj!.data!.map((obj: UserAPICredential) => (
+          apiKeysObj.map((obj: UserAPICredential) => (
             <TableRow key={obj.apiKey}>
               <TableCell>{obj.label}</TableCell>
               <TableCell>{obj.exchange}</TableCell>

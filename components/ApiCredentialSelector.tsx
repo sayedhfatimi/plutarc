@@ -15,10 +15,14 @@ const ApiCredentialSelector = () => {
   const { data: apiKeysObj, isLoading } = useQuery({
     queryKey: ["userApiCredentials"],
     queryFn: async () => await axios.get("/api/userApiCredentials"),
-    staleTime: 24 * 60 * 60 * 1000, // 24h
   });
 
   if (isLoading) return <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />;
+
+  window.localStorage.setItem(
+    "userApiCredentials",
+    JSON.stringify(apiKeysObj?.data)
+  );
 
   return (
     <>

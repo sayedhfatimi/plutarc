@@ -18,6 +18,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { UserAPICredential } from "@/entities/types";
+import { gfwls } from "@/lib/utils";
 import { createAPISchema } from "@/schemas/createAPISchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ReloadIcon } from "@radix-ui/react-icons";
@@ -48,6 +49,18 @@ const UserApiCredentialForm = () => {
         ...data,
         userId: session!.user!.id,
       });
+
+      window.localStorage.setItem(
+        "userApiCredentials",
+        JSON.stringify([
+          ...gfwls("userApiCredentials"),
+          {
+            ...data,
+            userId: session!.user!.id,
+          },
+        ])
+      );
+
       router.push("/settings/userApiCredentials");
       router.refresh();
     } catch (error) {

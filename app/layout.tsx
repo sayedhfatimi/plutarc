@@ -8,6 +8,7 @@ import { Inter as FontSans } from "next/font/google";
 import QueryClientProvider from "../Providers/QueryClientProvider";
 import AuthProvider from "./auth/Provider";
 import "./globals.css";
+import { useContext } from "react";
 
 export const fontSans = FontSans({
   subsets: ["latin"],

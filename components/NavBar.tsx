@@ -95,7 +95,7 @@ const ProfileMenu = () => {
   const { status, data: session } = useSession();
 
   if (status === "loading")
-    return <ReloadIcon className="mr-2 h-8 w-8 animate-spin" />;
+    return <ReloadIcon className="mr-4 h-8 w-8 animate-spin" />;
 
   if (status === "unauthenticated")
     return (
