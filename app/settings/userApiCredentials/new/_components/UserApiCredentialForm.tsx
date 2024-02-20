@@ -18,6 +18,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { UserAPICredential } from "@/entities/types";
+import { addApiKey } from "@/lib/redux/features/apiKeys/apiKeysSlice";
+import { useAppDispatch } from "@/lib/redux/hooks";
 import { gfwls } from "@/lib/utils";
 import { createAPISchema } from "@/schemas/createAPISchema";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -30,13 +32,11 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaExclamationTriangle } from "react-icons/fa";
 import { exchangeOptions } from "./exchangeOptions";
-import { useDispatch, useStore } from "react-redux";
-import { addApiKey } from "@/lib/features/apiKeys/apiKeysSlice";
 
 const UserApiCredentialForm = () => {
   const router = useRouter();
   const { data: session } = useSession();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const [error, setError] = useState("");
   const [isSubmitting, setSubmitting] = useState(false);

@@ -11,11 +11,11 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { removeApiKey } from "@/lib/features/apiKeys/apiKeysSlice";
+import { removeApiKey } from "@/lib/redux/features/apiKeys/apiKeysSlice";
+import { useAppDispatch } from "@/lib/redux/hooks";
 import { gfwls } from "@/lib/utils";
 import { UserAPICredentials } from "@prisma/client";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 
 const DeleteApiKeyButton = ({
   apiKeyObj,
@@ -25,7 +25,7 @@ const DeleteApiKeyButton = ({
   const [error, setError] = useState(false);
   const [isDeleting, setDeleting] = useState(false);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const confirmDeleteApiKey = async () => {
     try {

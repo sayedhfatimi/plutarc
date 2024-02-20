@@ -1,7 +1,7 @@
 "use client";
+import { useAppStore } from "@/lib/redux/hooks";
 import { UserAPICredentials } from "@prisma/client";
 import { useState } from "react";
-import { useStore } from "react-redux";
 import {
   Select,
   SelectContent,
@@ -13,7 +13,7 @@ import {
 const ApiCredentialSelector = () => {
   const [selectedApiKey, setSelectedApiKey] = useState({});
 
-  const apiKeyStore = useStore();
+  const apiKeyStore = useAppStore();
   const apiKeysObj = apiKeyStore.getState();
 
   if (apiKeysObj.length === 0) return null;

@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import reducer from "@/lib/features/apiKeys/apiKeysSlice";
+import reducer from "@/lib/redux/features/apiKeys/apiKeysSlice";
 
 export const makeStore = () => {
   return configureStore({
