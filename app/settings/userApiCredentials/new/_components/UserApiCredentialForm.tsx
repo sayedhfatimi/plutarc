@@ -30,10 +30,13 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaExclamationTriangle } from "react-icons/fa";
 import { exchangeOptions } from "./exchangeOptions";
+import { useDispatch, useStore } from "react-redux";
+import { addApiKey } from "@/lib/features/apiKeys/apiKeysSlice";
 
 const UserApiCredentialForm = () => {
   const router = useRouter();
   const { data: session } = useSession();
+  const dispatch = useDispatch();
 
   const [error, setError] = useState("");
   const [isSubmitting, setSubmitting] = useState(false);
@@ -45,21 +48,21 @@ const UserApiCredentialForm = () => {
   const onSubmit = async (data: UserAPICredential) => {
     try {
       setSubmitting(true);
-      await axios.post("/api/userApiCredentials", {
+      const { data: apiKeysObj } = await axios.post("/api/userApiCredentials", {
         ...data,
         userId: session!.user!.id,
       });
 
+      const lsApiKeysObj = gfwls("userApiCredentials")
+        ? gfwls("userApiCredentials")
+        : [];
+
       window.localStorage.setItem(
         "userApiCredentials",
-        JSON.stringify([
-          ...gfwls("userApiCredentials"),
-          {
-            ...data,
-            userId: session!.user!.id,
-          },
-        ])
+        JSON.stringify([...lsApiKeysObj, { ...apiKeysObj }])
       );
+
+      dispatch(addApiKey({ ...apiKeysObj }));
 
       router.push("/settings/userApiCredentials");
       router.refresh();

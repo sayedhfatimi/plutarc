@@ -1,8 +1,7 @@
 "use client";
 import { UserAPICredentials } from "@prisma/client";
-import { ReloadIcon } from "@radix-ui/react-icons";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import { useState } from "react";
+import { useStore } from "react-redux";
 import {
   Select,
   SelectContent,
@@ -12,27 +11,20 @@ import {
 } from "./ui/select";
 
 const ApiCredentialSelector = () => {
-  const { data: apiKeysObj, isLoading } = useQuery({
-    queryKey: ["userApiCredentials"],
-    queryFn: async () => await axios.get("/api/userApiCredentials"),
-  });
+  const [selectedApiKey, setSelectedApiKey] = useState({});
 
-  if (isLoading) return <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />;
-
-  window.localStorage.setItem(
-    "userApiCredentials",
-    JSON.stringify(apiKeysObj?.data)
-  );
+  const apiKeyStore = useStore();
+  const apiKeysObj = apiKeyStore.getState();
 
   return (
     <>
-      <Select>
+      <Select onValueChange={(option) => setSelectedApiKey(JSON.parse(option))}>
         <SelectTrigger>
           <SelectValue placeholder="Select API Account" />
         </SelectTrigger>
         <SelectContent>
-          {apiKeysObj?.data.map((item: UserAPICredentials) => (
-            <SelectItem key={item.label} value={item.apiKey}>
+          {apiKeysObj.map((item: UserAPICredentials) => (
+            <SelectItem key={item.label} value={JSON.stringify(item)}>
               {item.label}
             </SelectItem>
           ))}

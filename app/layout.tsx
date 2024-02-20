@@ -8,7 +8,7 @@ import { Inter as FontSans } from "next/font/google";
 import QueryClientProvider from "../Providers/QueryClientProvider";
 import AuthProvider from "./auth/Provider";
 import "./globals.css";
-import { useContext } from "react";
+import StoreProvider from "@/Providers/StoreProvider";
 
 export const fontSans = FontSans({
   subsets: ["latin"],
@@ -33,21 +33,23 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <QueryClientProvider>
-          <AuthProvider>
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="system"
-              enableSystem
-              disableTransitionOnChange
-            >
-              <Theme>
-                <NavBar />
-                <Box p="2">{children}</Box>
-              </Theme>
-            </ThemeProvider>
-          </AuthProvider>
-        </QueryClientProvider>
+        <StoreProvider>
+          <QueryClientProvider>
+            <AuthProvider>
+              <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                enableSystem
+                disableTransitionOnChange
+              >
+                <Theme>
+                  <NavBar />
+                  <Box p="2">{children}</Box>
+                </Theme>
+              </ThemeProvider>
+            </AuthProvider>
+          </QueryClientProvider>
+        </StoreProvider>
       </body>
     </html>
   );

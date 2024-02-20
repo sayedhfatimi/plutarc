@@ -1,5 +1,4 @@
-import { UserAPICredentials } from "@prisma/client";
-import { type ClassValue, clsx } from "clsx";
+import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -7,5 +6,5 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function gfwls(key: string) {
-  return JSON.parse(window.localStorage.getItem("userApiCredentials")!);
+  return JSON.parse(window.localStorage.getItem(key)!);
 }

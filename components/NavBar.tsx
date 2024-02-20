@@ -20,7 +20,7 @@ import { useSession } from "next-auth/react";
 import localFont from "next/font/local";
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
-import { PropsWithChildren, ReactNode } from "react";
+import { PropsWithChildren, ReactNode, createContext } from "react";
 import ApiCredentialSelector from "./ApiCredentialSelector";
 import ThemeToggle from "./ThemeToggle";
 import { Skeleton } from "./ui/skeleton";
@@ -95,7 +95,7 @@ const ProfileMenu = () => {
   const { status, data: session } = useSession();
 
   if (status === "loading")
-    return <ReloadIcon className="mr-4 h-8 w-8 animate-spin" />;
+    return <ReloadIcon className="mr-4 h-4 w-4 animate-spin" />;
 
   if (status === "unauthenticated")
     return (

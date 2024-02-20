@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -8,13 +7,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { UserAPICredential } from "@/entities/types";
-import { TrashIcon } from "@radix-ui/react-icons";
+import { UserAPICredentials } from "@prisma/client";
+import { useStore } from "react-redux";
+import DeleteApiKeyButton from "./DeleteApiKeyButton";
 
 const UserApiKeysTable = () => {
-  const apiKeysObj = JSON.parse(
-    window.localStorage.getItem("userApiCredentials")!
-  );
+  const apiKeyStore = useStore();
+  const apiKeyObj = apiKeyStore.getState();
 
   return (
     <Table>
@@ -26,23 +25,20 @@ const UserApiKeysTable = () => {
           <TableHead>Label</TableHead>
           <TableHead>Exchange</TableHead>
           <TableHead className="text-right">API Key</TableHead>
-          <TableHead className="text-center">Delete</TableHead>
+          <TableHead className="text-right">Delete</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        {apiKeysObj &&
-          apiKeysObj.map((obj: UserAPICredential) => (
-            <TableRow key={obj.apiKey}>
-              <TableCell>{obj.label}</TableCell>
-              <TableCell>{obj.exchange}</TableCell>
-              <TableCell className="text-right">{obj.apiKey}</TableCell>
-              <TableCell className="text-center">
-                <Button variant="destructive" size="icon">
-                  <TrashIcon className="h-4 w-4" />
-                </Button>
-              </TableCell>
-            </TableRow>
-          ))}
+        {apiKeyObj.map((obj: UserAPICredentials) => (
+          <TableRow key={obj.apiKey}>
+            <TableCell>{obj.label}</TableCell>
+            <TableCell>{obj.exchange}</TableCell>
+            <TableCell className="text-right">{obj.apiKey}</TableCell>
+            <TableCell className="text-right">
+              <DeleteApiKeyButton apiKeyObj={obj} />
+            </TableCell>
+          </TableRow>
+        ))}
       </TableBody>
     </Table>
   );
