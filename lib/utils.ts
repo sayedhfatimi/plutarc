@@ -6,5 +6,6 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function gfwls(key: string) {
-  return JSON.parse(window.localStorage.getItem(key)!);
+  if (typeof window !== "undefined")
+    return JSON.parse(window.localStorage.getItem(key)!);
 }
