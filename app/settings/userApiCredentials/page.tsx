@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { PlusIcon } from "@radix-ui/react-icons";
 import { Box } from "@radix-ui/themes";
 import Link from "next/link";
-import UserApiKeysTable from "./new/_components/UserApiKeysTable";
+import UserApiKeysTable from "./_components/UserApiKeysTable";
 
 const UserAPICredentialsPage = () => {
   return (

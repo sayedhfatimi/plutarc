@@ -1,3 +1,4 @@
+import NoAPIKeysAlert from "@/components/NoAPIKeysAlert";
 import {
   Table,
   TableBody,
@@ -10,16 +11,16 @@ import {
 import { UserAPICredentials } from "@prisma/client";
 import { useStore } from "react-redux";
 import DeleteApiKeyButton from "./DeleteApiKeyButton";
+import { Badge } from "@/components/ui/badge";
 
 const UserApiKeysTable = () => {
   const apiKeyStore = useStore();
-  const apiKeyObj = apiKeyStore.getState();
+  const apiKeysObj = apiKeyStore.getState();
+
+  if (apiKeysObj.length === 0) return <NoAPIKeysAlert />;
 
   return (
     <Table>
-      <TableCaption>
-        Current API Keys associated with this account.
-      </TableCaption>
       <TableHeader>
         <TableRow>
           <TableHead>Label</TableHead>
@@ -29,9 +30,11 @@ const UserApiKeysTable = () => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {apiKeyObj.map((obj: UserAPICredentials) => (
+        {apiKeysObj.map((obj: UserAPICredentials) => (
           <TableRow key={obj.apiKey}>
-            <TableCell>{obj.label}</TableCell>
+            <TableCell>
+              <Badge variant="secondary">{obj.label}</Badge>
+            </TableCell>
             <TableCell>{obj.exchange}</TableCell>
             <TableCell className="text-right">{obj.apiKey}</TableCell>
             <TableCell className="text-right">

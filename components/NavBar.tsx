@@ -20,7 +20,7 @@ import { useSession } from "next-auth/react";
 import localFont from "next/font/local";
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
-import { PropsWithChildren, ReactNode, createContext } from "react";
+import { PropsWithChildren, ReactNode } from "react";
 import ApiCredentialSelector from "./ApiCredentialSelector";
 import ThemeToggle from "./ThemeToggle";
 import { Skeleton } from "./ui/skeleton";
@@ -125,7 +125,7 @@ const ProfileMenu = () => {
           <NextLink href="/settings/userApiCredentials">API Keys</NextLink>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem asChild>
           <NextLink href="/api/auth/signout">Sign Out</NextLink>
         </DropdownMenuItem>
       </DropdownMenuContent>

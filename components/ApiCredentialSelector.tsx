@@ -16,6 +16,8 @@ const ApiCredentialSelector = () => {
   const apiKeyStore = useStore();
   const apiKeysObj = apiKeyStore.getState();
 
+  if (apiKeysObj.length === 0) return null;
+
   return (
     <>
       <Select onValueChange={(option) => setSelectedApiKey(JSON.parse(option))}>
