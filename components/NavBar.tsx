@@ -14,13 +14,14 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+import { ReloadIcon } from "@radix-ui/react-icons";
 import { Avatar, Box, Flex, Text } from "@radix-ui/themes";
 import { useSession } from "next-auth/react";
 import localFont from "next/font/local";
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
 import { PropsWithChildren, ReactNode } from "react";
-import Spinner from "./Spinner";
+import ApiCredentialSelector from "./ApiCredentialSelector";
 import ThemeToggle from "./ThemeToggle";
 import { Skeleton } from "./ui/skeleton";
 
@@ -29,6 +30,8 @@ const Gugi = localFont({
 });
 
 const NavBar = () => {
+  const { status } = useSession();
+
   return (
     <>
       <Box className="border-b p-1 shadow-sm" width="100%">
@@ -45,10 +48,13 @@ const NavBar = () => {
                 </NavigationMenuItem>
                 <NavMenu />
               </NavigationMenuList>
-            </NavigationMenu>{" "}
+            </NavigationMenu>
           </Flex>
           <NavigationMenu>
             <NavigationMenuList>
+              <NavigationMenuItem>
+                {status === "authenticated" && <ApiCredentialSelector />}
+              </NavigationMenuItem>
               <NavigationMenuItem className="mr-3">
                 <ThemeToggle />
               </NavigationMenuItem>
@@ -89,11 +95,7 @@ const ProfileMenu = () => {
   const { status, data: session } = useSession();
 
   if (status === "loading")
-    return (
-      <Box pr={"3"}>
-        <Spinner />
-      </Box>
-    );
+    return <ReloadIcon className="mr-2 h-8 w-8 animate-spin" />;
 
   if (status === "unauthenticated")
     return (

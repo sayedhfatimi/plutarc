@@ -17,6 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { UserAPICredential } from "@/entities/types";
 import { createAPISchema } from "@/schemas/createAPISchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ReloadIcon } from "@radix-ui/react-icons";
@@ -27,7 +28,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaExclamationTriangle } from "react-icons/fa";
-import { z } from "zod";
 import { exchangeOptions } from "./exchangeOptions";
 
 const UserApiCredentialForm = () => {
@@ -37,11 +37,11 @@ const UserApiCredentialForm = () => {
   const [error, setError] = useState("");
   const [isSubmitting, setSubmitting] = useState(false);
 
-  const form = useForm<z.infer<typeof createAPISchema>>({
+  const form = useForm<UserAPICredential>({
     resolver: zodResolver(createAPISchema),
   });
 
-  const onSubmit = async (data: z.infer<typeof createAPISchema>) => {
+  const onSubmit = async (data: UserAPICredential) => {
     try {
       setSubmitting(true);
       await axios.post("/api/userApiCredentials", {
