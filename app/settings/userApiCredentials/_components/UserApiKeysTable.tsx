@@ -13,8 +13,7 @@ import { UserAPICredentials } from "@prisma/client";
 import DeleteApiKeyButton from "./DeleteApiKeyButton";
 
 const UserApiKeysTable = () => {
-  const apiKeyStore = useAppStore();
-  const apiKeysObj = apiKeyStore.getState().apiKeys;
+  const apiKeysObj = useAppStore().getState().apiKeys;
 
   if (apiKeysObj.length === 0) return <NoAPIKeysAlert />;
 

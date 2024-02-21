@@ -72,6 +72,7 @@ const NavMenu = () => {
 
   const NavLinks = [
     { label: "Dashboard", href: "/dashboard" },
+    { label: "Account Details", href: "/account-details" },
     { label: "Trade History", href: "/trade-history" },
     { label: "Terminal", href: "/terminal" },
     { label: "Help", href: "/help" },
