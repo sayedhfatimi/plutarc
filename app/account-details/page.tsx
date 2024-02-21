@@ -1,4 +1,5 @@
 "use client";
+import NoAPIKeysAlert from "@/components/NoAPIKeysAlert";
 import PageHeading from "@/components/PageHeading";
 import {
   Card,
@@ -7,11 +8,19 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import useCCXT from "@/hooks/useCCXT";
 import { useAppSelector } from "@/lib/redux/hooks";
 import { Box, Flex } from "@radix-ui/themes";
 
 const AccountDetailsPage = () => {
   const selectedApiKey = useAppSelector((state) => state.selectedApiKey);
+
+  //   const { data: balanceData, isLoading } = useCCXT(
+  //     selectedApiKey.exchange.toLowerCase(),
+  //     selectedApiKey.apiKey,
+  //     selectedApiKey.apiSecret,
+  //     "getBalances"
+  //   );
 
   return (
     <>
@@ -22,24 +31,28 @@ const AccountDetailsPage = () => {
         />
         <Box className="border p-2">
           <Flex justify="between" gap="2">
-            <Card>
-              <CardHeader>
-                <CardTitle>Balances</CardTitle>
-                <CardDescription>
-                  balances on {selectedApiKey.label}
-                </CardDescription>
-              </CardHeader>
-              <CardContent></CardContent>
-            </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle>Balances</CardTitle>
-                <CardDescription>
-                  balances on {selectedApiKey.label}
-                </CardDescription>
-              </CardHeader>
-              <CardContent></CardContent>
-            </Card>
+            <Flex>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Balances</CardTitle>
+                  <CardDescription>
+                    balances on {selectedApiKey.label}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent></CardContent>
+              </Card>
+            </Flex>
+            <Flex>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Balances</CardTitle>
+                  <CardDescription>
+                    balances on {selectedApiKey.label}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent></CardContent>
+              </Card>
+            </Flex>
           </Flex>
         </Box>
       </Box>

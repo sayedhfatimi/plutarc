@@ -1,18 +1,20 @@
+"use client";
 import Spinner from "@/components/Spinner";
 import useCCXT from "@/hooks/useCCXT";
 import { UserAPICredentials } from "@prisma/client";
 import { Flex } from "@radix-ui/themes";
-import TradeHistoryDataTable from "./TradeHistoryDataTable";
+import { columns } from "./DataTable/columns";
+import { DataTable } from "./DataTable/data-table";
 
 const TradeHistoryTable = ({
-  apiKeysObj,
+  selectedApiKey,
 }: {
-  apiKeysObj: UserAPICredentials;
+  selectedApiKey: UserAPICredentials;
 }) => {
   const { data: tradeData, isLoading } = useCCXT(
-    apiKeysObj.exchange.toLowerCase(),
-    apiKeysObj.apiKey,
-    apiKeysObj.apiSecret,
+    selectedApiKey.exchange.toLowerCase(),
+    selectedApiKey.apiKey,
+    selectedApiKey.apiSecret,
     "getTrades"
   );
 
@@ -25,7 +27,7 @@ const TradeHistoryTable = ({
 
   return (
     <>
-      <TradeHistoryDataTable tradeData={tradeData?.data} />
+      <DataTable columns={columns} data={tradeData?.data} />
     </>
   );
 };

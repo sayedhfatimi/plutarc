@@ -1,4 +1,3 @@
-import NoAPIKeysAlert from "@/components/NoAPIKeysAlert";
 import { Badge } from "@/components/ui/badge";
 import {
   Table,
@@ -8,15 +7,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useAppStore } from "@/lib/redux/hooks";
 import { UserAPICredentials } from "@prisma/client";
 import DeleteApiKeyButton from "./DeleteApiKeyButton";
 
-const UserApiKeysTable = () => {
-  const apiKeysObj = useAppStore().getState().apiKeys;
-
-  if (apiKeysObj.length === 0) return <NoAPIKeysAlert />;
-
+const UserApiKeysTable = ({
+  apiKeysObj,
+}: {
+  apiKeysObj: UserAPICredentials[];
+}) => {
   return (
     <Table>
       <TableHeader>

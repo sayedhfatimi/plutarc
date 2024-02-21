@@ -3,9 +3,10 @@ import PageHeading from "@/components/PageHeading";
 import { useAppSelector } from "@/lib/redux/hooks";
 import { Box } from "@radix-ui/themes";
 import TradeHistoryTable from "./_components/TradeHistoryTable";
+import NoAPIKeysAlert from "@/components/NoAPIKeysAlert";
 
 const TradeHistoryPage = () => {
-  const apiKeysObj = useAppSelector((state) => state.selectedApiKey);
+  const selectedApiKey = useAppSelector((state) => state.selectedApiKey);
 
   return (
     <>
@@ -15,7 +16,11 @@ const TradeHistoryPage = () => {
           description="Historical trade data"
         />
         <Box className="border pb-2">
-          <TradeHistoryTable apiKeysObj={apiKeysObj} />
+          {Object.keys(selectedApiKey).length === 0 ? (
+            <NoAPIKeysAlert />
+          ) : (
+            <TradeHistoryTable selectedApiKey={selectedApiKey} />
+          )}
         </Box>
       </Box>
     </>

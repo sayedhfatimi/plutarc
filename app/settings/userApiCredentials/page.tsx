@@ -5,8 +5,12 @@ import { PlusIcon } from "@radix-ui/react-icons";
 import { Box } from "@radix-ui/themes";
 import Link from "next/link";
 import UserApiKeysTable from "./_components/UserApiKeysTable";
+import { useAppStore } from "@/lib/redux/hooks";
+import NoAPIKeysAlert from "@/components/NoAPIKeysAlert";
 
 const UserAPICredentialsPage = () => {
+  const apiKeysObj = useAppStore().getState().apiKeys;
+
   return (
     <Box className="border p-2 shadow-sm">
       <PageHeading
@@ -20,7 +24,11 @@ const UserAPICredentialsPage = () => {
         </Button>
       </PageHeading>
       <Box className="border pb-2">
-        <UserApiKeysTable />
+        {apiKeysObj.length === 0 ? (
+          <NoAPIKeysAlert />
+        ) : (
+          <UserApiKeysTable apiKeysObj={apiKeysObj} />
+        )}
       </Box>
     </Box>
   );
