@@ -15,6 +15,7 @@ const useCCXT = (
         apiSecret,
         exchange,
       }),
+    staleTime: 24 * 60 * 60 * 1000, //24h
   });
 };
 

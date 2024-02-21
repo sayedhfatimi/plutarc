@@ -1,9 +1,8 @@
 import Spinner from "@/components/Spinner";
-import useGetTrades from "@/hooks/useGetTrades";
+import useCCXT from "@/hooks/useCCXT";
 import { UserAPICredentials } from "@prisma/client";
 import { Flex } from "@radix-ui/themes";
 import TradeHistoryDataTable from "./TradeHistoryDataTable";
-import useCCXT from "@/hooks/useCCXT";
 
 const TradeHistoryTable = ({
   apiKeysObj,
