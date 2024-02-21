@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import reducer from "@/lib/redux/features/apiKeys/apiKeysSlice";
+import allReducers from "./features/apiKeys";
 
 export const makeStore = () => {
   return configureStore({
-    reducer,
+    reducer: allReducers,
   });
 };
 

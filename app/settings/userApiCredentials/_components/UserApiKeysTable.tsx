@@ -14,7 +14,7 @@ import DeleteApiKeyButton from "./DeleteApiKeyButton";
 
 const UserApiKeysTable = () => {
   const apiKeyStore = useAppStore();
-  const apiKeysObj = apiKeyStore.getState();
+  const apiKeysObj = apiKeyStore.getState().apiKeys;
 
   if (apiKeysObj.length === 0) return <NoAPIKeysAlert />;
 
@@ -35,7 +35,9 @@ const UserApiKeysTable = () => {
               <Badge variant="secondary">{obj.label}</Badge>
             </TableCell>
             <TableCell>{obj.exchange}</TableCell>
-            <TableCell className="text-right">{obj.apiKey}</TableCell>
+            <TableCell className="text-right">
+              <Badge>{obj.apiKey}</Badge>
+            </TableCell>
             <TableCell className="text-right">
               <DeleteApiKeyButton apiKeyObj={obj} />
             </TableCell>

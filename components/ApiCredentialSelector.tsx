@@ -1,7 +1,7 @@
 "use client";
-import { useAppStore } from "@/lib/redux/hooks";
+import { setSelectedApiKey } from "@/lib/redux/features/apiKeys/selectedApiKeySlice";
+import { useAppDispatch, useAppStore } from "@/lib/redux/hooks";
 import { UserAPICredentials } from "@prisma/client";
-import { useState } from "react";
 import {
   Select,
   SelectContent,
@@ -11,16 +11,22 @@ import {
 } from "./ui/select";
 
 const ApiCredentialSelector = () => {
-  const [selectedApiKey, setSelectedApiKey] = useState({});
+  const dispatch = useAppDispatch();
 
   const apiKeyStore = useAppStore();
-  const apiKeysObj = apiKeyStore.getState();
+  const apiKeysObj = apiKeyStore.getState().apiKeys;
 
   if (apiKeysObj.length === 0) return null;
 
+  const handleValueChange = (option: string) => {
+    dispatch(setSelectedApiKey(JSON.parse(option)));
+
+    window.localStorage.setItem("selectedApiKey", option);
+  };
+
   return (
     <>
-      <Select onValueChange={(option) => setSelectedApiKey(JSON.parse(option))}>
+      <Select onValueChange={handleValueChange}>
         <SelectTrigger>
           <SelectValue placeholder="Select API Account" />
         </SelectTrigger>
