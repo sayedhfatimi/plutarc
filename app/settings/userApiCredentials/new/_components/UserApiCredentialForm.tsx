@@ -1,6 +1,13 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
   Form,
   FormControl,
   FormDescription,
@@ -18,13 +25,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { UserAPICredential } from "@/entities/types";
+import { encryptString } from "@/lib/encrypt";
 import { addApiKey } from "@/lib/redux/features/apiKeys/apiKeysSlice";
 import { useAppDispatch } from "@/lib/redux/hooks";
 import { gfwls } from "@/lib/utils";
 import { createAPISchema } from "@/schemas/createAPISchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ReloadIcon } from "@radix-ui/react-icons";
-import { Callout } from "@radix-ui/themes";
+import { Callout, Flex } from "@radix-ui/themes";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -51,6 +59,10 @@ const UserApiCredentialForm = () => {
       const { data: apiKeysObj } = await axios.post("/api/userApiCredentials", {
         ...data,
         userId: session!.user!.id,
+        apiSecret: data.passphrase
+          ? encryptString(data.apiSecret, data.passphrase)
+          : data.apiSecret,
+        passphrase: undefined,
       });
 
       const lsApiKeysObj = gfwls("userApiCredentials")
@@ -69,6 +81,7 @@ const UserApiCredentialForm = () => {
     } catch (error) {
       setSubmitting(false);
       setError("An unexpected error occurred.");
+      console.error(error);
     }
   };
 
@@ -83,20 +96,20 @@ const UserApiCredentialForm = () => {
         </Callout.Root>
       )}
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <form className="space-y-6">
           <FormField
             control={form.control}
             name="label"
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="sr-only">Label</FormLabel>
+                <FormMessage />
                 <FormControl>
                   <Input placeholder="Label" {...field} />
                 </FormControl>
                 <FormDescription>
                   Provide a name or label for identifying this key.
                 </FormDescription>
-                <FormMessage />
               </FormItem>
             )}
           />
@@ -106,13 +119,13 @@ const UserApiCredentialForm = () => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="sr-only">API Client ID</FormLabel>
+                <FormMessage />
                 <FormControl>
                   <Input placeholder="API Client ID" {...field} />
                 </FormControl>
                 <FormDescription>
                   This will either be labelled API Client ID or API Key.
                 </FormDescription>
-                <FormMessage />
               </FormItem>
             )}
           />
@@ -122,13 +135,13 @@ const UserApiCredentialForm = () => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="sr-only">API Client Secret</FormLabel>
+                <FormMessage />
                 <FormControl>
                   <Input placeholder="API Client Secret" {...field} />
                 </FormControl>
                 <FormDescription>
                   This will be labelled API Client Secret or API Secret.
                 </FormDescription>
-                <FormMessage />
               </FormItem>
             )}
           />
@@ -138,15 +151,17 @@ const UserApiCredentialForm = () => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="sr-only">Exchange</FormLabel>
+                <FormMessage />
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select an exchange from the list" />
+                      <SelectValue placeholder="Select an exchange..." />
                     </SelectTrigger>
                   </FormControl>
+
                   <SelectContent>
                     {exchangeOptions.map((option) => (
                       <SelectItem value={option.value} key={option.key}>
@@ -156,18 +171,66 @@ const UserApiCredentialForm = () => {
                   </SelectContent>
                 </Select>
                 <FormDescription>
-                  Select the exchange this key is from.
+                  Select an exchange from the list of supported exchange
                 </FormDescription>
-                <FormMessage />
               </FormItem>
             )}
           />
-          <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting && (
-              <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
-            )}
-            Submit
-          </Button>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="secondary">Submit</Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Encryption Passphrase</DialogTitle>
+                <Flex direction="column" gap="8">
+                  <FormField
+                    control={form.control}
+                    name="passphrase"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="sr-only">
+                          Encryption Passphrase
+                        </FormLabel>
+                        <FormMessage />
+                        <FormControl>
+                          <Input
+                            placeholder="Encryption Passphrase"
+                            type="password"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormDescription>
+                          <p>
+                            Enter a passphrase/password to be used to encrypt
+                            your API secret before it is transmitted to the
+                            server.
+                          </p>
+                          <p>
+                            This is optional but be warned that your API secret
+                            will be stored in plaintext on our servers if this
+                            is not provided.
+                          </p>
+                          <p>Must be between 18 - 32 characters long.</p>
+                        </FormDescription>
+                      </FormItem>
+                    )}
+                  />
+                  <Button
+                    onClick={form.handleSubmit(onSubmit)}
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="mt-4"
+                  >
+                    {isSubmitting && (
+                      <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                    )}
+                    Submit
+                  </Button>
+                </Flex>
+              </DialogHeader>
+            </DialogContent>
+          </Dialog>
         </form>
       </Form>
     </>

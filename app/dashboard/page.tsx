@@ -1,3 +1,4 @@
+"use client";
 import PageHeading from "@/components/PageHeading";
 import { Box } from "@radix-ui/themes";
 
