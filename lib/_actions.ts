@@ -8,7 +8,7 @@ import { redirect } from 'next/navigation';
 
 export async function addApiKey(data: any) {
   const session = await getServerSession(authOptions);
-  if (!session) return { errors: 'Not authorised for this action.' };
+  if (!session) return { errors: 'Not authorized for this action.' };
 
   const body = await data;
 
@@ -38,7 +38,7 @@ export async function addApiKey(data: any) {
 
 export async function deleteApiKey(id: string) {
   const session = await getServerSession(authOptions);
-  if (!session) return { errors: 'Not authorised for this action.' };
+  if (!session) return { errors: 'Not authorized for this action.' };
 
   const apiKey = await prisma.userAPICredentials.findUnique({
     where: { id },
@@ -56,7 +56,7 @@ export async function deleteApiKey(id: string) {
 
 export async function getApiKeys() {
   const session = await getServerSession(authOptions);
-  if (!session) return { errors: 'Not authorised for this action.' };
+  if (!session) return { errors: 'Not authorized for this action.' };
 
   try {
     const apiKeys = await prisma.userAPICredentials.findMany({

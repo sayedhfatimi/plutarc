@@ -1,4 +1,4 @@
-import { deleteApiKey } from '@/actions/_actions';
+import { deleteApiKey } from '@/lib/_actions';
 import {
   AlertDialog,
   AlertDialogAction,
