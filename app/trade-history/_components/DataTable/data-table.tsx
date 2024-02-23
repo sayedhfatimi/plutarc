@@ -1,5 +1,5 @@
-"use client";
-import { Button } from "@/components/ui/button";
+'use client';
+import { Button } from '@/components/ui/button';
 import {
   Select,
   SelectContent,
@@ -7,7 +7,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from '@/components/ui/select';
 import {
   Table,
   TableBody,
@@ -15,8 +15,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { Box, Flex, Text } from "@radix-ui/themes";
+} from '@/components/ui/table';
+import { Box, Flex, Text } from '@radix-ui/themes';
 import {
   ColumnDef,
   SortingState,
@@ -26,21 +26,21 @@ import {
   getSortedRowModel,
   useReactTable,
   VisibilityState,
-} from "@tanstack/react-table";
+} from '@tanstack/react-table';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from '@/components/ui/dropdown-menu';
 import {
   ChevronDown,
   ChevronLeft,
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
-} from "lucide-react";
-import * as React from "react";
+} from 'lucide-react';
+import * as React from 'react';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -71,16 +71,16 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
-      <Flex justify="end" gap="4" p="2">
+      <Flex justify='end' gap='4' p='2'>
         <Flex>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="secondary" className="ml-auto">
+              <Button variant='secondary' className='ml-auto'>
                 Filter Columns
-                <ChevronDown className="ml-2" />
+                <ChevronDown className='ml-2' />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
+            <DropdownMenuContent align='end'>
               {table
                 .getAllColumns()
                 .filter((column) => column.getCanHide())
@@ -88,7 +88,7 @@ export function DataTable<TData, TValue>({
                   return (
                     <DropdownMenuCheckboxItem
                       key={column.id}
-                      className="capitalize"
+                      className='capitalize'
                       checked={column.getIsVisible()}
                       onCheckedChange={(value) =>
                         column.toggleVisibility(!!value)
@@ -103,7 +103,7 @@ export function DataTable<TData, TValue>({
         </Flex>
       </Flex>
       <div>
-        <Table className="border-b">
+        <Table className='border-b'>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -127,7 +127,7 @@ export function DataTable<TData, TValue>({
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
+                  data-state={row.getIsSelected() && 'selected'}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
@@ -143,7 +143,7 @@ export function DataTable<TData, TValue>({
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  className="h-24 text-center"
+                  className='h-24 text-center'
                 >
                   No results.
                 </TableCell>
@@ -152,19 +152,19 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <Flex p="4" justify="end" align="center" gap="4">
-        <Flex gap="4" align="center">
+      <Flex p='4' justify='end' align='center' gap='4'>
+        <Flex gap='4' align='center'>
           <Button
-            variant="outline"
-            size="icon"
+            variant='outline'
+            size='icon'
             onClick={() => table.setPageIndex(0)}
             disabled={!table.getCanPreviousPage()}
           >
             <ChevronsLeft />
           </Button>
           <Button
-            variant="outline"
-            size="icon"
+            variant='outline'
+            size='icon'
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
@@ -172,21 +172,21 @@ export function DataTable<TData, TValue>({
           </Button>
           <Box>
             <Text>
-              Page {table.getState().pagination.pageIndex + 1} of{" "}
+              Page {table.getState().pagination.pageIndex + 1} of{' '}
               {table.getPageCount()}
             </Text>
           </Box>
           <Button
-            variant="outline"
-            size="icon"
+            variant='outline'
+            size='icon'
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
             <ChevronRight />
           </Button>
           <Button
-            variant="outline"
-            size="icon"
+            variant='outline'
+            size='icon'
             onClick={() => table.setPageIndex(table.getPageCount() - 1)}
             disabled={!table.getCanNextPage()}
           >
@@ -201,7 +201,7 @@ export function DataTable<TData, TValue>({
             }}
           >
             <SelectTrigger>
-              <SelectValue placeholder="Page Size" />
+              <SelectValue placeholder='Page Size' />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>

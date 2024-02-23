@@ -1,7 +1,7 @@
-import GoogleProvider from "next-auth/providers/google";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import prisma from "@/prisma/client";
-import { NextAuthOptions } from "next-auth";
+import GoogleProvider from 'next-auth/providers/google';
+import { PrismaAdapter } from '@next-auth/prisma-adapter';
+import prisma from '@/prisma/client';
+import { NextAuthOptions } from 'next-auth';
 
 const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -20,7 +20,7 @@ const authOptions: NextAuthOptions = {
     },
   },
   session: {
-    strategy: "jwt",
+    strategy: 'jwt',
   },
 };
 

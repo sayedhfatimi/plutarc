@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
-import prisma from "@/prisma/client";
-import { getServerSession } from "next-auth";
-import authOptions from "@/app/auth/authOptions";
+import { NextRequest, NextResponse } from 'next/server';
+import prisma from '@/prisma/client';
+import { getServerSession } from 'next-auth';
+import authOptions from '@/app/auth/authOptions';
 
 export async function DELETE(
   request: NextRequest,
@@ -15,7 +15,7 @@ export async function DELETE(
   });
 
   if (!apiKey)
-    return NextResponse.json({ error: "Key does not exist." }, { status: 404 });
+    return NextResponse.json({ error: 'Key does not exist.' }, { status: 404 });
 
   await prisma.userAPICredentials.delete({
     where: { id: apiKey.id },

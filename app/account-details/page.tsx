@@ -1,16 +1,16 @@
-"use client";
-import NoAPIKeysAlert from "@/components/NoAPIKeysAlert";
-import PageHeading from "@/components/PageHeading";
+'use client';
+import NoAPIKeysAlert from '@/components/NoAPIKeysAlert';
+import PageHeading from '@/components/PageHeading';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import useCCXT from "@/hooks/useCCXT";
-import { useAppSelector } from "@/lib/redux/hooks";
-import { Box, Flex } from "@radix-ui/themes";
+} from '@/components/ui/card';
+import useCCXT from '@/hooks/useCCXT';
+import { useAppSelector } from '@/lib/redux/hooks';
+import { Box, Flex } from '@radix-ui/themes';
 
 const AccountDetailsPage = () => {
   const selectedApiKey = useAppSelector((state) => state.selectedApiKey);
@@ -24,13 +24,13 @@ const AccountDetailsPage = () => {
 
   return (
     <>
-      <Box className="border p-2 shadow-sm">
+      <Box className='border p-2 shadow-sm'>
         <PageHeading
-          heading="Account Details"
+          heading='Account Details'
           description={selectedApiKey.label}
         />
-        <Box className="border p-2">
-          <Flex justify="between" gap="2">
+        <Box className='border p-2'>
+          <Flex justify='between' gap='2'>
             <Flex>
               <Card>
                 <CardHeader>

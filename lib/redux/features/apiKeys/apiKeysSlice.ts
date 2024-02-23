@@ -1,11 +1,11 @@
-import { gfwls } from "@/lib/utils";
-import { UserAPICredentials } from "@prisma/client";
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { gfwls } from '@/lib/utils';
+import { UserAPICredentials } from '@prisma/client';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-const initialState: UserAPICredentials[] = gfwls("userApiCredentials") || [];
+const initialState: UserAPICredentials[] = gfwls('userApiCredentials') || [];
 
 export const apiKeySlice = createSlice({
-  name: "userApiKeys",
+  name: 'userApiKeys',
   initialState,
   reducers: {
     addApiKey: (

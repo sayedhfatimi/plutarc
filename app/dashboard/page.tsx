@@ -1,14 +1,14 @@
-"use client";
-import PageHeading from "@/components/PageHeading";
-import { Box } from "@radix-ui/themes";
+'use client';
+import PageHeading from '@/components/PageHeading';
+import { Box } from '@radix-ui/themes';
 
 const DashboardPage = () => {
   return (
     <>
-      <Box className="border p-2 shadow-sm">
+      <Box className='border p-2 shadow-sm'>
         <PageHeading
-          heading="Dashboard"
-          description="Overview of all account activities"
+          heading='Dashboard'
+          description='Overview of all account activities'
         />
       </Box>
     </>

@@ -1,23 +1,23 @@
-import { ThemeProvider } from "@/Providers/ThemeProvider";
-import NavBar from "@/components/NavBar";
-import { cn } from "@/lib/utils";
-import { Box, Theme } from "@radix-ui/themes";
-import "@radix-ui/themes/styles.css";
-import type { Metadata } from "next";
-import { Inter as FontSans } from "next/font/google";
-import QueryClientProvider from "../Providers/QueryClientProvider";
-import AuthProvider from "./auth/Provider";
-import "./globals.css";
-import StoreProvider from "@/Providers/StoreProvider";
+import { ThemeProvider } from '@/Providers/ThemeProvider';
+import NavBar from '@/components/NavBar';
+import { cn } from '@/lib/utils';
+import { Box, Theme } from '@radix-ui/themes';
+import '@radix-ui/themes/styles.css';
+import type { Metadata } from 'next';
+import { Inter as FontSans } from 'next/font/google';
+import QueryClientProvider from '../Providers/QueryClientProvider';
+import AuthProvider from './auth/Provider';
+import './globals.css';
+import StoreProvider from '@/Providers/StoreProvider';
 
 export const fontSans = FontSans({
-  subsets: ["latin"],
-  variable: "--font-sans",
+  subsets: ['latin'],
+  variable: '--font-sans',
 });
 
 export const metadata: Metadata = {
-  title: "plutarc",
-  description: "all-in-one trading platform",
+  title: 'plutarc',
+  description: 'all-in-one trading platform',
 };
 
 export default function RootLayout({
@@ -26,10 +26,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang='en'>
       <body
         className={cn(
-          "min-h-screen bg-background font-sans antialiased",
+          'min-h-screen bg-background font-sans antialiased',
           fontSans.variable
         )}
       >
@@ -37,14 +37,14 @@ export default function RootLayout({
           <QueryClientProvider>
             <AuthProvider>
               <ThemeProvider
-                attribute="class"
-                defaultTheme="system"
+                attribute='class'
+                defaultTheme='system'
                 enableSystem
                 disableTransitionOnChange
               >
                 <Theme>
                   <NavBar />
-                  <Box p="2">{children}</Box>
+                  <Box p='2'>{children}</Box>
                 </Theme>
               </ThemeProvider>
             </AuthProvider>

@@ -1,5 +1,5 @@
-import { Blockquote, Box, Flex, Heading } from "@radix-ui/themes";
-import { ReactNode } from "react";
+import { Blockquote, Box, Flex, Heading } from '@radix-ui/themes';
+import { ReactNode } from 'react';
 
 const PageHeading = ({
   heading,
@@ -12,10 +12,10 @@ const PageHeading = ({
 }) => {
   return (
     <>
-      <Flex justify="between" align="center" className="border-b p-2 mb-2">
-        <Box className="p-2">
+      <Flex justify='between' align='center' className='border-b p-2 mb-2'>
+        <Box className='p-2'>
           <Heading>{heading}</Heading>
-          <Blockquote color="gray" size="2" weight="light">
+          <Blockquote color='gray' size='2' weight='light'>
             {description}
           </Blockquote>
         </Box>

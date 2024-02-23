@@ -1,4 +1,4 @@
-import { deleteApiKey } from "@/actions/_actions";
+import { deleteApiKey } from '@/actions/_actions';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -9,13 +9,13 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
-import { removeApiKey } from "@/lib/redux/features/apiKeys/apiKeysSlice";
-import { useAppDispatch } from "@/lib/redux/hooks";
-import { gfwls } from "@/lib/utils";
-import { UserAPICredentials } from "@prisma/client";
-import { useState } from "react";
+} from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
+import { removeApiKey } from '@/lib/redux/features/apiKeys/apiKeysSlice';
+import { useAppDispatch } from '@/lib/redux/hooks';
+import { gfwls } from '@/lib/utils';
+import { UserAPICredentials } from '@prisma/client';
+import { useState } from 'react';
 
 const DeleteApiKeyButton = ({
   apiKeyObj,
@@ -35,12 +35,12 @@ const DeleteApiKeyButton = ({
       dispatch(removeApiKey(apiKeyObj));
 
       window.localStorage.setItem(
-        "userApiCredentials",
+        'userApiCredentials',
         JSON.stringify(
-          [...gfwls("userApiCredentials")].filter(
-            (apiKey) => apiKey.id !== apiKeyObj.id
-          )
-        )
+          [...gfwls('userApiCredentials')].filter(
+            (apiKey) => apiKey.id !== apiKeyObj.id,
+          ),
+        ),
       );
     } catch (error) {
       setDeleting(false);
@@ -52,7 +52,7 @@ const DeleteApiKeyButton = ({
     <>
       <AlertDialog>
         <AlertDialogTrigger asChild>
-          <Button variant="destructive" disabled={isDeleting}>
+          <Button variant='destructive' disabled={isDeleting}>
             Delete
           </Button>
         </AlertDialogTrigger>
@@ -67,7 +67,7 @@ const DeleteApiKeyButton = ({
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction asChild>
-              <Button variant="destructive" onClick={confirmDeleteApiKey}>
+              <Button variant='destructive' onClick={confirmDeleteApiKey}>
                 DELETE!
               </Button>
             </AlertDialogAction>

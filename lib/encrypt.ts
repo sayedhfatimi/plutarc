@@ -1,10 +1,10 @@
-import * as crypto from "crypto";
+import * as crypto from 'crypto';
 
-const ALGORITHM_NAME = "aes-128-gcm";
+const ALGORITHM_NAME = 'aes-128-gcm';
 const ALGORITHM_NONCE_SIZE = 12;
 const ALGORITHM_TAG_SIZE = 16;
 const ALGORITHM_KEY_SIZE = 16;
-const PBKDF2_NAME = "sha256";
+const PBKDF2_NAME = 'sha256';
 const PBKDF2_SALT_SIZE = 16;
 const PBKDF2_ITERATIONS = 32767;
 
@@ -14,7 +14,7 @@ export function encryptString(plaintext: any, password: string) {
 
   // Derive a key using PBKDF2.
   let key = crypto.pbkdf2Sync(
-    Buffer.from(password, "utf8"),
+    Buffer.from(password, 'utf8'),
     salt,
     PBKDF2_ITERATIONS,
     ALGORITHM_KEY_SIZE,
@@ -24,11 +24,11 @@ export function encryptString(plaintext: any, password: string) {
   // Encrypt and prepend salt.
   let ciphertextAndNonceAndSalt = Buffer.concat([
     salt,
-    encrypt(Buffer.from(plaintext, "utf8"), key),
+    encrypt(Buffer.from(plaintext, 'utf8'), key),
   ]);
 
   // Return as base64 string.
-  return ciphertextAndNonceAndSalt.toString("base64");
+  return ciphertextAndNonceAndSalt.toString('base64');
 }
 
 export function decryptString(
@@ -38,7 +38,7 @@ export function decryptString(
   // Decode the base64.
   let ciphertextAndNonceAndSalt = Buffer.from(
     base64CiphertextAndNonceAndSalt,
-    "base64"
+    'base64'
   );
 
   // Create buffers of salt and ciphertextAndNonce.
@@ -47,7 +47,7 @@ export function decryptString(
 
   // Derive the key using PBKDF2.
   let key = crypto.pbkdf2Sync(
-    Buffer.from(password, "utf8"),
+    Buffer.from(password, 'utf8'),
     salt,
     PBKDF2_ITERATIONS,
     ALGORITHM_KEY_SIZE,
@@ -55,7 +55,7 @@ export function decryptString(
   );
 
   // Decrypt and return result.
-  return decrypt(ciphertextAndNonce, key).toString("utf8");
+  return decrypt(ciphertextAndNonce, key).toString('utf8');
 }
 
 function encrypt(plaintext: any, key: any) {
