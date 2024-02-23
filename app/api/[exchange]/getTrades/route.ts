@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { ccxtClient } from '../../ccxtClient';
 import { getServerSession } from 'next-auth';
-import authOptions from '@/app/auth/authOptions';
+import authOptions from '@/app/(auth)/authOptions';
 
 export async function POST(request: NextRequest) {
   const session = await getServerSession(authOptions);

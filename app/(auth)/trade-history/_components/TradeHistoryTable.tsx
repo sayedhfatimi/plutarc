@@ -15,7 +15,7 @@ const TradeHistoryTable = ({
     selectedApiKey.exchange.toLowerCase(),
     selectedApiKey.apiKey,
     selectedApiKey.apiSecret,
-    'getTrades'
+    'getTrades',
   );
 
   if (isLoading)

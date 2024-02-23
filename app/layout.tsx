@@ -5,10 +5,8 @@ import { Box, Theme } from '@radix-ui/themes';
 import '@radix-ui/themes/styles.css';
 import type { Metadata } from 'next';
 import { Inter as FontSans } from 'next/font/google';
-import QueryClientProvider from '../Providers/QueryClientProvider';
-import AuthProvider from './auth/Provider';
+import AuthProvider from './(auth)/Provider';
 import './globals.css';
-import StoreProvider from '@/Providers/StoreProvider';
 
 export const fontSans = FontSans({
   subsets: ['latin'],
@@ -30,26 +28,19 @@ export default function RootLayout({
       <body
         className={cn(
           'min-h-screen bg-background font-sans antialiased',
-          fontSans.variable
+          fontSans.variable,
         )}
       >
-        <StoreProvider>
-          <QueryClientProvider>
-            <AuthProvider>
-              <ThemeProvider
-                attribute='class'
-                defaultTheme='system'
-                enableSystem
-                disableTransitionOnChange
-              >
-                <Theme>
-                  <NavBar />
-                  <Box p='2'>{children}</Box>
-                </Theme>
-              </ThemeProvider>
-            </AuthProvider>
-          </QueryClientProvider>
-        </StoreProvider>
+        <AuthProvider>
+          <ThemeProvider
+            attribute='class'
+            defaultTheme='system'
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Theme>{children}</Theme>
+          </ThemeProvider>
+        </AuthProvider>
       </body>
     </html>
   );
