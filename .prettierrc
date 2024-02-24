@@ -9,5 +9,5 @@
   "arrowParens": "always",
   "singleAttributePerLine": false,
   "experimentalTernaries": false,
-  "plugins": ["prettier-plugin-tailwindcss", "prettier-plugin-prisma"]
+  "plugins": ["prettier-plugin-tailwindcss"]
 }

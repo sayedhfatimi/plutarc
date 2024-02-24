@@ -1,13 +1,6 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
-import {
   Form,
   FormControl,
   FormDescription,
@@ -32,7 +25,7 @@ import { gfwls } from '@/lib/utils';
 import { createAPISchema } from '@/schemas/createAPISchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ReloadIcon } from '@radix-ui/react-icons';
-import { Callout, Flex } from '@radix-ui/themes';
+import { Callout } from '@radix-ui/themes';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
@@ -56,23 +49,21 @@ const UserApiCredentialForm = () => {
   const onSubmit = async (data: UserAPICredential) => {
     try {
       setSubmitting(true);
-      const { data: apiKeysObj } = await axios.post('/api/userApiCredentials', {
+
+      const { data: apiKeyObj } = await axios.post('/api/userApiCredentials', {
         ...data,
         userId: session!.user!.id,
-        apiSecret: data.passphrase
-          ? encryptString(data.apiSecret, data.passphrase) // encrypt api secret if passphrase is provided
-          : data.apiSecret, // else send to server as plaintext
-        passphrase: undefined, // set passphrase to undefined before sending data to server
+        apiSecret: encryptString(data.apiSecret, session!.user!.encryptionKey),
       });
 
       const lsApiKeysObj = gfwls('userApiCredentials') || [];
 
       window.localStorage.setItem(
         'userApiCredentials',
-        JSON.stringify([...lsApiKeysObj, { ...apiKeysObj }]),
+        JSON.stringify([...lsApiKeysObj, { ...apiKeyObj }]),
       );
 
-      dispatch(addApiKey({ ...apiKeysObj }));
+      dispatch(addApiKey({ ...apiKeyObj }));
 
       router.push('/settings/userApiCredentials');
       router.refresh();
@@ -94,7 +85,7 @@ const UserApiCredentialForm = () => {
         </Callout.Root>
       )}
       <Form {...form}>
-        <form className='space-y-6'>
+        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
           <FormField
             control={form.control}
             name='label'
@@ -174,61 +165,12 @@ const UserApiCredentialForm = () => {
               </FormItem>
             )}
           />
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button variant='secondary'>Submit</Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Encryption Passphrase</DialogTitle>
-                <Flex direction='column' gap='8'>
-                  <FormField
-                    control={form.control}
-                    name='passphrase'
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className='sr-only'>
-                          Encryption Passphrase
-                        </FormLabel>
-                        <FormMessage />
-                        <FormControl>
-                          <Input
-                            placeholder='Encryption Passphrase'
-                            type='password'
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormDescription>
-                          <p>
-                            Enter a passphrase/password to be used to encrypt
-                            your API secret before it is transmitted to the
-                            server.
-                          </p>
-                          <p>
-                            This is optional but be warned that your API secret
-                            will be stored in plaintext on our servers if this
-                            is not provided.
-                          </p>
-                          <p>Must be between 18 - 32 characters long.</p>
-                        </FormDescription>
-                      </FormItem>
-                    )}
-                  />
-                  <Button
-                    onClick={form.handleSubmit(onSubmit)}
-                    type='submit'
-                    disabled={isSubmitting}
-                    className='mt-4'
-                  >
-                    {isSubmitting && (
-                      <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />
-                    )}
-                    Submit
-                  </Button>
-                </Flex>
-              </DialogHeader>
-            </DialogContent>
-          </Dialog>
+          <Button type='submit' disabled={isSubmitting} className='mt-4'>
+            {isSubmitting && (
+              <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />
+            )}
+            Submit
+          </Button>
         </form>
       </Form>
     </>

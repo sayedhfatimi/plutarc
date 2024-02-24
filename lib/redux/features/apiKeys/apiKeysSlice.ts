@@ -10,7 +10,7 @@ export const apiKeySlice = createSlice({
   reducers: {
     addApiKey: (
       userApiKeys: UserAPICredentials[],
-      action: PayloadAction<UserAPICredentials>
+      action: PayloadAction<UserAPICredentials>,
     ) => {
       userApiKeys.push({
         id: action.payload.id,
@@ -24,10 +24,10 @@ export const apiKeySlice = createSlice({
     },
     removeApiKey: (
       userApiKeys: UserAPICredentials[],
-      action: PayloadAction<UserAPICredentials>
+      action: PayloadAction<UserAPICredentials>,
     ) => {
       return userApiKeys.filter(
-        (userApiKey) => userApiKey.id !== action.payload.id
+        (userApiKey) => userApiKey.id !== action.payload.id,
       );
     },
   },

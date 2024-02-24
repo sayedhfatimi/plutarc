@@ -27,10 +27,14 @@ const ApiCredentialSelector = () => {
     <>
       <Select
         onValueChange={handleValueChange}
-        value={JSON.stringify(selectedApiKey)}
+        value={
+          Object.keys(selectedApiKey).length === 0
+            ? undefined
+            : JSON.stringify(selectedApiKey)
+        }
       >
         <SelectTrigger>
-          <SelectValue placeholder='Select API Account' />
+          <SelectValue placeholder='Select API Account...' />
         </SelectTrigger>
         <SelectContent>
           {apiKeysObj.map((item: UserAPICredentials) => (

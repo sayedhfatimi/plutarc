@@ -1,39 +1,28 @@
 'use server';
 import authOptions from '@/app/(auth)/authOptions';
 import prisma from '@/prisma/client';
-import { createAPISchema } from '@/schemas/createAPISchema';
+import { createPassphraseSchema } from '@/schemas/createPassphraseSchema';
 import { getServerSession } from 'next-auth';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import { z } from 'zod';
 
-export async function addApiKey(data: any) {
+export async function createPassphrase(
+  data: z.infer<typeof createPassphraseSchema>,
+) {
+  console.log(data);
   const session = await getServerSession(authOptions);
   if (!session) return { errors: 'Not authorized for this action.' };
 
-  const body = await data;
+  const { passphrase } = createPassphraseSchema.parse(data);
 
-  const validation = createAPISchema.safeParse(body);
+  await prisma.user.update({
+    where: { id: session!.user!.id },
+    data: { encryptionKey: passphrase },
+  });
 
-  if (!validation.success)
-    return { errors: validation.error.flatten().fieldErrors };
-
-  const { userId, label, exchange, apiKey, apiSecret } = body;
-
-  try {
-    await prisma.userAPICredentials.create({
-      data: {
-        userId,
-        label,
-        exchange,
-        apiKey,
-        apiSecret,
-      },
-    });
-  } catch (error) {
-    return { errors: error };
-  }
-
-  redirect('/settings/userApiCredentials');
+  revalidatePath('/dashboard', 'page');
+  redirect('/dashboard');
 }
 
 export async function deleteApiKey(id: string) {
@@ -52,22 +41,4 @@ export async function deleteApiKey(id: string) {
 
   revalidatePath('/settings/userApiCredentials', 'page');
   redirect('/settings/userApiCredentials');
-}
-
-export async function getApiKeys() {
-  const session = await getServerSession(authOptions);
-  if (!session) return { errors: 'Not authorized for this action.' };
-
-  try {
-    const apiKeys = await prisma.userAPICredentials.findMany({
-      where: { userId: session!.user!.id },
-    });
-
-    if (!apiKeys || apiKeys.length === 0)
-      return { errors: 'No API keys found.' };
-
-    return apiKeys;
-  } catch (error) {
-    return { errors: error };
-  }
 }

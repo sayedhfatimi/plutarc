@@ -1,7 +1,7 @@
-import GoogleProvider from 'next-auth/providers/google';
-import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import prisma from '@/prisma/client';
+import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { NextAuthOptions } from 'next-auth';
+import GoogleProvider from 'next-auth/providers/google';
 
 const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -12,11 +12,21 @@ const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    session: async ({ session, token }) => {
+    async session({ session, token, user }) {
+      const { encryptionKey } = await prisma.user.findUnique({
+        where: { id: token.sub },
+      });
       return {
         ...session,
-        user: { ...session.user, id: token.sub },
+        user: {
+          ...session.user,
+          id: token.sub,
+          encryptionKey,
+        },
       };
+    },
+    async jwt({ token, user, account, profile, isNewUser }) {
+      return token;
     },
   },
   session: {
