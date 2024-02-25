@@ -41,7 +41,11 @@ const DecryptApiKeys = ({ passphraseHash }: { passphraseHash: string }) => {
 
   const onSubmit = (data: z.infer<typeof getPassphraseSchema>) => {
     bcryptjs.compare(data.passphrase, passphraseHash, (err, res) => {
-      if (!res) return err;
+      if (!res)
+        return form.setError('passphrase', {
+          type: 'manual',
+          message: 'Passphrase entered does not match with account passphrase.',
+        });
 
       const decryptedApiKeysArr = apiKeysArr.map(
         (apiKey: UserAPICredentials) => {
