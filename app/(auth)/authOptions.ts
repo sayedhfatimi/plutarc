@@ -13,19 +13,20 @@ const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async session({ session, token, user }) {
-      const { encryptionKey } = await prisma.user.findUnique({
+      const { passphraseHash } = await prisma.user.findUnique({
         where: { id: token.sub },
       });
+
       return {
         ...session,
         user: {
           ...session.user,
           id: token.sub,
-          encryptionKey,
+          passphraseHash,
         },
       };
     },
-    async jwt({ token, user, account, profile, isNewUser }) {
+    async jwt({ token, user, account, profile }) {
       return token;
     },
   },

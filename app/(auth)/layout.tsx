@@ -1,3 +1,6 @@
+import { ApiKeyEncryptedProvider } from '@/Providers/ApiKeyEncryptedProvider';
+import { ApiKeyProvider } from '@/Providers/ApiKeyProvider';
+import { DecryptApiKeyProvider } from '@/Providers/DecryptApiKeyProvider';
 import QueryClientProvider from '@/Providers/QueryClientProvider';
 import StoreProvider from '@/Providers/StoreProvider';
 import NavBar from '@/components/NavBar';
@@ -18,18 +21,29 @@ export default async function AuthLayout({
     where: { id: session!.user!.id },
   });
 
-  if (userObj?.encryptionKey === null) return <SetPassphrase />;
+  if (userObj?.passphraseHash === null) return <SetPassphrase />;
 
-  const apiKeysObj = await prisma.userAPICredentials.findMany({
+  const encryptedApiKeysArr = await prisma.userAPICredentials.findMany({
     where: { userId: session!.user!.id },
   });
 
+  console.log();
+
   return (
-    <StoreProvider apiKeysObj={apiKeysObj}>
-      <QueryClientProvider>
-        <NavBar />
-        <Box p='2'>{children}</Box>
-      </QueryClientProvider>
-    </StoreProvider>
+    <ApiKeyProvider encryptedApiKeysArr={encryptedApiKeysArr}>
+      <ApiKeyEncryptedProvider>
+        <StoreProvider>
+          <DecryptApiKeyProvider
+            passphraseHash={session!.user!.passphraseHash!}
+            noKeys={encryptedApiKeysArr.length === 0}
+          >
+            <QueryClientProvider>
+              <NavBar />
+              <Box p='2'>{children}</Box>
+            </QueryClientProvider>
+          </DecryptApiKeyProvider>
+        </StoreProvider>
+      </ApiKeyEncryptedProvider>
+    </ApiKeyProvider>
   );
 }

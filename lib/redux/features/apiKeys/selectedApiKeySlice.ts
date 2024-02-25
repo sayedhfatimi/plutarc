@@ -2,7 +2,7 @@ import { gfwls } from '@/lib/utils';
 import { UserAPICredentials } from '@prisma/client';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-const initialState: UserAPICredentials = gfwls('selectedApiKey') || {};
+const initialState: UserAPICredentials = {} as UserAPICredentials;
 
 export const selectedApiKeySlice = createSlice({
   name: 'selectedApiKey',
@@ -10,7 +10,7 @@ export const selectedApiKeySlice = createSlice({
   reducers: {
     setSelectedApiKey: (
       userApiKey: UserAPICredentials,
-      action: PayloadAction<UserAPICredentials>
+      action: PayloadAction<UserAPICredentials>,
     ) => ({
       ...action.payload,
     }),

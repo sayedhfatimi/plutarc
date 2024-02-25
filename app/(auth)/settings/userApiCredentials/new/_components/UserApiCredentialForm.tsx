@@ -1,6 +1,14 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import {
   Form,
   FormControl,
   FormDescription,
@@ -18,15 +26,16 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { UserAPICredential } from '@/entities/types';
-import { encryptString } from '@/lib/encrypt';
+import { decryptString, encryptString } from '@/lib/encrypt';
 import { addApiKey } from '@/lib/redux/features/apiKeys/apiKeysSlice';
 import { useAppDispatch } from '@/lib/redux/hooks';
-import { gfwls } from '@/lib/utils';
 import { createAPISchema } from '@/schemas/createAPISchema';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { UserAPICredentials } from '@prisma/client';
 import { ReloadIcon } from '@radix-ui/react-icons';
 import { Callout } from '@radix-ui/themes';
 import axios from 'axios';
+import bcryptjs from 'bcryptjs';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -46,32 +55,43 @@ const UserApiCredentialForm = () => {
     resolver: zodResolver(createAPISchema),
   });
 
+  const passphraseHash: string = session!.user!.passphraseHash!;
+
   const onSubmit = async (data: UserAPICredential) => {
-    try {
-      setSubmitting(true);
+    bcryptjs.compare(data.passphrase!, passphraseHash, async (_err, res) => {
+      if (!res)
+        return form.setError('passphrase', {
+          type: 'manual',
+          message: 'Passphrase entered does not match with account passphrase.',
+        });
 
-      const { data: apiKeyObj } = await axios.post('/api/userApiCredentials', {
-        ...data,
-        userId: session!.user!.id,
-        apiSecret: encryptString(data.apiSecret, session!.user!.encryptionKey),
-      });
+      try {
+        setSubmitting(true);
 
-      const lsApiKeysObj = gfwls('userApiCredentials') || [];
+        const { data: apiKeysArr } = await axios.post<UserAPICredentials>(
+          '/api/userApiCredentials',
+          {
+            ...data,
+            userId: session!.user!.id,
+            apiSecret: encryptString(data.apiSecret, data.passphrase!),
+          },
+        );
 
-      window.localStorage.setItem(
-        'userApiCredentials',
-        JSON.stringify([...lsApiKeysObj, { ...apiKeyObj }]),
-      );
+        dispatch(
+          addApiKey({
+            ...apiKeysArr,
+            apiSecret: decryptString(apiKeysArr.apiSecret, data.passphrase!),
+          }),
+        );
 
-      dispatch(addApiKey({ ...apiKeyObj }));
-
-      router.push('/settings/userApiCredentials');
-      router.refresh();
-    } catch (error) {
-      setSubmitting(false);
-      setError('An unexpected error occurred.');
-      console.error(error);
-    }
+        router.push('/settings/userApiCredentials');
+        router.refresh();
+      } catch (error) {
+        setSubmitting(false);
+        setError('An unexpected error occurred.');
+        console.error(error);
+      }
+    });
   };
 
   return (
@@ -85,7 +105,7 @@ const UserApiCredentialForm = () => {
         </Callout.Root>
       )}
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
+        <form className='space-y-6'>
           <FormField
             control={form.control}
             name='label'
@@ -165,12 +185,46 @@ const UserApiCredentialForm = () => {
               </FormItem>
             )}
           />
-          <Button type='submit' disabled={isSubmitting} className='mt-4'>
-            {isSubmitting && (
-              <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />
-            )}
-            Submit
-          </Button>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant='secondary'>Submit</Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Encryption Passphrase</DialogTitle>
+                <DialogDescription>
+                  Please enter your encryption passphrase
+                </DialogDescription>
+              </DialogHeader>
+              <FormField
+                control={form.control}
+                name='passphrase'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className='sr-only'>
+                      Encryption Passphrase
+                    </FormLabel>
+                    <FormMessage />
+                    <FormControl>
+                      <Input placeholder='Encryption Passphrase' {...field} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+
+              <Button
+                type='submit'
+                onClick={form.handleSubmit(onSubmit)}
+                disabled={isSubmitting}
+                className='mt-4'
+              >
+                {isSubmitting && (
+                  <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />
+                )}
+                Submit
+              </Button>
+            </DialogContent>
+          </Dialog>
         </form>
       </Form>
     </>

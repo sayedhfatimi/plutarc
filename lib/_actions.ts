@@ -10,7 +10,6 @@ import { z } from 'zod';
 export async function createPassphrase(
   data: z.infer<typeof createPassphraseSchema>,
 ) {
-  console.log(data);
   const session = await getServerSession(authOptions);
   if (!session) return { errors: 'Not authorized for this action.' };
 
@@ -18,7 +17,7 @@ export async function createPassphrase(
 
   await prisma.user.update({
     where: { id: session!.user!.id },
-    data: { encryptionKey: passphrase },
+    data: { passphraseHash: passphrase },
   });
 
   revalidatePath('/dashboard', 'page');

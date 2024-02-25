@@ -60,7 +60,7 @@ model User {
   email              String?              @unique
   emailVerified      DateTime?
   image              String?
-  encryptionKey      String?              @db.VarChar(255)
+  passphraseHash     String?              @db.VarChar(255)
   role               Role                 @default(USER)
   accounts           Account[]
   sessions           Session[]

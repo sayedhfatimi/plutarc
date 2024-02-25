@@ -1,6 +1,6 @@
 'use client';
 import { setSelectedApiKey } from '@/lib/redux/features/apiKeys/selectedApiKeySlice';
-import { useAppDispatch, useAppSelector, useAppStore } from '@/lib/redux/hooks';
+import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { UserAPICredentials } from '@prisma/client';
 import {
   Select,
@@ -12,7 +12,7 @@ import {
 
 const ApiCredentialSelector = () => {
   const dispatch = useAppDispatch();
-  const apiKeysObj = useAppStore().getState().apiKeys;
+  const apiKeysObj = useAppSelector((state) => state.apiKeys);
   const selectedApiKey = useAppSelector((state) => state.selectedApiKey);
 
   if (apiKeysObj.length === 0) return null;
