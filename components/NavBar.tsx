@@ -25,7 +25,7 @@ import ApiCredentialSelector from './ApiCredentialSelector';
 import ThemeToggle from './ThemeToggle';
 import { Skeleton } from './ui/skeleton';
 
-const Gugi = localFont({
+export const Gugi = localFont({
   src: '../assets/fonts/Gugi.ttf',
 });
 
