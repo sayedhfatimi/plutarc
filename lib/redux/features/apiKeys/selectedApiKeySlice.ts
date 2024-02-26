@@ -1,4 +1,3 @@
-import { gfwls } from '@/lib/utils';
 import { UserAPICredentials } from '@prisma/client';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 

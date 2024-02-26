@@ -15,6 +15,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { useToast } from '@/components/ui/use-toast';
 import { ApiKeyContext, ApiKeyEncryptedContext } from '@/lib/contexts/Contexts';
 import { decryptString } from '@/lib/encrypt';
 import { initialiseState } from '@/lib/redux/features/apiKeys/apiKeysSlice';
@@ -30,6 +31,7 @@ import { z } from 'zod';
 const DecryptApiKeys = ({ passphraseHash }: { passphraseHash: string }) => {
   const { apiKeysArr, setApiKeysArr } = useContext(ApiKeyContext);
   const { setEncrypted } = useContext(ApiKeyEncryptedContext);
+  const { toast } = useToast();
   const dispatch = useAppDispatch();
 
   const form = useForm<z.infer<typeof getPassphraseSchema>>({
@@ -59,6 +61,9 @@ const DecryptApiKeys = ({ passphraseHash }: { passphraseHash: string }) => {
       dispatch(initialiseState(decryptedApiKeysArr));
       setApiKeysArr(decryptedApiKeysArr);
       setEncrypted(false);
+      toast({
+        title: 'Keys decrypted successfully!',
+      });
     });
   };
 

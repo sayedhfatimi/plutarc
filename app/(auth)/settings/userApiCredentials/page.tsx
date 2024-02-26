@@ -1,15 +1,18 @@
 'use client';
-import PageHeading from '@/components/PageHeading';
-import { Button } from '@/components/ui/button';
-import { PlusIcon } from '@radix-ui/react-icons';
-import { Box } from '@radix-ui/themes';
-import Link from 'next/link';
-import UserApiKeysTable from './_components/UserApiKeysTable';
-import { useAppStore } from '@/lib/redux/hooks';
 import NoAPIKeysAlert from '@/components/NoAPIKeysAlert';
+import PageHeading from '@/components/PageHeading';
+import { useAppSelector } from '@/lib/redux/hooks';
+import { Box } from '@radix-ui/themes';
+import { useSession } from 'next-auth/react';
+import AddApiKeyForm from './_components/AddApiKeyForm';
+import UserApiKeysTable from './_components/UserApiKeysTable';
 
 const UserAPICredentialsPage = () => {
-  const apiKeysObj = useAppStore().getState().apiKeys;
+  const apiKeysArr = useAppSelector((state) => state.apiKeys);
+  const { data: session } = useSession();
+
+  const userId = session?.user.id;
+  const passphraseHash = session?.user.passphraseHash;
 
   return (
     <Box className='border p-2 shadow-sm'>
@@ -17,17 +20,13 @@ const UserAPICredentialsPage = () => {
         heading='Manage API Keys'
         description='manage your api keys here'
       >
-        <Button asChild>
-          <Link href='/settings/userApiCredentials/new'>
-            <PlusIcon className='mr-2 h-4 w-4' /> Add New Key
-          </Link>
-        </Button>
+        <AddApiKeyForm userId={userId!} passphraseHash={passphraseHash!} />
       </PageHeading>
       <Box className='border pb-2'>
-        {apiKeysObj.length === 0 ? (
+        {apiKeysArr.length === 0 ? (
           <NoAPIKeysAlert />
         ) : (
-          <UserApiKeysTable apiKeysObj={apiKeysObj} />
+          <UserApiKeysTable apiKeysArr={apiKeysArr} />
         )}
       </Box>
     </Box>

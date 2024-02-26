@@ -9,6 +9,7 @@ import { Box } from '@radix-ui/themes';
 import { getServerSession } from 'next-auth';
 import SetPassphrase from './_components/SetPassphrase';
 import authOptions from './authOptions';
+import { Toaster } from '@/components/ui/toaster';
 
 export default async function AuthLayout({
   children,
@@ -27,8 +28,6 @@ export default async function AuthLayout({
     where: { userId: session!.user!.id },
   });
 
-  console.log();
-
   return (
     <ApiKeyProvider encryptedApiKeysArr={encryptedApiKeysArr}>
       <ApiKeyEncryptedProvider>
@@ -40,6 +39,7 @@ export default async function AuthLayout({
             <QueryClientProvider>
               <NavBar />
               <Box p='2'>{children}</Box>
+              <Toaster />
             </QueryClientProvider>
           </DecryptApiKeyProvider>
         </StoreProvider>

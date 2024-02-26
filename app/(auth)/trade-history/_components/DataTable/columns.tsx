@@ -1,6 +1,6 @@
 'use client';
 import { Button } from '@/components/ui/button';
-import { thTrade } from '@/entities/types';
+import { thTrade } from '@/types/types';
 import { ColumnDef } from '@tanstack/react-table';
 import { ArrowUpDown } from 'lucide-react';
 

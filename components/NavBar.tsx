@@ -121,7 +121,9 @@ const ProfileMenu = () => {
           <Text size='2'>{session!.user!.email}</Text>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Profile</DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <NextLink href='/settings/profile'>Profile</NextLink>
+        </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <NextLink href='/settings/userApiCredentials'>API Keys</NextLink>
         </DropdownMenuItem>

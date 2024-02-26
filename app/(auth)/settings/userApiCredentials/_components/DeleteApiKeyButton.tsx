@@ -1,4 +1,3 @@
-import { deleteApiKey } from '@/lib/_actions';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -11,9 +10,10 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
+import { useToast } from '@/components/ui/use-toast';
+import { deleteApiKey } from '@/lib/_actions';
 import { removeApiKey } from '@/lib/redux/features/apiKeys/apiKeysSlice';
 import { useAppDispatch } from '@/lib/redux/hooks';
-import { gfwls } from '@/lib/utils';
 import { UserAPICredentials } from '@prisma/client';
 import { useState } from 'react';
 
@@ -24,6 +24,7 @@ const DeleteApiKeyButton = ({
 }) => {
   const [error, setError] = useState(false);
   const [isDeleting, setDeleting] = useState(false);
+  const { toast } = useToast();
 
   const dispatch = useAppDispatch();
 
@@ -34,14 +35,10 @@ const DeleteApiKeyButton = ({
 
       dispatch(removeApiKey(apiKeyObj));
 
-      window.localStorage.setItem(
-        'userApiCredentials',
-        JSON.stringify(
-          [...gfwls('userApiCredentials')].filter(
-            (apiKey) => apiKey.id !== apiKeyObj.id,
-          ),
-        ),
-      );
+      toast({
+        title: 'Key Deleted!',
+        description: `${apiKeyObj.label} has been remove from your account.`,
+      });
     } catch (error) {
       setDeleting(false);
       setError(true);

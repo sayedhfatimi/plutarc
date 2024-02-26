@@ -11,9 +11,9 @@ import { UserAPICredentials } from '@prisma/client';
 import DeleteApiKeyButton from './DeleteApiKeyButton';
 
 const UserApiKeysTable = ({
-  apiKeysObj,
+  apiKeysArr,
 }: {
-  apiKeysObj: UserAPICredentials[];
+  apiKeysArr: UserAPICredentials[];
 }) => {
   return (
     <Table>
@@ -26,7 +26,7 @@ const UserApiKeysTable = ({
         </TableRow>
       </TableHeader>
       <TableBody>
-        {apiKeysObj.map((obj: UserAPICredentials) => (
+        {apiKeysArr.map((obj: UserAPICredentials) => (
           <TableRow key={obj.apiKey}>
             <TableCell>
               <Badge variant='secondary'>{obj.label}</Badge>
