@@ -16,14 +16,17 @@ export default async function AuthLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await getServerSession(authOptions);
+  const session = await getServerSession(authOptions); // get session data from server
 
+  // get user info from db
   const userObj = await prisma.user.findUnique({
     where: { id: session!.user!.id },
   });
 
+  // check if user has set a passphrase
   if (userObj?.passphraseHash === null) return <SetPassphrase />;
 
+  // get the encrypted apiKeysArr from the db
   const encryptedApiKeysArr = await prisma.userAPICredentials.findMany({
     where: { userId: session!.user!.id },
   });

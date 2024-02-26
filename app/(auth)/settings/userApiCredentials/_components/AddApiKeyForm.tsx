@@ -51,20 +51,20 @@ const AddApiKeyForm = ({
   userId: string;
   passphraseHash: string;
 }) => {
-  const router = useRouter();
-  const dispatch = useAppDispatch();
+  const router = useRouter(); // Next.js App Router hook
+  const dispatch = useAppDispatch(); // redux dispatch hook
 
-  const [error, setError] = useState('');
-  const [isSubmitting, setSubmitting] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [error, setError] = useState(''); // error state
+  const [isSubmitting, setSubmitting] = useState(false); // form submit state
+  const [open, setOpen] = useState(false); // dialog open state
 
-  const { toast } = useToast();
+  const { toast } = useToast(); // notification component hook
 
   const form = useForm<UserAPICredential>({
     resolver: zodResolver(createAPISchema),
   });
 
-  // on form submit
+  // function to handle on form submit
   const onSubmit = async (data: UserAPICredential) => {
     // cryptographically compare given passphrase to passphraseHash
     bcryptjs.compare(data.passphrase!, passphraseHash, async (_err, res) => {
@@ -81,10 +81,10 @@ const AddApiKeyForm = ({
         setSubmitting(true);
 
         // send post request with mutated data to api endpoint
-        const { data: apiKeysArr } = await axios.post<UserAPICredentials>(
+        const { data: apiKeyObj } = await axios.post<UserAPICredentials>(
           '/api/userApiCredentials',
           {
-            ...data, // spread the received data into new empty object
+            ...data, // spread the form data into new empty object
             userId, // set the userId field
             apiSecret: encryptString(data.apiSecret, data.passphrase!), // encrypt the apiSecret before sending data
             passphrase: undefined, // set passphrase as undefined to not send passphrase over network
@@ -94,8 +94,8 @@ const AddApiKeyForm = ({
         // update the redux store with the returned data
         dispatch(
           addApiKey({
-            ...apiKeysArr,
-            apiSecret: decryptString(apiKeysArr.apiSecret, data.passphrase!),
+            ...apiKeyObj, // spread the received object into an empty object
+            apiSecret: decryptString(apiKeyObj.apiSecret, data.passphrase!), // decrypt the apiSecret
           }),
         );
 
@@ -104,16 +104,17 @@ const AddApiKeyForm = ({
         setSubmitting(false);
         form.reset();
 
+        // show success notification
         toast({
           title: 'Key Added!',
-          description: `${apiKeysArr.label} has been added to your account.`,
+          description: `${apiKeyObj.label} has been added to your account.`,
         });
 
         // refresh the page
         router.refresh();
       } catch (error) {
         setSubmitting(false); // TODO: Handle this error better
-        setError('An unexpected error occurred.');
+        setError('An unexpected error occurred.'); // message displayed in Callout component
       }
     });
   };

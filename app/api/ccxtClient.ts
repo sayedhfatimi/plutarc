@@ -1,4 +1,7 @@
-import ccxt from 'ccxt';
+import ccxt, { exchanges } from 'ccxt';
 
-export const ccxtClient = (exchange: string, apiKey: string, secret: string) =>
-  new ccxt[exchange]({ apiKey, secret });
+export const ccxtClient = (
+  exchange: keyof typeof exchanges,
+  apiKey: string,
+  secret: string,
+) => new ccxt[exchange]({ apiKey, secret });

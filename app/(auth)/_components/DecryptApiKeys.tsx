@@ -29,10 +29,10 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 const DecryptApiKeys = ({ passphraseHash }: { passphraseHash: string }) => {
-  const { apiKeysArr, setApiKeysArr } = useContext(ApiKeyContext);
-  const { setEncrypted } = useContext(ApiKeyEncryptedContext);
-  const { toast } = useToast();
-  const dispatch = useAppDispatch();
+  const { apiKeysArr, setApiKeysArr } = useContext(ApiKeyContext); // React Context hook: apiKeysArr
+  const { setEncrypted } = useContext(ApiKeyEncryptedContext); // React Context hook: apiKeysArr encrypted status
+  const { toast } = useToast(); // notification component hook
+  const dispatch = useAppDispatch(); // redux dispatch hook
 
   const form = useForm<z.infer<typeof getPassphraseSchema>>({
     resolver: zodResolver(getPassphraseSchema),
@@ -41,26 +41,32 @@ const DecryptApiKeys = ({ passphraseHash }: { passphraseHash: string }) => {
     },
   });
 
+  // function to handle on form submit
   const onSubmit = (data: z.infer<typeof getPassphraseSchema>) => {
+    // cryptographically compare given passphrase to passphraseHash
     bcryptjs.compare(data.passphrase, passphraseHash, (err, res) => {
+      // if user entered passphrase does not match send error to user
       if (!res)
         return form.setError('passphrase', {
           type: 'manual',
           message: 'Passphrase entered does not match with account passphrase.',
         });
 
+      // mutate apiKeysArr and set to new array
       const decryptedApiKeysArr = apiKeysArr.map(
         (apiKey: UserAPICredentials) => {
           return {
-            ...apiKey,
-            apiSecret: decryptString(apiKey.apiSecret, data.passphrase),
+            ...apiKey, // spread apiKey object into new object
+            apiSecret: decryptString(apiKey.apiSecret, data.passphrase), // decrypt apiSecret using user passphrase input and set as apiSecret in new array
           };
         },
       );
 
-      dispatch(initialiseState(decryptedApiKeysArr));
-      setApiKeysArr(decryptedApiKeysArr);
-      setEncrypted(false);
+      dispatch(initialiseState(decryptedApiKeysArr)); // update redux store
+      setApiKeysArr(decryptedApiKeysArr); // update context with decrypted array (possibly redundant?)
+      setEncrypted(false); // update encrypted context to unlock nested layout
+
+      // show success notification
       toast({
         title: 'Keys decrypted successfully!',
       });

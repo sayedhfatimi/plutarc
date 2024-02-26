@@ -13,7 +13,7 @@ const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async session({ session, token, user }) {
-      const { passphraseHash } = await prisma.user.findUnique({
+      const data = await prisma.user.findUnique({
         where: { id: token.sub },
       });
 
@@ -22,7 +22,7 @@ const authOptions: NextAuthOptions = {
         user: {
           ...session.user,
           id: token.sub,
-          passphraseHash,
+          passphraseHash: data?.passphraseHash,
         },
       };
     },
