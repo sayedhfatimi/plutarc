@@ -2,7 +2,7 @@ import { createAPISchema } from '@/schemas/createAPISchema';
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/prisma/client';
 import { getServerSession } from 'next-auth';
-import authOptions from '@/app/(auth)/authOptions';
+import authOptions from '@/lib/authOptions';
 
 export async function POST(request: NextRequest) {
   const session = await getServerSession(authOptions);

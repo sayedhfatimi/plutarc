@@ -3,41 +3,33 @@ import { ApiKeyProvider } from '@/Providers/ApiKeyProvider';
 import { DecryptApiKeyProvider } from '@/Providers/DecryptApiKeyProvider';
 import QueryClientProvider from '@/Providers/QueryClientProvider';
 import StoreProvider from '@/Providers/StoreProvider';
-import NavBar from '@/components/NavBar';
-import prisma from '@/prisma/client';
-import { Box } from '@radix-ui/themes';
-import { getServerSession } from 'next-auth';
-import SetPassphrase from './_components/SetPassphrase';
-import authOptions from './authOptions';
+import NavBar from '@/app/auth/_components/NavBar';
 import { Toaster } from '@/components/ui/toaster';
+import { getApiKeys, getUserObj } from '@/lib/_actions';
+import { Box } from '@radix-ui/themes';
+import SetPassphrase from './_components/SetPassphrase';
 
 export default async function AuthLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await getServerSession(authOptions); // get session data from server
-
   // get user info from db
-  const userObj = await prisma.user.findUnique({
-    where: { id: session!.user!.id },
-  });
+  const { userObj } = await getUserObj();
 
   // check if user has set a passphrase
   if (userObj?.passphraseHash === null) return <SetPassphrase />;
 
   // get the encrypted apiKeysArr from the db
-  const encryptedApiKeysArr = await prisma.userAPICredentials.findMany({
-    where: { userId: session!.user!.id },
-  });
+  const { apiKeys } = await getApiKeys();
 
   return (
-    <ApiKeyProvider encryptedApiKeysArr={encryptedApiKeysArr}>
+    <ApiKeyProvider encryptedApiKeysArr={apiKeys!}>
       <ApiKeyEncryptedProvider>
         <StoreProvider>
           <DecryptApiKeyProvider
-            passphraseHash={session!.user!.passphraseHash!}
-            noKeys={encryptedApiKeysArr.length === 0}
+            passphraseHash={userObj?.passphraseHash!}
+            noKeys={apiKeys!.length === 0}
           >
             <QueryClientProvider>
               <NavBar />

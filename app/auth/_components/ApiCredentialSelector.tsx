@@ -1,14 +1,14 @@
 'use client';
-import { setSelectedApiKey } from '@/lib/redux/features/apiKeys/selectedApiKeySlice';
-import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
-import { UserAPICredentials } from '@prisma/client';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from './ui/select';
+} from '@/components/ui/select';
+import { setSelectedApiKey } from '@/lib/redux/features/apiKeys/selectedApiKeySlice';
+import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
+import { UserAPICredentials } from '@prisma/client';
 
 const ApiCredentialSelector = () => {
   const dispatch = useAppDispatch();

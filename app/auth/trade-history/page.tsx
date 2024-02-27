@@ -1,9 +1,9 @@
 'use client';
-import PageHeading from '@/components/PageHeading';
+import PageHeading from '@/app/auth/_components/PageHeading';
 import { useAppSelector } from '@/lib/redux/hooks';
 import { Box } from '@radix-ui/themes';
 import TradeHistoryTable from './_components/TradeHistoryTable';
-import NoAPIKeysAlert from '@/components/NoAPIKeysAlert';
+import NoAPIKeysAlert from '@/app/auth/_components/NoAPIKeysAlert';
 
 const TradeHistoryPage = () => {
   const selectedApiKey = useAppSelector((state) => state.selectedApiKey);

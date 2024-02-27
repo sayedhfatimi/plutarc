@@ -25,7 +25,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { UserAPICredential } from '@/types/types';
+import { useToast } from '@/components/ui/use-toast';
 import { decryptString, encryptString } from '@/lib/encrypt';
 import { addApiKey } from '@/lib/redux/features/apiKeys/apiKeysSlice';
 import { useAppDispatch } from '@/lib/redux/hooks';
@@ -42,7 +42,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaExclamationTriangle } from 'react-icons/fa';
 import { exchangeOptions } from './exchangeOptions';
-import { useToast } from '@/components/ui/use-toast';
+import { z } from 'zod';
 
 const AddApiKeyForm = ({
   userId,
@@ -60,12 +60,12 @@ const AddApiKeyForm = ({
 
   const { toast } = useToast(); // notification component hook
 
-  const form = useForm<UserAPICredential>({
+  const form = useForm<z.infer<typeof createAPISchema>>({
     resolver: zodResolver(createAPISchema),
   });
 
   // function to handle on form submit
-  const onSubmit = async (data: UserAPICredential) => {
+  const onSubmit = async (data: z.infer<typeof createAPISchema>) => {
     // cryptographically compare given passphrase to passphraseHash
     bcryptjs.compare(data.passphrase!, passphraseHash, async (_err, res) => {
       // if user entered passphrase does not match send error to user

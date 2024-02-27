@@ -1,6 +1,6 @@
 'use client';
-import NoAPIKeysAlert from '@/components/NoAPIKeysAlert';
-import PageHeading from '@/components/PageHeading';
+import NoAPIKeysAlert from '@/app/auth/_components/NoAPIKeysAlert';
+import PageHeading from '@/app/auth/_components/PageHeading';
 import { useAppSelector } from '@/lib/redux/hooks';
 import { Box } from '@radix-ui/themes';
 import { useSession } from 'next-auth/react';

@@ -1,8 +1,4 @@
-import { createAPISchema } from '@/schemas/createAPISchema';
 import { Fee } from 'ccxt';
-import { z } from 'zod';
-
-export type UserAPICredential = z.infer<typeof createAPISchema>;
 
 export interface thTrade {
   info: {

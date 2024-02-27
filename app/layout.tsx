@@ -4,7 +4,7 @@ import { Theme } from '@radix-ui/themes';
 import '@radix-ui/themes/styles.css';
 import type { Metadata } from 'next';
 import { Inter as FontSans } from 'next/font/google';
-import AuthProvider from './(auth)/Provider';
+import AuthProvider from '@/Providers/AuthProvider';
 import './globals.css';
 
 const fontSans = FontSans({

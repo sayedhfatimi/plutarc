@@ -1,4 +1,4 @@
-import PageHeading from '@/components/PageHeading';
+import PageHeading from '@/app/auth/_components/PageHeading';
 import { Box } from '@radix-ui/themes';
 
 const TerminalPage = () => {

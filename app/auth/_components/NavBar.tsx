@@ -1,4 +1,5 @@
 'use client';
+import ThemeToggle from '@/components/ThemeToggle';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,20 +15,15 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
+import { Skeleton } from '@/components/ui/skeleton';
+import { gugiFont } from '@/lib/utils';
 import { ReloadIcon } from '@radix-ui/react-icons';
 import { Avatar, Box, Flex, Text } from '@radix-ui/themes';
 import { useSession } from 'next-auth/react';
-import localFont from 'next/font/local';
 import NextLink from 'next/link';
 import { usePathname } from 'next/navigation';
 import { PropsWithChildren, ReactNode } from 'react';
 import ApiCredentialSelector from './ApiCredentialSelector';
-import ThemeToggle from './ThemeToggle';
-import { Skeleton } from './ui/skeleton';
-
-export const Gugi = localFont({
-  src: '../assets/fonts/Gugi.ttf',
-});
 
 const NavBar = () => {
   const { status } = useSession();
@@ -41,7 +37,7 @@ const NavBar = () => {
               <NavigationMenuList>
                 <NavigationMenuItem>
                   <Link href='/'>
-                    <Text className={`${Gugi.className}`} size='5'>
+                    <Text size='5' className={gugiFont.className}>
                       plutarc
                     </Text>
                   </Link>
@@ -71,11 +67,11 @@ const NavMenu = () => {
   const { status } = useSession();
 
   const NavLinks = [
-    { label: 'Dashboard', href: '/dashboard' },
-    { label: 'Account Details', href: '/account-details' },
-    { label: 'Trade History', href: '/trade-history' },
-    { label: 'Terminal', href: '/terminal' },
-    { label: 'Help', href: '/help' },
+    { label: 'Dashboard', href: '/auth/dashboard' },
+    { label: 'Account Details', href: '/auth/account-details' },
+    { label: 'Trade History', href: '/auth/trade-history' },
+    { label: 'Terminal', href: '/auth/terminal' },
+    { label: 'Help', href: '/auth/help' },
   ];
 
   if (status === 'loading') return <Skeleton className='h-4 w-[200px]' />;
@@ -122,10 +118,10 @@ const ProfileMenu = () => {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <NextLink href='/settings/profile'>Profile</NextLink>
+          <NextLink href='/auth/settings/profile'>Profile</NextLink>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <NextLink href='/settings/userApiCredentials'>API Keys</NextLink>
+          <NextLink href='/auth/settings/userApiCredentials'>API Keys</NextLink>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>

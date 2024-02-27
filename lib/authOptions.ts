@@ -13,7 +13,7 @@ const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async session({ session, token, user }) {
-      const data = await prisma.user.findUnique({
+      const userObj = await prisma.user.findUnique({
         where: { id: token.sub },
       });
 
@@ -22,7 +22,7 @@ const authOptions: NextAuthOptions = {
         user: {
           ...session.user,
           id: token.sub,
-          passphraseHash: data?.passphraseHash,
+          passphraseHash: userObj?.passphraseHash,
         },
       };
     },
@@ -33,6 +33,7 @@ const authOptions: NextAuthOptions = {
   session: {
     strategy: 'jwt',
   },
+  secret: process.env.NEXTAUTH_SECRET,
 };
 
 export default authOptions;

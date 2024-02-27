@@ -1,5 +1,5 @@
 'use server';
-import authOptions from '@/app/(auth)/authOptions';
+import authOptions from '@/lib/authOptions';
 import prisma from '@/prisma/client';
 import { createPassphraseSchema } from '@/schemas/createPassphraseSchema';
 import { getServerSession } from 'next-auth';
@@ -20,8 +20,8 @@ export async function createPassphrase(
     data: { passphraseHash: passphrase },
   });
 
-  revalidatePath('/dashboard', 'page');
-  redirect('/dashboard');
+  revalidatePath('/auth/dashboard', 'page');
+  redirect('/auth/dashboard');
 }
 
 export async function deleteApiKey(id: string) {
@@ -40,4 +40,34 @@ export async function deleteApiKey(id: string) {
 
   revalidatePath('/settings/userApiCredentials', 'page');
   redirect('/settings/userApiCredentials');
+}
+
+export async function getApiKeys() {
+  const session = await getServerSession(authOptions);
+  if (!session) return { errors: 'Not authorized for this action.' };
+
+  try {
+    const apiKeys = await prisma.userAPICredentials.findMany({
+      where: { userId: session.user.id },
+    });
+
+    return { apiKeys };
+  } catch (error) {
+    return { error: error };
+  }
+}
+
+export async function getUserObj() {
+  const session = await getServerSession(authOptions);
+  if (!session) return { errors: 'Not authorized for this action.' };
+
+  try {
+    const userObj = await prisma.user.findUnique({
+      where: { id: session.user.id },
+    });
+
+    return { userObj };
+  } catch (error) {
+    return { error: error };
+  }
 }
