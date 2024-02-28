@@ -22,7 +22,6 @@ import { Avatar, Box, Flex, Text } from '@radix-ui/themes';
 import { useSession } from 'next-auth/react';
 import NextLink from 'next/link';
 import { usePathname } from 'next/navigation';
-import { PropsWithChildren, ReactNode } from 'react';
 import ApiCredentialSelector from './ApiCredentialSelector';
 
 const NavBar = () => {
@@ -138,8 +137,8 @@ const Link = ({
   ...props
 }: {
   href: string;
-  children: ReactNode;
-  props?: PropsWithChildren;
+  children: React.ReactNode;
+  props?: React.ComponentPropsWithoutRef<'a'>;
 }) => {
   const currentPath = usePathname();
   const isActive = currentPath === href;

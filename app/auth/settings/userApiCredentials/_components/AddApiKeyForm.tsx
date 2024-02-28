@@ -37,12 +37,11 @@ import { Callout } from '@radix-ui/themes';
 import axios from 'axios';
 import bcryptjs from 'bcryptjs';
 import { PlusIcon } from 'lucide-react';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaExclamationTriangle } from 'react-icons/fa';
-import { exchangeOptions } from './exchangeOptions';
 import { z } from 'zod';
+import { exchangeOptions } from './exchangeOptions';
 
 const AddApiKeyForm = ({
   userId,
@@ -51,7 +50,6 @@ const AddApiKeyForm = ({
   userId: string;
   passphraseHash: string;
 }) => {
-  const router = useRouter(); // Next.js App Router hook
   const dispatch = useAppDispatch(); // redux dispatch hook
 
   const [error, setError] = useState(''); // error state
@@ -109,9 +107,6 @@ const AddApiKeyForm = ({
           title: 'Key Added!',
           description: `${apiKeyObj.label} has been added to your account.`,
         });
-
-        // refresh the page
-        router.refresh();
       } catch (error) {
         setSubmitting(false); // TODO: Handle this error better
         setError('An unexpected error occurred.'); // message displayed in Callout component

@@ -15,36 +15,45 @@ export async function createPassphrase(
 
   const { passphrase } = createPassphraseSchema.parse(data);
 
-  await prisma.user.update({
-    where: { id: session!.user!.id },
-    data: { passphraseHash: passphrase },
-  });
+  try {
+    await prisma.user.update({
+      where: { id: session!.user!.id },
+      data: { passphraseHash: passphrase },
+    });
 
-  revalidatePath('/auth/dashboard', 'page');
+    revalidatePath('/auth/dashboard', 'page');
+  } catch (error) {
+    return { error: error };
+  }
   redirect('/auth/dashboard');
 }
 
 export async function deleteApiKey(id: string) {
   const session = await getServerSession(authOptions);
-  if (!session) return { errors: 'Not authorized for this action.' };
+  if (!session) return { error: 'Not authorized for this action.' };
 
   const apiKey = await prisma.userAPICredentials.findUnique({
     where: { id },
   });
 
-  if (!apiKey) return { errors: 'Key does not exist.' };
+  if (!apiKey) return { error: 'Key does not exist.' };
 
-  await prisma.userAPICredentials.delete({
-    where: { id: apiKey.id },
-  });
+  try {
+    await prisma.userAPICredentials.delete({
+      where: { id: apiKey.id },
+    });
 
-  revalidatePath('/settings/userApiCredentials', 'page');
+    revalidatePath('/settings/userApiCredentials', 'page');
+  } catch (error) {
+    return { error: error };
+  }
+
   redirect('/settings/userApiCredentials');
 }
 
 export async function getApiKeys() {
   const session = await getServerSession(authOptions);
-  if (!session) return { errors: 'Not authorized for this action.' };
+  if (!session) return { error: 'Not authorized for this action.' };
 
   try {
     const apiKeys = await prisma.userAPICredentials.findMany({
@@ -59,7 +68,7 @@ export async function getApiKeys() {
 
 export async function getUserObj() {
   const session = await getServerSession(authOptions);
-  if (!session) return { errors: 'Not authorized for this action.' };
+  if (!session) return { error: 'Not authorized for this action.' };
 
   try {
     const userObj = await prisma.user.findUnique({

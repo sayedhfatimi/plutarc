@@ -26,17 +26,17 @@ const UserApiKeysTable = ({
         </TableRow>
       </TableHeader>
       <TableBody>
-        {apiKeysArr.map((obj: UserAPICredentials) => (
-          <TableRow key={obj.apiKey}>
+        {apiKeysArr.map((apiKeyObj: UserAPICredentials) => (
+          <TableRow key={apiKeyObj.apiKey}>
             <TableCell>
-              <Badge variant='secondary'>{obj.label}</Badge>
+              <Badge variant='secondary'>{apiKeyObj.label}</Badge>
             </TableCell>
-            <TableCell>{obj.exchange}</TableCell>
+            <TableCell>{apiKeyObj.exchange}</TableCell>
             <TableCell className='text-right'>
-              <Badge>{obj.apiKey}</Badge>
+              <Badge>{apiKeyObj.apiKey}</Badge>
             </TableCell>
             <TableCell className='text-right'>
-              <DeleteApiKeyButton apiKeyObj={obj} />
+              <DeleteApiKeyButton apiKeyObj={apiKeyObj} />
             </TableCell>
           </TableRow>
         ))}

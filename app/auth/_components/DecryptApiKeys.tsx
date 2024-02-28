@@ -1,14 +1,15 @@
 'use client';
-import { Button } from '@/components/ui/button';
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -23,6 +24,7 @@ import { useAppDispatch } from '@/lib/redux/hooks';
 import { getPassphraseSchema } from '@/schemas/getPassphraseSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { UserAPICredentials } from '@prisma/client';
+import { Flex } from '@radix-ui/themes';
 import bcryptjs from 'bcryptjs';
 import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
@@ -74,10 +76,10 @@ const DecryptApiKeys = ({ passphraseHash }: { passphraseHash: string }) => {
   };
 
   return (
-    <Dialog defaultOpen open>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle className='mb-4'>Encryption Passphrase</DialogTitle>
+    <AlertDialog defaultOpen open>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Encryption Passphrase</AlertDialogTitle>
           <hr />
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
@@ -97,15 +99,21 @@ const DecryptApiKeys = ({ passphraseHash }: { passphraseHash: string }) => {
                         {...field}
                       />
                     </FormControl>
+                    <FormDescription>
+                      Your account passphrase is needed to decrypt your API
+                      Keys.
+                    </FormDescription>
                   </FormItem>
                 )}
               />
-              <Button type='submit'>Submit</Button>
+              <Flex justify='center'>
+                <Button type='submit'>Submit</Button>
+              </Flex>
             </form>
           </Form>
-        </DialogHeader>
-      </DialogContent>
-    </Dialog>
+        </AlertDialogHeader>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 };
 

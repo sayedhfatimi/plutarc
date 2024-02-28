@@ -17,7 +17,6 @@ model UserAPICredentials {
   exchange  Exchange
   apiKey    String   @db.VarChar(255)
   apiSecret String   @db.VarChar(255)
-  createdAt DateTime @default(now())
   userOwner User     @relation(fields: [userId], references: [id])
 }
 

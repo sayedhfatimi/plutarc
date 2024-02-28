@@ -12,7 +12,7 @@ const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async session({ session, token, user }) {
+    async session({ session, token }) {
       const userObj = await prisma.user.findUnique({
         where: { id: token.sub },
       });
@@ -26,7 +26,7 @@ const authOptions: NextAuthOptions = {
         },
       };
     },
-    async jwt({ token, user, account, profile }) {
+    async jwt({ token }) {
       return token;
     },
   },

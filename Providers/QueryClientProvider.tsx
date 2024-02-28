@@ -1,5 +1,4 @@
 'use client';
-import { PropsWithChildren } from 'react';
 import {
   QueryClient,
   QueryClientProvider as ReactQueryClientProvider,
@@ -7,7 +6,7 @@ import {
 
 const queryClient = new QueryClient();
 
-const QueryClientProvider = ({ children }: PropsWithChildren) => {
+const QueryClientProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <ReactQueryClientProvider client={queryClient}>
       {children}

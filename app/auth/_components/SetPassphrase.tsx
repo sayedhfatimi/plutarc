@@ -1,14 +1,15 @@
 'use client';
-import { Button } from '@/components/ui/button';
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -18,6 +19,7 @@ import { Input } from '@/components/ui/input';
 import { createPassphrase } from '@/lib/_actions';
 import { createPassphraseSchema } from '@/schemas/createPassphraseSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Flex } from '@radix-ui/themes';
 import bcryptjs from 'bcryptjs';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -34,19 +36,20 @@ export default function SetPassphrase() {
   const onSubmit = (data: z.infer<typeof createPassphraseSchema>) => {
     bcryptjs.genSalt(10, (err, salt) =>
       bcryptjs.hash(data.passphrase, salt, (err, hash) => {
+        if (err) return { error: err.message };
         createPassphrase({ passphrase: hash, confirmPassphrase: hash });
       }),
     );
   };
 
   return (
-    <Dialog defaultOpen open>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle className='mb-4'>Encryption Passphrase</DialogTitle>
+    <AlertDialog defaultOpen open>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Encryption Passphrase</AlertDialogTitle>
           <hr />
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
+            <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
               <FormField
                 control={form.control}
                 name='passphrase'
@@ -82,14 +85,20 @@ export default function SetPassphrase() {
                         {...field}
                       />
                     </FormControl>
+                    <FormDescription>
+                      Please enter a passphrase that will be used to encrypt the
+                      API keys associated with this account.
+                    </FormDescription>
                   </FormItem>
                 )}
               />
-              <Button type='submit'>Submit</Button>
+              <Flex justify='center'>
+                <Button type='submit'>Submit</Button>
+              </Flex>
             </form>
           </Form>
-        </DialogHeader>
-      </DialogContent>
-    </Dialog>
+        </AlertDialogHeader>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 }
