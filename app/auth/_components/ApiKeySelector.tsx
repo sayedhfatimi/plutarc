@@ -9,8 +9,9 @@ import {
 import { setSelectedApiKey } from '@/lib/redux/features/apiKeys/selectedApiKeySlice';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { UserAPICredentials } from '@prisma/client';
+import { KeyRound } from 'lucide-react';
 
-const ApiCredentialSelector = () => {
+const ApiKeySelector = () => {
   const dispatch = useAppDispatch();
   const apiKeysArr = useAppSelector((state) => state.apiKeys);
   const selectedApiKey = useAppSelector((state) => state.selectedApiKey);
@@ -32,9 +33,9 @@ const ApiCredentialSelector = () => {
         }
       >
         <SelectTrigger>
-          <SelectValue placeholder='Select API Account...' />
+          <SelectValue placeholder={<KeyRound className='mx-2' />} />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent position='popper' align='end'>
           {apiKeysArr.map((item: UserAPICredentials) => (
             <SelectItem key={item.label} value={JSON.stringify(item)}>
               {item.label}
@@ -46,4 +47,4 @@ const ApiCredentialSelector = () => {
   );
 };
 
-export default ApiCredentialSelector;
+export default ApiKeySelector;

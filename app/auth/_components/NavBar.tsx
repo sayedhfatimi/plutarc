@@ -16,17 +16,31 @@ import {
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
 import { Skeleton } from '@/components/ui/skeleton';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { gugiFont } from '@/lib/utils';
 import { ReloadIcon } from '@radix-ui/react-icons';
 import { Avatar, Box, Flex, Text } from '@radix-ui/themes';
+import {
+  BookKey,
+  CandlestickChart,
+  HelpCircle,
+  History,
+  LayoutDashboard,
+  LogOut,
+  User,
+  Wallet,
+} from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import NextLink from 'next/link';
 import { usePathname } from 'next/navigation';
-import ApiCredentialSelector from './ApiCredentialSelector';
+import ApiKeySelector from './ApiKeySelector';
 
 const NavBar = () => {
-  const { status } = useSession();
-
   return (
     <>
       <Box className='border-b p-1 shadow-sm' width='100%'>
@@ -35,20 +49,20 @@ const NavBar = () => {
             <NavigationMenu>
               <NavigationMenuList>
                 <NavigationMenuItem>
-                  <Link href='/'>
-                    <Text size='5' className={gugiFont.className}>
-                      plutarc
-                    </Text>
-                  </Link>
+                  <Text size='5' className={`${gugiFont.className} px-4 py-2`}>
+                    plutarc
+                  </Text>
                 </NavigationMenuItem>
-                <NavMenu />
+                <TooltipProvider delayDuration={0}>
+                  <NavMenu />
+                </TooltipProvider>
               </NavigationMenuList>
             </NavigationMenu>
           </Flex>
           <NavigationMenu>
             <NavigationMenuList>
               <NavigationMenuItem>
-                {status === 'authenticated' && <ApiCredentialSelector />}
+                <ApiKeySelector />
               </NavigationMenuItem>
               <NavigationMenuItem className='mr-3'>
                 <ThemeToggle />
@@ -65,24 +79,48 @@ const NavBar = () => {
 const NavMenu = () => {
   const { status } = useSession();
 
-  const NavLinks = [
-    { label: 'Dashboard', href: '/auth/dashboard' },
-    { label: 'Account Details', href: '/auth/account-details' },
-    { label: 'Trade History', href: '/auth/trade-history' },
-    { label: 'Terminal', href: '/auth/terminal' },
-    { label: 'Help', href: '/auth/help' },
+  const NavLinks: { label: string; href: string; icon: React.ReactNode }[] = [
+    {
+      label: 'Dashboard',
+      href: '/auth/dashboard',
+      icon: <LayoutDashboard />,
+    },
+    {
+      label: 'Account Details',
+      href: '/auth/account-details',
+      icon: <Wallet />,
+    },
+    {
+      label: 'Trade History',
+      href: '/auth/trade-history',
+      icon: <History />,
+    },
+    {
+      label: 'Terminal',
+      href: '/auth/terminal',
+      icon: <CandlestickChart />,
+    },
+    {
+      label: 'Help',
+      href: '/auth/help',
+      icon: <HelpCircle />,
+    },
   ];
 
   if (status === 'loading') return <Skeleton className='h-4 w-[200px]' />;
 
   return (
     <>
-      {status === 'authenticated' &&
-        NavLinks.map((link) => (
-          <NavigationMenuItem key={link.label}>
-            <Link href={link.href}>{link.label}</Link>
-          </NavigationMenuItem>
-        ))}
+      {NavLinks.map((link) => (
+        <Tooltip key={link.label}>
+          <TooltipTrigger>
+            <NavigationMenuItem>
+              <Link href={link.href}>{link.icon}</Link>
+            </NavigationMenuItem>
+          </TooltipTrigger>
+          <TooltipContent>{link.label}</TooltipContent>
+        </Tooltip>
+      ))}
     </>
   );
 };
@@ -92,13 +130,6 @@ const ProfileMenu = () => {
 
   if (status === 'loading')
     return <ReloadIcon className='mr-4 h-4 w-4 animate-spin' />;
-
-  if (status === 'unauthenticated')
-    return (
-      <NavigationMenuItem>
-        <Link href='/api/auth/signin'>Login</Link>
-      </NavigationMenuItem>
-    );
 
   return (
     <DropdownMenu>
@@ -113,18 +144,27 @@ const ProfileMenu = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuLabel>
-          <Text size='2'>{session!.user!.email}</Text>
+          <Text size='2'>{session!.user!.email!}</Text>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <NextLink href='/auth/settings/profile'>Profile</NextLink>
+          <NextLink href='/auth/settings/profile'>
+            <User className='mr-2' />
+            Profile
+          </NextLink>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <NextLink href='/auth/settings/userApiCredentials'>API Keys</NextLink>
+          <NextLink href='/auth/settings/userApiCredentials'>
+            <BookKey className='mr-2' />
+            API Keys
+          </NextLink>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <NextLink href='/api/auth/signout'>Sign Out</NextLink>
+          <NextLink href='/api/auth/signout'>
+            <LogOut className='mr-2' />
+            Sign Out
+          </NextLink>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
