@@ -5,9 +5,12 @@ import { Box, Flex, Text } from '@radix-ui/themes';
 import { getProviders } from 'next-auth/react';
 import Link from 'next/link';
 import LoginProvidersButton from './_components/LoginProvidersButton';
+import bg from '@/public/images/login-bg.png';
 
 const LoginPage = async () => {
   const providers = await getProviders();
+
+  console.log(providers);
 
   return (
     <>
@@ -41,7 +44,12 @@ const LoginPage = async () => {
         <Flex
           position='relative'
           m='auto'
-          className='max-w-md items-start border bg-background p-8 shadow-lg'
+          className='max-w-md items-start bg-background p-8 shadow-lg'
+          style={{
+            backgroundImage: `url(${bg.src})`,
+            backgroundPosition: 'bottom',
+            backgroundSize: 'cover',
+          }}
         >
           <Flex
             m='auto'
@@ -59,15 +67,19 @@ const LoginPage = async () => {
 
             <EvervaultCard text='plutarc' className={gugiFont.className} />
 
-            <h2 className='text-md my-8 font-light text-black dark:text-white'>
-              More sign in options coming soon.
-            </h2>
-
-            {Object.values(providers!).map((provider) => (
-              <div key={provider.id}>
-                <LoginProvidersButton provider={provider} />
-              </div>
-            ))}
+            <Flex
+              direction='column'
+              align='center'
+              gap='4'
+              width='100%'
+              className='mt-8'
+            >
+              {Object.values(providers!).map((provider) => (
+                <div key={provider.id}>
+                  <LoginProvidersButton provider={provider} />
+                </div>
+              ))}
+            </Flex>
           </Flex>
         </Flex>
       </Box>

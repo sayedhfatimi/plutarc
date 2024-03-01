@@ -1,12 +1,11 @@
+import AuthProvider from '@/Providers/AuthProvider';
 import { ThemeProvider } from '@/Providers/ThemeProvider';
 import { cn } from '@/lib/utils';
 import { Theme } from '@radix-ui/themes';
 import '@radix-ui/themes/styles.css';
 import type { Metadata } from 'next';
 import { Inter as FontSans } from 'next/font/google';
-import AuthProvider from '@/Providers/AuthProvider';
 import './globals.css';
-import BGProvider from '@/Providers/BGProvider';
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -33,9 +32,7 @@ export default function RootLayout({
       >
         <ThemeProvider attribute='class' defaultTheme='system' enableSystem>
           <Theme>
-            <BGProvider>
-              <AuthProvider>{children}</AuthProvider>
-            </BGProvider>
+            <AuthProvider>{children}</AuthProvider>
           </Theme>
         </ThemeProvider>
       </body>

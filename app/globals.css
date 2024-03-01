@@ -54,6 +54,12 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply dark:dark-bg light-bg bg-background text-foreground;
+  }
+  .light-bg {
+    background-image: url('/images/light-bg.png');
+  }
+  .dark-bg {
+    background-image: url('/images/dark-bg.png');
   }
 }
