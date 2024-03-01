@@ -2,7 +2,7 @@
 import { Button } from '@/components/ui/button';
 import { thTrade } from '@/types/types';
 import { ColumnDef } from '@tanstack/react-table';
-import { ArrowUpDown } from 'lucide-react';
+import { LuArrowUpDown } from 'react-icons/lu';
 
 export const columns: ColumnDef<thTrade>[] = [
   { accessorKey: 'id', header: 'id' },
@@ -15,7 +15,7 @@ export const columns: ColumnDef<thTrade>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           symbol
-          <ArrowUpDown className='ml-2 h-4 w-4' />
+          <LuArrowUpDown className='ml-2 h-4 w-4' />
         </Button>
       );
     },
@@ -29,7 +29,7 @@ export const columns: ColumnDef<thTrade>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           datetime
-          <ArrowUpDown className='ml-2 h-4 w-4' />
+          <LuArrowUpDown className='ml-2 h-4 w-4' />
         </Button>
       );
     },
@@ -43,7 +43,7 @@ export const columns: ColumnDef<thTrade>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           type
-          <ArrowUpDown className='ml-2 h-4 w-4' />
+          <LuArrowUpDown className='ml-2 h-4 w-4' />
         </Button>
       );
     },
@@ -57,7 +57,7 @@ export const columns: ColumnDef<thTrade>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           side
-          <ArrowUpDown className='ml-2 h-4 w-4' />
+          <LuArrowUpDown className='ml-2 h-4 w-4' />
         </Button>
       );
     },

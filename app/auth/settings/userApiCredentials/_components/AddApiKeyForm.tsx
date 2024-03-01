@@ -36,7 +36,7 @@ import { ReloadIcon } from '@radix-ui/react-icons';
 import { Callout } from '@radix-ui/themes';
 import axios from 'axios';
 import bcryptjs from 'bcryptjs';
-import { PlusIcon } from 'lucide-react';
+import { LuPlus } from 'react-icons/lu';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaExclamationTriangle } from 'react-icons/fa';
@@ -118,7 +118,7 @@ const AddApiKeyForm = ({
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <Button>
-            <PlusIcon className='mr-2 h-4 w-4' /> Add New Key
+            <LuPlus className='mr-2 h-4 w-4' /> Add New Key
           </Button>
         </DialogTrigger>
         <DialogContent>

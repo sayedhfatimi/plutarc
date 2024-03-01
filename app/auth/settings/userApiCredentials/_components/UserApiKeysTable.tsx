@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/table';
 import { UserAPICredentials } from '@prisma/client';
 import DeleteApiKeyButton from './DeleteApiKeyButton';
-import { Delete } from 'lucide-react';
+import { LuDelete } from 'react-icons/lu';
 import { Flex } from '@radix-ui/themes';
 
 const UserApiKeysTable = ({
@@ -26,7 +26,7 @@ const UserApiKeysTable = ({
           <TableHead className='text-right'>API Key</TableHead>
           <TableHead>
             <Flex justify='end' align='center'>
-              <Delete />
+              <LuDelete />
             </Flex>
           </TableHead>
         </TableRow>

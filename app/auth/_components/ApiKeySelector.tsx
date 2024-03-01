@@ -9,7 +9,7 @@ import {
 import { setSelectedApiKey } from '@/lib/redux/features/apiKeys/selectedApiKeySlice';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { UserAPICredentials } from '@prisma/client';
-import { KeyRound } from 'lucide-react';
+import { LuKeyRound } from 'react-icons/lu';
 
 const ApiKeySelector = () => {
   const dispatch = useAppDispatch();
@@ -33,7 +33,7 @@ const ApiKeySelector = () => {
         }
       >
         <SelectTrigger>
-          <SelectValue placeholder={<KeyRound className='mx-2' />} />
+          <SelectValue placeholder={<LuKeyRound className='mx-2' />} />
         </SelectTrigger>
         <SelectContent position='popper' align='end'>
           {apiKeysArr.map((item: UserAPICredentials) => (

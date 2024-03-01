@@ -26,16 +26,16 @@ import { gugiFont } from '@/lib/utils';
 import { ReloadIcon } from '@radix-ui/react-icons';
 import { Avatar, Box, Flex, Text } from '@radix-ui/themes';
 import {
-  BookKey,
-  CandlestickChart,
-  HelpCircle,
-  History,
-  LayoutDashboard,
-  LogOut,
-  User,
-  Wallet,
-} from 'lucide-react';
-import { useSession } from 'next-auth/react';
+  LuBookKey,
+  LuCandlestickChart,
+  LuHelpCircle,
+  LuHistory,
+  LuLayoutDashboard,
+  LuLogOut,
+  LuUser,
+  LuWallet,
+} from 'react-icons/lu';
+import { signOut, useSession } from 'next-auth/react';
 import NextLink from 'next/link';
 import { usePathname } from 'next/navigation';
 import ApiKeySelector from './ApiKeySelector';
@@ -83,27 +83,27 @@ const NavMenu = () => {
     {
       label: 'Dashboard',
       href: '/auth/dashboard',
-      icon: <LayoutDashboard />,
+      icon: <LuLayoutDashboard />,
     },
     {
       label: 'Account Details',
       href: '/auth/account-details',
-      icon: <Wallet />,
+      icon: <LuWallet />,
     },
     {
       label: 'Trade History',
       href: '/auth/trade-history',
-      icon: <History />,
+      icon: <LuHistory />,
     },
     {
       label: 'Terminal',
       href: '/auth/terminal',
-      icon: <CandlestickChart />,
+      icon: <LuCandlestickChart />,
     },
     {
       label: 'Help',
       href: '/auth/help',
-      icon: <HelpCircle />,
+      icon: <LuHelpCircle />,
     },
   ];
 
@@ -149,22 +149,20 @@ const ProfileMenu = () => {
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
           <NextLink href='/auth/settings/profile'>
-            <User className='mr-2' />
+            <LuUser className='mr-2' />
             Profile
           </NextLink>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <NextLink href='/auth/settings/userApiCredentials'>
-            <BookKey className='mr-2' />
+            <LuBookKey className='mr-2' />
             API Keys
           </NextLink>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem asChild>
-          <NextLink href='/api/auth/signout'>
-            <LogOut className='mr-2' />
-            Sign Out
-          </NextLink>
+        <DropdownMenuItem onClick={() => signOut({ callbackUrl: '/' })}>
+          <LuLogOut className='mr-2' />
+          Sign Out
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

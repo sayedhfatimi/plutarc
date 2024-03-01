@@ -34,12 +34,12 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import {
-  ChevronDown,
-  ChevronLeft,
-  ChevronRight,
-  ChevronsLeft,
-  ChevronsRight,
-} from 'lucide-react';
+  LuChevronDown,
+  LuChevronLeft,
+  LuChevronRight,
+  LuChevronsLeft,
+  LuChevronsRight,
+} from 'react-icons/lu';
 import * as React from 'react';
 
 interface DataTableProps<TData, TValue> {
@@ -77,7 +77,7 @@ export function DataTable<TData, TValue>({
             <DropdownMenuTrigger asChild>
               <Button variant='secondary' className='ml-auto'>
                 Filter Columns
-                <ChevronDown className='ml-2' />
+                <LuChevronDown className='ml-2' />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align='end'>
@@ -160,7 +160,7 @@ export function DataTable<TData, TValue>({
             onClick={() => table.setPageIndex(0)}
             disabled={!table.getCanPreviousPage()}
           >
-            <ChevronsLeft />
+            <LuChevronsLeft />
           </Button>
           <Button
             variant='outline'
@@ -168,7 +168,7 @@ export function DataTable<TData, TValue>({
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
-            <ChevronLeft />
+            <LuChevronLeft />
           </Button>
           <Box>
             <Text>
@@ -182,7 +182,7 @@ export function DataTable<TData, TValue>({
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
-            <ChevronRight />
+            <LuChevronRight />
           </Button>
           <Button
             variant='outline'
@@ -190,7 +190,7 @@ export function DataTable<TData, TValue>({
             onClick={() => table.setPageIndex(table.getPageCount() - 1)}
             disabled={!table.getCanNextPage()}
           >
-            <ChevronsRight />
+            <LuChevronsRight />
           </Button>
         </Flex>
         <Flex>

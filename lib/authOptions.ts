@@ -11,6 +11,9 @@ const authOptions: NextAuthOptions = {
       clientSecret: process.env.AUTH_GOOGLE_SECRET!,
     }),
   ],
+  pages: {
+    signIn: '/login',
+  },
   callbacks: {
     async session({ session, token }) {
       const userObj = await prisma.user.findUnique({
