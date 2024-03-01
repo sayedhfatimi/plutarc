@@ -39,39 +39,47 @@ import { signOut, useSession } from 'next-auth/react';
 import NextLink from 'next/link';
 import { usePathname } from 'next/navigation';
 import ApiKeySelector from './ApiKeySelector';
+import { IconContext } from 'react-icons/lib';
 
 const NavBar = () => {
   return (
     <>
-      <Box className='border-b p-1 shadow-sm' width='100%'>
-        <Flex justify='between'>
-          <Flex align='center'>
+      <IconContext.Provider
+        value={{ size: '1.5rem', style: { verticalAlign: 'middle' } }}
+      >
+        <Box className='w-screen border-b p-1 shadow-sm'>
+          <Flex justify='between'>
+            <Flex align='center'>
+              <NavigationMenu>
+                <NavigationMenuList>
+                  <NavigationMenuItem>
+                    <Text
+                      size='5'
+                      className={`${gugiFont.className} px-4 py-2`}
+                    >
+                      plutarc
+                    </Text>
+                  </NavigationMenuItem>
+                  <TooltipProvider delayDuration={0}>
+                    <NavMenu />
+                  </TooltipProvider>
+                </NavigationMenuList>
+              </NavigationMenu>
+            </Flex>
             <NavigationMenu>
               <NavigationMenuList>
                 <NavigationMenuItem>
-                  <Text size='5' className={`${gugiFont.className} px-4 py-2`}>
-                    plutarc
-                  </Text>
+                  <ApiKeySelector />
                 </NavigationMenuItem>
-                <TooltipProvider delayDuration={0}>
-                  <NavMenu />
-                </TooltipProvider>
+                <NavigationMenuItem className='mr-3'>
+                  <ThemeToggle />
+                </NavigationMenuItem>
+                <ProfileMenu />
               </NavigationMenuList>
             </NavigationMenu>
           </Flex>
-          <NavigationMenu>
-            <NavigationMenuList>
-              <NavigationMenuItem>
-                <ApiKeySelector />
-              </NavigationMenuItem>
-              <NavigationMenuItem className='mr-3'>
-                <ThemeToggle />
-              </NavigationMenuItem>
-              <ProfileMenu />
-            </NavigationMenuList>
-          </NavigationMenu>
-        </Flex>
-      </Box>
+        </Box>
+      </IconContext.Provider>
     </>
   );
 };
@@ -96,7 +104,7 @@ const NavMenu = () => {
       icon: <LuHistory />,
     },
     {
-      label: 'Terminal',
+      label: 'Trade Terminal',
       href: '/auth/terminal',
       icon: <LuCandlestickChart />,
     },
