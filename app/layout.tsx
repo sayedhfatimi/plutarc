@@ -31,12 +31,7 @@ export default function RootLayout({
         )}
       >
         <AuthProvider>
-          <ThemeProvider
-            attribute='class'
-            defaultTheme='system'
-            enableSystem
-            disableTransitionOnChange
-          >
+          <ThemeProvider attribute='class' defaultTheme='system' enableSystem>
             <Theme>{children}</Theme>
           </ThemeProvider>
         </AuthProvider>

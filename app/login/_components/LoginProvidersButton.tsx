@@ -2,7 +2,7 @@
 import { Button } from '@/components/ui/button';
 import { Box } from '@radix-ui/themes';
 import { ClientSafeProvider, signIn } from 'next-auth/react';
-import { FaGoogle } from 'react-icons/fa';
+import { FaApple, FaGoogle, FaXTwitter } from 'react-icons/fa6';
 
 const LoginProvidersButton = ({
   provider,
@@ -11,6 +11,8 @@ const LoginProvidersButton = ({
 }) => {
   const providerIconMap: { [key: string]: React.ReactNode } = {
     google: <FaGoogle />,
+    twitter: <FaXTwitter />,
+    apple: <FaApple />,
   };
 
   return (

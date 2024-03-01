@@ -25,6 +25,10 @@ import {
 import { gugiFont } from '@/lib/utils';
 import { ReloadIcon } from '@radix-ui/react-icons';
 import { Avatar, Box, Flex, Text } from '@radix-ui/themes';
+import { signOut, useSession } from 'next-auth/react';
+import NextLink from 'next/link';
+import { usePathname } from 'next/navigation';
+import { IconContext } from 'react-icons/lib';
 import {
   LuBookKey,
   LuCandlestickChart,
@@ -35,11 +39,7 @@ import {
   LuUser,
   LuWallet,
 } from 'react-icons/lu';
-import { signOut, useSession } from 'next-auth/react';
-import NextLink from 'next/link';
-import { usePathname } from 'next/navigation';
 import ApiKeySelector from './ApiKeySelector';
-import { IconContext } from 'react-icons/lib';
 
 const NavBar = () => {
   return (
