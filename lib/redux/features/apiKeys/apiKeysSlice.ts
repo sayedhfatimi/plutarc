@@ -18,7 +18,6 @@ export const apiKeySlice = createSlice({
         exchange: action.payload.exchange,
         apiKey: action.payload.apiKey,
         apiSecret: action.payload.apiSecret,
-        createdAt: action.payload.createdAt,
       });
     },
     removeApiKey: (

@@ -6,6 +6,7 @@ import type { Metadata } from 'next';
 import { Inter as FontSans } from 'next/font/google';
 import AuthProvider from '@/Providers/AuthProvider';
 import './globals.css';
+import BGProvider from '@/Providers/BGProvider';
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -30,11 +31,13 @@ export default function RootLayout({
           fontSans.variable,
         )}
       >
-        <AuthProvider>
-          <ThemeProvider attribute='class' defaultTheme='system' enableSystem>
-            <Theme>{children}</Theme>
-          </ThemeProvider>
-        </AuthProvider>
+        <ThemeProvider attribute='class' defaultTheme='system' enableSystem>
+          <Theme>
+            <BGProvider>
+              <AuthProvider>{children}</AuthProvider>
+            </BGProvider>
+          </Theme>
+        </ThemeProvider>
       </body>
     </html>
   );

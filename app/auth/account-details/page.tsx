@@ -24,7 +24,7 @@ const AccountDetailsPage = () => {
 
   return (
     <>
-      <Box className='border p-2 shadow-sm'>
+      <Box className='border bg-background p-2 shadow-sm'>
         <PageHeading
           heading='Account Details'
           description={selectedApiKey.label}

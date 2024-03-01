@@ -15,7 +15,7 @@ const UserAPICredentialsPage = () => {
   const passphraseHash = session?.user.passphraseHash;
 
   return (
-    <Box className='border p-2 shadow-sm'>
+    <Box className='border bg-background p-2 shadow-sm'>
       <PageHeading
         heading='Manage API Keys'
         description='manage your api keys here'

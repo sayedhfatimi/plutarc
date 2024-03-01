@@ -47,7 +47,7 @@ const NavBar = () => {
       <IconContext.Provider
         value={{ size: '1.5rem', style: { verticalAlign: 'middle' } }}
       >
-        <Box className='w-screen border-b p-1 shadow-sm'>
+        <Box className='w-screen border-b bg-background p-1 shadow-sm'>
           <Flex justify='between'>
             <Flex align='center'>
               <NavigationMenu>
