@@ -12,42 +12,44 @@ const HomePage = () => {
 
   return (
     <>
-      <Flex
-        justify='center'
-        align='start'
-        gap='4'
-        position='fixed'
-        top='0'
-        left='0'
-        className='px-4 py-2'
-      >
-        <Link href='/'>
-          <Text size='5' className={`${gugiFont.className} `}>
-            plutarc
-          </Text>
-        </Link>
-      </Flex>
-      <Flex
-        justify='center'
-        align='end'
-        gap='4'
-        position='fixed'
-        top='0'
-        right='0'
-        className='px-4 py-2'
-      >
-        <ThemeToggle />
-        {status === 'authenticated' ? (
-          <Button asChild>
-            <Link href='/auth/dashboard'>Dashboard</Link>
-          </Button>
-        ) : (
-          <Button asChild>
-            <Link href='/api/auth/signin'>Login</Link>
-          </Button>
-        )}
-      </Flex>
-      <Box className='mt-[52px]'>
+      <Box>
+        <Flex
+          justify='center'
+          align='start'
+          gap='4'
+          position='fixed'
+          top='0'
+          left='0'
+          className='px-4 py-2'
+        >
+          <Link href='/'>
+            <Text size='5' className={`${gugiFont.className} `}>
+              plutarc
+            </Text>
+          </Link>
+        </Flex>
+        <Flex
+          justify='center'
+          align='end'
+          gap='4'
+          position='fixed'
+          top='0'
+          right='0'
+          className='px-4 py-2'
+        >
+          <ThemeToggle />
+          {status === 'authenticated' ? (
+            <Button asChild>
+              <Link href='/auth/dashboard'>Dashboard</Link>
+            </Button>
+          ) : (
+            <Button asChild>
+              <Link href='/api/auth/signin'>Login</Link>
+            </Button>
+          )}
+        </Flex>
+      </Box>
+      <Box className='mt-[52px]' position='relative'>
         <HeroParallax products={products} />
       </Box>
     </>
@@ -65,6 +67,7 @@ export const products: { title: string; link: string; thumbnail: string }[] = [
     link: 'https://www.binance.com/en-GB',
     thumbnail: '/images/binance.png',
   },
+
   {
     title: 'BitMex',
     link: 'https://www.bitmex.com/',

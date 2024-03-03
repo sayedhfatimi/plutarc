@@ -1,35 +1,35 @@
 'use client';
-import { Button } from '@/components/ui/button';
-import { Box } from '@radix-ui/themes';
-import { ClientSafeProvider, signIn } from 'next-auth/react';
+import { PublicProvider } from '@auth/core/types';
+import { Box, Button as RadixButton } from '@radix-ui/themes';
+import { signIn } from 'next-auth/react';
 import { FaApple, FaGoogle, FaXTwitter } from 'react-icons/fa6';
-import { TbBrandCoinbase } from 'react-icons/tb';
 
-const LoginProvidersButton = ({
-  provider,
-}: {
-  provider: ClientSafeProvider;
-}) => {
+const LoginProvidersButton = ({ provider }: { provider: PublicProvider }) => {
   const providerIconMap: { [key: string]: React.ReactNode } = {
     google: <FaGoogle />,
     twitter: <FaXTwitter />,
     apple: <FaApple />,
-    coinbase: <TbBrandCoinbase />,
   };
 
   return (
     <>
-      <Button
+      <RadixButton
         onClick={() => signIn(provider.id, { callbackUrl: '/auth/dashboard' })}
-        className='space-x-6 p-6'
-        size='lg'
-        variant='outline'
+        size='2'
+        variant='solid'
+        color={
+          provider.id === 'google'
+            ? 'tomato'
+            : provider.id === 'twitter'
+              ? 'blue'
+              : 'gold'
+        }
       >
-        <Box asChild className='h-8 w-8'>
+        <Box asChild className='h-6 w-6'>
           {providerIconMap[provider.id]}
         </Box>
         <Box>Sign in with {provider.name}</Box>
-      </Button>
+      </RadixButton>
     </>
   );
 };

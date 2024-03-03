@@ -1,16 +1,25 @@
+'use client';
 import ThemeToggle from '@/components/ThemeToggle';
 import { EvervaultCard, Icon } from '@/components/ui/evervault-card';
 import { gugiFont } from '@/lib/utils';
+import bg from '@/public/images/login-bg.png';
+import { PublicProvider } from '@auth/core/types';
 import { Box, Flex, Text } from '@radix-ui/themes';
 import { getProviders } from 'next-auth/react';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import LoginProvidersButton from './_components/LoginProvidersButton';
-import bg from '@/public/images/login-bg.png';
 
-const LoginPage = async () => {
-  const providers = await getProviders();
+const LoginPage = () => {
+  const [providers, setProviders] = useState([] as PublicProvider[]);
 
-  console.log(providers);
+  useEffect(() => {
+    (async () => {
+      const res = await getProviders();
+      if (res === null) return;
+      setProviders(res);
+    })();
+  }, []);
 
   return (
     <>
@@ -74,7 +83,7 @@ const LoginPage = async () => {
               width='100%'
               className='mt-8'
             >
-              {Object.values(providers!).map((provider) => (
+              {Object.values(providers!).map((provider: PublicProvider) => (
                 <div key={provider.id}>
                   <LoginProvidersButton provider={provider} />
                 </div>

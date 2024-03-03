@@ -1,8 +1,7 @@
 'use server';
-import authOptions from '@/lib/authOptions';
+import { auth } from '@/auth';
 import prisma from '@/prisma/client';
 import { createPassphraseSchema } from '@/schemas/createPassphraseSchema';
-import { getServerSession } from 'next-auth';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
@@ -10,7 +9,7 @@ import { z } from 'zod';
 export async function createPassphrase(
   data: z.infer<typeof createPassphraseSchema>,
 ) {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   if (!session) return { errors: 'Not authorized for this action.' };
 
   const { passphrase } = createPassphraseSchema.parse(data);
@@ -29,7 +28,7 @@ export async function createPassphrase(
 }
 
 export async function deleteApiKey(id: string) {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   if (!session) return { error: 'Not authorized for this action.' };
 
   const apiKey = await prisma.userAPICredentials.findUnique({
@@ -43,16 +42,16 @@ export async function deleteApiKey(id: string) {
       where: { id: apiKey.id },
     });
 
-    revalidatePath('/settings/userApiCredentials', 'page');
+    revalidatePath('/auth/settings/userApiCredentials', 'page');
   } catch (error) {
     return { error: error };
   }
 
-  redirect('/settings/userApiCredentials');
+  redirect('/auth/settings/userApiCredentials');
 }
 
 export async function getApiKeys() {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   if (!session) return { error: 'Not authorized for this action.' };
 
   try {
@@ -67,7 +66,7 @@ export async function getApiKeys() {
 }
 
 export async function getUserObj() {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   if (!session) return { error: 'Not authorized for this action.' };
 
   try {

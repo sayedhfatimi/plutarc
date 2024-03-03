@@ -1,10 +1,9 @@
+import { auth } from '@/auth';
 import { NextRequest, NextResponse } from 'next/server';
 import { ccxtClient } from '../../ccxtClient';
-import { getServerSession } from 'next-auth';
-import authOptions from '@/lib/authOptions';
 
 export async function POST(request: NextRequest) {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   if (!session) return NextResponse.json({}, { status: 401 });
 
   const body = await request.json();

@@ -1,11 +1,10 @@
+import { auth } from '@/auth';
+import prisma from '@/prisma/client';
 import { createAPISchema } from '@/schemas/createAPISchema';
 import { NextRequest, NextResponse } from 'next/server';
-import prisma from '@/prisma/client';
-import { getServerSession } from 'next-auth';
-import authOptions from '@/lib/authOptions';
 
 export async function POST(request: NextRequest) {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   if (!session) return NextResponse.json({}, { status: 401 });
 
   const body = await request.json();
@@ -31,7 +30,7 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET(request: NextRequest) {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   if (!session) return NextResponse.json({}, { status: 401 });
 
   const apiKeys = await prisma.userAPICredentials.findMany({
