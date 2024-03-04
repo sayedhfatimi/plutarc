@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import allReducers from './features/apiKeys';
+import allReducers from './features';
 
 export const makeStore = () => {
   return configureStore({

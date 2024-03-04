@@ -1,6 +1,6 @@
 'use client';
 import { Button } from '@/components/ui/button';
-import { thTrade } from '@/types/types';
+import { thTrade } from '@/types/ccxtTypes';
 import { ColumnDef } from '@tanstack/react-table';
 import { LuArrowUpDown } from 'react-icons/lu';
 

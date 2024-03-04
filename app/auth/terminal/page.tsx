@@ -1,14 +1,12 @@
-import PageHeading from '@/app/auth/_components/PageHeading';
+'use client';
 import { Box } from '@radix-ui/themes';
+import BitmexOrderbook from './_components/BitmexOrderBook';
 
 const TerminalPage = () => {
   return (
     <>
       <Box className='border bg-background p-2 shadow-sm'>
-        <PageHeading
-          heading='Terminal'
-          description='Overview of all account activities'
-        />
+        <BitmexOrderbook />
       </Box>
     </>
   );
