@@ -6,7 +6,7 @@ import {
   updateOrderbook,
 } from '@/lib/redux/features/orderbook/orderbook';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
-import { Flex, Heading, Text } from '@radix-ui/themes';
+import { Grid } from '@radix-ui/themes';
 import { useEffect } from 'react';
 import useWebSocket from 'react-use-websocket';
 
@@ -15,7 +15,7 @@ const BitmexOrderbook = () => {
 
   const orderbookDispatch = useAppDispatch();
 
-  const { sendMessage, lastMessage, readyState, getWebSocket } = useWebSocket(
+  const { lastMessage } = useWebSocket(
     'wss://ws.bitmex.com/realtime?subscribe=orderBookL2_25:XBTUSD',
     {
       onOpen: () =>
@@ -27,7 +27,10 @@ const BitmexOrderbook = () => {
   );
 
   useEffect(() => {
-    if (lastMessage !== null) {
+    if (
+      lastMessage !== null &&
+      JSON.parse(lastMessage.data).table === 'orderBookL2_25'
+    ) {
       switch (JSON.parse(lastMessage.data).action) {
         case 'partial': {
           orderbookDispatch(initialiseState(JSON.parse(lastMessage.data).data));
@@ -50,91 +53,116 @@ const BitmexOrderbook = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lastMessage]);
 
-  let bidTotal: any = 0;
-  let askTotal = 0;
+  const bidSizeTotal: number = orderbookData
+    .filter((item) => item.side === 'Buy')
+    .slice(0, 10)
+    .reduce((acc, val) => acc + val.size, 0);
+
+  const askSizeTotal: number = orderbookData
+    .filter((item) => item.side === 'Sell')
+    .slice(0, 10)
+    .reduce((acc, val) => acc + val.size, 0);
+
+  let bidTotal: number = 0;
+  let askTotal: number = 0;
 
   return (
     <>
-      <Flex gap='1' className='border p-1'>
-        <Flex gap='2' className='bg-emerald-600 p-1 dark:bg-emerald-900'>
-          <Flex direction='column' gap='1'>
-            <Text size='2' className='text-end font-mono'>
-              Price
-            </Text>
-            <ul className='text-end font-mono text-sm'>
-              {orderbookData.map(
-                (item) =>
-                  item.side === 'Buy' && (
-                    <li key={item.id}>{parseFloat(item.price).toFixed(1)}</li>
-                  ),
-              )}
-            </ul>
-          </Flex>
-          <Flex direction='column' gap='1'>
-            <Text size='2' className='text-right font-mono'>
-              Size
-            </Text>
-            <ul className='text-right font-mono text-sm'>
-              {orderbookData.map(
-                (item) =>
-                  item.side === 'Buy' && <li key={item.id}>{item.size}</li>,
-              )}
-            </ul>
-          </Flex>
-          <Flex direction='column' gap='1'>
-            <Text size='2' className='text-right font-mono'>
-              Bid Total
-            </Text>
-            <ul className='text-right font-mono text-sm'>
-              {orderbookData.map(
-                (item) =>
-                  item.side === 'Buy' && (
-                    <li key={item.id}>{(bidTotal += parseInt(item.size))}</li>
-                  ),
-              )}
-            </ul>
-          </Flex>
-        </Flex>
-        <Flex gap='2' className='bg-red-600 p-1 dark:bg-red-900'>
-          <Flex direction='column' gap='1'>
-            <Text size='2' className='text-left font-mono'>
-              Ask Total
-            </Text>
-            <ul className='text-left font-mono text-sm'>
-              {orderbookData.map(
-                (item) =>
-                  item.side === 'Sell' && (
-                    <li key={item.id}>{(askTotal += parseInt(item.size))}</li>
-                  ),
-              )}
-            </ul>
-          </Flex>
-          <Flex direction='column' gap='1'>
-            <Text size='2' className='text-left font-mono'>
-              Size
-            </Text>
-            <ul className='text-left font-mono text-sm'>
-              {orderbookData.map(
-                (item) =>
-                  item.side === 'Sell' && <li key={item.id}>{item.size}</li>,
-              )}
-            </ul>
-          </Flex>
-          <Flex direction='column' gap='1'>
-            <Text size='2' className='text-left font-mono'>
-              Price
-            </Text>
-            <ul className='text-left font-mono text-sm'>
-              {orderbookData.map(
-                (item) =>
-                  item.side === 'Sell' && (
-                    <li key={item.id}>{parseFloat(item.price).toFixed(1)}</li>
-                  ),
-              )}
-            </ul>
-          </Flex>
-        </Flex>
-      </Flex>
+      <Grid
+        columns={{ initial: '1', md: '2' }}
+        width='auto'
+        gap='2'
+        p='2'
+        className='border'
+      >
+        <table
+          className='table-fixed text-right font-mono text-sm'
+          style={{ direction: 'rtl' }}
+        >
+          <thead>
+            <tr>
+              <th>Bid Total</th>
+              <th>Size</th>
+              <th>Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            {orderbookData
+              .filter((item) => item.side === 'Buy')
+              .sort((a, b) => b.price - a.price)
+              .slice(0, 10)
+              .map((item) => (
+                <tr
+                  key={item.id}
+                  className='hover:bg-secondary dark:hover:bg-secondary'
+                >
+                  <td>
+                    <div
+                      className='whitespace-nowrap'
+                      style={{
+                        backgroundColor: '#22c55e',
+                        width: `${(bidTotal / bidSizeTotal) * 100}%`,
+                        maxWidth: '200%',
+                      }}
+                    >
+                      <span>
+                        {(bidTotal += parseInt(item.size)).toLocaleString()}
+                      </span>
+                    </div>
+                  </td>
+                  <td className='text-green-400 dark:text-green-600'>
+                    {item.size.toLocaleString()}
+                  </td>
+                  <td className='text-green-400 dark:text-green-600'>
+                    {parseFloat(item.price).toFixed(1)}
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+        <table className='table-fixed text-left font-mono text-sm'>
+          <thead>
+            <tr>
+              <th>Ask Total</th>
+              <th>Size</th>
+              <th>Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            {orderbookData
+              .filter((item) => item.side === 'Sell')
+              .sort((a, b) => a.price - b.price)
+              .slice(0, 10)
+              .map((item) => (
+                <tr
+                  key={item.id}
+                  className='hover:bg-secondary dark:hover:bg-secondary'
+                >
+                  <td>
+                    <div
+                      className='whitespace-nowrap'
+                      style={{
+                        backgroundColor: '#dc2626',
+                        width: `${(askTotal / askSizeTotal) * 100}%`,
+                        maxWidth: '200%',
+                      }}
+                    >
+                      <span>
+                        {(askTotal += parseInt(item.size)).toLocaleString()}
+                      </span>
+                    </div>
+                  </td>
+                  <td className='text-red-400 dark:text-red-600'>
+                    {item.size.toLocaleString()}
+                  </td>
+                  <td className='text-red-400 dark:text-red-600'>
+                    {parseFloat(item.price).toFixed(1)}
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      </Grid>
     </>
   );
 };
