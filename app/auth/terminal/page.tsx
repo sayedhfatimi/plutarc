@@ -1,13 +1,15 @@
 'use client';
-import { Box } from '@radix-ui/themes';
+import { Flex, Grid } from '@radix-ui/themes';
 import BitmexOrderbook from './_components/BitmexOrderBook';
+import BitmexTrades from './_components/BitmexTrades';
 
 const TerminalPage = () => {
   return (
     <>
-      <Box className='border bg-background p-2 shadow-sm'>
+      <Grid columns='2' gap='4' className='border bg-background p-2 shadow-sm'>
         <BitmexOrderbook />
-      </Box>
+        <BitmexTrades />
+      </Grid>
     </>
   );
 };

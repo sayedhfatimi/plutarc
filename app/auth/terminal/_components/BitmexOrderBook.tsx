@@ -1,13 +1,13 @@
 'use client';
 import {
-  deleteOrderbook,
+  deleteItem,
   initialiseState,
-  insertOrderbook,
-  updateOrderbook,
-} from '@/lib/redux/features/orderbook/orderbook';
+  insertItem,
+  updateItems,
+} from '@/lib/redux/features/bitmex/orderbook';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { Grid } from '@radix-ui/themes';
-import { useEffect } from 'react';
+import { Key, useEffect } from 'react';
 import useWebSocket from 'react-use-websocket';
 
 const BitmexOrderbook = () => {
@@ -37,15 +37,15 @@ const BitmexOrderbook = () => {
           break;
         }
         case 'insert': {
-          orderbookDispatch(insertOrderbook(JSON.parse(lastMessage.data).data));
+          orderbookDispatch(insertItem(JSON.parse(lastMessage.data).data));
           break;
         }
         case 'update': {
-          orderbookDispatch(updateOrderbook(JSON.parse(lastMessage.data).data));
+          orderbookDispatch(updateItems(JSON.parse(lastMessage.data).data));
           break;
         }
         case 'delete': {
-          orderbookDispatch(deleteOrderbook(JSON.parse(lastMessage.data).data));
+          orderbookDispatch(deleteItem(JSON.parse(lastMessage.data).data));
           break;
         }
       }
@@ -54,14 +54,14 @@ const BitmexOrderbook = () => {
   }, [lastMessage]);
 
   const bidSizeTotal: number = orderbookData
-    .filter((item) => item.side === 'Buy')
+    .filter((item: { side: string }) => item.side === 'Buy')
     .slice(0, 10)
-    .reduce((acc, val) => acc + val.size, 0);
+    .reduce((acc: any, val: { size: any }) => acc + val.size, 0);
 
   const askSizeTotal: number = orderbookData
-    .filter((item) => item.side === 'Sell')
+    .filter((item: { side: string }) => item.side === 'Sell')
     .slice(0, 10)
-    .reduce((acc, val) => acc + val.size, 0);
+    .reduce((acc: any, val: { size: any }) => acc + val.size, 0);
 
   let bidTotal: number = 0;
   let askTotal: number = 0;
@@ -79,7 +79,7 @@ const BitmexOrderbook = () => {
           className='table-fixed text-right font-mono text-sm'
           style={{ direction: 'rtl' }}
         >
-          <thead>
+          <thead className='text-slate-600'>
             <tr>
               <th>Bid Total</th>
               <th>Size</th>
@@ -88,40 +88,49 @@ const BitmexOrderbook = () => {
           </thead>
           <tbody>
             {orderbookData
-              .filter((item) => item.side === 'Buy')
-              .sort((a, b) => b.price - a.price)
+              .filter((item: { side: string }) => item.side === 'Buy')
+              .sort(
+                (a: { price: number }, b: { price: number }) =>
+                  b.price - a.price,
+              )
               .slice(0, 10)
-              .map((item) => (
-                <tr
-                  key={item.id}
-                  className='hover:bg-secondary dark:hover:bg-secondary'
-                >
-                  <td>
-                    <div
-                      className='whitespace-nowrap'
-                      style={{
-                        backgroundColor: '#22c55e',
-                        width: `${(bidTotal / bidSizeTotal) * 100}%`,
-                        maxWidth: '200%',
-                      }}
-                    >
-                      <span>
-                        {(bidTotal += parseInt(item.size)).toLocaleString()}
-                      </span>
-                    </div>
-                  </td>
-                  <td className='text-green-400 dark:text-green-600'>
-                    {item.size.toLocaleString()}
-                  </td>
-                  <td className='text-green-400 dark:text-green-600'>
-                    {parseFloat(item.price).toFixed(1)}
-                  </td>
-                </tr>
-              ))}
+              .map(
+                (item: {
+                  id: Key | null | undefined;
+                  size: string;
+                  price: string;
+                }) => (
+                  <tr
+                    key={item.id}
+                    className='hover:bg-secondary dark:hover:bg-secondary'
+                  >
+                    <td>
+                      <div
+                        className='whitespace-nowrap'
+                        style={{
+                          backgroundColor: '#22c55e',
+                          width: `${(bidTotal / bidSizeTotal) * 100}%`,
+                          maxWidth: '150%',
+                        }}
+                      >
+                        <span>
+                          {(bidTotal += parseInt(item.size)).toLocaleString()}
+                        </span>
+                      </div>
+                    </td>
+                    <td className='text-green-400 dark:text-green-600'>
+                      {item.size.toLocaleString()}
+                    </td>
+                    <td className='text-green-400 dark:text-green-600'>
+                      {parseFloat(item.price).toFixed(1)}
+                    </td>
+                  </tr>
+                ),
+              )}
           </tbody>
         </table>
         <table className='table-fixed text-left font-mono text-sm'>
-          <thead>
+          <thead className='text-slate-600'>
             <tr>
               <th>Ask Total</th>
               <th>Size</th>
@@ -130,36 +139,45 @@ const BitmexOrderbook = () => {
           </thead>
           <tbody>
             {orderbookData
-              .filter((item) => item.side === 'Sell')
-              .sort((a, b) => a.price - b.price)
+              .filter((item: { side: string }) => item.side === 'Sell')
+              .sort(
+                (a: { price: number }, b: { price: number }) =>
+                  a.price - b.price,
+              )
               .slice(0, 10)
-              .map((item) => (
-                <tr
-                  key={item.id}
-                  className='hover:bg-secondary dark:hover:bg-secondary'
-                >
-                  <td>
-                    <div
-                      className='whitespace-nowrap'
-                      style={{
-                        backgroundColor: '#dc2626',
-                        width: `${(askTotal / askSizeTotal) * 100}%`,
-                        maxWidth: '200%',
-                      }}
-                    >
-                      <span>
-                        {(askTotal += parseInt(item.size)).toLocaleString()}
-                      </span>
-                    </div>
-                  </td>
-                  <td className='text-red-400 dark:text-red-600'>
-                    {item.size.toLocaleString()}
-                  </td>
-                  <td className='text-red-400 dark:text-red-600'>
-                    {parseFloat(item.price).toFixed(1)}
-                  </td>
-                </tr>
-              ))}
+              .map(
+                (item: {
+                  id: Key | null | undefined;
+                  size: string;
+                  price: string;
+                }) => (
+                  <tr
+                    key={item.id}
+                    className='hover:bg-secondary dark:hover:bg-secondary'
+                  >
+                    <td>
+                      <div
+                        className='whitespace-nowrap'
+                        style={{
+                          backgroundColor: '#dc2626',
+                          width: `${(askTotal / askSizeTotal) * 100}%`,
+                          maxWidth: '150%',
+                        }}
+                      >
+                        <span>
+                          {(askTotal += parseInt(item.size)).toLocaleString()}
+                        </span>
+                      </div>
+                    </td>
+                    <td className='text-red-400 dark:text-red-600'>
+                      {item.size.toLocaleString()}
+                    </td>
+                    <td className='text-red-400 dark:text-red-600'>
+                      {parseFloat(item.price).toFixed(1)}
+                    </td>
+                  </tr>
+                ),
+              )}
           </tbody>
         </table>
       </Grid>
