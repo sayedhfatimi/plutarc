@@ -60,10 +60,12 @@ model User {
   emailVerified      DateTime?
   image              String?
   passphraseHash     String?              @db.VarChar(255)
+  publicAddress      String?              @unique // Added to enable crypto authentication
   role               Role                 @default(USER)
   accounts           Account[]
   sessions           Session[]
   UserAPICredentials UserAPICredentials[]
+  cryptoLoginNonce   CryptoLoginNonce?
 }
 
 model VerificationToken {
@@ -72,6 +74,13 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model CryptoLoginNonce {
+  userId  String   @unique
+  nonce   String
+  expires DateTime
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 enum Role {

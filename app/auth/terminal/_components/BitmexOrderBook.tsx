@@ -13,7 +13,7 @@ import useWebSocket from 'react-use-websocket';
 const BitmexOrderbook = () => {
   const orderbookData = useAppSelector((state) => state.orderbook);
 
-  const orderbookDispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
   const { lastMessage } = useWebSocket(
     'wss://ws.bitmex.com/realtime?subscribe=orderBookL2_25:XBTUSD',
@@ -33,19 +33,19 @@ const BitmexOrderbook = () => {
     ) {
       switch (JSON.parse(lastMessage.data).action) {
         case 'partial': {
-          orderbookDispatch(initialiseState(JSON.parse(lastMessage.data).data));
+          dispatch(initialiseState(JSON.parse(lastMessage.data).data));
           break;
         }
         case 'insert': {
-          orderbookDispatch(insertItem(JSON.parse(lastMessage.data).data));
+          dispatch(insertItem(JSON.parse(lastMessage.data).data));
           break;
         }
         case 'update': {
-          orderbookDispatch(updateItems(JSON.parse(lastMessage.data).data));
+          dispatch(updateItems(JSON.parse(lastMessage.data).data));
           break;
         }
         case 'delete': {
-          orderbookDispatch(deleteItem(JSON.parse(lastMessage.data).data));
+          dispatch(deleteItem(JSON.parse(lastMessage.data).data));
           break;
         }
       }

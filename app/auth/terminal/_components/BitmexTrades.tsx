@@ -16,7 +16,7 @@ import useWebSocket from 'react-use-websocket';
 const BitmexTrades = () => {
   const tradeData = useAppSelector((state) => state.trades);
 
-  const tradesDispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
   const { lastMessage } = useWebSocket(
     'wss://ws.bitmex.com/realtime?subscribe=trade:XBTUSD',
@@ -34,19 +34,19 @@ const BitmexTrades = () => {
     ) {
       switch (JSON.parse(lastMessage.data).action) {
         case 'partial': {
-          tradesDispatch(initialiseState(JSON.parse(lastMessage.data).data));
+          dispatch(initialiseState(JSON.parse(lastMessage.data).data));
           break;
         }
         case 'insert': {
-          tradesDispatch(insertItem(JSON.parse(lastMessage.data).data));
+          dispatch(insertItem(JSON.parse(lastMessage.data).data));
           break;
         }
         case 'update': {
-          tradesDispatch(updateItems(JSON.parse(lastMessage.data).data));
+          dispatch(updateItems(JSON.parse(lastMessage.data).data));
           break;
         }
         case 'delete': {
-          tradesDispatch(deleteItem(JSON.parse(lastMessage.data).data));
+          dispatch(deleteItem(JSON.parse(lastMessage.data).data));
           break;
         }
       }

@@ -1,4 +1,4 @@
-import { auth } from '@/lib/auth';
+import { auth } from '@/lib/auth/auth';
 import prisma from '@/lib/prisma';
 import { createAPISchema } from '@/schemas/createAPISchema';
 import { NextRequest, NextResponse } from 'next/server';
