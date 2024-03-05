@@ -1,9 +1,15 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import _ from 'lodash';
 
+const storeMaxLength = 100;
+
 export const reducers = {
-  insertItem: (state: any[], action: PayloadAction<any>) => {
-    return [...state, ...action.payload];
+  insertItem: (state: any[], action: PayloadAction<any[]>) => {
+    let stateData = [...state, ...action.payload];
+    if (stateData.length > storeMaxLength) {
+      stateData.splice(0, stateData.length - storeMaxLength);
+    }
+    return stateData;
   },
   deleteItem: (state: any[], action: PayloadAction<any[]>) => {
     let stateData = [...state];

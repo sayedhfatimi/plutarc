@@ -79,3 +79,11 @@ export async function getUserObj() {
     return { error: error };
   }
 }
+
+export async function getBitMexTickers() {
+  try {
+    const res = await fetch('https://www.bitmex.com/api/v1/instrument/active');
+
+    return res.json();
+  } catch (error) {}
+}

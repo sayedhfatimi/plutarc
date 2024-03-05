@@ -1,6 +1,6 @@
 'use client';
 import { ApiKeyContext } from '@/lib/contexts/Contexts';
-import { initialiseState } from '@/lib/redux/features/apiKeys/apiKeysSlice';
+import { initialiseState } from '@/lib/redux/features/apiKeys/apiKeys';
 import { AppStore, makeStore } from '@/lib/redux/store';
 import { useContext, useRef } from 'react';
 import { Provider } from 'react-redux';

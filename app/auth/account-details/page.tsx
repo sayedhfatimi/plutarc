@@ -1,5 +1,4 @@
 'use client';
-import NoAPIKeysAlert from '@/app/auth/_components/NoAPIKeysAlert';
 import PageHeading from '@/app/auth/_components/PageHeading';
 import {
   Card,
@@ -8,19 +7,11 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import useCCXT from '@/hooks/useCCXT';
 import { useAppSelector } from '@/lib/redux/hooks';
 import { Box, Flex } from '@radix-ui/themes';
 
 const AccountDetailsPage = () => {
   const selectedApiKey = useAppSelector((state) => state.selectedApiKey);
-
-  //   const { data: balanceData, isLoading } = useCCXT(
-  //     selectedApiKey.exchange.toLowerCase(),
-  //     selectedApiKey.apiKey,
-  //     selectedApiKey.apiSecret,
-  //     "getBalances"
-  //   );
 
   return (
     <>

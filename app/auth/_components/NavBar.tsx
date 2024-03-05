@@ -39,7 +39,7 @@ import {
   LuUser,
   LuWallet,
 } from 'react-icons/lu';
-import ApiKeySelector from './ApiKeySelector';
+import { MemoApiKeySelector } from './ApiKeySelector';
 
 const NavBar = () => {
   return (
@@ -69,7 +69,7 @@ const NavBar = () => {
             <NavigationMenu>
               <NavigationMenuList>
                 <NavigationMenuItem>
-                  <ApiKeySelector />
+                  <MemoApiKeySelector />
                 </NavigationMenuItem>
                 <NavigationMenuItem className='mr-3'>
                   <ThemeToggle />

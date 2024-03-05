@@ -27,7 +27,7 @@ import {
 } from '@/components/ui/select';
 import { useToast } from '@/components/ui/use-toast';
 import { decryptString, encryptString } from '@/lib/encrypt';
-import { addApiKey } from '@/lib/redux/features/apiKeys/apiKeysSlice';
+import { addApiKey } from '@/lib/redux/features/apiKeys/apiKeys';
 import { useAppDispatch } from '@/lib/redux/hooks';
 import { createAPISchema } from '@/schemas/createAPISchema';
 import { zodResolver } from '@hookform/resolvers/zod';

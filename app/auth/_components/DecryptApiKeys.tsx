@@ -19,7 +19,7 @@ import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
 import { ApiKeyContext, ApiKeyEncryptedContext } from '@/lib/contexts/Contexts';
 import { decryptString } from '@/lib/encrypt';
-import { initialiseState } from '@/lib/redux/features/apiKeys/apiKeysSlice';
+import { initialiseState } from '@/lib/redux/features/apiKeys/apiKeys';
 import { useAppDispatch } from '@/lib/redux/hooks';
 import { getPassphraseSchema } from '@/schemas/getPassphraseSchema';
 import { zodResolver } from '@hookform/resolvers/zod';

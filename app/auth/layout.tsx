@@ -33,7 +33,9 @@ export default async function AuthLayout({
           >
             <QueryClientProvider>
               <NavBar />
-              <Box p='2'>{children}</Box>
+              <Box p='1' className=''>
+                {children}
+              </Box>
               <Toaster />
             </QueryClientProvider>
           </DecryptApiKeyProvider>

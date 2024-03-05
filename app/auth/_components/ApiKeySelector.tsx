@@ -6,9 +6,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { setSelectedApiKey } from '@/lib/redux/features/apiKeys/selectedApiKeySlice';
+import { setSelectedApiKey } from '@/lib/redux/features/apiKeys/selectedApiKey';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { UserAPICredentials } from '@prisma/client';
+import React from 'react';
 import { LuKeyRound } from 'react-icons/lu';
 
 const ApiKeySelector = () => {
@@ -47,4 +48,4 @@ const ApiKeySelector = () => {
   );
 };
 
-export default ApiKeySelector;
+export const MemoApiKeySelector = React.memo(ApiKeySelector);

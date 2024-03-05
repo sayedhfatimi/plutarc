@@ -7,81 +7,85 @@ import {
   updateItems,
 } from '@/lib/redux/features/bitmex/trades';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
+import { RecentTrades, RecentTrades_Data } from '@/types/bitmexTypes';
 import { Box, Flex, Grid } from '@radix-ui/themes';
 import classnames from 'classnames';
+import React from 'react';
 import { useEffect } from 'react';
 import { TiArrowDown, TiArrowUp } from 'react-icons/ti';
 import useWebSocket from 'react-use-websocket';
 
 const BitmexTrades = () => {
-  const tradeData = useAppSelector((state) => state.trades);
+  const data = useAppSelector((state) => state.trades);
+  const selectedTicker = useAppSelector((state) => state.selectedTicker);
 
   const dispatch = useAppDispatch();
 
-  const { lastMessage } = useWebSocket(
-    'wss://ws.bitmex.com/realtime?subscribe=trade:XBTUSD',
+  const { lastJsonMessage }: { lastJsonMessage: RecentTrades } = useWebSocket(
+    `wss://ws.bitmex.com/realtime`,
     {
       onOpen: () =>
-        console.log('Connected to BitMex WebSocket API, Subscribed to trade'),
+        console.log(
+          `Connected to BitMex WebSocket API, subscribed to trade:${selectedTicker}`,
+        ),
       shouldReconnect: (closeEvent) => true,
+      heartbeat: {
+        message: 'ping',
+        returnMessage: 'pong',
+        timeout: 60 * 1000,
+        interval: 30 * 1000,
+      },
+      queryParams: { subscribe: `trade:${selectedTicker}` },
     },
   );
 
   useEffect(() => {
-    if (
-      lastMessage !== null &&
-      JSON.parse(lastMessage.data).table === 'trade'
-    ) {
-      switch (JSON.parse(lastMessage.data).action) {
-        case 'partial': {
-          dispatch(initialiseState(JSON.parse(lastMessage.data).data));
-          break;
-        }
-        case 'insert': {
-          dispatch(insertItem(JSON.parse(lastMessage.data).data));
-          break;
-        }
-        case 'update': {
-          dispatch(updateItems(JSON.parse(lastMessage.data).data));
-          break;
-        }
-        case 'delete': {
-          dispatch(deleteItem(JSON.parse(lastMessage.data).data));
-          break;
+    if (lastJsonMessage !== undefined)
+      if (lastJsonMessage !== null && lastJsonMessage.table === `trade`) {
+        switch (lastJsonMessage.action) {
+          case 'partial': {
+            dispatch(initialiseState(lastJsonMessage.data));
+            break;
+          }
+          case 'insert': {
+            dispatch(insertItem(lastJsonMessage.data));
+            break;
+          }
+          case 'update': {
+            dispatch(updateItems(lastJsonMessage.data));
+            break;
+          }
+          case 'delete': {
+            dispatch(deleteItem(lastJsonMessage.data));
+            break;
+          }
         }
       }
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lastMessage]);
+  }, [lastJsonMessage]);
 
   return (
     <>
-      <ScrollArea className='h-[260px] border p-2 font-mono text-sm'>
-        <Grid columns='5' className='text-slate-600'>
+      <Box className='font-mono text-xs'>
+        <Grid columns='5' className=' pr-2 text-slate-600'>
           <Box>Symbol</Box>
           <Box>Side</Box>
           <Box className='text-right'>Size</Box>
           <Box className='text-right'>Price</Box>
           <Box className='text-right'>time</Box>
         </Grid>
-        <Flex direction='column-reverse'>
-          {tradeData.map(
-            (item: {
-              trdMatchID: string;
-              side: string;
-              symbol: string;
-              size: number;
-              tickDirection: string;
-              price: string;
-              timestamp: string;
-            }) => (
+        <ScrollArea className='h-[200px] border pr-2'>
+          <Flex direction='column-reverse'>
+            {data.map((item: RecentTrades_Data) => (
               <Grid
                 key={item.trdMatchID}
                 columns='5'
                 className={classnames({
-                  'hover:bg-secondary dark:hover:bg-secondary': true,
-                  'text-green-400 dark:text-green-600': item.side === 'Buy',
-                  'text-red-400 dark:text-red-600': item.side === 'Sell',
+                  'hover:bg-slate-200/50 dark:hover:bg-slate-200/50': true,
+                  'bg-green-50 text-green-600 dark:bg-green-950/20 dark:text-green-600':
+                    item.side === 'Buy',
+                  'bg-red-50 text-red-400 dark:bg-red-950/20 dark:text-red-600':
+                    item.side === 'Sell',
                 })}
               >
                 <Box>{item.symbol}</Box>
@@ -96,19 +100,19 @@ const BitmexTrades = () => {
                         <TiArrowDown />
                       ) : null}
                     </Box>
-                    <Box>{parseFloat(item.price).toFixed(1)}</Box>
+                    <Box>{item.price.toFixed(1)}</Box>
                   </Flex>
                 </Box>
-                <Box className='text-right'>
-                  {item.timestamp.substring(11, 19)}
+                <Box className='text-right text-slate-600'>
+                  {(Date.now() - Date.parse(item.timestamp)) / 1000 + 's'}
                 </Box>
               </Grid>
-            ),
-          )}
-        </Flex>
-      </ScrollArea>
+            ))}
+          </Flex>
+        </ScrollArea>
+      </Box>
     </>
   );
 };
 
-export default BitmexTrades;
+export const MemoBitmexTrades = React.memo(BitmexTrades);

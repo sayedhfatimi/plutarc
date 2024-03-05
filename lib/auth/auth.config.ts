@@ -19,4 +19,5 @@ export default {
       authorize: authorizeCrypto,
     }),
   ],
+  trustHost: true,
 } satisfies NextAuthConfig;

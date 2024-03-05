@@ -1,13 +1,11 @@
 import { ethers } from 'ethers';
 import prisma from '@/lib/prisma';
-import RequestInternal from 'next-auth';
 
 export default async function authorizeCrypto(
-  credentials: Record<'publicAddress' | 'signedNonce', string> | undefined,
-  req: Pick<
-    keyof typeof RequestInternal,
-    'body' | 'headers' | 'method' | 'query'
-  >,
+  credentials:
+    | Partial<Record<'publicAddress' | 'signedNonce', any>>
+    | undefined,
+  req: Pick<RequestInit, 'body' | 'headers' | 'method'>,
 ) {
   if (!credentials) return null;
 
