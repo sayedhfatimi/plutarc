@@ -17,22 +17,25 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
-import { ApiKeyContext, ApiKeyEncryptedContext } from '@/lib/contexts/Contexts';
 import { decryptString } from '@/lib/encrypt';
 import { initialiseState } from '@/lib/redux/features/apiKeys/apiKeys';
+import { setEncryptedStatus } from '@/lib/redux/features/apiKeys/encryptedStatus';
 import { useAppDispatch } from '@/lib/redux/hooks';
 import { getPassphraseSchema } from '@/schemas/getPassphraseSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { UserAPICredentials } from '@prisma/client';
 import { Flex } from '@radix-ui/themes';
 import bcryptjs from 'bcryptjs';
-import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-const DecryptApiKeys = ({ passphraseHash }: { passphraseHash: string }) => {
-  const { apiKeysArr, setApiKeysArr } = useContext(ApiKeyContext); // React Context hook: apiKeysArr
-  const { setEncrypted } = useContext(ApiKeyEncryptedContext); // React Context hook: apiKeysArr encrypted status
+const DecryptApiKeys = ({
+  passphraseHash,
+  apiKeysArr,
+}: {
+  passphraseHash: string;
+  apiKeysArr: UserAPICredentials[];
+}) => {
   const { toast } = useToast(); // notification component hook
   const dispatch = useAppDispatch(); // redux dispatch hook
 
@@ -55,6 +58,7 @@ const DecryptApiKeys = ({ passphraseHash }: { passphraseHash: string }) => {
         });
 
       // mutate apiKeysArr and set to new array
+      // TODO: this should probably be in a trycatch block to handle errors (?)
       const decryptedApiKeysArr = apiKeysArr.map(
         (apiKey: UserAPICredentials) => {
           return {
@@ -65,9 +69,7 @@ const DecryptApiKeys = ({ passphraseHash }: { passphraseHash: string }) => {
       );
 
       dispatch(initialiseState(decryptedApiKeysArr)); // update redux store
-      setApiKeysArr(decryptedApiKeysArr); // update context with decrypted array (possibly redundant?)
-      setEncrypted(false); // update encrypted context to unlock nested layout
-
+      dispatch(setEncryptedStatus(false)); // set encrypted status
       // show success notification
       toast({
         title: 'Keys decrypted successfully!',

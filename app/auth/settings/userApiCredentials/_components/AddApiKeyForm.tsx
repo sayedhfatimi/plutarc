@@ -42,6 +42,7 @@ import { FaExclamationTriangle } from 'react-icons/fa';
 import { LuPlus } from 'react-icons/lu';
 import { z } from 'zod';
 import { exchangeOptions } from './exchangeOptions';
+import { setEncryptedStatus } from '@/lib/redux/features/apiKeys/encryptedStatus';
 
 const AddApiKeyForm = ({
   userId,
@@ -78,6 +79,7 @@ const AddApiKeyForm = ({
         // disable submit button and show loader
         setSubmitting(true);
 
+        // TODO: convert to server action
         // send post request with mutated data to api endpoint
         const { data: apiKeyObj } = await axios.post<UserAPICredentials>(
           '/api/userApiCredentials',
@@ -96,6 +98,9 @@ const AddApiKeyForm = ({
             apiSecret: decryptString(apiKeyObj.apiSecret, data.passphrase!), // decrypt the apiSecret
           }),
         );
+
+        // not really needed but for completion purposes
+        dispatch(setEncryptedStatus(false));
 
         // close modal and reset form
         setOpen(false);

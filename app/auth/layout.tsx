@@ -1,6 +1,4 @@
-import { ApiKeyEncryptedProvider } from '@/Providers/ApiKeyEncryptedProvider';
 import { ApiKeyProvider } from '@/Providers/ApiKeyProvider';
-import { DecryptApiKeyProvider } from '@/Providers/DecryptApiKeyProvider';
 import QueryClientProvider from '@/Providers/QueryClientProvider';
 import StoreProvider from '@/Providers/StoreProvider';
 import NavBar from '@/app/auth/_components/NavBar';
@@ -24,23 +22,20 @@ export default async function AuthLayout({
   const { apiKeys } = await getApiKeys();
 
   return (
-    <ApiKeyProvider encryptedApiKeysArr={apiKeys!}>
-      <ApiKeyEncryptedProvider>
-        <StoreProvider>
-          <DecryptApiKeyProvider
-            passphraseHash={userObj?.passphraseHash!}
-            noKeys={apiKeys!.length === 0}
-          >
-            <QueryClientProvider>
-              <NavBar />
-              <Box p='1' className=''>
-                {children}
-              </Box>
-              <Toaster />
-            </QueryClientProvider>
-          </DecryptApiKeyProvider>
-        </StoreProvider>
-      </ApiKeyEncryptedProvider>
-    </ApiKeyProvider>
+    <StoreProvider>
+      <ApiKeyProvider
+        apiKeysArr={apiKeys!}
+        passphraseHash={userObj?.passphraseHash!}
+        noKeys={apiKeys!.length === 0}
+      >
+        <QueryClientProvider>
+          <NavBar />
+          <Box p='1' className=''>
+            {children}
+          </Box>
+          <Toaster />
+        </QueryClientProvider>
+      </ApiKeyProvider>
+    </StoreProvider>
   );
 }

@@ -5,7 +5,7 @@ import {
   initialiseState,
   insertItem,
   updateItems,
-} from '@/lib/redux/features/bitmex/trades';
+} from '@/lib/redux/features/bitmex/BitmexTrades';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { RecentTrades, RecentTrades_Data } from '@/types/bitmexTypes';
 import { Box, Flex, Grid } from '@radix-ui/themes';
@@ -16,8 +16,8 @@ import { TiArrowDown, TiArrowUp } from 'react-icons/ti';
 import useWebSocket from 'react-use-websocket';
 
 const BitmexTrades = () => {
-  const data = useAppSelector((state) => state.trades);
-  const selectedTicker = useAppSelector((state) => state.selectedTicker);
+  const data = useAppSelector((state) => state.BitmexTrades);
+  const selectedTicker = useAppSelector((state) => state.BitmexSelectedTicker);
 
   const dispatch = useAppDispatch();
 

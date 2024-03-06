@@ -2,8 +2,8 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 const initialState: string = 'XBTUSD' as string;
 
-export const selectedTickerSlice = createSlice({
-  name: 'selectedTicker',
+export const BitmexSelectedTickerSlice = createSlice({
+  name: 'BitmexSelectedTicker',
   initialState,
   reducers: {
     setSelectedTicker: (userApiKey: string, action: PayloadAction<string>) =>
@@ -11,5 +11,5 @@ export const selectedTickerSlice = createSlice({
   },
 });
 
-export const { setSelectedTicker } = selectedTickerSlice.actions;
-export default selectedTickerSlice.reducer;
+export const { setSelectedTicker } = BitmexSelectedTickerSlice.actions;
+export default BitmexSelectedTickerSlice.reducer;

@@ -1,9 +1,9 @@
 'use client';
 import { Box, Flex, Heading } from '@radix-ui/themes';
+import { Responsive, WidthProvider } from 'react-grid-layout';
 import { MemoBitmexOrderbook } from './_components/BitmexOrderBook';
 import { MemoBitmexTrades } from './_components/BitmexTrades';
 import TickerSelector from './_components/TickerSelector';
-import { Responsive, WidthProvider } from 'react-grid-layout';
 import '/node_modules/react-grid-layout/css/styles.css';
 import '/node_modules/react-resizable/css/styles.css';
 
@@ -30,43 +30,57 @@ const TerminalPage = () => {
         </Flex>
         <ResponsiveGridLayout
           className='layout'
+          layouts={{
+            lg: layout,
+            md: layout,
+            sm: layout,
+            xs: layout,
+            xxs: layout,
+          }}
           resizeHandles={['se']}
           useCSSTransforms={true}
           breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
           cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}
-          rowHeight={10}
+          rowHeight={5}
         >
           <Box
-            className='border bg-white p-1 dark:bg-slate-800'
+            className='border bg-white pl-1 pt-1 dark:bg-slate-800'
             key='BitmexOrderbook'
-            data-grid={{
-              x: 0,
-              y: 0,
-              w: 3,
-              h: 12,
-              minW: 3,
-              minH: 12,
-            }}
-            children={<MemoBitmexOrderbook />}
-          />
+          >
+            <MemoBitmexOrderbook />
+          </Box>
 
           <Box
-            className='border bg-white p-1 dark:bg-slate-800'
+            className='border bg-white pl-1 pt-1 dark:bg-slate-800'
             key='BitmexTrades'
-            data-grid={{
-              x: 0,
-              y: 0,
-              w: 3,
-              h: 12,
-              minW: 3,
-              minH: 12,
-            }}
-            children={<MemoBitmexTrades />}
-          />
+          >
+            <MemoBitmexTrades />
+          </Box>
         </ResponsiveGridLayout>
       </Box>
     </>
   );
 };
+
+const layout = [
+  {
+    i: 'BitmexOrderbook',
+    x: 0,
+    y: 0,
+    w: 3,
+    h: 16,
+    minW: 3,
+    minH: 16,
+  },
+  {
+    i: 'BitmexTrades',
+    x: 0,
+    y: 0,
+    w: 3,
+    h: 16,
+    minW: 3,
+    minH: 16,
+  },
+];
 
 export default TerminalPage;

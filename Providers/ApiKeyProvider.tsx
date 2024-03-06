@@ -1,21 +1,25 @@
 'use client';
-import { ApiKeyContext } from '@/lib/contexts/Contexts';
+import DecryptApiKeys from '@/app/auth/_components/DecryptApiKeys';
+import { useAppSelector } from '@/lib/redux/hooks';
 import { UserAPICredentials } from '@prisma/client';
-import { useState } from 'react';
 
 export function ApiKeyProvider({
-  encryptedApiKeysArr,
+  noKeys,
+  passphraseHash,
+  apiKeysArr,
   children,
 }: {
-  encryptedApiKeysArr: UserAPICredentials[];
+  noKeys: boolean;
+  passphraseHash: string;
+  apiKeysArr: UserAPICredentials[];
   children: React.ReactNode;
 }) {
-  const [apiKeysArr, setApiKeysArr] =
-    useState<UserAPICredentials[]>(encryptedApiKeysArr);
+  const isEncrypted = useAppSelector((state) => state.encryptedStatus);
 
-  return (
-    <ApiKeyContext.Provider value={{ apiKeysArr, setApiKeysArr }}>
-      {children}
-    </ApiKeyContext.Provider>
-  );
+  if (!noKeys && isEncrypted)
+    return (
+      <DecryptApiKeys passphraseHash={passphraseHash} apiKeysArr={apiKeysArr} />
+    );
+
+  return <>{children}</>;
 }

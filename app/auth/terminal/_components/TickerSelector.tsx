@@ -15,11 +15,12 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { getBitMexTickers } from '@/lib/_actions';
-import { setSelectedTicker } from '@/lib/redux/features/bitmex/selectedTicker';
+import { setSelectedTicker } from '@/lib/redux/features/bitmex/BitmexSelectedTicker';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { cn } from '@/lib/utils';
 import { Instrument } from '@/types/bitmexTypes';
 import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons';
+import { Box } from '@radix-ui/themes';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 
@@ -36,7 +37,12 @@ const TickerSelector = () => {
       queryFn: async () => await getBitMexTickers(),
     });
 
-  if (isLoading) return <Spinner />;
+  if (isLoading)
+    return (
+      <Box className='p-4'>
+        <Spinner />
+      </Box>
+    );
 
   if (!data) return null;
 

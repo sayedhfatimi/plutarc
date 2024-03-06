@@ -8,7 +8,7 @@ export const selectedApiKeySlice = createSlice({
   initialState,
   reducers: {
     setSelectedApiKey: (
-      userApiKey: UserAPICredentials,
+      state: UserAPICredentials,
       action: PayloadAction<UserAPICredentials>,
     ) => ({
       ...action.payload,

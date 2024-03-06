@@ -3,15 +3,15 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 const initialState: UserAPICredentials[] = [] as UserAPICredentials[];
 
-export const apiKeySlice = createSlice({
-  name: 'userApiKeys',
+export const apiKeysSlice = createSlice({
+  name: 'apiKeys',
   initialState,
   reducers: {
     addApiKey: (
-      userApiKeys: UserAPICredentials[],
+      state: UserAPICredentials[],
       action: PayloadAction<UserAPICredentials>,
     ) => {
-      userApiKeys.push({
+      state.push({
         id: action.payload.id,
         userId: action.payload.userId,
         label: action.payload.label,
@@ -21,12 +21,10 @@ export const apiKeySlice = createSlice({
       });
     },
     removeApiKey: (
-      userApiKeys: UserAPICredentials[],
+      state: UserAPICredentials[],
       action: PayloadAction<UserAPICredentials>,
     ) => {
-      return userApiKeys.filter(
-        (userApiKey) => userApiKey.id !== action.payload.id,
-      );
+      return state.filter((apiKey) => apiKey.id !== action.payload.id);
     },
     initialiseState: (
       state: UserAPICredentials[],
@@ -37,5 +35,6 @@ export const apiKeySlice = createSlice({
   },
 });
 
-export const { initialiseState, addApiKey, removeApiKey } = apiKeySlice.actions;
-export default apiKeySlice.reducer;
+export const { initialiseState, addApiKey, removeApiKey } =
+  apiKeysSlice.actions;
+export default apiKeysSlice.reducer;

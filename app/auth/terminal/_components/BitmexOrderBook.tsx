@@ -4,7 +4,7 @@ import {
   initialiseState,
   insertItem,
   updateItems,
-} from '@/lib/redux/features/bitmex/orderbook';
+} from '@/lib/redux/features/bitmex/BitmexOrderbook';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { orderBookL2_25, orderBookL2_25_Data } from '@/types/bitmexTypes';
 import { Grid } from '@radix-ui/themes';
@@ -13,8 +13,8 @@ import { useEffect } from 'react';
 import useWebSocket from 'react-use-websocket';
 
 const BitmexOrderbook = () => {
-  const data = useAppSelector((state) => state.orderbook);
-  const selectedTicker = useAppSelector((state) => state.selectedTicker);
+  const data = useAppSelector((state) => state.BitmexOrderbook);
+  const selectedTicker = useAppSelector((state) => state.BitmexSelectedTicker);
 
   const dispatch = useAppDispatch();
 

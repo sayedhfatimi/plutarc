@@ -3,12 +3,12 @@ import { reducers } from './reducers';
 
 const initialState: any[] = [] as any[];
 
-export const tradesSlice = createSlice({
-  name: 'trades',
+export const BitmexTradesSlice = createSlice({
+  name: 'BitmexTrades',
   initialState,
   reducers,
 });
 
 export const { insertItem, deleteItem, updateItems, initialiseState } =
-  tradesSlice.actions;
-export default tradesSlice.reducer;
+  BitmexTradesSlice.actions;
+export default BitmexTradesSlice.reducer;
