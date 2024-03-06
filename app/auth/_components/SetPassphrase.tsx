@@ -36,7 +36,7 @@ export default function SetPassphrase() {
   const onSubmit = (data: z.infer<typeof createPassphraseSchema>) => {
     bcryptjs.genSalt(10, (err, salt) =>
       bcryptjs.hash(data.passphrase, salt, (err, hash) => {
-        if (err) return { error: err.message };
+        if (err) return { error: err.message }; // TODO: check error handling here
         createPassphrase({ passphrase: hash, confirmPassphrase: hash });
       }),
     );

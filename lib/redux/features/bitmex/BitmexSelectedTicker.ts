@@ -6,7 +6,7 @@ export const BitmexSelectedTickerSlice = createSlice({
   name: 'BitmexSelectedTicker',
   initialState,
   reducers: {
-    setSelectedTicker: (userApiKey: string, action: PayloadAction<string>) =>
+    setSelectedTicker: (state: string, action: PayloadAction<string>) =>
       action.payload,
   },
 });

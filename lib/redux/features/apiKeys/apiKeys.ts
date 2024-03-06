@@ -11,14 +11,17 @@ export const apiKeysSlice = createSlice({
       state: UserAPICredentials[],
       action: PayloadAction<UserAPICredentials>,
     ) => {
-      state.push({
-        id: action.payload.id,
-        userId: action.payload.userId,
-        label: action.payload.label,
-        exchange: action.payload.exchange,
-        apiKey: action.payload.apiKey,
-        apiSecret: action.payload.apiSecret,
-      });
+      return [
+        ...state,
+        {
+          id: action.payload.id,
+          userId: action.payload.userId,
+          label: action.payload.label,
+          exchange: action.payload.exchange,
+          apiKey: action.payload.apiKey,
+          apiSecret: action.payload.apiSecret,
+        },
+      ];
     },
     removeApiKey: (
       state: UserAPICredentials[],

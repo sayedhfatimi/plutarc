@@ -80,6 +80,7 @@ export async function getUserObj() {
   }
 }
 
+// TODO: this was for testing purposes, implement using websockets
 export async function getBitMexTickers() {
   try {
     const res = await fetch('https://www.bitmex.com/api/v1/instrument/active');

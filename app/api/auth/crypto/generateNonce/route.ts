@@ -12,6 +12,7 @@ export async function POST(request: NextRequest) {
   // Set the expiry of the nonce to 1 hour
   const expires = new Date(new Date().getTime() + 1000 * 60 * 60);
 
+  // TODO: trycatch block this, return error response status 500
   // Create or update the nonce for the given user
   await prisma.user.upsert({
     where: { publicAddress },

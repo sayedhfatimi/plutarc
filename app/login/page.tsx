@@ -5,8 +5,7 @@ import { EvervaultCard, Icon } from '@/components/ui/evervault-card';
 import signInWithEthereum from '@/lib/auth/signInWithCrypto';
 import { gugiFont } from '@/lib/utils';
 import bg from '@/public/images/login-bg.png';
-import { Box, Flex, Text, colorProp } from '@radix-ui/themes';
-import classNames from 'classnames';
+import { Box, Flex, Text } from '@radix-ui/themes';
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
 import { FaEthereum, FaGoogle } from 'react-icons/fa6';
@@ -53,6 +52,7 @@ const LoginPage = () => {
 };
 
 const LoginButtons = () => {
+  // array of providers
   const LoginProviders: {
     label: string;
     onClick: () => Promise<any>;

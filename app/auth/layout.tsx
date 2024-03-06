@@ -15,7 +15,7 @@ export default async function AuthLayout({
   // get user info from db
   const { userObj } = await getUserObj();
 
-  // check if user has set a passphrase
+  // check if user has set a passphrase, if not block UI render return SetPassphrase component
   if (userObj?.passphraseHash === null) return <SetPassphrase />;
 
   // get the encrypted apiKeysArr from the db

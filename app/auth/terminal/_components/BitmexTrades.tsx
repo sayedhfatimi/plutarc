@@ -1,25 +1,18 @@
 'use client';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import {
-  deleteItem,
-  initialiseState,
-  insertItem,
-  updateItems,
-} from '@/lib/redux/features/bitmex/BitmexTrades';
-import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
-import { RecentTrades, RecentTrades_Data } from '@/types/bitmexTypes';
+import { useAppSelector } from '@/lib/redux/hooks';
+import { bitmexReducer } from '@/lib/utils';
+import { RecentTrades, RecentTrades_Data } from '@/types/BitmexDataTypes';
 import { Box, Flex, Grid } from '@radix-ui/themes';
 import classnames from 'classnames';
-import React from 'react';
-import { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TiArrowDown, TiArrowUp } from 'react-icons/ti';
 import useWebSocket from 'react-use-websocket';
 
 const BitmexTrades = () => {
-  const data = useAppSelector((state) => state.BitmexTrades);
-  const selectedTicker = useAppSelector((state) => state.BitmexSelectedTicker);
+  const [data, setData] = useState([] as RecentTrades_Data[]);
 
-  const dispatch = useAppDispatch();
+  const selectedTicker = useAppSelector((state) => state.BitmexSelectedTicker);
 
   const { lastJsonMessage }: { lastJsonMessage: RecentTrades } = useWebSocket(
     `wss://ws.bitmex.com/realtime`,
@@ -40,27 +33,13 @@ const BitmexTrades = () => {
   );
 
   useEffect(() => {
-    if (lastJsonMessage !== undefined)
-      if (lastJsonMessage !== null && lastJsonMessage.table === `trade`) {
-        switch (lastJsonMessage.action) {
-          case 'partial': {
-            dispatch(initialiseState(lastJsonMessage.data));
-            break;
-          }
-          case 'insert': {
-            dispatch(insertItem(lastJsonMessage.data));
-            break;
-          }
-          case 'update': {
-            dispatch(updateItems(lastJsonMessage.data));
-            break;
-          }
-          case 'delete': {
-            dispatch(deleteItem(lastJsonMessage.data));
-            break;
-          }
-        }
-      }
+    bitmexReducer<RecentTrades_Data>(
+      lastJsonMessage,
+      data,
+      setData,
+      'trade',
+      100,
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lastJsonMessage]);
 

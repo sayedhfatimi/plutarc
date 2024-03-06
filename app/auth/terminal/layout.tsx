@@ -1,4 +1,4 @@
-import { Box, Flex, Grid } from '@radix-ui/themes';
+import { Box, Grid } from '@radix-ui/themes';
 
 export default async function TerminalLayout({
   children,

@@ -18,7 +18,7 @@ import { getBitMexTickers } from '@/lib/_actions';
 import { setSelectedTicker } from '@/lib/redux/features/bitmex/BitmexSelectedTicker';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { cn } from '@/lib/utils';
-import { Instrument } from '@/types/bitmexTypes';
+import { Instrument } from '@/types/BitmexDataTypes';
 import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons';
 import { Box } from '@radix-ui/themes';
 import { useQuery } from '@tanstack/react-query';
@@ -26,7 +26,7 @@ import { useState } from 'react';
 
 const TickerSelector = () => {
   const dispatch = useAppDispatch();
-  const selectedTicker = useAppSelector((state) => state.selectedTicker);
+  const selectedTicker = useAppSelector((state) => state.BitmexSelectedTicker);
 
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');

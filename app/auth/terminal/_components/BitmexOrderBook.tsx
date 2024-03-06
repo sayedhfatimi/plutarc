@@ -1,77 +1,58 @@
 'use client';
-import {
-  deleteItem,
-  initialiseState,
-  insertItem,
-  updateItems,
-} from '@/lib/redux/features/bitmex/BitmexOrderbook';
-import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
-import { orderBookL2_25, orderBookL2_25_Data } from '@/types/bitmexTypes';
+import { useAppSelector } from '@/lib/redux/hooks';
+import { bitmexReducer } from '@/lib/utils';
+import { orderBookL2_25, orderBookL2_25_Data } from '@/types/BitmexDataTypes';
 import { Grid } from '@radix-ui/themes';
-import React from 'react';
-import { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import useWebSocket from 'react-use-websocket';
 
 const BitmexOrderbook = () => {
-  const data = useAppSelector((state) => state.BitmexOrderbook);
-  const selectedTicker = useAppSelector((state) => state.BitmexSelectedTicker);
+  const [data, setData] = useState([] as orderBookL2_25_Data[]);
 
-  const dispatch = useAppDispatch();
+  const selectedTicker = useAppSelector((state) => state.BitmexSelectedTicker); // get selectedTicker from redux
 
+  // instantiate websocket hook and destructure the json message object
   const { lastJsonMessage }: { lastJsonMessage: orderBookL2_25 } = useWebSocket(
     `wss://ws.bitmex.com/realtime`,
     {
+      // TODO: remove this when testing/development complete or update to more meaningful response
       onOpen: () =>
         console.log(
           `Connected to BitMex WebSocket API, subscribed to orderBookL2_25:${selectedTicker}`,
         ),
-      shouldReconnect: (closeEvent) => true,
+      shouldReconnect: (closeEvent) => true, // auto reconnect
+      // set WebSocket hearbeat
       heartbeat: {
         message: 'ping',
         returnMessage: 'pong',
         timeout: 60 * 1000,
         interval: 30 * 1000,
       },
-      queryParams: { subscribe: `orderBookL2_25:${selectedTicker}` },
+      queryParams: { subscribe: `orderBookL2_25:${selectedTicker}` }, // subscribe to channel
     },
   );
 
   useEffect(() => {
-    if (lastJsonMessage !== undefined)
-      if (
-        lastJsonMessage !== null &&
-        lastJsonMessage.table === `orderBookL2_25`
-      ) {
-        switch (lastJsonMessage.action) {
-          case 'partial': {
-            dispatch(initialiseState(lastJsonMessage.data));
-            break;
-          }
-          case 'insert': {
-            dispatch(insertItem(lastJsonMessage.data));
-            break;
-          }
-          case 'update': {
-            dispatch(updateItems(lastJsonMessage.data));
-            break;
-          }
-          case 'delete': {
-            dispatch(deleteItem(lastJsonMessage.data));
-            break;
-          }
-        }
-      }
+    bitmexReducer<orderBookL2_25_Data>(
+      lastJsonMessage,
+      data,
+      setData,
+      'orderBookL2_25',
+    );
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lastJsonMessage]);
 
+  // get total of size of bids from all bids in state
   const bidSizeTotal: number = data
     .filter((item: orderBookL2_25_Data) => item.side === 'Buy')
-    .slice(0, 10)
+    .slice(0, 10) // only get 10 // TODO: make this dynamic with onResize
     .reduce((acc: any, val: orderBookL2_25_Data) => acc + val.size, 0);
 
+  // get total of size of asks from all asks in state
   const askSizeTotal: number = data
     .filter((item: orderBookL2_25_Data) => item.side === 'Sell')
-    .slice(0, 10)
+    .slice(0, 10) // only get 10 // TODO: make this dynamic with onResize
     .reduce((acc: any, val: orderBookL2_25_Data) => acc + val.size, 0);
 
   let bidTotal: number = 0;

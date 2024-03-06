@@ -1,3 +1,10 @@
+// Generic WebSocket Response
+export interface BitmexWebSocketResponse<T> {
+  table: string;
+  action: string;
+  data: T[];
+}
+
 // orderBookL2_25 types
 export interface orderBookL2_25 {
   table: string;
