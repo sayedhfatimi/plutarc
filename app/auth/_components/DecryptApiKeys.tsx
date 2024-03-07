@@ -23,7 +23,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { useToast } from '@/components/ui/use-toast';
 import { decryptString } from '@/lib/encrypt';
 import { initialiseState } from '@/lib/redux/features/apiKeys/apiKeys';
 import { setEncryptedStatus } from '@/lib/redux/features/user/userContext';
@@ -36,12 +35,12 @@ import bcryptjs from 'bcryptjs';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { LuUnlock } from 'react-icons/lu';
+import { toast } from 'sonner';
 import { z } from 'zod';
 
 const DecryptApiKeys = () => {
   const [open, setOpen] = useState(false); // dialog open state
   const dispatch = useAppDispatch(); // redux dispatch hook
-  const { toast } = useToast(); // notification component hook
   const passphraseHash = useAppSelector(
     (state) => state.userContext.passphraseHash,
   );
@@ -79,9 +78,7 @@ const DecryptApiKeys = () => {
       dispatch(initialiseState(decryptedApiKeysArr)); // update redux store
       dispatch(setEncryptedStatus(false)); // set encrypted status
       // show success notification
-      toast({
-        title: 'Keys decrypted successfully!',
-      });
+      toast('Keys decrypted successfully!');
     });
   };
 

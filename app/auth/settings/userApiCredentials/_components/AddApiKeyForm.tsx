@@ -26,35 +26,33 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { useToast } from '@/components/ui/use-toast';
 import { createApiKey } from '@/lib/_actions';
 import { decryptString, encryptString } from '@/lib/encrypt';
 import { addApiKey } from '@/lib/redux/features/apiKeys/apiKeys';
 import { setEncryptedStatus } from '@/lib/redux/features/user/userContext';
-import { useAppDispatch, useAppSelector, useAppStore } from '@/lib/redux/hooks';
+import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { createAPISchema } from '@/schemas/createAPISchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ReloadIcon } from '@radix-ui/react-icons';
 import { Callout } from '@radix-ui/themes';
 import bcryptjs from 'bcryptjs';
+import _ from 'lodash';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaExclamationTriangle } from 'react-icons/fa';
 import { LuPlus } from 'react-icons/lu';
+import { toast } from 'sonner';
 import { z } from 'zod';
 import { exchangeOptions } from './exchangeOptions';
-import _ from 'lodash';
 
 const AddApiKeyForm = () => {
   const [open, setOpen] = useState(false); // dialog open state
   const dispatch = useAppDispatch(); // redux dispatch hook
-  const userId = useAppStore().getState().userContext.userId;
   const passphraseHash = useAppSelector(
     (state) => state.userContext.passphraseHash,
   );
   const [error, setError] = useState(''); // error state
   const [isSubmitting, setSubmitting] = useState(false); // form submit state
-  const { toast } = useToast(); // notification component hook
 
   const form = useForm<z.infer<typeof createAPISchema>>({
     resolver: zodResolver(createAPISchema),
@@ -107,10 +105,7 @@ const AddApiKeyForm = () => {
         form.reset();
 
         // show success notification
-        toast({
-          title: 'Key Added!',
-          description: `${apiKeyObj.label} has been added to your account.`,
-        });
+        toast('Key Added!');
       } catch (error) {
         setSubmitting(false); // TODO: Handle this error better
         setError('An unexpected error occurred.'); // message displayed in Callout component

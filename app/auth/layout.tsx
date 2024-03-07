@@ -2,7 +2,7 @@ import QueryClientProvider from '@/Providers/QueryClientProvider';
 import StoreProvider from '@/Providers/StoreProvider';
 import { UserContextProvider } from '@/Providers/UserContextProvider';
 import NavBar from '@/app/auth/_components/NavBar';
-import { Toaster } from '@/components/ui/toaster';
+import { Toaster } from '@/components/ui/sonner';
 import { getApiKeys, getUser } from '@/lib/_actions';
 import { Box } from '@radix-ui/themes';
 

@@ -33,6 +33,7 @@ import bcryptjs from 'bcryptjs';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { LuLock } from 'react-icons/lu';
+import { toast } from 'sonner';
 import { z } from 'zod';
 
 const SetPassphraseForm = () => {
@@ -54,6 +55,8 @@ const SetPassphraseForm = () => {
         createPassphrase({ passphrase: hash, confirmPassphrase: hash });
         dispatch(setPassphraseHash(hash));
         setOpen(false);
+
+        toast('Passphrase set successfully!');
       }),
     );
   };
