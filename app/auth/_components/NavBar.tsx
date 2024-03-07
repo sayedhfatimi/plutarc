@@ -144,7 +144,7 @@ const ProfileMenu = () => {
       <DropdownMenuTrigger>
         <Avatar
           src={session!.user!.image!}
-          fallback='?'
+          fallback={<LuUser />}
           size='2'
           className='mr-2 cursor-pointer'
           referrerPolicy='no-referrer'
@@ -152,7 +152,9 @@ const ProfileMenu = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuLabel>
-          <Text size='2'>{session!.user!.email!}</Text>
+          <Text size='2' className='text-slate-600'>
+            {session!.user!.email! || session?.user.publicAddress.toLowerCase()}
+          </Text>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>

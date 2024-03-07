@@ -6,11 +6,26 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
 
+export async function getUser() {
+  const session = await auth();
+  if (!session) return { error: 'Not authorized for this action.' };
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: session.user.id },
+    });
+
+    return { user };
+  } catch (error) {
+    return { error: error };
+  }
+}
+
 export async function createPassphrase(
   data: z.infer<typeof createPassphraseSchema>,
 ) {
   const session = await auth();
-  if (!session) return { errors: 'Not authorized for this action.' };
+  if (!session) return { error: 'Not authorized for this action.' };
 
   const { passphrase } = createPassphraseSchema.parse(data);
 
@@ -29,7 +44,7 @@ export async function createPassphrase(
 
 export async function resetPassphrase() {
   const session = await auth();
-  if (!session) return { errors: 'Not authorized for this action.' };
+  if (!session) return { error: 'Not authorized for this action.' };
 
   try {
     await prisma.user.update({
@@ -48,7 +63,7 @@ export async function resetPassphrase() {
 
 export async function deleteAccount() {
   const session = await auth();
-  if (!session) return { errors: 'Not authorized for this action.' };
+  if (!session) return { error: 'Not authorized for this action.' };
 
   try {
     await prisma.userAPICredentials.deleteMany({
@@ -102,21 +117,6 @@ export async function getApiKeys() {
     });
 
     return { apiKeys };
-  } catch (error) {
-    return { error: error };
-  }
-}
-
-export async function getUser() {
-  const session = await auth();
-  if (!session) return { error: 'Not authorized for this action.' };
-
-  try {
-    const user = await prisma.user.findUnique({
-      where: { id: session.user.id },
-    });
-
-    return { user };
   } catch (error) {
     return { error: error };
   }

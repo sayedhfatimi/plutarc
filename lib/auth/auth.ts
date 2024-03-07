@@ -11,7 +11,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   },
   callbacks: {
     async session({ session, token }) {
-      const userObj = await prisma.user.findUnique({
+      const user = await prisma.user.findUnique({
         where: { id: token.sub },
       });
 
@@ -20,7 +20,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         user: {
           ...session.user,
           id: token.sub,
-          passphraseHash: userObj?.passphraseHash,
+          passphraseHash: user?.passphraseHash,
+          publicAddress: user?.publicAddress,
         },
       };
     },
