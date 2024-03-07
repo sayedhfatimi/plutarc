@@ -20,11 +20,11 @@ export async function createPassphrase(
       data: { passphraseHash: passphrase },
     });
 
-    revalidatePath('/auth/dashboard', 'page');
+    revalidatePath('/auth/settings/userApiCredentials', 'page');
   } catch (error) {
     return { error: error };
   }
-  redirect('/auth/dashboard');
+  redirect('/auth/settings/userApiCredentials');
 }
 
 export async function deleteApiKey(id: string) {
@@ -65,16 +65,16 @@ export async function getApiKeys() {
   }
 }
 
-export async function getUserObj() {
+export async function getUser() {
   const session = await auth();
   if (!session) return { error: 'Not authorized for this action.' };
 
   try {
-    const userObj = await prisma.user.findUnique({
+    const user = await prisma.user.findUnique({
       where: { id: session.user.id },
     });
 
-    return { userObj };
+    return { user };
   } catch (error) {
     return { error: error };
   }

@@ -1,4 +1,5 @@
 'use client';
+import SetPassphraseForm from '@/app/auth/_components/SetPassphraseForm';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -28,7 +29,8 @@ import {
 import { useToast } from '@/components/ui/use-toast';
 import { decryptString, encryptString } from '@/lib/encrypt';
 import { addApiKey } from '@/lib/redux/features/apiKeys/apiKeys';
-import { useAppDispatch } from '@/lib/redux/hooks';
+import { setEncryptedStatus } from '@/lib/redux/features/user/userContext';
+import { useAppDispatch, useAppSelector, useAppStore } from '@/lib/redux/hooks';
 import { createAPISchema } from '@/schemas/createAPISchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { UserAPICredentials } from '@prisma/client';
@@ -42,26 +44,23 @@ import { FaExclamationTriangle } from 'react-icons/fa';
 import { LuPlus } from 'react-icons/lu';
 import { z } from 'zod';
 import { exchangeOptions } from './exchangeOptions';
-import { setEncryptedStatus } from '@/lib/redux/features/apiKeys/encryptedStatus';
 
-const AddApiKeyForm = ({
-  userId,
-  passphraseHash,
-}: {
-  userId: string;
-  passphraseHash: string;
-}) => {
+const AddApiKeyForm = () => {
+  const [open, setOpen] = useState(false); // dialog open state
   const dispatch = useAppDispatch(); // redux dispatch hook
-
+  const userId = useAppStore().getState().userContext.userId;
+  const passphraseHash = useAppSelector(
+    (state) => state.userContext.passphraseHash,
+  );
   const [error, setError] = useState(''); // error state
   const [isSubmitting, setSubmitting] = useState(false); // form submit state
-  const [open, setOpen] = useState(false); // dialog open state
-
   const { toast } = useToast(); // notification component hook
 
   const form = useForm<z.infer<typeof createAPISchema>>({
     resolver: zodResolver(createAPISchema),
   });
+
+  if (passphraseHash === undefined || null) return <SetPassphraseForm />;
 
   // function to handle on form submit
   const onSubmit = async (data: z.infer<typeof createAPISchema>) => {

@@ -1,13 +1,14 @@
 import apiKeys from './apiKeys/apiKeys';
-import encryptedStatus from './apiKeys/encryptedStatus';
 import selectedApiKey from './apiKeys/selectedApiKey';
 import BitmexSelectedTicker from './bitmex/BitmexSelectedTicker';
+import userContext from './user/userContext';
 
 const allReducers = {
+  // userContext reducer set
+  userContext,
   // apiKey reducer set
   apiKeys,
   selectedApiKey,
-  encryptedStatus,
   // Bitmex reducer set
   BitmexSelectedTicker,
 };

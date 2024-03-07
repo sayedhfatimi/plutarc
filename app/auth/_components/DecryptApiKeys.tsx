@@ -1,11 +1,12 @@
 'use client';
-import {
-  AlertDialog,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 import {
   Form,
   FormControl,
@@ -16,28 +17,35 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { useToast } from '@/components/ui/use-toast';
 import { decryptString } from '@/lib/encrypt';
 import { initialiseState } from '@/lib/redux/features/apiKeys/apiKeys';
-import { setEncryptedStatus } from '@/lib/redux/features/apiKeys/encryptedStatus';
-import { useAppDispatch } from '@/lib/redux/hooks';
+import { setEncryptedStatus } from '@/lib/redux/features/user/userContext';
+import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { getPassphraseSchema } from '@/schemas/getPassphraseSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { UserAPICredentials } from '@prisma/client';
 import { Flex } from '@radix-ui/themes';
 import bcryptjs from 'bcryptjs';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { LuUnlock } from 'react-icons/lu';
 import { z } from 'zod';
 
-const DecryptApiKeys = ({
-  passphraseHash,
-  apiKeysArr,
-}: {
-  passphraseHash: string;
-  apiKeysArr: UserAPICredentials[];
-}) => {
-  const { toast } = useToast(); // notification component hook
+const DecryptApiKeys = () => {
+  const [open, setOpen] = useState(false); // dialog open state
   const dispatch = useAppDispatch(); // redux dispatch hook
+  const { toast } = useToast(); // notification component hook
+  const passphraseHash = useAppSelector(
+    (state) => state.userContext.passphraseHash,
+  );
+  const apiKeysArr = useAppSelector((state) => state.apiKeys);
 
   const form = useForm<z.infer<typeof getPassphraseSchema>>({
     resolver: zodResolver(getPassphraseSchema),
@@ -78,10 +86,26 @@ const DecryptApiKeys = ({
   };
 
   return (
-    <AlertDialog defaultOpen open>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>Encryption Passphrase</AlertDialogTitle>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger>
+            <DialogTrigger asChild>
+              <Button>
+                <LuUnlock className='mr-2 h-4 w-4' /> Decrypt API Keys
+              </Button>
+            </DialogTrigger>
+            <TooltipContent>
+              <p className='w-[153px]'>
+                Please enter your Passphrase to decrypt your keys.
+              </p>
+            </TooltipContent>
+          </TooltipTrigger>
+        </Tooltip>
+      </TooltipProvider>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Encryption Passphrase</DialogTitle>
           <hr />
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
@@ -113,9 +137,9 @@ const DecryptApiKeys = ({
               </Flex>
             </form>
           </Form>
-        </AlertDialogHeader>
-      </AlertDialogContent>
-    </AlertDialog>
+        </DialogHeader>
+      </DialogContent>
+    </Dialog>
   );
 };
 

@@ -11,13 +11,17 @@ import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { UserAPICredentials } from '@prisma/client';
 import React from 'react';
 import { LuKeyRound } from 'react-icons/lu';
+import DecryptApiKeys from './DecryptApiKeys';
 
 const ApiKeySelector = () => {
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch(); // redux dispatch hook
   const apiKeysArr = useAppSelector((state) => state.apiKeys);
   const selectedApiKey = useAppSelector((state) => state.selectedApiKey);
+  const isEncrypted = useAppSelector((state) => state.userContext.isEncrypted);
 
-  if (apiKeysArr.length === 0) return null;
+  if (apiKeysArr.length === 0) return null; // check if user has any apiKeys otherwise return null
+
+  if (isEncrypted) return <DecryptApiKeys />; // since user has apiKeys check if they are currently encrypted if true return decryption component
 
   const handleValueChange = (option: string) => {
     dispatch(setSelectedApiKey(JSON.parse(option)));

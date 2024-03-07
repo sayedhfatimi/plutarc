@@ -1,11 +1,10 @@
-import { ApiKeyProvider } from '@/Providers/ApiKeyProvider';
 import QueryClientProvider from '@/Providers/QueryClientProvider';
 import StoreProvider from '@/Providers/StoreProvider';
+import { UserContextProvider } from '@/Providers/UserContextProvider';
 import NavBar from '@/app/auth/_components/NavBar';
 import { Toaster } from '@/components/ui/toaster';
-import { getApiKeys, getUserObj } from '@/lib/_actions';
+import { getApiKeys, getUser } from '@/lib/_actions';
 import { Box } from '@radix-ui/themes';
-import SetPassphrase from './_components/SetPassphrase';
 
 export default async function AuthLayout({
   children,
@@ -13,20 +12,17 @@ export default async function AuthLayout({
   children: React.ReactNode;
 }>) {
   // get user info from db
-  const { userObj } = await getUserObj();
-
-  // check if user has set a passphrase, if not block UI render return SetPassphrase component
-  if (userObj?.passphraseHash === null) return <SetPassphrase />;
+  const { user } = await getUser();
 
   // get the encrypted apiKeysArr from the db
   const { apiKeys } = await getApiKeys();
 
   return (
     <StoreProvider>
-      <ApiKeyProvider
+      <UserContextProvider
+        userId={user?.id!}
         apiKeysArr={apiKeys!}
-        passphraseHash={userObj?.passphraseHash!}
-        noKeys={apiKeys!.length === 0}
+        passphraseHash={user?.passphraseHash!}
       >
         <QueryClientProvider>
           <NavBar />
@@ -35,7 +31,7 @@ export default async function AuthLayout({
           </Box>
           <Toaster />
         </QueryClientProvider>
-      </ApiKeyProvider>
+      </UserContextProvider>
     </StoreProvider>
   );
 }
