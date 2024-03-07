@@ -14,6 +14,7 @@ import { deleteAccount } from '@/lib/_actions';
 import { AlertDialogTrigger } from '@radix-ui/react-alert-dialog';
 import { useState } from 'react';
 import { LuAlertTriangle } from 'react-icons/lu';
+import { toast } from 'sonner';
 
 const DeleteAccountButton = () => {
   const [error, setError] = useState(false);
@@ -27,6 +28,7 @@ const DeleteAccountButton = () => {
     } catch (error) {
       setDeleting(false);
       setError(true);
+      toast.error('An unknown error has occurred.');
     }
   };
 

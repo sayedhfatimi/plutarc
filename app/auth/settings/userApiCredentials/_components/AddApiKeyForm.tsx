@@ -105,10 +105,11 @@ const AddApiKeyForm = () => {
         form.reset();
 
         // show success notification
-        toast('Key Added!');
+        toast.success('Key Added!');
       } catch (error) {
         setSubmitting(false); // TODO: Handle this error better
         setError('An unexpected error occurred.'); // message displayed in Callout component
+        toast.error('An unknown error has occurred.');
       }
     });
   };

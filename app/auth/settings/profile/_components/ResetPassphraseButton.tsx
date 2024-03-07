@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/button';
 import { resetPassphrase } from '@/lib/_actions';
 import { useState } from 'react';
 import { LuAlertTriangle } from 'react-icons/lu';
+import { toast } from 'sonner';
 
 const ResetPassphraseButton = () => {
   const [error, setError] = useState(false);
@@ -27,6 +28,7 @@ const ResetPassphraseButton = () => {
     } catch (error) {
       setDeleting(false);
       setError(true);
+      toast.error('An unknown error has occurred.');
     }
   };
 

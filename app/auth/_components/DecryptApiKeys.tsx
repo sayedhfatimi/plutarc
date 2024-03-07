@@ -78,7 +78,7 @@ const DecryptApiKeys = () => {
       dispatch(initialiseState(decryptedApiKeysArr)); // update redux store
       dispatch(setEncryptedStatus(false)); // set encrypted status
       // show success notification
-      toast('Keys decrypted successfully!');
+      toast.success('Keys decrypted successfully!');
     });
   };
 

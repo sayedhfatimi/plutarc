@@ -34,10 +34,11 @@ const DeleteApiKeyButton = ({
 
       dispatch(removeApiKey(apiKeyObj));
 
-      toast('Key Deleted!');
+      toast.warning('Key Deleted!');
     } catch (error) {
       setDeleting(false);
       setError(true);
+      toast.error('An unknown error has occurred.');
     }
   };
 

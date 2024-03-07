@@ -29,7 +29,7 @@ export default async function AuthLayout({
           <Box p='1' className=''>
             {children}
           </Box>
-          <Toaster />
+          <Toaster richColors />
         </QueryClientProvider>
       </UserContextProvider>
     </StoreProvider>

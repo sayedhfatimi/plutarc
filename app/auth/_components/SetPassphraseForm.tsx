@@ -56,7 +56,7 @@ const SetPassphraseForm = () => {
         dispatch(setPassphraseHash(hash));
         setOpen(false);
 
-        toast('Passphrase set successfully!');
+        toast.success('Passphrase set successfully!');
       }),
     );
   };
