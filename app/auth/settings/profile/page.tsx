@@ -18,7 +18,7 @@ const ProfilePage = () => {
           <Flex direction='column' align='end'>
             <Heading>Total API Keys: {apiKey}</Heading>
             <Text size='2' color='gray'>
-              Session Expires: {new Date(session.expires).toLocaleDateString()}
+              Session Expires: {new Date(session.expires).toUTCString()}
             </Text>
           </Flex>
         </PageHeading>

@@ -27,16 +27,15 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useToast } from '@/components/ui/use-toast';
+import { createApiKey } from '@/lib/_actions';
 import { decryptString, encryptString } from '@/lib/encrypt';
 import { addApiKey } from '@/lib/redux/features/apiKeys/apiKeys';
 import { setEncryptedStatus } from '@/lib/redux/features/user/userContext';
 import { useAppDispatch, useAppSelector, useAppStore } from '@/lib/redux/hooks';
 import { createAPISchema } from '@/schemas/createAPISchema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { UserAPICredentials } from '@prisma/client';
 import { ReloadIcon } from '@radix-ui/react-icons';
 import { Callout } from '@radix-ui/themes';
-import axios from 'axios';
 import bcryptjs from 'bcryptjs';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -44,6 +43,7 @@ import { FaExclamationTriangle } from 'react-icons/fa';
 import { LuPlus } from 'react-icons/lu';
 import { z } from 'zod';
 import { exchangeOptions } from './exchangeOptions';
+import _ from 'lodash';
 
 const AddApiKeyForm = () => {
   const [open, setOpen] = useState(false); // dialog open state
@@ -78,17 +78,17 @@ const AddApiKeyForm = () => {
         // disable submit button and show loader
         setSubmitting(true);
 
-        // TODO: convert to server action
-        // send post request with mutated data to api endpoint
-        const { data: apiKeyObj } = await axios.post<UserAPICredentials>(
-          '/api/userApiCredentials',
-          {
-            ...data, // spread the form data into new empty object
-            userId, // set the userId field
-            apiSecret: encryptString(data.apiSecret, data.passphrase!), // encrypt the apiSecret before sending data
-            passphrase: undefined, // set passphrase as undefined to not send passphrase over network
-          },
-        );
+        // some mutation to ensure sensitive data isnt transmitted over the network
+        let safeData = _.omit(data, 'passphrase');
+
+        // call server action, send data, await response
+        const { res: apiKeyObj } = await createApiKey({
+          ...safeData,
+          apiSecret: encryptString(data.apiSecret, data.passphrase!),
+        });
+
+        // if response failed, throw error
+        if (!apiKeyObj) throw new Error('Communication with server failed.');
 
         // update the redux store with the returned data
         dispatch(
@@ -117,6 +117,7 @@ const AddApiKeyForm = () => {
       }
     });
   };
+
   return (
     <>
       <Dialog open={open} onOpenChange={setOpen}>

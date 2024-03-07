@@ -1,6 +1,7 @@
 'use server';
 import { auth } from '@/lib/auth/auth';
 import prisma from '@/lib/prisma';
+import { createAPISchema } from '@/schemas/createAPISchema';
 import { createPassphraseSchema } from '@/schemas/createPassphraseSchema';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
@@ -82,6 +83,35 @@ export async function deleteAccount() {
     return { error };
   }
   redirect('/logout');
+}
+
+export async function createApiKey(data: z.infer<typeof createAPISchema>) {
+  const session = await auth(); // check session exists
+  if (!session) return { error: 'Not authorized for this action.' };
+
+  if (!data) return { error: 'No data received.' }; // check data was sent
+
+  const validation = createAPISchema.safeParse(data); // parse data with zod
+  if (!validation.success) return { error: validation.error.errors }; // return error if zod parse fails
+
+  const { label, apiKey, apiSecret, exchange } = data; // destructure data
+
+  try {
+    // input data into db await response
+    const res = await prisma.userAPICredentials.create({
+      data: {
+        userId: session.user.id,
+        label,
+        apiKey,
+        apiSecret,
+        exchange,
+      },
+    });
+
+    return { res }; // return db response
+  } catch (error) {
+    return { error };
+  }
 }
 
 export async function deleteApiKey(id: string) {

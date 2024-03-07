@@ -80,7 +80,7 @@ const SetPassphraseForm = () => {
       </TooltipProvider>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Encryption Passphrase</DialogTitle>
+          <DialogTitle className='mb-2'>Encryption Passphrase</DialogTitle>
           <hr />
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>

@@ -1,9 +1,9 @@
 'use client';
+import DecryptApiKeys from '@/app/auth/_components/DecryptApiKeys';
 import NoAPIKeysAlert from '@/app/auth/_components/NoAPIKeysAlert';
 import PageHeading from '@/app/auth/_components/PageHeading';
 import { useAppSelector } from '@/lib/redux/hooks';
 import { Box } from '@radix-ui/themes';
-import DecryptApiKeys from '../../_components/DecryptApiKeys';
 import AddApiKeyForm from './_components/AddApiKeyForm';
 import UserApiKeysTable from './_components/UserApiKeysTable';
 

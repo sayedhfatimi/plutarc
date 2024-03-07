@@ -63,7 +63,7 @@ const DeleteApiKeyButton = ({
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction asChild className='bg-red-800'>
+            <AlertDialogAction asChild className='bg-red-800 hover:bg-red-600'>
               <Button onClick={confirmDeleteApiKey}>DELETE!</Button>
             </AlertDialogAction>
           </AlertDialogFooter>
