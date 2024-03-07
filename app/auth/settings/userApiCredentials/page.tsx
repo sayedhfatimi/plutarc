@@ -8,8 +8,8 @@ import AddApiKeyForm from './_components/AddApiKeyForm';
 import UserApiKeysTable from './_components/UserApiKeysTable';
 
 const UserAPICredentialsPage = () => {
-  const apiKeysArr = useAppSelector((state) => state.apiKeys);
-  const isEncrypted = useAppSelector((state) => state.userContext.isEncrypted);
+  const apiKeysArr = useAppSelector((state) => state.apiKeys); // get apiKeys from redux store
+  const isEncrypted = useAppSelector((state) => state.userContext.isEncrypted); // get isEncrypted status from redux store
 
   return (
     <Box className='border bg-background p-2 shadow-sm'>

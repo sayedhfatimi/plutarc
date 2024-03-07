@@ -2,7 +2,7 @@
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useAppSelector } from '@/lib/redux/hooks';
 import { bitmexReducer } from '@/lib/utils';
-import { RecentTrades, RecentTrades_Data } from '@/types/BitmexDataTypes';
+import { BitmexWebSocketResponse, RecentTrades } from '@/types/BitmexDataTypes';
 import { Box, Flex, Grid } from '@radix-ui/themes';
 import classnames from 'classnames';
 import React, { useEffect, useState } from 'react';
@@ -10,11 +10,13 @@ import { TiArrowDown, TiArrowUp } from 'react-icons/ti';
 import useWebSocket from 'react-use-websocket';
 
 const BitmexTrades = () => {
-  const [data, setData] = useState([] as RecentTrades_Data[]);
+  const [data, setData] = useState([] as RecentTrades[]);
 
   const selectedTicker = useAppSelector((state) => state.BitmexSelectedTicker);
 
-  const { lastJsonMessage }: { lastJsonMessage: RecentTrades } = useWebSocket(
+  const {
+    lastJsonMessage,
+  }: { lastJsonMessage: BitmexWebSocketResponse<RecentTrades> } = useWebSocket(
     `wss://ws.bitmex.com/realtime`,
     {
       onOpen: () =>
@@ -33,13 +35,7 @@ const BitmexTrades = () => {
   );
 
   useEffect(() => {
-    bitmexReducer<RecentTrades_Data>(
-      lastJsonMessage,
-      data,
-      setData,
-      'trade',
-      100,
-    );
+    bitmexReducer<RecentTrades>(lastJsonMessage, data, setData, 'trade', 100);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lastJsonMessage]);
 
@@ -55,7 +51,7 @@ const BitmexTrades = () => {
         </Grid>
         <ScrollArea className='h-[200px] border pr-2'>
           <Flex direction='column-reverse'>
-            {data.map((item: RecentTrades_Data) => (
+            {data.map((item: RecentTrades) => (
               <Grid
                 key={item.trdMatchID}
                 columns='5'

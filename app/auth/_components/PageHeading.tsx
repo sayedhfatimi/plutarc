@@ -6,7 +6,7 @@ const PageHeading = ({
   children,
 }: {
   heading: string;
-  description: string;
+  description?: string;
   children?: React.ReactNode;
 }) => {
   return (

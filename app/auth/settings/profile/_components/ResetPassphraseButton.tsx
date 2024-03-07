@@ -1,3 +1,4 @@
+'use client';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -10,35 +11,19 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
-import { useToast } from '@/components/ui/use-toast';
-import { deleteApiKey } from '@/lib/_actions';
-import { removeApiKey } from '@/lib/redux/features/apiKeys/apiKeys';
-import { useAppDispatch } from '@/lib/redux/hooks';
-import { UserAPICredentials } from '@prisma/client';
+import { resetPassphrase } from '@/lib/_actions';
 import { useState } from 'react';
+import { LuAlertTriangle } from 'react-icons/lu';
 
-const DeleteApiKeyButton = ({
-  apiKeyObj,
-}: {
-  apiKeyObj: UserAPICredentials;
-}) => {
+const ResetPassphraseButton = () => {
   const [error, setError] = useState(false);
   const [isDeleting, setDeleting] = useState(false);
-  const { toast } = useToast();
 
-  const dispatch = useAppDispatch();
-
-  const confirmDeleteApiKey = async () => {
+  const confirmResetPassphrase = async () => {
     try {
       setDeleting(true);
-      await deleteApiKey(apiKeyObj.id);
 
-      dispatch(removeApiKey(apiKeyObj));
-
-      toast({
-        title: 'Key Deleted!',
-        description: `${apiKeyObj.label} has been remove from your account.`,
-      });
+      await resetPassphrase();
     } catch (error) {
       setDeleting(false);
       setError(true);
@@ -50,21 +35,32 @@ const DeleteApiKeyButton = ({
       <AlertDialog>
         <AlertDialogTrigger asChild>
           <Button variant='destructive' disabled={isDeleting}>
-            Delete
+            <LuAlertTriangle className='mr-2 h-4 w-4' />
+            Reset Passphrase
           </Button>
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-            <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete this
-              API key.
+            <AlertDialogDescription className='space-y-4'>
+              <p>
+                On confirmation, your passphrase will be reset and all
+                associated API keys deleted from the server, you will be
+                automatically logged out and will need to log back in again.
+              </p>
+              <p className='text-red-600'>
+                This action cannot be undone. This will reset your passphrase
+                and delete all API keys associated with this account.
+              </p>
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction asChild className='bg-red-800'>
-              <Button onClick={confirmDeleteApiKey}>DELETE!</Button>
+            <AlertDialogAction asChild className='bg-red-800 hover:bg-red-600'>
+              <Button onClick={confirmResetPassphrase}>
+                <LuAlertTriangle className='mr-2 h-4 w-4' />
+                RESET PASSPHRASE!
+              </Button>
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -74,7 +70,7 @@ const DeleteApiKeyButton = ({
           <AlertDialogHeader>
             <AlertDialogTitle>Error</AlertDialogTitle>
             <AlertDialogDescription>
-              An error occurred whilst attempting to delete. Please contact
+              An error occurred whilst attempting this action. Please contact
               support.
             </AlertDialogDescription>
           </AlertDialogHeader>
@@ -89,4 +85,4 @@ const DeleteApiKeyButton = ({
   );
 };
 
-export default DeleteApiKeyButton;
+export default ResetPassphraseButton;

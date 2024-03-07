@@ -1,3 +1,4 @@
+'use client';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -7,38 +8,22 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
-import { useToast } from '@/components/ui/use-toast';
-import { deleteApiKey } from '@/lib/_actions';
-import { removeApiKey } from '@/lib/redux/features/apiKeys/apiKeys';
-import { useAppDispatch } from '@/lib/redux/hooks';
-import { UserAPICredentials } from '@prisma/client';
+import { deleteAccount } from '@/lib/_actions';
+import { AlertDialogTrigger } from '@radix-ui/react-alert-dialog';
 import { useState } from 'react';
+import { LuAlertTriangle } from 'react-icons/lu';
 
-const DeleteApiKeyButton = ({
-  apiKeyObj,
-}: {
-  apiKeyObj: UserAPICredentials;
-}) => {
+const DeleteAccountButton = () => {
   const [error, setError] = useState(false);
   const [isDeleting, setDeleting] = useState(false);
-  const { toast } = useToast();
 
-  const dispatch = useAppDispatch();
-
-  const confirmDeleteApiKey = async () => {
+  const confirmDeleteAccount = async () => {
     try {
       setDeleting(true);
-      await deleteApiKey(apiKeyObj.id);
 
-      dispatch(removeApiKey(apiKeyObj));
-
-      toast({
-        title: 'Key Deleted!',
-        description: `${apiKeyObj.label} has been remove from your account.`,
-      });
+      await deleteAccount();
     } catch (error) {
       setDeleting(false);
       setError(true);
@@ -50,21 +35,33 @@ const DeleteApiKeyButton = ({
       <AlertDialog>
         <AlertDialogTrigger asChild>
           <Button variant='destructive' disabled={isDeleting}>
-            Delete
+            <LuAlertTriangle className='mr-2 h-4 w-4' />
+            Delete Account
           </Button>
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-            <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete this
-              API key.
+            <AlertDialogDescription className='space-y-4'>
+              <p>
+                On confirmation, your plutarc account will be deleted and all
+                associated data removed from the server, you will be
+                automatically logged out.
+              </p>
+              <p className='text-red-600'>
+                This action cannot be undone. This will permanently and
+                irrevocably delete your plutarc account and remove all
+                associated data from our servers.
+              </p>
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction asChild className='bg-red-800'>
-              <Button onClick={confirmDeleteApiKey}>DELETE!</Button>
+            <AlertDialogAction asChild className='bg-red-800 hover:bg-red-600'>
+              <Button onClick={confirmDeleteAccount}>
+                <LuAlertTriangle className='mr-2 h-4 w-4' />
+                DELETE ACCOUNT!
+              </Button>
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -74,7 +71,7 @@ const DeleteApiKeyButton = ({
           <AlertDialogHeader>
             <AlertDialogTitle>Error</AlertDialogTitle>
             <AlertDialogDescription>
-              An error occurred whilst attempting to delete. Please contact
+              An error occurred whilst attempting this action. Please contact
               support.
             </AlertDialogDescription>
           </AlertDialogHeader>
@@ -89,4 +86,4 @@ const DeleteApiKeyButton = ({
   );
 };
 
-export default DeleteApiKeyButton;
+export default DeleteAccountButton;

@@ -1,20 +1,24 @@
 'use client';
 import { useAppSelector } from '@/lib/redux/hooks';
 import { bitmexReducer } from '@/lib/utils';
-import { orderBookL2_25, orderBookL2_25_Data } from '@/types/BitmexDataTypes';
+import {
+  BitmexWebSocketResponse,
+  orderBookL2_25,
+} from '@/types/BitmexDataTypes';
 import { Grid } from '@radix-ui/themes';
 import React, { useEffect, useState } from 'react';
 import useWebSocket from 'react-use-websocket';
 
 const BitmexOrderbook = () => {
-  const [data, setData] = useState([] as orderBookL2_25_Data[]);
+  const [data, setData] = useState([] as orderBookL2_25[]);
 
   const selectedTicker = useAppSelector((state) => state.BitmexSelectedTicker); // get selectedTicker from redux
 
   // instantiate websocket hook and destructure the json message object
-  const { lastJsonMessage }: { lastJsonMessage: orderBookL2_25 } = useWebSocket(
-    `wss://ws.bitmex.com/realtime`,
-    {
+  const {
+    lastJsonMessage,
+  }: { lastJsonMessage: BitmexWebSocketResponse<orderBookL2_25> } =
+    useWebSocket(`wss://ws.bitmex.com/realtime`, {
       // TODO: remove this when testing/development complete or update to more meaningful response
       onOpen: () =>
         console.log(
@@ -29,11 +33,10 @@ const BitmexOrderbook = () => {
         interval: 30 * 1000,
       },
       queryParams: { subscribe: `orderBookL2_25:${selectedTicker}` }, // subscribe to channel
-    },
-  );
+    });
 
   useEffect(() => {
-    bitmexReducer<orderBookL2_25_Data>(
+    bitmexReducer<orderBookL2_25>(
       lastJsonMessage,
       data,
       setData,
@@ -45,15 +48,15 @@ const BitmexOrderbook = () => {
 
   // get total of size of bids from all bids in state
   const bidSizeTotal: number = data
-    .filter((item: orderBookL2_25_Data) => item.side === 'Buy')
+    .filter((item: orderBookL2_25) => item.side === 'Buy')
     .slice(0, 10) // only get 10 // TODO: make this dynamic with onResize
-    .reduce((acc: any, val: orderBookL2_25_Data) => acc + val.size, 0);
+    .reduce((acc: any, val: orderBookL2_25) => acc + val.size, 0);
 
   // get total of size of asks from all asks in state
   const askSizeTotal: number = data
-    .filter((item: orderBookL2_25_Data) => item.side === 'Sell')
+    .filter((item: orderBookL2_25) => item.side === 'Sell')
     .slice(0, 10) // only get 10 // TODO: make this dynamic with onResize
-    .reduce((acc: any, val: orderBookL2_25_Data) => acc + val.size, 0);
+    .reduce((acc: any, val: orderBookL2_25) => acc + val.size, 0);
 
   let bidTotal: number = 0;
   let askTotal: number = 0;
@@ -75,13 +78,10 @@ const BitmexOrderbook = () => {
           </thead>
           <tbody>
             {data
-              .filter((item: orderBookL2_25_Data) => item.side === 'Buy')
-              .sort(
-                (a: orderBookL2_25_Data, b: orderBookL2_25_Data) =>
-                  b.price - a.price,
-              )
+              .filter((item: orderBookL2_25) => item.side === 'Buy')
+              .sort((a: orderBookL2_25, b: orderBookL2_25) => b.price - a.price)
               .slice(0, 10)
-              .map((item: orderBookL2_25_Data) => (
+              .map((item: orderBookL2_25) => (
                 <tr
                   key={item.id}
                   className='hover:bg-slate-200/50 dark:hover:bg-slate-200/50'
@@ -118,13 +118,10 @@ const BitmexOrderbook = () => {
           </thead>
           <tbody>
             {data
-              .filter((item: orderBookL2_25_Data) => item.side === 'Sell')
-              .sort(
-                (a: orderBookL2_25_Data, b: orderBookL2_25_Data) =>
-                  a.price - b.price,
-              )
+              .filter((item: orderBookL2_25) => item.side === 'Sell')
+              .sort((a: orderBookL2_25, b: orderBookL2_25) => a.price - b.price)
               .slice(0, 10)
-              .map((item: orderBookL2_25_Data) => (
+              .map((item: orderBookL2_25) => (
                 <tr
                   key={item.id}
                   className='hover:bg-slate-200/50 dark:hover:bg-slate-200/50'

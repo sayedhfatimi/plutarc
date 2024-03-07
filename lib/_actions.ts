@@ -22,9 +22,51 @@ export async function createPassphrase(
 
     revalidatePath('/auth/settings/userApiCredentials', 'page');
   } catch (error) {
-    return { error: error };
+    return { error };
   }
   redirect('/auth/settings/userApiCredentials');
+}
+
+export async function resetPassphrase() {
+  const session = await auth();
+  if (!session) return { errors: 'Not authorized for this action.' };
+
+  try {
+    await prisma.user.update({
+      where: { id: session!.user!.id },
+      data: { passphraseHash: null },
+    });
+
+    await prisma.userAPICredentials.deleteMany({
+      where: { userId: session.user.id },
+    });
+  } catch (error) {
+    return { error };
+  }
+  redirect('/logout');
+}
+
+export async function deleteAccount() {
+  const session = await auth();
+  if (!session) return { errors: 'Not authorized for this action.' };
+
+  try {
+    await prisma.userAPICredentials.deleteMany({
+      where: { userId: session.user.id },
+    });
+
+    await prisma.account.deleteMany({
+      where: { userId: session.user.id },
+    });
+
+    await prisma.user.delete({
+      where: { id: session.user.id },
+    });
+    revalidatePath('/');
+  } catch (error) {
+    return { error };
+  }
+  redirect('/logout');
 }
 
 export async function deleteApiKey(id: string) {

@@ -7,12 +7,6 @@ export interface BitmexWebSocketResponse<T> {
 
 // orderBookL2_25 types
 export interface orderBookL2_25 {
-  table: string;
-  action: string;
-  data: orderBookL2_25_Data[];
-}
-
-export interface orderBookL2_25_Data {
   symbol: string;
   id: number;
   side: string;
@@ -23,27 +17,6 @@ export interface orderBookL2_25_Data {
 
 // recent trades types
 export interface RecentTrades {
-  table: string;
-  action: string;
-  keys: any[];
-  types: {
-    timestamp: string;
-    symbol: string;
-    side: string;
-    size: string;
-    price: string;
-    tickDirection: string;
-    trdMatchID: string;
-    grossValue: string;
-    homeNotional: string;
-    foreignNotional: string;
-    trdType: string;
-  };
-  filter: { symbol: string };
-  data: RecentTrades_Data[];
-}
-
-export interface RecentTrades_Data {
   timestamp: string;
   symbol: string;
   side: string;
