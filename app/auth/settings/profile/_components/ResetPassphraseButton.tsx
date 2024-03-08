@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { resetPassphrase } from '@/lib/_actions';
+import { useAppSelector } from '@/lib/redux/hooks';
 import { useState } from 'react';
 import { LuAlertTriangle } from 'react-icons/lu';
 import { toast } from 'sonner';
@@ -19,6 +20,11 @@ import { toast } from 'sonner';
 const ResetPassphraseButton = () => {
   const [error, setError] = useState(false);
   const [isDeleting, setDeleting] = useState(false);
+  const passphraseHash = useAppSelector(
+    (state) => state.userContext.passphraseHash,
+  );
+
+  console.log(passphraseHash);
 
   const confirmResetPassphrase = async () => {
     try {
@@ -36,7 +42,10 @@ const ResetPassphraseButton = () => {
     <>
       <AlertDialog>
         <AlertDialogTrigger asChild>
-          <Button variant='destructive' disabled={isDeleting}>
+          <Button
+            variant='destructive'
+            disabled={isDeleting || passphraseHash === undefined}
+          >
             <LuAlertTriangle className='mr-2 h-4 w-4' />
             Reset Passphrase
           </Button>

@@ -6,6 +6,8 @@ import { useSession } from 'next-auth/react';
 import { LuSkull, LuUser } from 'react-icons/lu';
 import DeleteAccountButton from './_components/DeleteAccountButton';
 import ResetPassphraseButton from './_components/ResetPassphraseButton';
+import ResetPassphrase from './_components/ResetPassphrase';
+import DeleteAccount from './_components/DeleteAccount';
 
 const ProfilePage = () => {
   const { data: session } = useSession();
@@ -48,36 +50,8 @@ const ProfilePage = () => {
                 <Heading>Destructive Actions</Heading>
               </Flex>
             </Box>
-            <Flex
-              direction='row'
-              align='center'
-              justify='between'
-              className='p-2'
-            >
-              <Flex direction='column'>
-                <Heading size='4'>Reset Passphrase</Heading>
-                <Text size='1' color='gray'>
-                  In the instance that you may have forgotten your passphrase,
-                  use this button.
-                </Text>
-              </Flex>
-              <ResetPassphraseButton />
-            </Flex>
-            <Flex
-              direction='row'
-              align='center'
-              justify='between'
-              className='p-2'
-            >
-              <Flex direction='column'>
-                <Heading size='4'>Delete Account</Heading>
-                <Text size='1' color='gray'>
-                  This will delete your plutarc account and irrevocably remove
-                  all associated data from our servers.
-                </Text>
-              </Flex>
-              <DeleteAccountButton />
-            </Flex>
+            <ResetPassphrase />
+            <DeleteAccount />
           </Flex>
         </Box>
       </Box>
