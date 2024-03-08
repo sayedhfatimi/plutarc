@@ -24,8 +24,6 @@ const ResetPassphraseButton = () => {
     (state) => state.userContext.passphraseHash,
   );
 
-  console.log(passphraseHash);
-
   const confirmResetPassphrase = async () => {
     try {
       setDeleting(true);

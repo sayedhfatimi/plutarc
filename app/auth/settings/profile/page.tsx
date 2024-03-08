@@ -4,10 +4,8 @@ import { useAppSelector } from '@/lib/redux/hooks';
 import { Avatar, Box, Flex, Heading, Text } from '@radix-ui/themes';
 import { useSession } from 'next-auth/react';
 import { LuSkull, LuUser } from 'react-icons/lu';
-import DeleteAccountButton from './_components/DeleteAccountButton';
-import ResetPassphraseButton from './_components/ResetPassphraseButton';
-import ResetPassphrase from './_components/ResetPassphrase';
 import DeleteAccount from './_components/DeleteAccount';
+import ResetPassphrase from './_components/ResetPassphrase';
 
 const ProfilePage = () => {
   const { data: session } = useSession();
