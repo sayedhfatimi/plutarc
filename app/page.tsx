@@ -31,11 +31,9 @@ const HomePage = () => {
     <>
       <Flex justify='between' className='px-4 py-2'>
         <Flex>
-          <Link href='/'>
-            <Text size='5' className={`${gugiFont.className} `}>
-              plutarc
-            </Text>
-          </Link>
+          <Text size='5' className={`${gugiFont.className} `}>
+            plutarc
+          </Text>
         </Flex>
         <Flex gap='4'>
           <ThemeToggle />
@@ -45,7 +43,7 @@ const HomePage = () => {
             </Button>
           ) : (
             <Button asChild>
-              <Link href='/api/auth/signin'>Login</Link>
+              <Link href='/login'>Login</Link>
             </Button>
           )}
         </Flex>
