@@ -36,11 +36,11 @@ export async function createPassphrase(
       data: { passphraseHash: passphrase },
     });
 
-    revalidatePath('/auth/settings/userApiCredentials', 'page');
+    revalidatePath('/auth/settings/user-api-keys', 'page');
   } catch (error) {
     return { error };
   }
-  redirect('/auth/settings/userApiCredentials');
+  redirect('/auth/settings/user-api-keys');
 }
 
 export async function resetPassphrase() {
@@ -53,13 +53,13 @@ export async function resetPassphrase() {
       data: { passphraseHash: null },
     });
 
-    await prisma.userAPICredentials.deleteMany({
+    await prisma.userAPIKeys.deleteMany({
       where: { userId: session.user.id },
     });
   } catch (error) {
     return { error };
   }
-  redirect('/logout');
+  redirect('/sign-out');
 }
 
 export async function deleteAccount() {
@@ -67,7 +67,7 @@ export async function deleteAccount() {
   if (!session) return { error: 'Not authorized for this action.' };
 
   try {
-    await prisma.userAPICredentials.deleteMany({
+    await prisma.userAPIKeys.deleteMany({
       where: { userId: session.user.id },
     });
 
@@ -82,7 +82,7 @@ export async function deleteAccount() {
   } catch (error) {
     return { error };
   }
-  redirect('/logout');
+  redirect('/sign-out');
 }
 
 export async function createApiKey(data: z.infer<typeof createAPISchema>) {
@@ -98,7 +98,7 @@ export async function createApiKey(data: z.infer<typeof createAPISchema>) {
 
   try {
     // input data into db await response
-    const res = await prisma.userAPICredentials.create({
+    const res = await prisma.userAPIKeys.create({
       data: {
         userId: session.user.id,
         label,
@@ -118,23 +118,23 @@ export async function deleteApiKey(id: string) {
   const session = await auth();
   if (!session) return { error: 'Not authorized for this action.' };
 
-  const apiKey = await prisma.userAPICredentials.findUnique({
+  const apiKey = await prisma.userAPIKeys.findUnique({
     where: { id },
   });
 
   if (!apiKey) return { error: 'Key does not exist.' };
 
   try {
-    await prisma.userAPICredentials.delete({
+    await prisma.userAPIKeys.delete({
       where: { id: apiKey.id },
     });
 
-    revalidatePath('/auth/settings/userApiCredentials', 'page');
+    revalidatePath('/auth/settings/user-api-keys', 'page');
   } catch (error) {
     return { error: error };
   }
 
-  redirect('/auth/settings/userApiCredentials');
+  redirect('/auth/settings/user-api-keys');
 }
 
 export async function getApiKeys() {
@@ -142,7 +142,7 @@ export async function getApiKeys() {
   if (!session) return { error: 'Not authorized for this action.' };
 
   try {
-    const apiKeys = await prisma.userAPICredentials.findMany({
+    const apiKeys = await prisma.userAPIKeys.findMany({
       where: { userId: session.user.id },
     });
 

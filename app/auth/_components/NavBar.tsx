@@ -53,12 +53,11 @@ const NavBar = () => {
               <NavigationMenu>
                 <NavigationMenuList>
                   <NavigationMenuItem>
-                    <Text
-                      size='5'
-                      className={`${gugiFont.className} px-4 py-2`}
-                    >
-                      plutarc
-                    </Text>
+                    <Box className='px-3 py-1'>
+                      <Text size='5' className={gugiFont.className}>
+                        plutarc
+                      </Text>
+                    </Box>
                   </NavigationMenuItem>
                   <TooltipProvider delayDuration={0}>
                     <NavMenu />
@@ -153,7 +152,7 @@ const ProfileMenu = () => {
       <DropdownMenuContent>
         <DropdownMenuLabel>
           <Text size='2' className='text-slate-600'>
-            {session!.user!.email! || session?.user.publicAddress.toLowerCase()}
+            {session!.user!.email!}
           </Text>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
@@ -164,7 +163,7 @@ const ProfileMenu = () => {
           </NextLink>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <NextLink href='/auth/settings/userApiCredentials'>
+          <NextLink href='/auth/settings/user-api-keys'>
             <LuBookKey className='mr-2' />
             API Keys
           </NextLink>

@@ -7,8 +7,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   secret: process.env.AUTH_SECRET,
   adapter: PrismaAdapter(prisma),
   pages: {
-    signIn: '/login',
-    signOut: '/logout',
+    signIn: '/sign-in',
+    signOut: '/sign-out',
   },
   callbacks: {
     async session({ session, token }) {
@@ -37,7 +37,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       );
 
       if (isProtected && !isLoggedIn) {
-        const redirectUrl = new URL('login', nextUrl.origin);
+        const redirectUrl = new URL('sign-in', nextUrl.origin);
         redirectUrl.searchParams.append('callbackUrl', nextUrl.href);
         return Response.redirect(redirectUrl);
       }

@@ -1,10 +1,10 @@
 'use client';
-import { UserAPICredentials } from '@prisma/client';
+import { UserAPIKeys } from '@prisma/client';
 
 const TradeHistoryTable = ({
   selectedApiKey,
 }: {
-  selectedApiKey: UserAPICredentials;
+  selectedApiKey: UserAPIKeys;
 }) => {
   return <></>;
 };

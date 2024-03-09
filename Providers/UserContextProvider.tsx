@@ -7,7 +7,7 @@ import {
 } from '@/lib/redux/features/user/userContext';
 import { useAppDispatch } from '@/lib/redux/hooks';
 import { UserContext } from '@/types/UserContextTypes';
-import { UserAPICredentials } from '@prisma/client';
+import { UserAPIKeys } from '@prisma/client';
 
 export function UserContextProvider({
   userId,
@@ -17,7 +17,7 @@ export function UserContextProvider({
 }: {
   userId: UserContext['userId'];
   passphraseHash: UserContext['passphraseHash'];
-  apiKeysArr: UserAPICredentials[];
+  apiKeysArr: UserAPIKeys[];
   children: React.ReactNode;
 }) {
   const dispatch = useAppDispatch();

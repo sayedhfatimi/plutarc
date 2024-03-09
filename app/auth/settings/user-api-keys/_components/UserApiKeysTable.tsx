@@ -7,16 +7,12 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { UserAPICredentials } from '@prisma/client';
+import { UserAPIKeys } from '@prisma/client';
 import { Flex } from '@radix-ui/themes';
 import { LuDelete } from 'react-icons/lu';
 import DeleteApiKeyButton from './DeleteApiKeyButton';
 
-const UserApiKeysTable = ({
-  apiKeysArr,
-}: {
-  apiKeysArr: UserAPICredentials[];
-}) => {
+const UserApiKeysTable = ({ apiKeysArr }: { apiKeysArr: UserAPIKeys[] }) => {
   return (
     <Table>
       <TableHeader>
@@ -32,7 +28,7 @@ const UserApiKeysTable = ({
         </TableRow>
       </TableHeader>
       <TableBody>
-        {apiKeysArr.map((apiKeyObj: UserAPICredentials) => (
+        {apiKeysArr.map((apiKeyObj: UserAPIKeys) => (
           <TableRow key={apiKeyObj.apiKey}>
             <TableCell>
               <Badge variant='secondary'>{apiKeyObj.label}</Badge>

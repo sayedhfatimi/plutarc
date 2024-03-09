@@ -1,5 +1,5 @@
 -- CreateTable
-CREATE TABLE `UserAPICredentials` (
+CREATE TABLE `UserAPIKeys` (
     `id` VARCHAR(191) NOT NULL,
     `userId` VARCHAR(191) NOT NULL,
     `label` VARCHAR(255) NOT NULL,
@@ -48,11 +48,9 @@ CREATE TABLE `User` (
     `emailVerified` DATETIME(3) NULL,
     `image` VARCHAR(191) NULL,
     `passphraseHash` VARCHAR(255) NULL,
-    `publicAddress` VARCHAR(191) NULL,
     `role` ENUM('USER', 'ADMIN') NOT NULL DEFAULT 'USER',
 
     UNIQUE INDEX `User_email_key`(`email`),
-    UNIQUE INDEX `User_publicAddress_key`(`publicAddress`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -66,23 +64,11 @@ CREATE TABLE `VerificationToken` (
     UNIQUE INDEX `VerificationToken_identifier_token_key`(`identifier`, `token`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
--- CreateTable
-CREATE TABLE `CryptoLoginNonce` (
-    `userId` VARCHAR(191) NOT NULL,
-    `nonce` VARCHAR(191) NOT NULL,
-    `expires` DATETIME(3) NOT NULL,
-
-    UNIQUE INDEX `CryptoLoginNonce_userId_key`(`userId`)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
 -- AddForeignKey
-ALTER TABLE `UserAPICredentials` ADD CONSTRAINT `UserAPICredentials_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `UserAPIKeys` ADD CONSTRAINT `UserAPIKeys_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Account` ADD CONSTRAINT `Account_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Session` ADD CONSTRAINT `Session_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `CryptoLoginNonce` ADD CONSTRAINT `CryptoLoginNonce_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;

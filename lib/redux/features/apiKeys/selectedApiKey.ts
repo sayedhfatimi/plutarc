@@ -1,15 +1,15 @@
-import { UserAPICredentials } from '@prisma/client';
+import { UserAPIKeys } from '@prisma/client';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-const initialState: UserAPICredentials = {} as UserAPICredentials;
+const initialState: UserAPIKeys = {} as UserAPIKeys;
 
 export const selectedApiKeySlice = createSlice({
   name: 'selectedApiKey',
   initialState,
   reducers: {
     setSelectedApiKey: (
-      state: UserAPICredentials,
-      action: PayloadAction<UserAPICredentials>,
+      state: UserAPIKeys,
+      action: PayloadAction<UserAPIKeys>,
     ) => ({
       ...action.payload,
     }),

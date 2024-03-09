@@ -29,7 +29,12 @@ const HomePage = () => {
 
   return (
     <>
-      <Flex justify='between' className='px-4 py-2'>
+      <Flex
+        direction='row'
+        justify='between'
+        align='center'
+        className='px-4 py-2'
+      >
         <Flex>
           <Text size='5' className={`${gugiFont.className} `}>
             plutarc
@@ -43,7 +48,7 @@ const HomePage = () => {
             </Button>
           ) : (
             <Button asChild>
-              <Link href='/login'>Login</Link>
+              <Link href='/sign-in'>Sign In</Link>
             </Button>
           )}
         </Flex>

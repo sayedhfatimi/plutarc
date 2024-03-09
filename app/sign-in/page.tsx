@@ -2,18 +2,33 @@
 import ThemeToggle from '@/components/ThemeToggle';
 import { Button } from '@/components/ui/button';
 import { EvervaultCard, Icon } from '@/components/ui/evervault-card';
-import signInWithEthereum from '@/lib/auth/signInWithCrypto';
 import { gugiFont } from '@/lib/utils';
-import bg from '@/public/images/login-bg.png';
+import bg from '@/public/images/sign-in-bg.png';
 import { Box, Flex, Text } from '@radix-ui/themes';
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
-import { FaEthereum, FaGoogle } from 'react-icons/fa6';
+import { FaGoogle } from 'react-icons/fa6';
 
-const LoginPage = () => {
+const SignInPage = () => {
   return (
     <>
-      <FloatElements />
+      <Flex
+        direction='row'
+        justify='between'
+        align='center'
+        className='px-4 py-2'
+      >
+        <Flex>
+          <Link href='/'>
+            <Text size='5' className={gugiFont.className}>
+              plutarc
+            </Text>
+          </Link>
+        </Flex>
+        <Flex>
+          <ThemeToggle />
+        </Flex>
+      </Flex>
       <Box className='m-auto w-screen p-8'>
         <Flex
           position='relative'
@@ -42,7 +57,7 @@ const LoginPage = () => {
             <EvervaultCard text='plutarc' className={gugiFont.className} />
 
             <Flex direction='column' gap='4' className='mt-8'>
-              <LoginButtons />
+              <SignInButtons />
             </Flex>
           </Flex>
         </Flex>
@@ -51,9 +66,9 @@ const LoginPage = () => {
   );
 };
 
-const LoginButtons = () => {
+const SignInButtons = () => {
   // array of providers
-  const LoginProviders: {
+  const SignInProviders: {
     label: string;
     onClick: () => Promise<any>;
     icon: React.ReactNode;
@@ -65,17 +80,11 @@ const LoginButtons = () => {
       icon: <FaGoogle />,
       hoverColor: 'hover:bg-red-600',
     },
-    {
-      label: 'Ethereum',
-      onClick: () => signInWithEthereum(),
-      icon: <FaEthereum />,
-      hoverColor: 'hover:bg-slate-600',
-    },
   ];
 
   return (
     <>
-      {LoginProviders.map((item) => (
+      {SignInProviders.map((item) => (
         <Button
           key={item.label}
           onClick={item.onClick}
@@ -99,37 +108,4 @@ const LoginButtons = () => {
   );
 };
 
-const FloatElements = () => {
-  return (
-    <>
-      <Flex
-        justify='center'
-        align='start'
-        gap='4'
-        position='fixed'
-        top='0'
-        left='0'
-        className='px-4 py-2'
-      >
-        <Link href='/'>
-          <Text size='5' className={gugiFont.className}>
-            plutarc
-          </Text>
-        </Link>
-      </Flex>
-      <Flex
-        justify='center'
-        align='end'
-        gap='4'
-        position='fixed'
-        top='0'
-        right='0'
-        className='px-4 py-2'
-      >
-        <ThemeToggle />
-      </Flex>
-    </>
-  );
-};
-
-export default LoginPage;
+export default SignInPage;

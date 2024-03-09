@@ -10,7 +10,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model UserAPICredentials {
+model UserAPIKeys {
   id        String   @id @default(cuid())
   userId    String
   label     String   @db.VarChar(255)
@@ -54,18 +54,16 @@ model Session {
 }
 
 model User {
-  id                 String               @id @default(cuid())
-  name               String?
-  email              String?              @unique
-  emailVerified      DateTime?
-  image              String?
-  passphraseHash     String?              @db.VarChar(255)
-  publicAddress      String?              @unique // Added to enable crypto authentication
-  role               Role                 @default(USER)
-  accounts           Account[]
-  sessions           Session[]
-  UserAPICredentials UserAPICredentials[]
-  cryptoLoginNonce   CryptoLoginNonce?
+  id             String        @id @default(cuid())
+  name           String?
+  email          String?       @unique
+  emailVerified  DateTime?
+  image          String?
+  passphraseHash String?       @db.VarChar(255)
+  role           Role          @default(USER)
+  accounts       Account[]
+  sessions       Session[]
+  UserAPIKeys    UserAPIKeys[]
 }
 
 model VerificationToken {
@@ -74,13 +72,6 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
-}
-
-model CryptoLoginNonce {
-  userId  String   @unique
-  nonce   String
-  expires DateTime
-  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 enum Role {

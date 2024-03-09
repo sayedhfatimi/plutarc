@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/select';
 import { setSelectedApiKey } from '@/lib/redux/features/apiKeys/selectedApiKey';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
-import { UserAPICredentials } from '@prisma/client';
+import { UserAPIKeys } from '@prisma/client';
 import React from 'react';
 import { LuKeyRound } from 'react-icons/lu';
 import DecryptApiKeys from './DecryptApiKeys';
@@ -43,7 +43,7 @@ const ApiKeySelector = () => {
           <SelectValue placeholder={<LuKeyRound className='mx-2' />} />
         </SelectTrigger>
         <SelectContent position='popper' align='end'>
-          {apiKeysArr.map((item: UserAPICredentials) => (
+          {apiKeysArr.map((item: UserAPIKeys) => (
             <SelectItem key={item.label} value={JSON.stringify(item)}>
               {item.label}
             </SelectItem>

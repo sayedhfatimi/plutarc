@@ -13,15 +13,11 @@ import { Button } from '@/components/ui/button';
 import { deleteApiKey } from '@/lib/_actions';
 import { removeApiKey } from '@/lib/redux/features/apiKeys/apiKeys';
 import { useAppDispatch } from '@/lib/redux/hooks';
-import { UserAPICredentials } from '@prisma/client';
+import { UserAPIKeys } from '@prisma/client';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
-const DeleteApiKeyButton = ({
-  apiKeyObj,
-}: {
-  apiKeyObj: UserAPICredentials;
-}) => {
+const DeleteApiKeyButton = ({ apiKeyObj }: { apiKeyObj: UserAPIKeys }) => {
   const [error, setError] = useState(false);
   const [isDeleting, setDeleting] = useState(false);
 

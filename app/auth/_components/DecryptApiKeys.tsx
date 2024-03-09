@@ -29,7 +29,7 @@ import { setEncryptedStatus } from '@/lib/redux/features/user/userContext';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { getPassphraseSchema } from '@/schemas/getPassphraseSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { UserAPICredentials } from '@prisma/client';
+import { UserAPIKeys } from '@prisma/client';
 import { Flex } from '@radix-ui/themes';
 import bcryptjs from 'bcryptjs';
 import { useState } from 'react';
@@ -66,14 +66,12 @@ const DecryptApiKeys = () => {
 
       // mutate apiKeysArr and set to new array
       // TODO: this should probably be in a trycatch block to handle errors (?)
-      const decryptedApiKeysArr = apiKeysArr.map(
-        (apiKey: UserAPICredentials) => {
-          return {
-            ...apiKey, // spread apiKey object into new object
-            apiSecret: decryptString(apiKey.apiSecret, data.passphrase), // decrypt apiSecret using user passphrase input and set as apiSecret in new array
-          };
-        },
-      );
+      const decryptedApiKeysArr = apiKeysArr.map((apiKey: UserAPIKeys) => {
+        return {
+          ...apiKey, // spread apiKey object into new object
+          apiSecret: decryptString(apiKey.apiSecret, data.passphrase), // decrypt apiSecret using user passphrase input and set as apiSecret in new array
+        };
+      });
 
       dispatch(initialiseState(decryptedApiKeysArr)); // update redux store
       dispatch(setEncryptedStatus(false)); // set encrypted status

@@ -7,7 +7,7 @@ import { Box } from '@radix-ui/themes';
 import AddApiKeyForm from './_components/AddApiKeyForm';
 import UserApiKeysTable from './_components/UserApiKeysTable';
 
-const UserAPICredentialsPage = () => {
+const UserAPIKeysPage = () => {
   const apiKeysArr = useAppSelector((state) => state.apiKeys); // get apiKeys from redux store
   const isEncrypted = useAppSelector((state) => state.userContext.isEncrypted); // get isEncrypted status from redux store
 
@@ -34,4 +34,4 @@ const UserAPICredentialsPage = () => {
   );
 };
 
-export default UserAPICredentialsPage;
+export default UserAPIKeysPage;

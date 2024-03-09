@@ -4,7 +4,7 @@ import { Grid } from '@radix-ui/themes';
 import { signOut } from 'next-auth/react';
 import { useEffect } from 'react';
 
-const LogoutPage = () => {
+const SignOutPage = () => {
   useEffect(() => {
     signOut({
       redirect: true,
@@ -24,4 +24,4 @@ const LogoutPage = () => {
   );
 };
 
-export default LogoutPage;
+export default SignOutPage;

@@ -1,16 +1,13 @@
-import { UserAPICredentials } from '@prisma/client';
+import { UserAPIKeys } from '@prisma/client';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-const initialState: UserAPICredentials[] = [] as UserAPICredentials[];
+const initialState: UserAPIKeys[] = [] as UserAPIKeys[];
 
 export const apiKeysSlice = createSlice({
   name: 'apiKeys',
   initialState,
   reducers: {
-    addApiKey: (
-      state: UserAPICredentials[],
-      action: PayloadAction<UserAPICredentials>,
-    ) => {
+    addApiKey: (state: UserAPIKeys[], action: PayloadAction<UserAPIKeys>) => {
       return [
         ...state,
         {
@@ -24,14 +21,14 @@ export const apiKeysSlice = createSlice({
       ];
     },
     removeApiKey: (
-      state: UserAPICredentials[],
-      action: PayloadAction<UserAPICredentials>,
+      state: UserAPIKeys[],
+      action: PayloadAction<UserAPIKeys>,
     ) => {
       return state.filter((apiKey) => apiKey.id !== action.payload.id);
     },
     initialiseState: (
-      state: UserAPICredentials[],
-      action: PayloadAction<UserAPICredentials[]>,
+      state: UserAPIKeys[],
+      action: PayloadAction<UserAPIKeys[]>,
     ) => {
       return [...action.payload];
     },
