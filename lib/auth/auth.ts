@@ -22,7 +22,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           ...session.user,
           id: token.sub,
           passphraseHash: user?.passphraseHash,
-          publicAddress: user?.publicAddress,
         },
       };
     },

@@ -25,10 +25,7 @@ const ProfilePage = () => {
         <Box className='border pb-2'>
           <Flex align='center' justify='between' className='p-4'>
             <Flex direction='column' gap='2'>
-              <Heading size='8'>
-                {session?.user.name ||
-                  session?.user.publicAddress.toLowerCase()}
-              </Heading>
+              <Heading size='8'>{session?.user.name}</Heading>
               <Text size='1' color='gray'>
                 {session?.user.email}
               </Text>
