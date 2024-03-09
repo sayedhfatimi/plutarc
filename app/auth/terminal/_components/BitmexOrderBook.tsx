@@ -153,4 +153,4 @@ const BitmexOrderbook = () => {
   );
 };
 
-export const MemoBitmexOrderbook = React.memo(BitmexOrderbook);
+export default BitmexOrderbook;

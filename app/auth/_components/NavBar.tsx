@@ -24,7 +24,7 @@ import {
 } from '@/components/ui/tooltip';
 import { gugiFont } from '@/lib/utils';
 import { ReloadIcon } from '@radix-ui/react-icons';
-import { Avatar, Box, Flex, Text } from '@radix-ui/themes';
+import { Avatar, Box, Flex, Separator, Text } from '@radix-ui/themes';
 import { signOut, useSession } from 'next-auth/react';
 import NextLink from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -118,13 +118,16 @@ const NavMenu = () => {
 
   return (
     <>
-      {NavLinks.map((link) => (
+      {NavLinks.map((link, index) => (
         <Tooltip key={link.label}>
           <TooltipTrigger>
             <NavigationMenuItem>
               <Link href={link.href}>{link.icon}</Link>
             </NavigationMenuItem>
           </TooltipTrigger>
+          {index + 1 < NavLinks.length ? (
+            <Separator orientation='vertical' decorative />
+          ) : null}
           <TooltipContent>{link.label}</TooltipContent>
         </Tooltip>
       ))}

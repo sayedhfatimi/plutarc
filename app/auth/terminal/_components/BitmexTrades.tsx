@@ -90,4 +90,4 @@ const BitmexTrades = () => {
   );
 };
 
-export const MemoBitmexTrades = React.memo(BitmexTrades);
+export default BitmexTrades;

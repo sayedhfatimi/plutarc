@@ -1,8 +1,8 @@
 'use client';
 import { Box, Flex, Heading } from '@radix-ui/themes';
 import { Responsive, WidthProvider } from 'react-grid-layout';
-import { MemoBitmexOrderbook } from './_components/BitmexOrderBook';
-import { MemoBitmexTrades } from './_components/BitmexTrades';
+import BitmexOrderbook from './_components/BitmexOrderBook';
+import BitmexTrades from './_components/BitmexTrades';
 import TickerSelector from './_components/TickerSelector';
 import '/node_modules/react-grid-layout/css/styles.css';
 import '/node_modules/react-resizable/css/styles.css';
@@ -47,14 +47,14 @@ const TerminalPage = () => {
             className='border bg-white pl-1 pt-1 dark:bg-slate-800'
             key='BitmexOrderbook'
           >
-            <MemoBitmexOrderbook />
+            <BitmexOrderbook />
           </Box>
 
           <Box
             className='border bg-white pl-1 pt-1 dark:bg-slate-800'
             key='BitmexTrades'
           >
-            <MemoBitmexTrades />
+            <BitmexTrades />
           </Box>
         </ResponsiveGridLayout>
       </Box>

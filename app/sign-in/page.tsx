@@ -7,7 +7,7 @@ import bg from '@/public/images/sign-in-bg.png';
 import { Box, Flex, Text } from '@radix-ui/themes';
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
-import { FaGoogle } from 'react-icons/fa6';
+import { FaGoogle, FaTwitter } from 'react-icons/fa6';
 
 const SignInPage = () => {
   return (
