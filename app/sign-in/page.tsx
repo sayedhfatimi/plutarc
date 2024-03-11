@@ -75,8 +75,8 @@ const SignInButtons = () => {
     hoverColor?: string;
   }[] = [
     {
-      label: 'Auth0',
-      onClick: () => signIn('auth0', { callbackUrl: '/auth/dashboard' }),
+      label: 'Google',
+      onClick: () => signIn('google', { callbackUrl: '/auth/dashboard' }),
       icon: <FaGoogle />,
       hoverColor: 'hover:bg-red-600',
     },
