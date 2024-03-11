@@ -148,7 +148,7 @@ export async function getApiKeys() {
 
     return { apiKeys };
   } catch (error) {
-    return { error: error };
+    return { error };
   }
 }
 

@@ -42,14 +42,14 @@ const BitmexTrades = () => {
   return (
     <>
       <Box className='font-mono text-xs'>
-        <Grid columns='5' className=' pr-2 text-slate-600'>
+        <Grid columns='5' className='pr-2 text-slate-600'>
           <Box>Symbol</Box>
           <Box>Side</Box>
           <Box className='text-right'>Size</Box>
           <Box className='text-right'>Price</Box>
           <Box className='text-right'>time</Box>
         </Grid>
-        <ScrollArea className='h-[200px] border pr-2'>
+        <ScrollArea className='h-[200px] pr-2'>
           <Flex direction='column-reverse'>
             {data.map((item: RecentTrades) => (
               <Grid

@@ -12,7 +12,7 @@ const ResponsiveGridLayout = WidthProvider(Responsive);
 const TerminalPage = () => {
   return (
     <>
-      <Box className='border bg-slate-100 p-1 shadow-sm dark:bg-background'>
+      <Box className='border bg-slate-200 p-1 shadow-sm dark:bg-background'>
         <Flex
           justify='between'
           align='center'
@@ -44,14 +44,14 @@ const TerminalPage = () => {
           rowHeight={5}
         >
           <Box
-            className='border bg-white pl-1 pt-1 dark:bg-slate-800'
+            className='cursor-move border bg-white pl-1 pt-1 dark:bg-slate-800'
             key='BitmexOrderbook'
           >
             <BitmexOrderbook />
           </Box>
 
           <Box
-            className='border bg-white pl-1 pt-1 dark:bg-slate-800'
+            className='cursor-move border bg-white pl-1 pt-1 dark:bg-slate-800'
             key='BitmexTrades'
           >
             <BitmexTrades />
@@ -71,6 +71,8 @@ const layout = [
     h: 16,
     minW: 3,
     minH: 16,
+    isResizable: false,
+    isBounded: true,
   },
   {
     i: 'BitmexTrades',
@@ -80,6 +82,8 @@ const layout = [
     h: 16,
     minW: 3,
     minH: 16,
+    isResizable: false,
+    isBounded: true,
   },
 ];
 
