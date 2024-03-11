@@ -7,7 +7,7 @@ import bg from '@/public/images/sign-in-bg.png';
 import { Box, Flex, Text } from '@radix-ui/themes';
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
-import { FaGoogle, FaTwitter } from 'react-icons/fa6';
+import { FaGoogle } from 'react-icons/fa6';
 
 const SignInPage = () => {
   return (
@@ -75,8 +75,8 @@ const SignInButtons = () => {
     hoverColor?: string;
   }[] = [
     {
-      label: 'Google',
-      onClick: () => signIn('google', { callbackUrl: '/auth/dashboard' }),
+      label: 'Auth0',
+      onClick: () => signIn('auth0', { callbackUrl: '/auth/dashboard' }),
       icon: <FaGoogle />,
       hoverColor: 'hover:bg-red-600',
     },
