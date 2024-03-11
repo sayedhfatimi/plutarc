@@ -20,9 +20,10 @@ import screenshot4 from '@/public/images/screenshots/4.png';
 import screenshot5 from '@/public/images/screenshots/5.jpg';
 import { Box, Flex, Heading, Text } from '@radix-ui/themes';
 import Autoplay from 'embla-carousel-autoplay';
-import { useSession } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { SiAuth0 } from 'react-icons/si';
 
 const HomePage = () => {
   const { status } = useSession();
@@ -47,8 +48,13 @@ const HomePage = () => {
               <Link href='/auth/dashboard'>Dashboard</Link>
             </Button>
           ) : (
-            <Button asChild>
-              <Link href='/sign-in'>Sign In</Link>
+            <Button
+              onClick={() =>
+                signIn('auth0', { callbackUrl: '/auth/dashboard' })
+              }
+            >
+              <SiAuth0 className='mr-2 h-4 w-4' />
+              Sign In
             </Button>
           )}
         </Flex>
