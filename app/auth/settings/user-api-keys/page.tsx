@@ -6,6 +6,7 @@ import { useAppSelector } from '@/lib/redux/hooks';
 import { Box } from '@radix-ui/themes';
 import AddApiKeyForm from './_components/AddApiKeyForm';
 import UserApiKeysTable from './_components/UserApiKeysTable';
+import { LuKeyRound } from 'react-icons/lu';
 
 const UserAPIKeysPage = () => {
   const apiKeysArr = useAppSelector((state) => state.apiKeys); // get apiKeys from redux store
@@ -14,6 +15,7 @@ const UserAPIKeysPage = () => {
   return (
     <Box className='border bg-background p-2 shadow-sm'>
       <PageHeading
+        icon={<LuKeyRound />}
         heading='Manage API Keys'
         description='manage your api keys here'
       >

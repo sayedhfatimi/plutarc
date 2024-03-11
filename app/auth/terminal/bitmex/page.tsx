@@ -1,33 +1,23 @@
 'use client';
-import { Box, Flex, Heading } from '@radix-ui/themes';
+import { Box } from '@radix-ui/themes';
+import { useSearchParams } from 'next/navigation';
 import { Responsive, WidthProvider } from 'react-grid-layout';
 import BitmexOrderbook from './_components/BitmexOrderBook';
 import BitmexTrades from './_components/BitmexTrades';
-import TickerSelector from './_components/TickerSelector';
+import TickerBar from './_components/TickerBar';
 import '/node_modules/react-grid-layout/css/styles.css';
 import '/node_modules/react-resizable/css/styles.css';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
-const TerminalPage = () => {
+const BitmexTerminalPage = () => {
+  const searchParams = useSearchParams();
+  const ticker = searchParams.get('ticker') || 'XBTUSD';
+
   return (
     <>
       <Box className='border bg-slate-200 p-1 shadow-sm dark:bg-background'>
-        <Flex
-          justify='between'
-          align='center'
-          className='mb-1 bg-white p-1 dark:bg-slate-900'
-        >
-          <Box className='text-right'>
-            <Heading size='1'>Last Price</Heading>
-            <Heading size='1'>High Price</Heading>
-            <Heading size='1'>Low Price</Heading>
-            <Heading size='1'>Vol</Heading>
-          </Box>
-          <Box>
-            <TickerSelector />
-          </Box>
-        </Flex>
+        <TickerBar ticker={ticker} />
         <ResponsiveGridLayout
           className='layout'
           layouts={{
@@ -44,17 +34,17 @@ const TerminalPage = () => {
           rowHeight={5}
         >
           <Box
-            className='cursor-move border bg-white pl-1 pt-1 dark:bg-slate-800'
+            className='cursor-move border bg-white pl-1 pt-1 shadow-md dark:bg-slate-800'
             key='BitmexOrderbook'
           >
-            <BitmexOrderbook />
+            <BitmexOrderbook ticker={ticker} />
           </Box>
 
           <Box
-            className='cursor-move border bg-white pl-1 pt-1 dark:bg-slate-800'
+            className='cursor-move border bg-white pl-1 pt-1 shadow-md dark:bg-slate-800'
             key='BitmexTrades'
           >
-            <BitmexTrades />
+            <BitmexTrades ticker={ticker} />
           </Box>
         </ResponsiveGridLayout>
       </Box>
@@ -87,4 +77,4 @@ const layout = [
   },
 ];
 
-export default TerminalPage;
+export default BitmexTerminalPage;

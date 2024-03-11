@@ -15,21 +15,22 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { getBitMexTickers } from '@/lib/_actions';
-import { setSelectedTicker } from '@/lib/redux/features/bitmex/BitmexSelectedTicker';
-import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { cn } from '@/lib/utils';
 import { Instrument } from '@/types/BitmexDataTypes';
 import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons';
 import { Box } from '@radix-ui/themes';
 import { useQuery } from '@tanstack/react-query';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 
 const TickerSelector = () => {
-  const dispatch = useAppDispatch();
-  const selectedTicker = useAppSelector((state) => state.BitmexSelectedTicker);
-
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
+  const router = useRouter();
+
+  const searchParams = useSearchParams();
+
+  const ticker = searchParams.get('ticker');
 
   const { data, isLoading }: { data?: Instrument[]; isLoading: boolean } =
     useQuery({
@@ -47,8 +48,12 @@ const TickerSelector = () => {
   if (!data) return null;
 
   const handleValueChange = (option: string) => {
-    setValue(option === value ? '' : option);
-    dispatch(setSelectedTicker(option));
+    const params = new URLSearchParams();
+    setValue(option);
+    if (option) params.append('ticker', option);
+
+    const query = params.size ? '?' + params.toString() : '';
+    router.push(`/auth/terminal/bitmex${query}`);
   };
 
   return (
@@ -61,9 +66,7 @@ const TickerSelector = () => {
             aria-expanded={open}
             className='w-[200px] justify-between'
           >
-            {selectedTicker
-              ? selectedTicker.toUpperCase()
-              : 'Select a ticker...'}
+            {ticker ? ticker.toUpperCase() : 'Select a ticker...'}
             <CaretSortIcon className='ml-2 h-4 w-4 shrink-0 opacity-50' />
           </Button>
         </PopoverTrigger>

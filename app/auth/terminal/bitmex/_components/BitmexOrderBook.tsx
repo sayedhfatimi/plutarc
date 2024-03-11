@@ -1,18 +1,15 @@
 'use client';
-import { useAppSelector } from '@/lib/redux/hooks';
-import { bitmexReducer } from '@/lib/utils';
 import {
   BitmexWebSocketResponse,
   orderBookL2_25,
 } from '@/types/BitmexDataTypes';
 import { Grid } from '@radix-ui/themes';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import useWebSocket from 'react-use-websocket';
+import { bitmexDataParser } from '../lib/utils';
 
-const BitmexOrderbook = () => {
+const BitmexOrderbook = ({ ticker }: { ticker: string }) => {
   const [data, setData] = useState([] as orderBookL2_25[]);
-
-  const selectedTicker = useAppSelector((state) => state.BitmexSelectedTicker); // get selectedTicker from redux
 
   // instantiate websocket hook and destructure the json message object
   const {
@@ -22,7 +19,7 @@ const BitmexOrderbook = () => {
       // TODO: remove this when testing/development complete or update to more meaningful response
       onOpen: () =>
         console.log(
-          `Connected to BitMex WebSocket API, subscribed to orderBookL2_25:${selectedTicker}`,
+          `Connected to BitMex WebSocket API, subscribed to orderBookL2_25:${ticker}`,
         ),
       shouldReconnect: (closeEvent) => true, // auto reconnect
       // set WebSocket hearbeat
@@ -32,11 +29,11 @@ const BitmexOrderbook = () => {
         timeout: 60 * 1000,
         interval: 30 * 1000,
       },
-      queryParams: { subscribe: `orderBookL2_25:${selectedTicker}` }, // subscribe to channel
+      queryParams: { subscribe: `orderBookL2_25:${ticker}` }, // subscribe to channel
     });
 
   useEffect(() => {
-    bitmexReducer<orderBookL2_25>(
+    bitmexDataParser<orderBookL2_25>(
       lastJsonMessage,
       data,
       setData,

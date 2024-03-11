@@ -1,6 +1,5 @@
 import apiKeys from './apiKeys/apiKeys';
 import selectedApiKey from './apiKeys/selectedApiKey';
-import BitmexSelectedTicker from './bitmex/BitmexSelectedTicker';
 import userContext from './user/userContext';
 
 const allReducers = {
@@ -9,8 +8,6 @@ const allReducers = {
   // apiKey reducer set
   apiKeys,
   selectedApiKey,
-  // Bitmex reducer set
-  BitmexSelectedTicker,
 };
 
 export default allReducers;

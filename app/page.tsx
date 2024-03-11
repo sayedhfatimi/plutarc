@@ -23,6 +23,7 @@ import Autoplay from 'embla-carousel-autoplay';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { LuLogIn } from 'react-icons/lu';
 
 const HomePage = () => {
   const { status } = useSession();
@@ -48,6 +49,7 @@ const HomePage = () => {
             </Button>
           ) : (
             <Button>
+              <LuLogIn className='mr-2 h-4 w-4' />
               <Link href='/sign-in'>Sign In</Link>
             </Button>
           )}

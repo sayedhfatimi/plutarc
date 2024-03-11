@@ -3,7 +3,7 @@ import PageHeading from '@/app/auth/_components/PageHeading';
 import { useAppSelector } from '@/lib/redux/hooks';
 import { Avatar, Box, Flex, Heading, Text } from '@radix-ui/themes';
 import { useSession } from 'next-auth/react';
-import { LuSkull, LuUser } from 'react-icons/lu';
+import { LuSettings2, LuSkull, LuUser } from 'react-icons/lu';
 import DeleteAccount from './_components/DeleteAccount';
 import ResetPassphrase from './_components/ResetPassphrase';
 
@@ -14,7 +14,7 @@ const ProfilePage = () => {
   if (session)
     return (
       <Box className='border bg-background p-2 shadow-sm'>
-        <PageHeading heading='Profile Settings'>
+        <PageHeading heading='Profile Settings' icon={<LuSettings2 />}>
           <Flex direction='column' align='end'>
             <Heading>Total API Keys: {apiKey}</Heading>
             <Text size='2' color='gray'>

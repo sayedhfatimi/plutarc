@@ -1,18 +1,15 @@
 'use client';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { useAppSelector } from '@/lib/redux/hooks';
-import { bitmexReducer } from '@/lib/utils';
 import { BitmexWebSocketResponse, RecentTrades } from '@/types/BitmexDataTypes';
 import { Box, Flex, Grid } from '@radix-ui/themes';
 import classnames from 'classnames';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { TiArrowDown, TiArrowUp } from 'react-icons/ti';
 import useWebSocket from 'react-use-websocket';
+import { bitmexDataParser } from '../lib/utils';
 
-const BitmexTrades = () => {
+const BitmexTrades = ({ ticker }: { ticker: string }) => {
   const [data, setData] = useState([] as RecentTrades[]);
-
-  const selectedTicker = useAppSelector((state) => state.BitmexSelectedTicker);
 
   const {
     lastJsonMessage,
@@ -21,7 +18,7 @@ const BitmexTrades = () => {
     {
       onOpen: () =>
         console.log(
-          `Connected to BitMex WebSocket API, subscribed to trade:${selectedTicker}`,
+          `Connected to BitMex WebSocket API, subscribed to trade:${ticker}`,
         ),
       shouldReconnect: (closeEvent) => true,
       heartbeat: {
@@ -30,12 +27,18 @@ const BitmexTrades = () => {
         timeout: 60 * 1000,
         interval: 30 * 1000,
       },
-      queryParams: { subscribe: `trade:${selectedTicker}` },
+      queryParams: { subscribe: `trade:${ticker}` },
     },
   );
 
   useEffect(() => {
-    bitmexReducer<RecentTrades>(lastJsonMessage, data, setData, 'trade', 100);
+    bitmexDataParser<RecentTrades>(
+      lastJsonMessage,
+      data,
+      setData,
+      'trade',
+      100,
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lastJsonMessage]);
 
@@ -79,7 +82,9 @@ const BitmexTrades = () => {
                   </Flex>
                 </Box>
                 <Box className='text-right text-slate-600'>
-                  {(Date.now() - Date.parse(item.timestamp)) / 1000 + 's'}
+                  {((Date.now() - Date.parse(item.timestamp)) / 1000).toFixed(
+                    3,
+                  ) + 's'}
                 </Box>
               </Grid>
             ))}
