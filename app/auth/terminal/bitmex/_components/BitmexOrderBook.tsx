@@ -68,7 +68,7 @@ const BitmexOrderbook = ({ ticker }: { ticker: string }) => {
         >
           <thead className='text-slate-600'>
             <tr>
-              <th className='w-1/3'>Bid Total</th>
+              <th className='w-1/3'>Bid</th>
               <th className='w-1/3'>Size</th>
               <th className='w-1/3'>Price</th>
             </tr>
@@ -108,7 +108,7 @@ const BitmexOrderbook = ({ ticker }: { ticker: string }) => {
         <table className='table-auto text-left' cellSpacing='0'>
           <thead className='text-slate-600'>
             <tr>
-              <th className='w-1/3'>Ask Total</th>
+              <th className='w-1/3'>Ask</th>
               <th className='w-1/3'>Size</th>
               <th className='w-1/3'>Price</th>
             </tr>

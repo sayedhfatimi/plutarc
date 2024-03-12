@@ -1,12 +1,10 @@
-import { Box, Flex, Heading } from '@radix-ui/themes';
-import TickerSelector from './TickerSelector';
-import { useEffect, useState } from 'react';
 import { BitmexWebSocketResponse, Instrument } from '@/types/BitmexDataTypes';
+import { Box, Flex } from '@radix-ui/themes';
+import { useEffect, useState } from 'react';
 import useWebSocket from 'react-use-websocket';
 import { bitmexDataParser } from '../lib/utils';
-import { it } from 'node:test';
-import { TiArrowDown, TiArrowUp } from 'react-icons/ti';
-import classnames from 'classnames';
+import TickerInfo from './TickerInfo';
+import TickerSelector from './TickerSelector';
 
 const TickerBar = ({ ticker }: { ticker: string }) => {
   const [data, setData] = useState([] as Instrument[]);
@@ -40,55 +38,13 @@ const TickerBar = ({ ticker }: { ticker: string }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lastJsonMessage]);
 
-  console.log(data);
-
   return (
     <Flex
       justify='between'
       align='center'
       className='bg-white p-1 dark:bg-slate-900'
     >
-      <Flex direction='row' gap='4'>
-        <Flex align='center'>
-          {data.map((item) => (
-            <Flex
-              key={item.symbol}
-              align='center'
-              className={classnames({
-                'text-green-600  dark:text-green-600':
-                  item.lastTickDirection === 'PlusTick' || 'ZeroPlusTick',
-                'text-red-600 dark:text-red-600':
-                  item.lastTickDirection === 'MinusTick' || 'ZeroMinusTick',
-              })}
-            >
-              <Box asChild className='mr-1 h-6 w-6'>
-                {item.lastTickDirection === 'PlusTick' ? (
-                  <TiArrowUp />
-                ) : (
-                  <TiArrowDown />
-                )}
-              </Box>
-              <Heading>{item.lastPrice.toFixed(1)}</Heading>
-            </Flex>
-          ))}
-        </Flex>
-        <Flex gap='2'>
-          <Box className='text-right text-zinc-500'>
-            <Heading size='1'>Mark Price</Heading>
-            <Heading size='1'>High Price</Heading>
-            <Heading size='1'>Low Price</Heading>
-            <Heading size='1'>Vol</Heading>
-          </Box>
-          {data.map((item) => (
-            <Box className='text-left' key={item.symbol}>
-              <Heading size='1'>{item.markPrice.toFixed(1)}</Heading>
-              <Heading size='1'>{item.highPrice.toFixed(1)}</Heading>
-              <Heading size='1'>{item.lowPrice.toFixed(1)}</Heading>
-              <Heading size='1'>{item.volume.toLocaleString()}</Heading>
-            </Box>
-          ))}
-        </Flex>
-      </Flex>
+      <TickerInfo data={data} />
       <Box>
         <TickerSelector />
       </Box>
