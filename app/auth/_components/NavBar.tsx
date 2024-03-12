@@ -104,7 +104,7 @@ const NavMenu = () => {
     },
     {
       label: 'Trade Terminal',
-      href: '/auth/terminal',
+      href: '/auth/terminal/bitmex',
       icon: <LuCandlestickChart />,
     },
     {

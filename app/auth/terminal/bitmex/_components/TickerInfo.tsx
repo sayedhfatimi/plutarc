@@ -2,6 +2,8 @@ import Spinner from '@/components/Spinner';
 import { Instrument } from '@/types/BitmexDataTypes';
 import { Box, Flex, Heading } from '@radix-ui/themes';
 import classnames from 'classnames';
+import { FaArrowTrendDown, FaArrowTrendUp } from 'react-icons/fa6';
+import { LuArrowUpDown } from 'react-icons/lu';
 import { TiArrowDown, TiArrowUp } from 'react-icons/ti';
 
 const TickerInfo = ({ data }: { data: Instrument[] }) => {
@@ -15,32 +17,65 @@ const TickerInfo = ({ data }: { data: Instrument[] }) => {
   return (
     <>
       <Flex direction='row' gap='6' align='center'>
-        <Flex gap='2'>
-          <Box className='text-right text-zinc-500'>
-            <Heading size='1'>Mark Price</Heading>
-            <Heading size='1'>High Price</Heading>
-            <Heading size='1'>Low Price</Heading>
-            <Heading size='1'>24h Vol</Heading>
+        <Flex className='group w-[13rem]' align='start'>
+          <Box className='flex group-hover:hidden'>
+            <Flex gap='2'>
+              <Box className='w-[5rem] text-right text-zinc-500'>
+                <Heading size='1'>Mark Price</Heading>
+                <Heading size='1'>Funding</Heading>
+                <Heading size='1'>O. Interest</Heading>
+                <Heading size='1'>24h Vol</Heading>
+              </Box>
+              <Box className='text-left'>
+                <Heading size='1'>
+                  {data[0].markPrice.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                  })}
+                </Heading>
+                <Heading size='1'>{`${(data[0].fundingRate * 100).toFixed(4)}%`}</Heading>
+                <Heading size='1'>
+                  {`${data[0].openInterest.toLocaleString()} ${data[0].quoteCurrency}`}
+                </Heading>
+                <Heading size='1'>{`${data[0].volume24h.toLocaleString()} ${data[0].quoteCurrency}`}</Heading>
+              </Box>
+            </Flex>
           </Box>
-          <Box className='text-left'>
-            <Heading size='1'>{data[0].markPrice.toFixed(1)}</Heading>
-            <Heading size='1'>{data[0].highPrice.toFixed(1)}</Heading>
-            <Heading size='1'>{data[0].lowPrice.toFixed(1)}</Heading>
-            <Heading size='1'>{data[0].volume24h.toLocaleString()}</Heading>
+          <Box className='hidden group-hover:flex'>
+            <Flex gap='2'>
+              <Box className='w-[5rem] text-right text-zinc-500'>
+                <Heading size='1'>Index Price</Heading>
+                <Heading size='1'>P. Funding</Heading>
+                <Heading size='1'>O. Value</Heading>
+                <Heading size='1'>Turnover</Heading>
+              </Box>
+              <Box className='text-left'>
+                <Heading size='1'>
+                  {data[0].indicativeSettlePrice.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                  })}
+                </Heading>
+                <Heading size='1'>
+                  {`${(data[0].indicativeFundingRate * 100).toFixed(4)}%`}
+                </Heading>
+                <Heading size='1'>{`${(data[0].openValue / 100000000).toLocaleString(undefined, { minimumFractionDigits: 4 })} ${data[0].rootSymbol}`}</Heading>
+                <Heading size='1'>
+                  {`${(data[0].turnover24h / 100000000).toLocaleString(undefined, { minimumFractionDigits: 4 })} ${data[0].rootSymbol}`}
+                </Heading>
+              </Box>
+            </Flex>
           </Box>
         </Flex>
-        <Flex direction='column'>
-          <Heading size='1' className='text-right text-zinc-500'>
-            24h Δ
-          </Heading>
-          <Heading
-            className={classnames({
-              'text-green-600  dark:text-green-600': data[0].lastChangePcnt > 0,
-              'text-red-600 dark:text-red-600': data[0].lastChangePcnt < 0,
-            })}
-          >
-            {(data[0].lastChangePcnt * 100).toFixed(2) + '%'}
-          </Heading>
+        <Flex direction='column' className='text-right'>
+          <Flex gap='1' className='text-zinc-500' align='center' justify='end'>
+            <Heading size='1'>24h High</Heading>
+            <FaArrowTrendUp />
+          </Flex>
+          <Heading size='4'>{data[0].highPrice.toFixed(1)}</Heading>
+          <Flex gap='1' className='text-zinc-500' align='center' justify='end'>
+            <Heading size='1'>24h Low</Heading>
+            <FaArrowTrendDown />
+          </Flex>
+          <Heading size='4'>{data[0].lowPrice.toFixed(1)}</Heading>
         </Flex>
         <Flex direction='column'>
           <Heading size='1' className='text-right text-zinc-500'>
@@ -65,6 +100,20 @@ const TickerInfo = ({ data }: { data: Instrument[] }) => {
             </Box>
             <Heading>{data[0].lastPrice.toFixed(1)}</Heading>
           </Flex>
+        </Flex>
+        <Flex direction='column'>
+          <Flex gap='1' className='text-zinc-500' align='center' justify='end'>
+            <Heading size='1'>24h</Heading>
+            <LuArrowUpDown />
+          </Flex>
+          <Heading
+            className={classnames({
+              'text-green-600  dark:text-green-600': data[0].lastChangePcnt > 0,
+              'text-red-600 dark:text-red-600': data[0].lastChangePcnt < 0,
+            })}
+          >
+            {(data[0].lastChangePcnt * 100).toFixed(2) + '%'}
+          </Heading>
         </Flex>
         <Flex direction='column'>
           <Heading size='1' className='text-right text-zinc-500'>
