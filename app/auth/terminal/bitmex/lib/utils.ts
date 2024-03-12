@@ -81,3 +81,15 @@ export function bitmexDataParser<T>(
 function updateItem(item: any, newData: any) {
   return { ...item, ...newData };
 }
+
+export function numberParser(x: number) {
+  if (x < 1)
+    return x.toLocaleString(undefined, {
+      minimumSignificantDigits: 4,
+    });
+  else
+    return x.toLocaleString(undefined, {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+}

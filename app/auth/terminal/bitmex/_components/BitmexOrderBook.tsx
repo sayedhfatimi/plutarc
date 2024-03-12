@@ -6,7 +6,7 @@ import {
 import { Grid } from '@radix-ui/themes';
 import { useEffect, useState } from 'react';
 import useWebSocket from 'react-use-websocket';
-import { bitmexDataParser } from '../lib/utils';
+import { bitmexDataParser, numberParser } from '../lib/utils';
 
 const BitmexOrderbook = ({ ticker }: { ticker: string }) => {
   const [data, setData] = useState([] as orderBookL2_25[]);
@@ -99,7 +99,7 @@ const BitmexOrderbook = ({ ticker }: { ticker: string }) => {
                     {item.size.toLocaleString()}
                   </td>
                   <td className='text-green-400 dark:text-green-600'>
-                    {item.price.toFixed(1)}
+                    {numberParser(item.price)}
                   </td>
                 </tr>
               ))}
@@ -139,7 +139,7 @@ const BitmexOrderbook = ({ ticker }: { ticker: string }) => {
                     {item.size.toLocaleString()}
                   </td>
                   <td className='text-red-400 dark:text-red-600'>
-                    {item.price.toFixed(1)}
+                    {numberParser(item.price)}
                   </td>
                 </tr>
               ))}

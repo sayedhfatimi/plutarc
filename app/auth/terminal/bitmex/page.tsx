@@ -30,7 +30,7 @@ const BitmexTerminalPage = () => {
           resizeHandles={['se']}
           useCSSTransforms={true}
           breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
-          cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}
+          cols={{ lg: 24, md: 12, sm: 6, xs: 4, xxs: 2 }}
           rowHeight={5}
         >
           <Box
@@ -57,9 +57,9 @@ const layout = [
     i: 'BitmexOrderbook',
     x: 0,
     y: 0,
-    w: 3,
+    w: 8,
     h: 15,
-    minW: 3,
+    minW: 8,
     minH: 15,
     isResizable: false,
     isBounded: true,
@@ -68,10 +68,8 @@ const layout = [
     i: 'BitmexTrades',
     x: 0,
     y: 0,
-    w: 3,
+    w: 5,
     h: 16,
-    minW: 3,
-    minH: 16,
     isResizable: false,
     isBounded: true,
   },

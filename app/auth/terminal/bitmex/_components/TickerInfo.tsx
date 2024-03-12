@@ -5,6 +5,7 @@ import classnames from 'classnames';
 import { FaArrowTrendDown, FaArrowTrendUp } from 'react-icons/fa6';
 import { LuArrowUpDown } from 'react-icons/lu';
 import { TiArrowDown, TiArrowUp } from 'react-icons/ti';
+import { numberParser } from '../lib/utils';
 
 const TickerInfo = ({ data }: { data: Instrument[] }) => {
   if (!data || data.length === 0)
@@ -29,7 +30,8 @@ const TickerInfo = ({ data }: { data: Instrument[] }) => {
               <Box className='text-left'>
                 <Heading size='1'>
                   {data[0].markPrice.toLocaleString(undefined, {
-                    minimumFractionDigits: 2,
+                    minimumSignificantDigits: 4,
+                    maximumSignificantDigits: 8,
                   })}
                 </Heading>
                 <Heading size='1'>{`${(data[0].fundingRate * 100).toFixed(4)}%`}</Heading>
@@ -51,15 +53,27 @@ const TickerInfo = ({ data }: { data: Instrument[] }) => {
               <Box className='text-left'>
                 <Heading size='1'>
                   {data[0].indicativeSettlePrice.toLocaleString(undefined, {
-                    minimumFractionDigits: 2,
+                    minimumSignificantDigits: 4,
+                    maximumSignificantDigits: 8,
                   })}
                 </Heading>
                 <Heading size='1'>
                   {`${(data[0].indicativeFundingRate * 100).toFixed(4)}%`}
                 </Heading>
-                <Heading size='1'>{`${(data[0].openValue / 100000000).toLocaleString(undefined, { minimumFractionDigits: 4 })} ${data[0].rootSymbol}`}</Heading>
+                <Heading size='1'>{`${(
+                  data[0].openValue / 100000000
+                ).toLocaleString(undefined, {
+                  minimumSignificantDigits: 4,
+                  maximumSignificantDigits: 8,
+                })} ${data[0].rootSymbol}`}</Heading>
                 <Heading size='1'>
-                  {`${(data[0].turnover24h / 100000000).toLocaleString(undefined, { minimumFractionDigits: 4 })} ${data[0].rootSymbol}`}
+                  {`${(data[0].turnover24h / 100000000).toLocaleString(
+                    undefined,
+                    {
+                      minimumSignificantDigits: 4,
+                      maximumSignificantDigits: 8,
+                    },
+                  )} ${data[0].rootSymbol}`}
                 </Heading>
               </Box>
             </Flex>
@@ -73,12 +87,22 @@ const TickerInfo = ({ data }: { data: Instrument[] }) => {
             <Heading size='1'>24h High</Heading>
             <FaArrowTrendUp />
           </Flex>
-          <Heading size='4'>{data[0].highPrice.toFixed(1)}</Heading>
+          <Heading size='4'>
+            {data[0].highPrice.toLocaleString(undefined, {
+              minimumSignificantDigits: 4,
+              maximumSignificantDigits: 8,
+            })}
+          </Heading>
           <Flex gap='1' className='text-zinc-500' align='center' justify='end'>
             <Heading size='1'>24h Low</Heading>
             <FaArrowTrendDown />
           </Flex>
-          <Heading size='4'>{data[0].lowPrice.toFixed(1)}</Heading>
+          <Heading size='4'>
+            {data[0].lowPrice.toLocaleString(undefined, {
+              minimumSignificantDigits: 4,
+              maximumSignificantDigits: 8,
+            })}
+          </Heading>
         </Flex>
 
         <Separator orientation='vertical' size='2' />
@@ -105,7 +129,12 @@ const TickerInfo = ({ data }: { data: Instrument[] }) => {
                 <TiArrowDown className='mr-1 h-6 w-6' />
               ) : null}
             </Box>
-            <Heading>{data[0].lastPrice.toFixed(1)}</Heading>
+            <Heading>
+              {data[0].lastPrice.toLocaleString(undefined, {
+                minimumSignificantDigits: 4,
+                maximumSignificantDigits: 8,
+              })}
+            </Heading>
           </Flex>
         </Flex>
 
@@ -122,7 +151,10 @@ const TickerInfo = ({ data }: { data: Instrument[] }) => {
               'text-red-600 dark:text-red-600': data[0].lastChangePcnt < 0,
             })}
           >
-            {(data[0].lastChangePcnt * 100).toFixed(2) + '%'}
+            {(data[0].lastChangePcnt * 100).toLocaleString(undefined, {
+              minimumSignificantDigits: 4,
+              maximumSignificantDigits: 8,
+            }) + '%'}
           </Heading>
         </Flex>
 
@@ -132,7 +164,7 @@ const TickerInfo = ({ data }: { data: Instrument[] }) => {
           <Heading size='1' className='text-right text-zinc-500'>
             VWAP
           </Heading>
-          <Heading>{data[0].vwap.toFixed(2)}</Heading>
+          <Heading>{numberParser(data[0].vwap)}</Heading>
         </Flex>
       </Flex>
     </>
