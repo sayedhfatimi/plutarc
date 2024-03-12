@@ -1,6 +1,6 @@
 import Spinner from '@/components/Spinner';
 import { Instrument } from '@/types/BitmexDataTypes';
-import { Box, Flex, Heading } from '@radix-ui/themes';
+import { Box, Flex, Heading, Separator } from '@radix-ui/themes';
 import classnames from 'classnames';
 import { FaArrowTrendDown, FaArrowTrendUp } from 'react-icons/fa6';
 import { LuArrowUpDown } from 'react-icons/lu';
@@ -65,6 +65,9 @@ const TickerInfo = ({ data }: { data: Instrument[] }) => {
             </Flex>
           </Box>
         </Flex>
+
+        <Separator orientation='vertical' size='2' />
+
         <Flex direction='column' className='text-right'>
           <Flex gap='1' className='text-zinc-500' align='center' justify='end'>
             <Heading size='1'>24h High</Heading>
@@ -77,6 +80,9 @@ const TickerInfo = ({ data }: { data: Instrument[] }) => {
           </Flex>
           <Heading size='4'>{data[0].lowPrice.toFixed(1)}</Heading>
         </Flex>
+
+        <Separator orientation='vertical' size='2' />
+
         <Flex direction='column'>
           <Heading size='1' className='text-right text-zinc-500'>
             Last Price
@@ -86,21 +92,25 @@ const TickerInfo = ({ data }: { data: Instrument[] }) => {
             justify='end'
             className={classnames({
               'text-green-600  dark:text-green-600':
-                data[0].lastTickDirection === 'PlusTick' || 'ZeroPlusTick',
+                data[0].lastTickDirection === 'PlusTick',
               'text-red-600 dark:text-red-600':
-                data[0].lastTickDirection === 'MinusTick' || 'ZeroMinusTick',
+                data[0].lastTickDirection === 'MinusTick',
             })}
           >
-            <Box asChild className='mr-1 h-6 w-6'>
+            <Box className='mr-1 h-6 w-6'>
               {data[0].lastTickDirection === 'PlusTick' ? (
-                <TiArrowUp />
-              ) : (
-                <TiArrowDown />
-              )}
+                <TiArrowUp className='mr-1 h-6 w-6' />
+              ) : null}
+              {data[0].lastTickDirection === 'MinusTick' ? (
+                <TiArrowDown className='mr-1 h-6 w-6' />
+              ) : null}
             </Box>
             <Heading>{data[0].lastPrice.toFixed(1)}</Heading>
           </Flex>
         </Flex>
+
+        <Separator orientation='vertical' size='2' />
+
         <Flex direction='column'>
           <Flex gap='1' className='text-zinc-500' align='center' justify='end'>
             <Heading size='1'>24h</Heading>
@@ -115,6 +125,9 @@ const TickerInfo = ({ data }: { data: Instrument[] }) => {
             {(data[0].lastChangePcnt * 100).toFixed(2) + '%'}
           </Heading>
         </Flex>
+
+        <Separator orientation='vertical' size='2' />
+
         <Flex direction='column'>
           <Heading size='1' className='text-right text-zinc-500'>
             VWAP
