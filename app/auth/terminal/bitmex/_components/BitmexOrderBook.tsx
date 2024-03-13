@@ -1,47 +1,11 @@
 'use client';
-import {
-  BitmexWebSocketResponse,
-  orderBookL2_25,
-} from '@/types/BitmexDataTypes';
+import { orderBookL2_25 } from '@/types/BitmexDataTypes';
 import { Grid } from '@radix-ui/themes';
-import { useEffect, useState } from 'react';
-import useWebSocket from 'react-use-websocket';
-import { bitmexDataParser, numberParser } from '../lib/utils';
+import { useData } from '../hooks/useData';
+import { numberParser } from '../lib/utils';
 
 const BitmexOrderbook = ({ ticker }: { ticker: string }) => {
-  const [data, setData] = useState([] as orderBookL2_25[]);
-
-  // instantiate websocket hook and destructure the json message object
-  const {
-    lastJsonMessage,
-  }: { lastJsonMessage: BitmexWebSocketResponse<orderBookL2_25> } =
-    useWebSocket(`wss://ws.bitmex.com/realtime`, {
-      // TODO: remove this when testing/development complete or update to more meaningful response
-      onOpen: () =>
-        console.log(
-          `Connected to BitMex WebSocket API, subscribed to orderBookL2_25:${ticker}`,
-        ),
-      shouldReconnect: (closeEvent) => true, // auto reconnect
-      // set WebSocket hearbeat
-      heartbeat: {
-        message: 'ping',
-        returnMessage: 'pong',
-        timeout: 60 * 1000,
-        interval: 30 * 1000,
-      },
-      queryParams: { subscribe: `orderBookL2_25:${ticker}` }, // subscribe to channel
-    });
-
-  useEffect(() => {
-    bitmexDataParser<orderBookL2_25>(
-      lastJsonMessage,
-      data,
-      setData,
-      'orderBookL2_25',
-    );
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lastJsonMessage]);
+  const { data } = useData<orderBookL2_25>(ticker, 'orderBookL2_25');
 
   // get total of size of bids from all bids in state
   const bidSizeTotal: number = data

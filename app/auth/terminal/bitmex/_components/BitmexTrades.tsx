@@ -1,47 +1,15 @@
 'use client';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { BitmexWebSocketResponse, RecentTrades } from '@/types/BitmexDataTypes';
+import { RecentTrades } from '@/types/BitmexDataTypes';
 import { Box, Flex, Grid } from '@radix-ui/themes';
 import classnames from 'classnames';
-import { useEffect, useState } from 'react';
-import { TiArrowDown, TiArrowUp } from 'react-icons/ti';
-import useWebSocket from 'react-use-websocket';
-import { bitmexDataParser, numberParser } from '../lib/utils';
 import { LuArrowUpDown, LuClock, LuFish } from 'react-icons/lu';
+import { TiArrowDown, TiArrowUp } from 'react-icons/ti';
+import { useData } from '../hooks/useData';
+import { numberParser } from '../lib/utils';
 
 const BitmexTrades = ({ ticker }: { ticker: string }) => {
-  const [data, setData] = useState([] as RecentTrades[]);
-
-  const {
-    lastJsonMessage,
-  }: { lastJsonMessage: BitmexWebSocketResponse<RecentTrades> } = useWebSocket(
-    `wss://ws.bitmex.com/realtime`,
-    {
-      onOpen: () =>
-        console.log(
-          `Connected to BitMex WebSocket API, subscribed to trade:${ticker}`,
-        ),
-      shouldReconnect: (closeEvent) => true,
-      heartbeat: {
-        message: 'ping',
-        returnMessage: 'pong',
-        timeout: 60 * 1000,
-        interval: 30 * 1000,
-      },
-      queryParams: { subscribe: `trade:${ticker}` },
-    },
-  );
-
-  useEffect(() => {
-    bitmexDataParser<RecentTrades>(
-      lastJsonMessage,
-      data,
-      setData,
-      'trade',
-      100,
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lastJsonMessage]);
+  const { data } = useData<RecentTrades>(ticker, 'trade');
 
   return (
     <>
