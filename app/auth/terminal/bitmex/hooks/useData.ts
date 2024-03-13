@@ -15,7 +15,10 @@ export function useData<T>(ticker: string, table: string) {
       },
       shouldReconnect: (closeEvent) => true,
       filter: (message) => {
-        if (JSON.parse(message.data).table === table) {
+        if (
+          message.data !== 'pong' &&
+          JSON.parse(message.data).table === table
+        ) {
           return true;
         } else {
           return false;
