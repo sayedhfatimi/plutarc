@@ -5,7 +5,10 @@ import { useData } from '../hooks/useData';
 import { numberParser } from '../lib/utils';
 
 const BitmexOrderbook = ({ ticker }: { ticker: string }) => {
-  const { data } = useData<orderBookL2_25>(ticker, 'orderBookL2_25');
+  const { data } = useData<orderBookL2_25>(
+    ticker.toUpperCase(),
+    'orderBookL2_25',
+  );
 
   // get total of size of bids from all bids in state
   const bidSizeTotal: number = data

@@ -5,7 +5,7 @@ import TickerInfo from './TickerInfo';
 import TickerSelector from './TickerSelector';
 
 const TickerBar = ({ ticker }: { ticker: string }) => {
-  const { data } = useData<Instrument>(ticker, 'instrument');
+  const { data } = useData<Instrument>(ticker.toUpperCase(), 'instrument');
 
   return (
     <Flex

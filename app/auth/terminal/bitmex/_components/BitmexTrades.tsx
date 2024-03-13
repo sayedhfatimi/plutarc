@@ -9,7 +9,7 @@ import { useData } from '../hooks/useData';
 import { numberParser } from '../lib/utils';
 
 const BitmexTrades = ({ ticker }: { ticker: string }) => {
-  const { data } = useData<RecentTrades>(ticker, 'trade');
+  const { data } = useData<RecentTrades>(ticker.toUpperCase(), 'trade');
 
   return (
     <>
