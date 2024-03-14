@@ -9,43 +9,51 @@ import {
 } from '@/components/ui/card';
 import { useAppSelector } from '@/lib/redux/hooks';
 import { Box, Flex } from '@radix-ui/themes';
+import NoAPIKeysAlert from '../_components/NoAPIKeysAlert';
+import { LuWallet } from 'react-icons/lu';
+import ContentWrapper from '../_components/ContentWrapper';
 
 const AccountDetailsPage = () => {
   const selectedApiKey = useAppSelector((state) => state.selectedApiKey);
 
   return (
     <>
-      <Box className='border bg-background p-2 shadow-sm'>
+      <Box className='h-full w-full border bg-slate-200 p-1 shadow-sm dark:bg-background'>
         <PageHeading
+          icon={<LuWallet />}
           heading='Account Details'
           description={selectedApiKey.label}
         />
-        <Box className='border p-2'>
-          <Flex justify='between' gap='2'>
-            <Flex>
-              <Card>
-                <CardHeader>
-                  <CardTitle>Balances</CardTitle>
-                  <CardDescription>
-                    balances on {selectedApiKey.label}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent></CardContent>
-              </Card>
+        <ContentWrapper>
+          {Object.keys(selectedApiKey).length === 0 ? (
+            <NoAPIKeysAlert />
+          ) : (
+            <Flex justify='between' gap='2'>
+              <Flex>
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Balances</CardTitle>
+                    <CardDescription>
+                      balances on {selectedApiKey.label}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent></CardContent>
+                </Card>
+              </Flex>
+              <Flex>
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Balances</CardTitle>
+                    <CardDescription>
+                      balances on {selectedApiKey.label}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent></CardContent>
+                </Card>
+              </Flex>
             </Flex>
-            <Flex>
-              <Card>
-                <CardHeader>
-                  <CardTitle>Balances</CardTitle>
-                  <CardDescription>
-                    balances on {selectedApiKey.label}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent></CardContent>
-              </Card>
-            </Flex>
-          </Flex>
-        </Box>
+          )}
+        </ContentWrapper>
       </Box>
     </>
   );

@@ -10,7 +10,7 @@ import { setSelectedApiKey } from '@/lib/redux/features/apiKeys/selectedApiKey';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { UserAPIKeys } from '@prisma/client';
 import React from 'react';
-import { LuKeyRound } from 'react-icons/lu';
+import { LuInfo, LuKeyRound } from 'react-icons/lu';
 import DecryptApiKeys from './DecryptApiKeys';
 import { toast } from 'sonner';
 
@@ -26,7 +26,11 @@ const ApiKeySelector = () => {
 
   const handleValueChange = (option: string) => {
     dispatch(setSelectedApiKey(JSON.parse(option)));
-    toast.info(`Selected: ${JSON.parse(option).label}`);
+    toast.info('API Key Selected', {
+      description: `Selected: ${JSON.parse(option).label}`,
+      icon: <LuInfo />,
+      closeButton: true,
+    });
   };
 
   return (

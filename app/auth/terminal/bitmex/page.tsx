@@ -1,17 +1,18 @@
 'use client';
+import { Badge } from '@/components/ui/badge';
 import { Box, Flex } from '@radix-ui/themes';
 import { useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
 import { Responsive, WidthProvider } from 'react-grid-layout';
+import useWebSocket from 'react-use-websocket';
+import { toast } from 'sonner';
 import BitmexOrderbook from './_components/BitmexOrderBook';
 import BitmexTrades from './_components/BitmexTrades';
+import ConnectionStatus from './_components/ConnectionStatus';
 import TickerBar from './_components/TickerBar';
 import '/node_modules/react-grid-layout/css/styles.css';
 import '/node_modules/react-resizable/css/styles.css';
-import useWebSocket from 'react-use-websocket';
-import { toast } from 'sonner';
-import { useEffect } from 'react';
-import ConnectionStatus from './_components/ConnectionStatus';
-import { Badge } from '@/components/ui/badge';
+import { LuPartyPopper } from 'react-icons/lu';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -24,6 +25,8 @@ const BitmexTerminalPage = () => {
       if (JSON.parse(message.data).success) {
         toast.success(`Connected to Bitmex WebSocket`, {
           description: `data: ${JSON.parse(message.data).subscribe}`,
+          icon: <LuPartyPopper />,
+          closeButton: true,
         });
         return true;
       } else {
@@ -53,6 +56,7 @@ const BitmexTerminalPage = () => {
         `orderBookL2_25:${ticker}`,
       ],
     });
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ticker]);
 

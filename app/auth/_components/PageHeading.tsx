@@ -13,7 +13,11 @@ const PageHeading = ({
 }) => {
   return (
     <>
-      <Flex justify='between' align='center' className='mb-2 border-b p-2'>
+      <Flex
+        justify='between'
+        align='center'
+        className='mb-2 border-b bg-white p-2 dark:bg-slate-900'
+      >
         <Flex align='center' className='p-2'>
           <Box asChild className='mr-6 h-8 w-8'>
             {icon}

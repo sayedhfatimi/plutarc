@@ -1,6 +1,5 @@
 'use client';
-import { Box, Flex, Grid } from '@radix-ui/themes';
-import ConnectionStatus from './bitmex/_components/ConnectionStatus';
+import { Box, Flex } from '@radix-ui/themes';
 
 export default function TerminalLayout({
   children,

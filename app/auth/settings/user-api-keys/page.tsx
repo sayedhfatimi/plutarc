@@ -7,13 +7,14 @@ import { Box } from '@radix-ui/themes';
 import AddApiKeyForm from './_components/AddApiKeyForm';
 import UserApiKeysTable from './_components/UserApiKeysTable';
 import { LuKeyRound } from 'react-icons/lu';
+import ContentWrapper from '../../_components/ContentWrapper';
 
 const UserAPIKeysPage = () => {
   const apiKeysArr = useAppSelector((state) => state.apiKeys); // get apiKeys from redux store
   const isEncrypted = useAppSelector((state) => state.userContext.isEncrypted); // get isEncrypted status from redux store
 
   return (
-    <Box className='border bg-background p-2 shadow-sm'>
+    <Box className='h-full w-full border bg-slate-200 p-1 shadow-sm dark:bg-background'>
       <PageHeading
         icon={<LuKeyRound />}
         heading='Manage API Keys'
@@ -25,13 +26,13 @@ const UserAPIKeysPage = () => {
           <AddApiKeyForm />
         )}
       </PageHeading>
-      <Box className='border pb-2'>
+      <ContentWrapper>
         {apiKeysArr.length === 0 ? (
           <NoAPIKeysAlert />
         ) : (
           <UserApiKeysTable apiKeysArr={apiKeysArr} />
         )}
-      </Box>
+      </ContentWrapper>
     </Box>
   );
 };

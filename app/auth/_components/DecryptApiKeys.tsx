@@ -34,7 +34,7 @@ import { Flex } from '@radix-ui/themes';
 import bcryptjs from 'bcryptjs';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { LuUnlock } from 'react-icons/lu';
+import { LuPartyPopper, LuUnlock } from 'react-icons/lu';
 import { toast } from 'sonner';
 import { z } from 'zod';
 
@@ -76,7 +76,10 @@ const DecryptApiKeys = () => {
       dispatch(initialiseState(decryptedApiKeysArr)); // update redux store
       dispatch(setEncryptedStatus(false)); // set encrypted status
       // show success notification
-      toast.success('Keys decrypted successfully!');
+      toast.success('Keys decrypted successfully!', {
+        icon: <LuPartyPopper />,
+        closeButton: true,
+      });
     });
   };
 

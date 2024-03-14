@@ -32,7 +32,7 @@ import { Flex } from '@radix-ui/themes';
 import bcryptjs from 'bcryptjs';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { LuLock } from 'react-icons/lu';
+import { LuLock, LuPartyPopper } from 'react-icons/lu';
 import { toast } from 'sonner';
 import { z } from 'zod';
 
@@ -56,7 +56,10 @@ const SetPassphraseForm = () => {
         dispatch(setPassphraseHash(hash));
         setOpen(false);
 
-        toast.success('Passphrase set successfully!');
+        toast.success('Passphrase set successfully!', {
+          icon: <LuPartyPopper />,
+          closeButton: true,
+        });
       }),
     );
   };

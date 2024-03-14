@@ -4,7 +4,7 @@ import { Box } from '@radix-ui/themes';
 const HelpPage = () => {
   return (
     <>
-      <Box className='border bg-background p-2 shadow-sm'>
+      <Box className='h-full w-full border bg-slate-200 p-1 shadow-sm dark:bg-background'>
         <PageHeading
           heading='Help'
           description='Everything you need to know about plutarc'

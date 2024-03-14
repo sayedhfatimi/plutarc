@@ -32,7 +32,10 @@ const ResetPassphraseButton = () => {
     } catch (error) {
       setDeleting(false);
       setError(true);
-      toast.error('An unknown error has occurred.');
+      toast.error('An unknown error has occurred.', {
+        icon: <LuAlertTriangle />,
+        closeButton: true,
+      });
     }
   };
 

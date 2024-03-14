@@ -40,7 +40,7 @@ import _ from 'lodash';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaExclamationTriangle } from 'react-icons/fa';
-import { LuPlus } from 'react-icons/lu';
+import { LuAlertTriangle, LuPartyPopper, LuPlus } from 'react-icons/lu';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { exchangeOptions } from './exchangeOptions';
@@ -105,11 +105,17 @@ const AddApiKeyForm = () => {
         form.reset();
 
         // show success notification
-        toast.success('Key Added!');
+        toast.success('Key Added!', {
+          icon: <LuPartyPopper />,
+          closeButton: true,
+        });
       } catch (error) {
         setSubmitting(false); // TODO: Handle this error better
         setError('An unexpected error occurred.'); // message displayed in Callout component
-        toast.error('An unknown error has occurred.');
+        toast.error('An unknown error has occurred.', {
+          icon: <LuAlertTriangle />,
+          closeButton: true,
+        });
       }
     });
   };

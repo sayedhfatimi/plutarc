@@ -15,6 +15,7 @@ import { removeApiKey } from '@/lib/redux/features/apiKeys/apiKeys';
 import { useAppDispatch } from '@/lib/redux/hooks';
 import { UserAPIKeys } from '@prisma/client';
 import { useState } from 'react';
+import { LuAlertTriangle } from 'react-icons/lu';
 import { toast } from 'sonner';
 
 const DeleteApiKeyButton = ({ apiKeyObj }: { apiKeyObj: UserAPIKeys }) => {
@@ -30,11 +31,19 @@ const DeleteApiKeyButton = ({ apiKeyObj }: { apiKeyObj: UserAPIKeys }) => {
 
       dispatch(removeApiKey(apiKeyObj));
 
-      toast.warning('Key Deleted!');
+      toast.warning('Key Deleted!', {
+        description: `Deleted: ${apiKeyObj.label}`,
+        icon: <LuAlertTriangle />,
+        closeButton: true,
+      });
+      setDeleting(false);
     } catch (error) {
       setDeleting(false);
       setError(true);
-      toast.error('An unknown error has occurred.');
+      toast.error('An unknown error has occurred.', {
+        icon: <LuAlertTriangle />,
+        closeButton: true,
+      });
     }
   };
 

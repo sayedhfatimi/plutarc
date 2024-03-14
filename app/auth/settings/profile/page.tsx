@@ -6,6 +6,7 @@ import { useSession } from 'next-auth/react';
 import { LuSettings2, LuSkull, LuUser } from 'react-icons/lu';
 import DeleteAccount from './_components/DeleteAccount';
 import ResetPassphrase from './_components/ResetPassphrase';
+import ContentWrapper from '../../_components/ContentWrapper';
 
 const ProfilePage = () => {
   const { data: session } = useSession();
@@ -13,7 +14,7 @@ const ProfilePage = () => {
 
   if (session)
     return (
-      <Box className='border bg-background p-2 shadow-sm'>
+      <Box className='h-full w-full border bg-slate-200 p-1 shadow-sm dark:bg-background'>
         <PageHeading heading='Profile Settings' icon={<LuSettings2 />}>
           <Flex direction='column' align='end'>
             <Heading>Total API Keys: {apiKey}</Heading>
@@ -22,7 +23,7 @@ const ProfilePage = () => {
             </Text>
           </Flex>
         </PageHeading>
-        <Box className='border pb-2'>
+        <ContentWrapper>
           <Flex align='center' justify='between' className='p-4'>
             <Flex direction='column' gap='2'>
               <Heading size='8'>{session?.user.name}</Heading>
@@ -48,7 +49,7 @@ const ProfilePage = () => {
             <ResetPassphrase />
             <DeleteAccount />
           </Flex>
-        </Box>
+        </ContentWrapper>
       </Box>
     );
 };
