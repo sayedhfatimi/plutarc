@@ -113,23 +113,22 @@ const TickerInfo = ({ data }: { data: Instrument[] }) => {
             </Box>
             <Heading>{numberParser(data[0].lastPrice)}</Heading>
           </Flex>
-        </Flex>
-
-        <Separator orientation='vertical' size='2' />
-
-        <Flex direction='column'>
-          <Flex gap='1' className='text-zinc-500' align='center' justify='end'>
-            <Heading size='1'>24h</Heading>
-            <LuArrowUpDown />
+          <Flex direction='row' justify='end' align='center' gap='2'>
+            <Flex className='text-zinc-500' gap='1'>
+              <Heading size='1'>24h</Heading>
+              <LuArrowUpDown />
+            </Flex>
+            <Heading
+              size='2'
+              className={classnames({
+                'text-green-600  dark:text-green-600':
+                  data[0].lastChangePcnt > 0,
+                'text-red-600 dark:text-red-600': data[0].lastChangePcnt < 0,
+              })}
+            >
+              {`${data[0].lastChangePcnt > 0 ? '+' : '-'}${numberParser(data[0].lastChangePcnt * 100)}%`}
+            </Heading>
           </Flex>
-          <Heading
-            className={classnames({
-              'text-green-600  dark:text-green-600': data[0].lastChangePcnt > 0,
-              'text-red-600 dark:text-red-600': data[0].lastChangePcnt < 0,
-            })}
-          >
-            {numberParser(data[0].lastChangePcnt * 100) + '%'}
-          </Heading>
         </Flex>
 
         <Separator orientation='vertical' size='2' />

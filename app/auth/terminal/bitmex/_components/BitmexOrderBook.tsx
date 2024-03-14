@@ -1,4 +1,5 @@
 'use client';
+import Spinner from '@/components/Spinner';
 import { orderBookL2_25 } from '@/types/BitmexDataTypes';
 import { Grid } from '@radix-ui/themes';
 import { useData } from '../hooks/useData';
@@ -9,6 +10,16 @@ const BitmexOrderbook = ({ ticker }: { ticker: string }) => {
     ticker.toUpperCase(),
     'orderBookL2_25',
   );
+
+  if (!data || data.length === 0)
+    return (
+      <Grid
+        columns='1'
+        className='h-full place-content-center place-items-center'
+      >
+        <Spinner />
+      </Grid>
+    );
 
   // get total of size of bids from all bids in state
   const bidSizeTotal: number = data

@@ -2,6 +2,7 @@
 import { BitmexWebSocketResponse } from '@/types/BitmexDataTypes';
 import { useEffect, useState } from 'react';
 import useWebSocket from 'react-use-websocket';
+import { toast } from 'sonner';
 import { bitmexDataParser } from '../lib/utils';
 
 export function useData<T>(ticker: string, table: string) {
@@ -9,7 +10,11 @@ export function useData<T>(ticker: string, table: string) {
 
   const { lastJsonMessage }: { lastJsonMessage: BitmexWebSocketResponse<T> } =
     useWebSocket(`wss://ws.bitmex.com/realtime`, {
-      onOpen: () => console.log(`Connected to BitMex WebSocket API`),
+      onOpen: () => {
+        toast.success(`Connected to Bitmex WebSocket`, {
+          description: `data: ${table.toUpperCase()}, ticker: ${ticker.toUpperCase()}`,
+        });
+      },
       onClose: () => {
         setData([]);
       },

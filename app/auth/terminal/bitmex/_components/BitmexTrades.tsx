@@ -1,4 +1,5 @@
 'use client';
+import Spinner from '@/components/Spinner';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { RecentTrades } from '@/types/BitmexDataTypes';
 import { Box, Flex, Grid } from '@radix-ui/themes';
@@ -10,6 +11,16 @@ import { numberParser } from '../lib/utils';
 
 const BitmexTrades = ({ ticker }: { ticker: string }) => {
   const { data } = useData<RecentTrades>(ticker.toUpperCase(), 'trade');
+
+  if (!data || data.length === 0)
+    return (
+      <Grid
+        columns='1'
+        className='h-full place-content-center place-items-center'
+      >
+        <Spinner />
+      </Grid>
+    );
 
   return (
     <>
