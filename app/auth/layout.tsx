@@ -26,9 +26,7 @@ export default async function AuthLayout({
       >
         <QueryClientProvider>
           <NavBar />
-          <Box p='1' className=''>
-            {children}
-          </Box>
+          <Box className='h-full p-1'>{children}</Box>
           <Toaster richColors />
         </QueryClientProvider>
       </UserContextProvider>

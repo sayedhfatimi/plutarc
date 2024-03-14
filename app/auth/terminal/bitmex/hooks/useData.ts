@@ -2,7 +2,6 @@
 import { BitmexWebSocketResponse } from '@/types/BitmexDataTypes';
 import { useEffect, useState } from 'react';
 import useWebSocket from 'react-use-websocket';
-import { toast } from 'sonner';
 import { bitmexDataParser } from '../lib/utils';
 
 export function useData<T>(ticker: string, table: string) {
@@ -10,15 +9,6 @@ export function useData<T>(ticker: string, table: string) {
 
   const { lastJsonMessage }: { lastJsonMessage: BitmexWebSocketResponse<T> } =
     useWebSocket(`wss://ws.bitmex.com/realtime`, {
-      onOpen: () => {
-        toast.success(`Connected to Bitmex WebSocket`, {
-          description: `data: ${table.toUpperCase()}, ticker: ${ticker.toUpperCase()}`,
-        });
-      },
-      onClose: () => {
-        setData([]);
-      },
-      shouldReconnect: (closeEvent) => true,
       filter: (message) => {
         if (
           message.data !== 'pong' &&
@@ -29,17 +19,12 @@ export function useData<T>(ticker: string, table: string) {
           return false;
         }
       },
-      heartbeat: {
-        message: 'ping',
-        returnMessage: 'pong',
-        timeout: 60 * 1000,
-        interval: 30 * 1000,
-      },
       share: true,
-      queryParams: {
-        subscribe: `instrument:${ticker},trade:${ticker},orderBookL2_25:${ticker}`,
-      },
     });
+
+  useEffect(() => {
+    setData([]);
+  }, [ticker]);
 
   useEffect(() => {
     bitmexDataParser<T>(lastJsonMessage, data, setData, table);

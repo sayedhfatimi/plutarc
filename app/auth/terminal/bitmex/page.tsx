@@ -1,5 +1,5 @@
 'use client';
-import { Box } from '@radix-ui/themes';
+import { Box, Flex } from '@radix-ui/themes';
 import { useSearchParams } from 'next/navigation';
 import { Responsive, WidthProvider } from 'react-grid-layout';
 import BitmexOrderbook from './_components/BitmexOrderBook';
@@ -7,6 +7,10 @@ import BitmexTrades from './_components/BitmexTrades';
 import TickerBar from './_components/TickerBar';
 import '/node_modules/react-grid-layout/css/styles.css';
 import '/node_modules/react-resizable/css/styles.css';
+import useWebSocket from 'react-use-websocket';
+import { toast } from 'sonner';
+import { useEffect } from 'react';
+import ConnectionStatus from './_components/ConnectionStatus';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -14,9 +18,46 @@ const BitmexTerminalPage = () => {
   const searchParams = useSearchParams();
   const ticker = searchParams.get('ticker') || 'XBTUSD';
 
+  const { sendJsonMessage } = useWebSocket(`wss://ws.bitmex.com/realtime`, {
+    filter: (message) => {
+      if (JSON.parse(message.data).success) {
+        toast.success(`Connected to Bitmex WebSocket`, {
+          description: `data: ${JSON.parse(message.data).subscribe}`,
+        });
+        return true;
+      } else {
+        return false;
+      }
+    },
+    shouldReconnect: (closeEvent) => true,
+    heartbeat: {
+      message: 'ping',
+      returnMessage: 'pong',
+      timeout: 60 * 1000,
+      interval: 30 * 1000,
+    },
+    share: true,
+  });
+
+  useEffect(() => {
+    sendJsonMessage({
+      op: 'unsubscribe',
+      args: ['instrument', 'trade', 'orderBookL2_25'],
+    });
+    sendJsonMessage({
+      op: 'subscribe',
+      args: [
+        `instrument:${ticker}`,
+        `trade:${ticker}`,
+        `orderBookL2_25:${ticker}`,
+      ],
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ticker]);
+
   return (
     <>
-      <Box className='border bg-slate-200 p-1 shadow-sm dark:bg-background'>
+      <Box className='h-full w-full border bg-slate-200 p-1 shadow-sm dark:bg-background'>
         <TickerBar ticker={ticker} />
         <ResponsiveGridLayout
           className='layout'
@@ -48,6 +89,15 @@ const BitmexTerminalPage = () => {
           </Box>
         </ResponsiveGridLayout>
       </Box>
+      <Flex
+        justify='between'
+        className='absolute bottom-0 left-0 right-0 border bg-white py-2 shadow-md dark:bg-slate-800'
+      >
+        <Flex className='px-2 font-bold text-muted-foreground'>
+          {ticker.toUpperCase()}
+        </Flex>
+        <ConnectionStatus />
+      </Flex>
     </>
   );
 };

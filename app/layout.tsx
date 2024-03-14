@@ -1,7 +1,7 @@
 import AuthProvider from '@/Providers/AuthProvider';
 import { ThemeProvider } from '@/Providers/ThemeProvider';
 import { cn } from '@/lib/utils';
-import { Theme } from '@radix-ui/themes';
+import { Box, Theme } from '@radix-ui/themes';
 import '@radix-ui/themes/styles.css';
 import type { Metadata } from 'next';
 import { Inter as FontSans } from 'next/font/google';
@@ -35,7 +35,7 @@ export default function RootLayout({
         <ThemeProvider attribute='class' defaultTheme='system' enableSystem>
           <Theme>
             <AuthProvider>
-              {children}
+              <Box className='min-h-screen'>{children}</Box>
               <SpeedInsights />
               <Analytics />
             </AuthProvider>

@@ -29,7 +29,14 @@ const TickerInfo = ({ data }: { data: Instrument[] }) => {
               </Box>
               <Box className='text-left'>
                 <Heading size='1'>{numberParser(data[0].markPrice)}</Heading>
-                <Heading size='1'>{`${(data[0].fundingRate * 100).toFixed(4)}%`}</Heading>
+                <Heading
+                  size='1'
+                  className={classnames({
+                    'text-red-800': data[0].fundingRate > 0.0003,
+                    'text-red-500': data[0].fundingRate > 0.0002,
+                    'text-green-500': data[0].fundingRate < 0.0002,
+                  })}
+                >{`${(data[0].fundingRate * 100).toFixed(4)}%`}</Heading>
                 <Heading size='1'>
                   {`${data[0].openInterest.toLocaleString()} ${data[0].quoteCurrency}`}
                 </Heading>
@@ -43,13 +50,20 @@ const TickerInfo = ({ data }: { data: Instrument[] }) => {
                 <Heading size='1'>Index Price</Heading>
                 <Heading size='1'>P. Funding</Heading>
                 <Heading size='1'>O. Value</Heading>
-                <Heading size='1'>Turnover</Heading>
+                <Heading size='1'>24h Turnover</Heading>
               </Box>
               <Box className='text-left'>
                 <Heading size='1'>
                   {numberParser(data[0].indicativeSettlePrice)}
                 </Heading>
-                <Heading size='1'>
+                <Heading
+                  size='1'
+                  className={classnames({
+                    'text-red-800': data[0].indicativeFundingRate > 0.0003,
+                    'text-red-500': data[0].indicativeFundingRate > 0.0002,
+                    'text-green-500': data[0].indicativeFundingRate < 0.0002,
+                  })}
+                >
                   {`${(data[0].indicativeFundingRate * 100).toFixed(4)}%`}
                 </Heading>
                 <Heading size='1'>{`${(

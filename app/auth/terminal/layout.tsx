@@ -1,16 +1,18 @@
-import { Box, Grid } from '@radix-ui/themes';
+'use client';
+import { Box, Flex, Grid } from '@radix-ui/themes';
+import ConnectionStatus from './bitmex/_components/ConnectionStatus';
 
-export default async function TerminalLayout({
+export default function TerminalLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <>
-      <Grid columns='5'>
-        <Box className='col-span-4'>{children}</Box>
-        <Grid className='place-content-center place-items-center'>
+      <Flex className='h-full w-full' direction='row' gap='1'>
+        <Flex className='w-4/5'>{children}</Flex>
+        <Flex className='h-full w-1/5'>
           <Box>Form Goes Here</Box>
-        </Grid>
-      </Grid>
+        </Flex>
+      </Flex>
     </>
   );
 }
