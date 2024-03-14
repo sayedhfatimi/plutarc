@@ -140,7 +140,7 @@ const TickerInfo = ({ data }: { data: Instrument[] }) => {
                 'text-red-600 dark:text-red-600': data[0].lastChangePcnt < 0,
               })}
             >
-              {`${data[0].lastChangePcnt > 0 ? '+' : '-'}${numberParser(data[0].lastChangePcnt * 100)}%`}
+              {`${data[0].lastChangePcnt > 0 ? '+' : ''}${numberParser(data[0].lastChangePcnt * 100)}%`}
             </Heading>
           </Flex>
         </Flex>

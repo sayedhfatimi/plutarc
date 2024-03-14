@@ -11,6 +11,7 @@ import useWebSocket from 'react-use-websocket';
 import { toast } from 'sonner';
 import { useEffect } from 'react';
 import ConnectionStatus from './_components/ConnectionStatus';
+import { Badge } from '@/components/ui/badge';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -93,8 +94,8 @@ const BitmexTerminalPage = () => {
         justify='between'
         className='absolute bottom-0 left-0 right-0 border bg-white py-2 shadow-md dark:bg-slate-800'
       >
-        <Flex className='px-2 font-bold text-muted-foreground'>
-          {ticker.toUpperCase()}
+        <Flex className='px-2'>
+          <Badge>{ticker.toUpperCase()}</Badge>
         </Flex>
         <ConnectionStatus />
       </Flex>

@@ -10,7 +10,7 @@ const ConnectionStatus = () => {
 
   const connectionStatus = {
     [ReadyState.CONNECTING]: 'Connecting...',
-    [ReadyState.OPEN]: 'Connected to Bitmex.',
+    [ReadyState.OPEN]: 'Connected to Bitmex',
     [ReadyState.CLOSING]: 'Closing...',
     [ReadyState.CLOSED]: 'Closed.',
     [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
