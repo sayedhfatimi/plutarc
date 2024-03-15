@@ -9,7 +9,6 @@ const initialState: UserContext = {
   showVWAP: true,
   show24hRange: true,
   showLastPrice: true,
-  showStatusBar: true,
   terminalLayout: terminalLayout,
 } as UserContext;
 
@@ -59,12 +58,6 @@ export const userContextSlice = createSlice({
     ) => {
       return { ...state, showLastPrice: action.payload };
     },
-    setShowStatusBar: (
-      state: UserContext,
-      action: PayloadAction<UserContext['showStatusBar']>,
-    ) => {
-      return { ...state, showStatusBar: action.payload };
-    },
     setTerminalLayout: (
       state: UserContext,
       action: PayloadAction<UserContext['terminalLayout']>,
@@ -100,7 +93,6 @@ export const {
   setShowVWAP,
   setShow24hRange,
   setShowLastPrice,
-  setShowStatusBar,
   setTerminalLayout,
   removeFromTerminalLayout,
   addToTerminalLayout,

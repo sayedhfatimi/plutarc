@@ -1,7 +1,6 @@
 import { Instrument } from '@/types/BitmexDataTypes';
 import { Flex } from '@radix-ui/themes';
 import { useData } from '../hooks/useData';
-import ComponentDrawer from './ComponentDrawer';
 import TickerInfo from './TickerInfo';
 import TickerSelector from './TickerSelector';
 
@@ -17,7 +16,6 @@ const TickerBar = ({ ticker }: { ticker: string }) => {
       <TickerInfo data={data} />
       <Flex direction='row' align='center' gap='2'>
         <TickerSelector />
-        <ComponentDrawer />
       </Flex>
     </Flex>
   );

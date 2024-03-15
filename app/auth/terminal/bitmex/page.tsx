@@ -10,6 +10,7 @@ import useWebSocket from 'react-use-websocket';
 import { toast } from 'sonner';
 import BitmexOrderbook from './_components/BitmexOrderBook';
 import BitmexTrades from './_components/BitmexTrades';
+import TerminalSettingsDrawer from './_components/TerminalSettingsDrawer';
 import ConnectionStatus from './_components/ConnectionStatus';
 import TickerBar from './_components/TickerBar';
 import '/node_modules/react-grid-layout/css/styles.css';
@@ -20,10 +21,6 @@ const ResponsiveGridLayout = WidthProvider(Responsive);
 const BitmexTerminalPage = () => {
   const searchParams = useSearchParams();
   const ticker = searchParams.get('ticker') || 'XBTUSD';
-
-  const showStatusBar = useAppSelector(
-    (state) => state.userContext.showStatusBar,
-  );
 
   const terminalLayout = useAppSelector(
     (state) => state.userContext.terminalLayout,
@@ -103,17 +100,17 @@ const BitmexTerminalPage = () => {
         </ResponsiveGridLayout>
       </Box>
 
-      {showStatusBar && (
-        <Flex
-          justify='between'
-          className='absolute bottom-0 left-0 right-0 border bg-white py-2 shadow-md dark:bg-slate-800'
-        >
-          <Flex className='px-2'>
-            <Badge>{ticker.toUpperCase()}</Badge>
-          </Flex>
-          <ConnectionStatus />
+      <Flex
+        justify='between'
+        align='center'
+        className='absolute bottom-0 left-0 right-0 border bg-white py-2 shadow-md dark:bg-slate-800'
+      >
+        <Flex className='px-2'>
+          <Badge>{ticker.toUpperCase()}</Badge>
         </Flex>
-      )}
+        <TerminalSettingsDrawer />
+        <ConnectionStatus />
+      </Flex>
     </>
   );
 };

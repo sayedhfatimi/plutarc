@@ -16,7 +16,6 @@ import {
   setOrderPanelSide,
   setShow24hRange,
   setShowLastPrice,
-  setShowStatusBar,
   setShowVWAP,
 } from '@/lib/redux/features/user/userContext';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
@@ -24,13 +23,13 @@ import { Flex, Heading } from '@radix-ui/themes';
 import {
   LuEye,
   LuEyeOff,
-  LuMenu,
+  LuPanelBottomOpen,
   LuPanelLeft,
   LuPanelRight,
 } from 'react-icons/lu';
 import ConnectionStatus from './ConnectionStatus';
 
-const ComponentDrawer = () => {
+const TerminalSettingsDrawer = () => {
   const orderPanelSide = useAppSelector(
     (state) => state.userContext.orderPanelSide,
   );
@@ -41,17 +40,14 @@ const ComponentDrawer = () => {
   const showLastPrice = useAppSelector(
     (state) => state.userContext.showLastPrice,
   );
-  const showStatusBar = useAppSelector(
-    (state) => state.userContext.showStatusBar,
-  );
   const dispatch = useAppDispatch();
 
   return (
     <>
       <Drawer>
         <DrawerTrigger asChild>
-          <Button size='icon' variant='outline'>
-            <LuMenu />
+          <Button size='icon' className='h-6'>
+            <LuPanelBottomOpen />
           </Button>
         </DrawerTrigger>
         <DrawerContent>
@@ -120,20 +116,6 @@ const ComponentDrawer = () => {
                     <LuEye />
                   </Flex>
                 </Flex>
-                <Flex direction='row' align='center' justify='between'>
-                  <Label htmlFor='showStatusBar'>Status Bar</Label>
-                  <Flex align='center' className='space-x-2'>
-                    <LuEyeOff />
-                    <Switch
-                      id='showStatusBar'
-                      defaultChecked={showStatusBar}
-                      onCheckedChange={() =>
-                        dispatch(setShowStatusBar(!showStatusBar))
-                      }
-                    />
-                    <LuEye />
-                  </Flex>
-                </Flex>
               </Flex>
             </Flex>
             <Flex direction='column' className='w-4/5 space-y-2'>
@@ -174,4 +156,4 @@ const ComponentDrawer = () => {
   );
 };
 
-export default ComponentDrawer;
+export default TerminalSettingsDrawer;
