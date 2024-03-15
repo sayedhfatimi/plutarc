@@ -101,6 +101,7 @@ const BitmexTerminalPage = () => {
           </Box>
         </ResponsiveGridLayout>
       </Box>
+
       {showStatusBar && (
         <Flex
           justify='between'
@@ -119,8 +120,8 @@ const BitmexTerminalPage = () => {
 const layout = [
   {
     i: 'BitmexOrderbook',
-    x: 0,
-    y: 0,
+    x: 42,
+    y: Infinity,
     w: 18,
     h: 15,
     isResizable: false,
@@ -128,8 +129,8 @@ const layout = [
   },
   {
     i: 'BitmexTrades',
-    x: 0,
-    y: 0,
+    x: 42,
+    y: Infinity,
     w: 18,
     h: 15,
     isResizable: false,
