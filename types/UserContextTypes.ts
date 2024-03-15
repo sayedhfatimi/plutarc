@@ -1,3 +1,5 @@
+import { Layout } from 'react-grid-layout';
+
 export interface UserContext {
   userId: string;
   passphraseHash: string;
@@ -7,4 +9,5 @@ export interface UserContext {
   show24hRange: boolean;
   showLastPrice: boolean;
   showStatusBar: boolean;
+  terminalLayout: Layout[];
 }

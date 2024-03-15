@@ -1,5 +1,8 @@
+import { terminalLayout } from '@/lib/consts';
 import { UserContext } from '@/types/UserContextTypes';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import _ from 'lodash';
+import { Layout } from 'react-grid-layout';
 
 const initialState: UserContext = {
   orderPanelSide: true,
@@ -7,6 +10,7 @@ const initialState: UserContext = {
   show24hRange: true,
   showLastPrice: true,
   showStatusBar: true,
+  terminalLayout: terminalLayout,
 } as UserContext;
 
 export const userContextSlice = createSlice({
@@ -61,6 +65,30 @@ export const userContextSlice = createSlice({
     ) => {
       return { ...state, showStatusBar: action.payload };
     },
+    setTerminalLayout: (
+      state: UserContext,
+      action: PayloadAction<UserContext['terminalLayout']>,
+    ) => {
+      return { ...state, terminalLayout: action.payload };
+    },
+    removeFromTerminalLayout: (
+      state: UserContext,
+      action: PayloadAction<Layout>,
+    ) => {
+      return {
+        ...state,
+        terminalLayout: _.reject(state.terminalLayout, action.payload),
+      };
+    },
+    addToTerminalLayout: (
+      state: UserContext,
+      action: PayloadAction<Layout>,
+    ) => {
+      return {
+        ...state,
+        terminalLayout: [...state.terminalLayout, action.payload],
+      };
+    },
   },
 });
 
@@ -73,5 +101,8 @@ export const {
   setShow24hRange,
   setShowLastPrice,
   setShowStatusBar,
+  setTerminalLayout,
+  removeFromTerminalLayout,
+  addToTerminalLayout,
 } = userContextSlice.actions;
 export default userContextSlice.reducer;

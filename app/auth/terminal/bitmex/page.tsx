@@ -1,8 +1,9 @@
 'use client';
 import { Badge } from '@/components/ui/badge';
+import { useAppSelector } from '@/lib/redux/hooks';
 import { Box, Flex } from '@radix-ui/themes';
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Responsive, WidthProvider } from 'react-grid-layout';
 import { LuPartyPopper } from 'react-icons/lu';
 import useWebSocket from 'react-use-websocket';
@@ -13,7 +14,6 @@ import ConnectionStatus from './_components/ConnectionStatus';
 import TickerBar from './_components/TickerBar';
 import '/node_modules/react-grid-layout/css/styles.css';
 import '/node_modules/react-resizable/css/styles.css';
-import { useAppSelector } from '@/lib/redux/hooks';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -25,7 +25,14 @@ const BitmexTerminalPage = () => {
     (state) => state.userContext.showStatusBar,
   );
 
-  const [gridLayout, setGridLayout] = useState(layout);
+  const terminalLayout = useAppSelector(
+    (state) => state.userContext.terminalLayout,
+  );
+
+  const layoutChildren = [
+    { key: 'Orderbook', node: <BitmexOrderbook ticker={ticker} /> },
+    { key: 'RecentTrades', node: <BitmexTrades ticker={ticker} /> },
+  ];
 
   const { sendJsonMessage } = useWebSocket(`wss://ws.bitmex.com/realtime`, {
     filter: (message) => {
@@ -74,31 +81,25 @@ const BitmexTerminalPage = () => {
         <ResponsiveGridLayout
           className='layout'
           layouts={{
-            lg: gridLayout,
-            md: gridLayout,
-            sm: gridLayout,
-            xs: gridLayout,
-            xxs: gridLayout,
+            lg: terminalLayout,
+            md: terminalLayout,
           }}
           resizeHandles={['se']}
           useCSSTransforms={true}
-          breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
-          cols={{ lg: 50, md: 50, sm: 6, xs: 4, xxs: 2 }}
+          breakpoints={{ lg: 1200, md: 996 }}
+          cols={{ lg: 50, md: 50 }}
           rowHeight={5}
         >
-          <Box
-            className='cursor-move border bg-white pl-1 pt-1 shadow-md dark:bg-slate-800'
-            key='BitmexOrderbook'
-          >
-            <BitmexOrderbook ticker={ticker} />
-          </Box>
-
-          <Box
-            className='cursor-move border bg-white pl-1 pt-1 shadow-md dark:bg-slate-800'
-            key='BitmexTrades'
-          >
-            <BitmexTrades ticker={ticker} />
-          </Box>
+          {terminalLayout.map((item) => (
+            <Box
+              key={item.i}
+              className='relative cursor-move border bg-white pl-1 pt-1 shadow-md dark:bg-slate-800'
+            >
+              {layoutChildren
+                .filter((child) => child.key === item.i)
+                .map((child) => child.node)}
+            </Box>
+          ))}
         </ResponsiveGridLayout>
       </Box>
 
@@ -116,26 +117,5 @@ const BitmexTerminalPage = () => {
     </>
   );
 };
-
-const layout = [
-  {
-    i: 'BitmexOrderbook',
-    x: 42,
-    y: Infinity,
-    w: 18,
-    h: 15,
-    isResizable: false,
-    isBounded: true,
-  },
-  {
-    i: 'BitmexTrades',
-    x: 42,
-    y: Infinity,
-    w: 18,
-    h: 15,
-    isResizable: false,
-    isBounded: true,
-  },
-];
 
 export default BitmexTerminalPage;
