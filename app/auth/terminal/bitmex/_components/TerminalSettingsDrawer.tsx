@@ -14,6 +14,7 @@ import {
   setOrderPanelSide,
   setShow24hRange,
   setShowLastPrice,
+  setShowTickerBar,
   setShowVWAP,
 } from '@/lib/redux/features/user/userContext';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
@@ -30,6 +31,9 @@ import ConnectionStatus from './ConnectionStatus';
 const TerminalSettingsDrawer = () => {
   const orderPanelSide = useAppSelector(
     (state) => state.userContext.orderPanelSide,
+  );
+  const showTickerBar = useAppSelector(
+    (state) => state.userContext.showTickerBar,
   );
   const showVWAP = useAppSelector((state) => state.userContext.showVWAP);
   const show24hRange = useAppSelector(
@@ -72,6 +76,20 @@ const TerminalSettingsDrawer = () => {
                       defaultChecked={orderPanelSide}
                       onCheckedChange={() =>
                         dispatch(setOrderPanelSide(!orderPanelSide))
+                      }
+                    />
+                    <LuPanelRight />
+                  </Flex>
+                </Flex>
+                <Flex direction='row' align='center' justify='between'>
+                  <Label htmlFor='showTickerBar'>Ticker Bar</Label>
+                  <Flex align='center' className='space-x-2'>
+                    <LuPanelLeft />
+                    <Switch
+                      id='showTickerBar'
+                      defaultChecked={showTickerBar}
+                      onCheckedChange={() =>
+                        dispatch(setShowTickerBar(!showTickerBar))
                       }
                     />
                     <LuPanelRight />

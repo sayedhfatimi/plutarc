@@ -6,6 +6,7 @@ import { Layout } from 'react-grid-layout';
 
 const initialState: UserContext = {
   orderPanelSide: true,
+  showTickerBar: true,
   showVWAP: true,
   show24hRange: true,
   showLastPrice: true,
@@ -40,6 +41,12 @@ export const userContextSlice = createSlice({
       action: PayloadAction<UserContext['orderPanelSide']>,
     ) => {
       return { ...state, orderPanelSide: action.payload };
+    },
+    setShowTickerBar: (
+      state: UserContext,
+      action: PayloadAction<UserContext['showTickerBar']>,
+    ) => {
+      return { ...state, showTickerBar: action.payload };
     },
     setShowVWAP: (
       state: UserContext,
@@ -93,6 +100,7 @@ export const {
   setPassphraseHash,
   setEncryptedStatus,
   setOrderPanelSide,
+  setShowTickerBar,
   setShowVWAP,
   setShow24hRange,
   setShowLastPrice,

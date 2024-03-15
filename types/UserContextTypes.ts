@@ -8,6 +8,7 @@ export interface UserContext {
   showVWAP: boolean;
   show24hRange: boolean;
   showLastPrice: boolean;
+  showTickerBar: boolean;
   terminalLayout: Layout[];
   terminalComponents: Layout[];
 }

@@ -29,6 +29,9 @@ const BitmexTerminalPage = () => {
   const terminalLayout = useAppSelector(
     (state) => state.userContext.terminalLayout,
   );
+  const showTickerBar = useAppSelector(
+    (state) => state.userContext.showTickerBar,
+  );
 
   const dispatch = useAppDispatch();
 
@@ -80,7 +83,7 @@ const BitmexTerminalPage = () => {
   return (
     <>
       <Box className='h-full w-full border bg-slate-200 p-1 shadow-sm dark:bg-background'>
-        <TickerBar ticker={ticker} />
+        {showTickerBar && <TickerBar ticker={ticker} />}
         <ResponsiveGridLayout
           className='layout'
           layouts={{
