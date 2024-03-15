@@ -6,6 +6,7 @@ const initialState: UserContext = {
   showVWAP: true,
   show24hRange: true,
   showLastPrice: true,
+  showStatusBar: true,
 } as UserContext;
 
 export const userContextSlice = createSlice({
@@ -54,6 +55,12 @@ export const userContextSlice = createSlice({
     ) => {
       return { ...state, showLastPrice: action.payload };
     },
+    setShowStatusBar: (
+      state: UserContext,
+      action: PayloadAction<UserContext['showStatusBar']>,
+    ) => {
+      return { ...state, showStatusBar: action.payload };
+    },
   },
 });
 
@@ -65,5 +72,6 @@ export const {
   setShowVWAP,
   setShow24hRange,
   setShowLastPrice,
+  setShowStatusBar,
 } = userContextSlice.actions;
 export default userContextSlice.reducer;

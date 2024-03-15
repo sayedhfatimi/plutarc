@@ -6,4 +6,5 @@ export interface UserContext {
   showVWAP: boolean;
   show24hRange: boolean;
   showLastPrice: boolean;
+  showStatusBar: boolean;
 }

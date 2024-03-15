@@ -13,12 +13,17 @@ import ConnectionStatus from './_components/ConnectionStatus';
 import TickerBar from './_components/TickerBar';
 import '/node_modules/react-grid-layout/css/styles.css';
 import '/node_modules/react-resizable/css/styles.css';
+import { useAppSelector } from '@/lib/redux/hooks';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
 const BitmexTerminalPage = () => {
   const searchParams = useSearchParams();
   const ticker = searchParams.get('ticker') || 'XBTUSD';
+
+  const showStatusBar = useAppSelector(
+    (state) => state.userContext.showStatusBar,
+  );
 
   const [gridLayout, setGridLayout] = useState(layout);
 
@@ -96,15 +101,17 @@ const BitmexTerminalPage = () => {
           </Box>
         </ResponsiveGridLayout>
       </Box>
-      <Flex
-        justify='between'
-        className='absolute bottom-0 left-0 right-0 border bg-white py-2 shadow-md dark:bg-slate-800'
-      >
-        <Flex className='px-2'>
-          <Badge>{ticker.toUpperCase()}</Badge>
+      {showStatusBar && (
+        <Flex
+          justify='between'
+          className='absolute bottom-0 left-0 right-0 border bg-white py-2 shadow-md dark:bg-slate-800'
+        >
+          <Flex className='px-2'>
+            <Badge>{ticker.toUpperCase()}</Badge>
+          </Flex>
+          <ConnectionStatus />
         </Flex>
-        <ConnectionStatus />
-      </Flex>
+      )}
     </>
   );
 };

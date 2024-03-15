@@ -23,6 +23,7 @@ import {
   setOrderPanelSide,
   setShow24hRange,
   setShowLastPrice,
+  setShowStatusBar,
   setShowVWAP,
 } from '@/lib/redux/features/user/userContext';
 
@@ -36,6 +37,9 @@ const ComponentDrawer = () => {
   );
   const showLastPrice = useAppSelector(
     (state) => state.userContext.showLastPrice,
+  );
+  const showStatusBar = useAppSelector(
+    (state) => state.userContext.showStatusBar,
   );
   const dispatch = useAppDispatch();
 
@@ -74,18 +78,6 @@ const ComponentDrawer = () => {
                   </Flex>
                 </Flex>
                 <Flex direction='row' align='center' justify='between'>
-                  <Label htmlFor='showVWAP'>VWAP</Label>
-                  <Flex align='center' className='space-x-2'>
-                    <LuEyeOff />
-                    <Switch
-                      id='showVWAP'
-                      defaultChecked={showVWAP}
-                      onCheckedChange={() => dispatch(setShowVWAP(!showVWAP))}
-                    />
-                    <LuEye />
-                  </Flex>
-                </Flex>
-                <Flex direction='row' align='center' justify='between'>
                   <Label htmlFor='show24hRange'>24h Range</Label>
                   <Flex align='center' className='space-x-2'>
                     <LuEyeOff />
@@ -108,6 +100,32 @@ const ComponentDrawer = () => {
                       defaultChecked={showLastPrice}
                       onCheckedChange={() =>
                         dispatch(setShowLastPrice(!showLastPrice))
+                      }
+                    />
+                    <LuEye />
+                  </Flex>
+                </Flex>
+                <Flex direction='row' align='center' justify='between'>
+                  <Label htmlFor='showVWAP'>VWAP</Label>
+                  <Flex align='center' className='space-x-2'>
+                    <LuEyeOff />
+                    <Switch
+                      id='showVWAP'
+                      defaultChecked={showVWAP}
+                      onCheckedChange={() => dispatch(setShowVWAP(!showVWAP))}
+                    />
+                    <LuEye />
+                  </Flex>
+                </Flex>
+                <Flex direction='row' align='center' justify='between'>
+                  <Label htmlFor='showStatusBar'>Status Bar</Label>
+                  <Flex align='center' className='space-x-2'>
+                    <LuEyeOff />
+                    <Switch
+                      id='showStatusBar'
+                      defaultChecked={showStatusBar}
+                      onCheckedChange={() =>
+                        dispatch(setShowStatusBar(!showStatusBar))
                       }
                     />
                     <LuEye />
