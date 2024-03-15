@@ -90,7 +90,7 @@ const BitmexTerminalPage = () => {
           {terminalLayout.map((item) => (
             <Box
               key={item.i}
-              className='relative cursor-move border bg-white pl-1 pt-1 shadow-md dark:bg-slate-800'
+              className='relative cursor-move border bg-white pl-1 pt-1 shadow-md dark:bg-slate-900'
             >
               {layoutChildren
                 .filter((child) => child.key === item.i)
@@ -103,7 +103,7 @@ const BitmexTerminalPage = () => {
       <Flex
         justify='between'
         align='center'
-        className='absolute bottom-0 left-0 right-0 border bg-white py-2 shadow-md dark:bg-slate-800'
+        className='absolute bottom-0 left-0 right-0 border bg-white py-2 shadow-md dark:bg-slate-900'
       >
         <Flex className='px-2'>
           <Badge>{ticker.toUpperCase()}</Badge>
