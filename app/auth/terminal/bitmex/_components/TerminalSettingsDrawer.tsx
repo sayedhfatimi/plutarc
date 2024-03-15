@@ -127,7 +127,7 @@ const TerminalSettingsDrawer = () => {
                     direction='row'
                     align='center'
                     justify='between'
-                    className='bg-slate-200 p-1'
+                    className='bg-slate-200 p-1 dark:bg-slate-800'
                   >
                     <Label htmlFor={item.i}>{item.i}</Label>
                     <Flex align='center' className='space-x-2'>
