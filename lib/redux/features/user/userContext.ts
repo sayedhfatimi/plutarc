@@ -1,7 +1,12 @@
 import { UserContext } from '@/types/UserContextTypes';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-const initialState: UserContext = {} as UserContext;
+const initialState: UserContext = {
+  orderPanelSide: true,
+  showVWAP: true,
+  show24hRange: true,
+  showLastPrice: true,
+} as UserContext;
 
 export const userContextSlice = createSlice({
   name: 'userContext',
@@ -25,9 +30,40 @@ export const userContextSlice = createSlice({
     ) => {
       return { ...state, isEncrypted: action.payload };
     },
+    setOrderPanelSide: (
+      state: UserContext,
+      action: PayloadAction<UserContext['orderPanelSide']>,
+    ) => {
+      return { ...state, orderPanelSide: action.payload };
+    },
+    setShowVWAP: (
+      state: UserContext,
+      action: PayloadAction<UserContext['showVWAP']>,
+    ) => {
+      return { ...state, showVWAP: action.payload };
+    },
+    setShow24hRange: (
+      state: UserContext,
+      action: PayloadAction<UserContext['show24hRange']>,
+    ) => {
+      return { ...state, show24hRange: action.payload };
+    },
+    setShowLastPrice: (
+      state: UserContext,
+      action: PayloadAction<UserContext['showLastPrice']>,
+    ) => {
+      return { ...state, showLastPrice: action.payload };
+    },
   },
 });
 
-export const { setUserId, setPassphraseHash, setEncryptedStatus } =
-  userContextSlice.actions;
+export const {
+  setUserId,
+  setPassphraseHash,
+  setEncryptedStatus,
+  setOrderPanelSide,
+  setShowVWAP,
+  setShow24hRange,
+  setShowLastPrice,
+} = userContextSlice.actions;
 export default userContextSlice.reducer;

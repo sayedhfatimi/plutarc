@@ -6,8 +6,18 @@ import { FaArrowTrendDown, FaArrowTrendUp } from 'react-icons/fa6';
 import { LuArrowUpDown } from 'react-icons/lu';
 import { TiArrowDown, TiArrowUp } from 'react-icons/ti';
 import { numberParser } from '../lib/utils';
+import { useAppSelector } from '@/lib/redux/hooks';
+import classNames from 'classnames';
 
 const TickerInfo = ({ data }: { data: Instrument[] }) => {
+  const showVWAP = useAppSelector((state) => state.userContext.showVWAP);
+  const show24hRange = useAppSelector(
+    (state) => state.userContext.show24hRange,
+  );
+  const showLastPrice = useAppSelector(
+    (state) => state.userContext.showLastPrice,
+  );
+
   if (!data || data.length === 0)
     return (
       <Box className='p-4'>
@@ -86,73 +96,119 @@ const TickerInfo = ({ data }: { data: Instrument[] }) => {
           </Box>
         </Flex>
 
-        <Separator orientation='vertical' size='2' />
+        <Separator
+          orientation='vertical'
+          size='2'
+          className={classNames({
+            hidden: !show24hRange,
+          })}
+        />
 
-        <Flex direction='column' className='text-right'>
-          <Flex gap='1' className='text-zinc-500' align='center' justify='end'>
-            <Heading size='1'>24h High</Heading>
-            <FaArrowTrendUp />
-          </Flex>
-          <Heading size='4'>{numberParser(data[0].highPrice)}</Heading>
-          <Flex gap='1' className='text-zinc-500' align='center' justify='end'>
-            <Heading size='1'>24h Low</Heading>
-            <FaArrowTrendDown />
-          </Flex>
-          <Heading size='4'>{numberParser(data[0].lowPrice)}</Heading>
-        </Flex>
-
-        <Separator orientation='vertical' size='2' />
-
-        <Flex direction='column'>
-          <Heading size='1' className='text-right text-zinc-500'>
-            Last Price
-          </Heading>
-          <Flex
-            align='center'
-            justify='end'
-            className={classnames({
-              'text-green-600  dark:text-green-600':
-                data[0].lastTickDirection === 'PlusTick',
-              'text-red-600 dark:text-red-600':
-                data[0].lastTickDirection === 'MinusTick',
-            })}
-          >
-            <Box className='mr-1 h-6 w-6'>
-              {data[0].lastTickDirection === 'PlusTick' ? (
-                <TiArrowUp className='mr-1 h-6 w-6' />
-              ) : null}
-              {data[0].lastTickDirection === 'MinusTick' ? (
-                <TiArrowDown className='mr-1 h-6 w-6' />
-              ) : null}
-            </Box>
-            <Heading>{numberParser(data[0].lastPrice)}</Heading>
-          </Flex>
-          <Flex direction='row' justify='end' align='center' gap='2'>
-            <Flex className='text-zinc-500' gap='1'>
-              <Heading size='1'>24h</Heading>
-              <LuArrowUpDown />
+        <Box
+          className={classNames({
+            hidden: !show24hRange,
+          })}
+        >
+          <Flex direction='column' className='text-right'>
+            <Flex
+              gap='1'
+              className='text-zinc-500'
+              align='center'
+              justify='end'
+            >
+              <Heading size='1'>24h High</Heading>
+              <FaArrowTrendUp />
             </Flex>
-            <Heading
-              size='2'
+            <Heading size='4'>{numberParser(data[0].highPrice)}</Heading>
+            <Flex
+              gap='1'
+              className='text-zinc-500'
+              align='center'
+              justify='end'
+            >
+              <Heading size='1'>24h Low</Heading>
+              <FaArrowTrendDown />
+            </Flex>
+            <Heading size='4'>{numberParser(data[0].lowPrice)}</Heading>
+          </Flex>
+        </Box>
+
+        <Separator
+          orientation='vertical'
+          size='2'
+          className={classNames({
+            hidden: !showLastPrice,
+          })}
+        />
+
+        <Box
+          className={classNames({
+            hidden: !showLastPrice,
+          })}
+        >
+          <Flex direction='column'>
+            <Heading size='1' className='text-right text-zinc-500'>
+              Last Price
+            </Heading>
+            <Flex
+              align='center'
+              justify='end'
               className={classnames({
                 'text-green-600  dark:text-green-600':
-                  data[0].lastChangePcnt > 0,
-                'text-red-600 dark:text-red-600': data[0].lastChangePcnt < 0,
+                  data[0].lastTickDirection === 'PlusTick',
+                'text-red-600 dark:text-red-600':
+                  data[0].lastTickDirection === 'MinusTick',
               })}
             >
-              {`${data[0].lastChangePcnt > 0 ? '+' : ''}${numberParser(data[0].lastChangePcnt * 100)}%`}
-            </Heading>
+              <Box className='mr-1 h-6 w-6'>
+                {data[0].lastTickDirection === 'PlusTick' ? (
+                  <TiArrowUp className='mr-1 h-6 w-6' />
+                ) : null}
+                {data[0].lastTickDirection === 'MinusTick' ? (
+                  <TiArrowDown className='mr-1 h-6 w-6' />
+                ) : null}
+              </Box>
+              <Heading>{numberParser(data[0].lastPrice)}</Heading>
+            </Flex>
+            <Flex direction='row' justify='end' align='center' gap='2'>
+              <Flex className='text-zinc-500' gap='1'>
+                <Heading size='1'>24h</Heading>
+                <LuArrowUpDown />
+              </Flex>
+              <Heading
+                size='2'
+                className={classnames({
+                  'text-green-600  dark:text-green-600':
+                    data[0].lastChangePcnt > 0,
+                  'text-red-600 dark:text-red-600': data[0].lastChangePcnt < 0,
+                })}
+              >
+                {`${data[0].lastChangePcnt > 0 ? '+' : ''}${numberParser(data[0].lastChangePcnt * 100)}%`}
+              </Heading>
+            </Flex>
           </Flex>
-        </Flex>
+        </Box>
 
-        <Separator orientation='vertical' size='2' />
+        <Separator
+          orientation='vertical'
+          size='2'
+          className={classNames({
+            hidden: !showVWAP,
+          })}
+        />
 
-        <Flex direction='column'>
-          <Heading size='1' className='text-right text-zinc-500'>
-            VWAP
-          </Heading>
-          <Heading>{numberParser(data[0].vwap)}</Heading>
-        </Flex>
+        <Box
+          className={classNames({
+            hidden: !showVWAP,
+          })}
+        >
+          <Flex direction='column' className='text-right'>
+            <Heading size='1' className=' text-zinc-500'>
+              VWAP
+            </Heading>
+            <Heading>{numberParser(data[0].vwap)}</Heading>
+          </Flex>
+        </Box>
       </Flex>
     </>
   );

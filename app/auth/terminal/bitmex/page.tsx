@@ -2,8 +2,9 @@
 import { Badge } from '@/components/ui/badge';
 import { Box, Flex } from '@radix-ui/themes';
 import { useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Responsive, WidthProvider } from 'react-grid-layout';
+import { LuPartyPopper } from 'react-icons/lu';
 import useWebSocket from 'react-use-websocket';
 import { toast } from 'sonner';
 import BitmexOrderbook from './_components/BitmexOrderBook';
@@ -12,13 +13,14 @@ import ConnectionStatus from './_components/ConnectionStatus';
 import TickerBar from './_components/TickerBar';
 import '/node_modules/react-grid-layout/css/styles.css';
 import '/node_modules/react-resizable/css/styles.css';
-import { LuPartyPopper } from 'react-icons/lu';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
 const BitmexTerminalPage = () => {
   const searchParams = useSearchParams();
   const ticker = searchParams.get('ticker') || 'XBTUSD';
+
+  const [gridLayout, setGridLayout] = useState(layout);
 
   const { sendJsonMessage } = useWebSocket(`wss://ws.bitmex.com/realtime`, {
     filter: (message) => {
@@ -67,16 +69,16 @@ const BitmexTerminalPage = () => {
         <ResponsiveGridLayout
           className='layout'
           layouts={{
-            lg: layout,
-            md: layout,
-            sm: layout,
-            xs: layout,
-            xxs: layout,
+            lg: gridLayout,
+            md: gridLayout,
+            sm: gridLayout,
+            xs: gridLayout,
+            xxs: gridLayout,
           }}
           resizeHandles={['se']}
           useCSSTransforms={true}
           breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
-          cols={{ lg: 24, md: 12, sm: 6, xs: 4, xxs: 2 }}
+          cols={{ lg: 50, md: 50, sm: 6, xs: 4, xxs: 2 }}
           rowHeight={5}
         >
           <Box
@@ -112,10 +114,8 @@ const layout = [
     i: 'BitmexOrderbook',
     x: 0,
     y: 0,
-    w: 8,
+    w: 18,
     h: 15,
-    minW: 8,
-    minH: 15,
     isResizable: false,
     isBounded: true,
   },
@@ -123,8 +123,8 @@ const layout = [
     i: 'BitmexTrades',
     x: 0,
     y: 0,
-    w: 5,
-    h: 16,
+    w: 18,
+    h: 15,
     isResizable: false,
     isBounded: true,
   },
