@@ -26,7 +26,7 @@ import {
   LuPanelLeft,
   LuPanelRight,
 } from 'react-icons/lu';
-import ConnectionStatus from './ConnectionStatus';
+import ConnectionStatus from '../bitmex/_components/ConnectionStatus';
 
 const TerminalSettingsDrawer = () => {
   const orderPanelSide = useAppSelector(
@@ -84,7 +84,7 @@ const TerminalSettingsDrawer = () => {
                 <Flex direction='row' align='center' justify='between'>
                   <Label htmlFor='showTickerBar'>Ticker Bar</Label>
                   <Flex align='center' className='space-x-2'>
-                    <LuPanelLeft />
+                    <LuEyeOff />
                     <Switch
                       id='showTickerBar'
                       defaultChecked={showTickerBar}
@@ -92,7 +92,7 @@ const TerminalSettingsDrawer = () => {
                         dispatch(setShowTickerBar(!showTickerBar))
                       }
                     />
-                    <LuPanelRight />
+                    <LuEye />
                   </Flex>
                 </Flex>
                 <Flex direction='row' align='center' justify='between'>

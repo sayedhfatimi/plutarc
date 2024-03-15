@@ -12,10 +12,10 @@ import { Responsive, WidthProvider } from 'react-grid-layout';
 import { LuPartyPopper, LuX } from 'react-icons/lu';
 import useWebSocket from 'react-use-websocket';
 import { toast } from 'sonner';
+import TerminalSettingsDrawer from '@/app/auth/terminal/_components/TerminalSettingsDrawer';
 import BitmexOrderbook from './_components/BitmexOrderBook';
 import BitmexTrades from './_components/BitmexTrades';
 import ConnectionStatus from './_components/ConnectionStatus';
-import TerminalSettingsDrawer from './_components/TerminalSettingsDrawer';
 import TickerBar from './_components/TickerBar';
 import '/node_modules/react-grid-layout/css/styles.css';
 import '/node_modules/react-resizable/css/styles.css';
@@ -104,7 +104,7 @@ const BitmexTerminalPage = () => {
               className='group relative border bg-white pl-1 pt-1 shadow-md dark:bg-slate-900'
             >
               <Box
-                className='remove absolute right-1 top-1 z-50 hidden h-4 w-4 animate-pulse cursor-pointer group-hover:block'
+                className='remove absolute right-1 top-1 z-50 hidden h-4 w-4 animate-pulse cursor-pointer bg-slate-200 group-hover:block dark:bg-transparent'
                 onClick={() => dispatch(removeFromTerminalLayout(item))}
               >
                 <LuX />

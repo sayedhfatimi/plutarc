@@ -1,4 +1,5 @@
 import Spinner from '@/components/Spinner';
+import { useAppSelector } from '@/lib/redux/hooks';
 import { Instrument } from '@/types/BitmexDataTypes';
 import { Box, Flex, Heading, Separator } from '@radix-ui/themes';
 import classnames from 'classnames';
@@ -6,8 +7,6 @@ import { FaArrowTrendDown, FaArrowTrendUp } from 'react-icons/fa6';
 import { LuArrowUpDown } from 'react-icons/lu';
 import { TiArrowDown, TiArrowUp } from 'react-icons/ti';
 import { numberParser } from '../lib/utils';
-import { useAppSelector } from '@/lib/redux/hooks';
-import classNames from 'classnames';
 
 const TickerInfo = ({ data }: { data: Instrument[] }) => {
   const showVWAP = useAppSelector((state) => state.userContext.showVWAP);
