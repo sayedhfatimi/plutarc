@@ -19,6 +19,12 @@ import ConnectionStatus from './_components/ConnectionStatus';
 import TickerBar from './_components/TickerBar';
 import '/node_modules/react-grid-layout/css/styles.css';
 import '/node_modules/react-resizable/css/styles.css';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -125,7 +131,14 @@ const BitmexTerminalPage = () => {
         <Flex className='px-2'>
           <Badge>{ticker.toUpperCase()}</Badge>
         </Flex>
-        <TerminalSettingsDrawer />
+        <TooltipProvider delayDuration={0}>
+          <Tooltip>
+            <TooltipTrigger>
+              <TerminalSettingsDrawer />
+            </TooltipTrigger>
+            <TooltipContent>Terminal Settings</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
         <ConnectionStatus />
       </Flex>
     </>
