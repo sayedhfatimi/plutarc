@@ -10,6 +10,7 @@ const initialState: UserContext = {
   show24hRange: true,
   showLastPrice: true,
   terminalLayout: terminalLayout,
+  terminalComponents: [] as Layout[],
 } as UserContext;
 
 export const userContextSlice = createSlice({
@@ -71,6 +72,7 @@ export const userContextSlice = createSlice({
       return {
         ...state,
         terminalLayout: _.reject(state.terminalLayout, action.payload),
+        terminalComponents: [...state.terminalComponents, action.payload],
       };
     },
     addToTerminalLayout: (
@@ -80,6 +82,7 @@ export const userContextSlice = createSlice({
       return {
         ...state,
         terminalLayout: [...state.terminalLayout, action.payload],
+        terminalComponents: _.reject(state.terminalComponents, action.payload),
       };
     },
   },

@@ -1,17 +1,21 @@
 'use client';
 import { Badge } from '@/components/ui/badge';
-import { useAppSelector } from '@/lib/redux/hooks';
+import {
+  removeFromTerminalLayout,
+  setTerminalLayout,
+} from '@/lib/redux/features/user/userContext';
+import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { Box, Flex } from '@radix-ui/themes';
 import { useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 import { Responsive, WidthProvider } from 'react-grid-layout';
-import { LuPartyPopper } from 'react-icons/lu';
+import { LuPartyPopper, LuX } from 'react-icons/lu';
 import useWebSocket from 'react-use-websocket';
 import { toast } from 'sonner';
 import BitmexOrderbook from './_components/BitmexOrderBook';
 import BitmexTrades from './_components/BitmexTrades';
-import TerminalSettingsDrawer from './_components/TerminalSettingsDrawer';
 import ConnectionStatus from './_components/ConnectionStatus';
+import TerminalSettingsDrawer from './_components/TerminalSettingsDrawer';
 import TickerBar from './_components/TickerBar';
 import '/node_modules/react-grid-layout/css/styles.css';
 import '/node_modules/react-resizable/css/styles.css';
@@ -25,6 +29,8 @@ const BitmexTerminalPage = () => {
   const terminalLayout = useAppSelector(
     (state) => state.userContext.terminalLayout,
   );
+
+  const dispatch = useAppDispatch();
 
   const layoutChildren = [
     { key: 'Orderbook', node: <BitmexOrderbook ticker={ticker} /> },
@@ -86,12 +92,20 @@ const BitmexTerminalPage = () => {
           breakpoints={{ lg: 1200, md: 996 }}
           cols={{ lg: 50, md: 50 }}
           rowHeight={5}
+          draggableCancel='.remove'
+          onLayoutChange={(layout) => dispatch(setTerminalLayout(layout))}
         >
           {terminalLayout.map((item) => (
             <Box
               key={item.i}
-              className='relative cursor-move border bg-white pl-1 pt-1 shadow-md dark:bg-slate-900'
+              className='group relative border bg-white pl-1 pt-1 shadow-md dark:bg-slate-900'
             >
+              <Box
+                className='remove absolute right-1 top-1 z-50 hidden h-4 w-4 animate-pulse cursor-pointer group-hover:block'
+                onClick={() => dispatch(removeFromTerminalLayout(item))}
+              >
+                <LuX />
+              </Box>
               {layoutChildren
                 .filter((child) => child.key === item.i)
                 .map((child) => child.node)}

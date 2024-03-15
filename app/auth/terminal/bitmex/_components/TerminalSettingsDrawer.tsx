@@ -9,10 +9,8 @@ import {
 } from '@/components/ui/drawer';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
-import { terminalLayout } from '@/lib/consts';
 import {
   addToTerminalLayout,
-  removeFromTerminalLayout,
   setOrderPanelSide,
   setShow24hRange,
   setShowLastPrice,
@@ -39,6 +37,9 @@ const TerminalSettingsDrawer = () => {
   );
   const showLastPrice = useAppSelector(
     (state) => state.userContext.showLastPrice,
+  );
+  const terminalComponents = useAppSelector(
+    (state) => state.userContext.terminalComponents,
   );
   const dispatch = useAppDispatch();
 
@@ -120,31 +121,14 @@ const TerminalSettingsDrawer = () => {
             </Flex>
             <Flex direction='column' className='w-4/5 space-y-2'>
               <Heading>Components</Heading>
-              <Flex direction='column'>
-                {terminalLayout.map((item) => (
+              <Flex direction='row'>
+                {terminalComponents.map((item) => (
                   <Flex
                     key={item.i}
-                    direction='row'
-                    align='center'
-                    justify='between'
-                    className='bg-slate-200 p-1 dark:bg-slate-900'
+                    className='mx-1 cursor-pointer border bg-slate-200 p-1 dark:bg-slate-900'
+                    onClick={() => dispatch(addToTerminalLayout(item))}
                   >
-                    <Label htmlFor={item.i}>{item.i}</Label>
-                    <Flex align='center' className='space-x-2'>
-                      <LuEyeOff />
-                      <Switch
-                        id={item.i}
-                        defaultChecked={true}
-                        onCheckedChange={(e) => {
-                          if (!e) {
-                            dispatch(removeFromTerminalLayout(item));
-                          } else {
-                            dispatch(addToTerminalLayout(item));
-                          }
-                        }}
-                      />
-                      <LuEye />
-                    </Flex>
+                    {item.i}
                   </Flex>
                 ))}
               </Flex>

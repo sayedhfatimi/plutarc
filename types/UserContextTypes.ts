@@ -9,4 +9,5 @@ export interface UserContext {
   show24hRange: boolean;
   showLastPrice: boolean;
   terminalLayout: Layout[];
+  terminalComponents: Layout[];
 }
