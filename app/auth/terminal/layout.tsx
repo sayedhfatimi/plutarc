@@ -15,7 +15,7 @@ export default function TerminalLayout({
       <Flex
         className={classNames({
           'h-full w-full flex-col md:flex-row': true,
-          'flex-row-reverse': !orderPanelSide,
+          'md:flex-row-reverse': !orderPanelSide,
         })}
         gap='1'
       >
