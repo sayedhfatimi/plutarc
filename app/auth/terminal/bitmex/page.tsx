@@ -1,5 +1,12 @@
 'use client';
+import TerminalSettingsDrawer from '@/app/auth/terminal/_components/TerminalSettingsDrawer';
 import { Badge } from '@/components/ui/badge';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import {
   removeFromTerminalLayout,
   setTerminalLayout,
@@ -12,19 +19,13 @@ import { Responsive, WidthProvider } from 'react-grid-layout';
 import { LuPartyPopper, LuX } from 'react-icons/lu';
 import useWebSocket from 'react-use-websocket';
 import { toast } from 'sonner';
-import TerminalSettingsDrawer from '@/app/auth/terminal/_components/TerminalSettingsDrawer';
+import PageWrapper from '../../_components/PageWrapper';
 import BitmexOrderbook from './_components/BitmexOrderBook';
 import BitmexTrades from './_components/BitmexTrades';
 import ConnectionStatus from './_components/ConnectionStatus';
 import TickerBar from './_components/TickerBar';
 import '/node_modules/react-grid-layout/css/styles.css';
 import '/node_modules/react-resizable/css/styles.css';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -88,7 +89,7 @@ const BitmexTerminalPage = () => {
 
   return (
     <>
-      <Box className='h-full w-full border bg-slate-200 p-1 shadow-sm dark:bg-background'>
+      <PageWrapper>
         {showTickerBar && <TickerBar ticker={ticker} />}
         <ResponsiveGridLayout
           className='layout'
@@ -121,7 +122,7 @@ const BitmexTerminalPage = () => {
             </Box>
           ))}
         </ResponsiveGridLayout>
-      </Box>
+      </PageWrapper>
 
       <Flex
         justify='between'

@@ -55,7 +55,7 @@ const HomePage = () => {
           )}
         </Flex>
       </Flex>
-      <Flex direction='column' className='bg-slate-500/50'>
+      <Flex direction='column' className='bg-slate-500/50 backdrop-blur-sm'>
         <Box>
           <Box className='px-8 py-4'>
             <Heading size='9'>
@@ -78,13 +78,13 @@ const HomePage = () => {
         direction='column'
         align='center'
         justify='center'
-        className='my-4 bg-slate-600/50 py-4'
+        className='my-4 bg-slate-600/50 py-4 backdrop-blur-sm'
         gap='2'
       >
         <Heading>Supported Exchanges</Heading>
         <hr />
         <Flex
-          className=' bg-slate-800/75 px-8 py-4 shadow-sm'
+          className='flex-col bg-slate-800/75 px-8 py-4 shadow-sm backdrop-blur-sm md:flex-row'
           align='center'
           gap='9'
         >
@@ -105,7 +105,7 @@ const HomePage = () => {
         >
           <CarouselContent>
             {CarouselItems.map((item, index) => (
-              <CarouselItem className='basis-1/3' key={index}>
+              <CarouselItem className='md:basis-1/3' key={index}>
                 {item.image}
               </CarouselItem>
             ))}

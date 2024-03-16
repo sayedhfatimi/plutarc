@@ -33,7 +33,7 @@ const SignInPage = () => {
         <Flex
           position='relative'
           m='auto'
-          className='max-w-md items-start bg-background p-8 shadow-lg'
+          className='max-w-md items-start bg-background/50 p-8 shadow-lg backdrop-blur'
           style={{
             backgroundImage: `url(${bg.src})`,
             backgroundPosition: 'bottom',

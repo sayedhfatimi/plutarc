@@ -16,12 +16,6 @@ import {
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
 import { Skeleton } from '@/components/ui/skeleton';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
 import { gugiFont } from '@/lib/utils';
 import { ReloadIcon } from '@radix-ui/react-icons';
 import { Avatar, Box, Flex, Separator, Text } from '@radix-ui/themes';
@@ -47,7 +41,7 @@ const NavBar = () => {
       <IconContext.Provider
         value={{ size: '1.5rem', style: { verticalAlign: 'middle' } }}
       >
-        <Box className='w-screen border-b bg-background p-1 shadow-sm'>
+        <Box className='w-screen border-b bg-background/50 p-1 shadow-sm backdrop-blur'>
           <Flex justify='between'>
             <Flex align='center'>
               <NavigationMenu>
@@ -59,9 +53,7 @@ const NavBar = () => {
                       </Text>
                     </Box>
                   </NavigationMenuItem>
-                  <TooltipProvider delayDuration={0}>
-                    <NavMenu />
-                  </TooltipProvider>
+                  <NavMenu />
                 </NavigationMenuList>
               </NavigationMenu>
             </Flex>
@@ -119,17 +111,15 @@ const NavMenu = () => {
   return (
     <>
       {NavLinks.map((link, index) => (
-        <Tooltip key={link.label}>
-          <TooltipTrigger>
-            <NavigationMenuItem>
-              <Link href={link.href}>{link.icon}</Link>
-            </NavigationMenuItem>
-          </TooltipTrigger>
+        <>
+          <NavigationMenuItem>
+            <Link href={link.href}>{link.icon}</Link>
+          </NavigationMenuItem>
+
           {index + 1 < NavLinks.length ? (
             <Separator orientation='vertical' decorative />
           ) : null}
-          <TooltipContent>{link.label}</TooltipContent>
-        </Tooltip>
+        </>
       ))}
     </>
   );

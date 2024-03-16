@@ -4,9 +4,10 @@ import { useAppSelector } from '@/lib/redux/hooks';
 import { Avatar, Box, Flex, Heading, Text } from '@radix-ui/themes';
 import { useSession } from 'next-auth/react';
 import { LuSettings2, LuSkull, LuUser } from 'react-icons/lu';
+import ContentWrapper from '../../_components/ContentWrapper';
+import PageWrapper from '../../_components/PageWrapper';
 import DeleteAccount from './_components/DeleteAccount';
 import ResetPassphrase from './_components/ResetPassphrase';
-import ContentWrapper from '../../_components/ContentWrapper';
 
 const ProfilePage = () => {
   const { data: session } = useSession();
@@ -14,7 +15,7 @@ const ProfilePage = () => {
 
   if (session)
     return (
-      <Box className='h-full w-full border bg-slate-200 p-1 shadow-sm dark:bg-background'>
+      <PageWrapper>
         <PageHeading heading='Profile Settings' icon={<LuSettings2 />}>
           <Flex direction='column' align='end'>
             <Heading>Total API Keys: {apiKey}</Heading>
@@ -50,7 +51,7 @@ const ProfilePage = () => {
             <DeleteAccount />
           </Flex>
         </ContentWrapper>
-      </Box>
+      </PageWrapper>
     );
 };
 
