@@ -11,7 +11,7 @@ const TickerBar = ({ ticker }: { ticker: string }) => {
     <Flex
       justify='between'
       align='center'
-      className='h-[88px] bg-white p-1 shadow-sm dark:bg-slate-900'
+      className='flex-col space-y-8 bg-white py-4 shadow-sm dark:bg-slate-900 md:h-[88px] md:flex-row md:space-y-0 md:p-1'
     >
       <TickerInfo data={data} />
       <Flex direction='row' align='center' gap='2'>

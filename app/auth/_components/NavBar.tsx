@@ -41,12 +41,12 @@ const NavBar = () => {
       <IconContext.Provider
         value={{ size: '1.5rem', style: { verticalAlign: 'middle' } }}
       >
-        <Box className='w-screen border-b bg-background/50 p-1 shadow-sm backdrop-blur'>
+        <Box className='w-screen border-b bg-background p-1 shadow-sm md:bg-background/50 md:backdrop-blur'>
           <Flex justify='between'>
             <Flex align='center'>
               <NavigationMenu>
                 <NavigationMenuList>
-                  <NavigationMenuItem>
+                  <NavigationMenuItem className='hidden md:block'>
                     <Box className='px-3 py-1'>
                       <Text size='5' className={gugiFont.className}>
                         plutarc

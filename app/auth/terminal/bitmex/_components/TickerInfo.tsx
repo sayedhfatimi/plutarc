@@ -26,7 +26,11 @@ const TickerInfo = ({ data }: { data: Instrument[] }) => {
 
   return (
     <>
-      <Flex direction='row' gap='6' align='center'>
+      <Flex
+        gap='6'
+        align='center'
+        className='flex-col space-y-2 md:flex-row md:space-y-0'
+      >
         <Flex className='group w-[13rem]' align='start'>
           <Box className='flex group-hover:hidden'>
             <Flex gap='2'>
@@ -97,7 +101,11 @@ const TickerInfo = ({ data }: { data: Instrument[] }) => {
 
         {show24hRange && (
           <>
-            <Separator orientation='vertical' size='2' />
+            <Separator
+              orientation='vertical'
+              size='2'
+              className='hidden md:block'
+            />
 
             <Flex direction='column' className='text-right'>
               <Flex
@@ -126,7 +134,11 @@ const TickerInfo = ({ data }: { data: Instrument[] }) => {
 
         {showLastPrice && (
           <>
-            <Separator orientation='vertical' size='2' />
+            <Separator
+              orientation='vertical'
+              size='2'
+              className='hidden md:block'
+            />
 
             <Flex direction='column'>
               <Heading size='1' className='text-right text-zinc-500'>
@@ -175,7 +187,11 @@ const TickerInfo = ({ data }: { data: Instrument[] }) => {
 
         {showVWAP && (
           <>
-            <Separator orientation='vertical' size='2' />
+            <Separator
+              orientation='vertical'
+              size='2'
+              className='hidden md:block'
+            />
 
             <Flex direction='column' className='text-right'>
               <Heading size='1' className=' text-zinc-500'>

@@ -111,7 +111,7 @@ const BitmexTerminalPage = () => {
               className='group relative border bg-white pl-1 pt-1 shadow-md dark:bg-slate-900'
             >
               <Box
-                className='remove absolute right-1 top-1 z-50 hidden h-4 w-4 animate-pulse cursor-pointer bg-slate-200 group-hover:block dark:bg-transparent'
+                className='remove absolute right-1 top-1 z-50 h-4 w-4 animate-pulse cursor-pointer bg-slate-200 dark:bg-transparent md:hidden md:group-hover:block'
                 onClick={() => dispatch(removeFromTerminalLayout(item))}
               >
                 <LuX />
@@ -127,9 +127,9 @@ const BitmexTerminalPage = () => {
       <Flex
         justify='between'
         align='center'
-        className='absolute bottom-0 left-0 right-0 border bg-white py-2 shadow-md dark:bg-slate-900'
+        className='absolute bottom-0 left-0 right-0 border bg-white px-2 py-2 shadow-md dark:bg-slate-900'
       >
-        <Flex className='px-2'>
+        <Flex>
           <Badge>{ticker.toUpperCase()}</Badge>
         </Flex>
         <TooltipProvider delayDuration={0}>
@@ -143,10 +143,12 @@ const BitmexTerminalPage = () => {
             <TooltipContent>Terminal Settings</TooltipContent>
           </Tooltip>
         </TooltipProvider>
-        <ConnectionStatus
-          socketUrl='wss://ws.bitmex.com/realtime'
-          exchange='Bitmex'
-        />
+        <Box className='hidden md:block'>
+          <ConnectionStatus
+            socketUrl='wss://ws.bitmex.com/realtime'
+            exchange='Bitmex'
+          />
+        </Box>
       </Flex>
     </>
   );

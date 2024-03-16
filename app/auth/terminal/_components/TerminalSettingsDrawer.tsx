@@ -83,10 +83,9 @@ const TerminalSettingsDrawer = ({
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <Flex
-                        direction='row'
                         align='center'
                         justify='between'
-                        className='px-2 py-1 hover:bg-slate-200 dark:hover:bg-slate-900'
+                        className='flex-col space-y-2 py-1 hover:bg-slate-200 dark:hover:bg-slate-900 md:flex-row md:space-y-0 md:px-2'
                       >
                         <Label htmlFor='orderPanelSide'>Order Panel</Label>
                         <Flex align='center' className='space-x-2'>
@@ -109,10 +108,9 @@ const TerminalSettingsDrawer = ({
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <Flex
-                        direction='row'
                         align='center'
                         justify='between'
-                        className='px-2 py-1 hover:bg-slate-200 dark:hover:bg-slate-900'
+                        className='flex-col space-y-2 py-1 hover:bg-slate-200 dark:hover:bg-slate-900 md:flex-row md:space-y-0 md:px-2'
                       >
                         <Label htmlFor='showTickerBar'>Ticker Bar</Label>
                         <Flex align='center' className='space-x-2'>
@@ -135,10 +133,9 @@ const TerminalSettingsDrawer = ({
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <Flex
-                        direction='row'
                         align='center'
                         justify='between'
-                        className='px-2 py-1 hover:bg-slate-200 dark:hover:bg-slate-900'
+                        className='flex-col space-y-2 py-1 hover:bg-slate-200 dark:hover:bg-slate-900 md:flex-row md:space-y-0 md:px-2'
                       >
                         <Label htmlFor='show24hRange'>24h Range</Label>
                         <Flex align='center' className='space-x-2'>
@@ -161,10 +158,9 @@ const TerminalSettingsDrawer = ({
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <Flex
-                        direction='row'
                         align='center'
                         justify='between'
-                        className='px-2 py-1 hover:bg-slate-200 dark:hover:bg-slate-900'
+                        className='flex-col space-y-2 py-1 hover:bg-slate-200 dark:hover:bg-slate-900 md:flex-row md:space-y-0 md:px-2'
                       >
                         <Label htmlFor='showLastPrice'>Last Price</Label>
                         <Flex align='center' className='space-x-2'>
@@ -187,10 +183,9 @@ const TerminalSettingsDrawer = ({
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <Flex
-                        direction='row'
                         align='center'
                         justify='between'
-                        className='px-2 py-1 hover:bg-slate-200 dark:hover:bg-slate-900'
+                        className='flex-col space-y-2 py-1 hover:bg-slate-200 dark:hover:bg-slate-900 md:flex-row md:space-y-0 md:px-2'
                       >
                         <Label htmlFor='showVWAP'>VWAP</Label>
                         <Flex align='center' className='space-x-2'>

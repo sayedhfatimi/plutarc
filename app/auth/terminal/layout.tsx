@@ -14,13 +14,13 @@ export default function TerminalLayout({
     <>
       <Flex
         className={classNames({
-          'h-full w-full': true,
+          'h-full w-full flex-col md:flex-row': true,
           'flex-row-reverse': !orderPanelSide,
         })}
         gap='1'
       >
-        <Flex className='w-4/5'>{children}</Flex>
-        <Flex className='h-full w-1/5'>
+        <Flex className='w-full md:w-4/5'>{children}</Flex>
+        <Flex className='h-full w-full md:w-1/5'>
           <Box>Form Goes Here</Box>
         </Flex>
       </Flex>

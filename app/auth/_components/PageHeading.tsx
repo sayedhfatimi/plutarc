@@ -16,7 +16,7 @@ const PageHeading = ({
       <Flex
         justify='between'
         align='center'
-        className='mb-2 border-b bg-white/80 p-2 shadow-sm backdrop-blur dark:bg-slate-900/50'
+        className='mb-2 border-b bg-white p-2 shadow-sm dark:bg-slate-900 md:bg-white/80 md:backdrop-blur dark:md:bg-slate-900/50'
       >
         <Flex align='center' className='p-2'>
           <Box asChild className='mr-6 h-8 w-8'>
@@ -24,7 +24,12 @@ const PageHeading = ({
           </Box>
           <Box>
             <Heading>{heading}</Heading>
-            <Blockquote color='gray' size='2' weight='light'>
+            <Blockquote
+              color='gray'
+              size='2'
+              weight='light'
+              className='hidden md:block'
+            >
               {description}
             </Blockquote>
           </Box>
