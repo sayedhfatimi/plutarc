@@ -113,7 +113,10 @@ const NavMenu = () => {
       {NavLinks.map((link, index) => (
         <>
           <NavigationMenuItem key={index}>
-            <Link href={link.href}>{link.icon}</Link>
+            <Link href={link.href}>
+              {link.icon}
+              <Box className='hidden md:ml-2 md:inline-block'>{link.label}</Box>
+            </Link>
           </NavigationMenuItem>
 
           {index + 1 < NavLinks.length ? (

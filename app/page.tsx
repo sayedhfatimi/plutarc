@@ -55,7 +55,7 @@ const HomePage = () => {
           )}
         </Flex>
       </Flex>
-      <Flex direction='column' className='bg-slate-500/50 backdrop-blur-sm'>
+      <Flex direction='column' className='bg-slate-500/50 md:backdrop-blur-sm'>
         <Box>
           <Box className='px-8 py-4'>
             <Heading size='9'>
@@ -78,15 +78,14 @@ const HomePage = () => {
         direction='column'
         align='center'
         justify='center'
-        className='my-4 bg-slate-600/50 py-4 backdrop-blur-sm'
+        className='my-4 bg-slate-600/50 py-4 md:backdrop-blur-sm'
         gap='2'
       >
         <Heading>Supported Exchanges</Heading>
         <hr />
         <Flex
-          className='flex-col bg-slate-800/75 px-8 py-4 shadow-sm backdrop-blur-sm md:flex-row'
+          className='flex-col space-y-9 bg-slate-800/75 px-8 py-4 shadow-sm md:flex-row md:space-x-9 md:space-y-0 md:backdrop-blur-sm'
           align='center'
-          gap='9'
         >
           <Image src={bitmexLogo} alt='Bitmex Logo' width='160' />
           <Image src={binanceLogo} alt='Binance Logo' width='160' />
