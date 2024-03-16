@@ -112,7 +112,7 @@ const NavMenu = () => {
     <>
       {NavLinks.map((link, index) => (
         <>
-          <NavigationMenuItem>
+          <NavigationMenuItem key={index}>
             <Link href={link.href}>{link.icon}</Link>
           </NavigationMenuItem>
 
