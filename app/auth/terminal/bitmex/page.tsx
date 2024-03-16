@@ -20,9 +20,9 @@ import { LuPartyPopper, LuX } from 'react-icons/lu';
 import useWebSocket from 'react-use-websocket';
 import { toast } from 'sonner';
 import PageWrapper from '../../_components/PageWrapper';
+import ConnectionStatus from '../_components/ConnectionStatus';
 import BitmexOrderbook from './_components/BitmexOrderBook';
 import BitmexTrades from './_components/BitmexTrades';
-import ConnectionStatus from './_components/ConnectionStatus';
 import TickerBar from './_components/TickerBar';
 import '/node_modules/react-grid-layout/css/styles.css';
 import '/node_modules/react-resizable/css/styles.css';
@@ -135,12 +135,18 @@ const BitmexTerminalPage = () => {
         <TooltipProvider delayDuration={0}>
           <Tooltip>
             <TooltipTrigger>
-              <TerminalSettingsDrawer />
+              <TerminalSettingsDrawer
+                socketUrl='wss://ws.bitmex.com/realtime'
+                exchange='Bitmex'
+              />
             </TooltipTrigger>
             <TooltipContent>Terminal Settings</TooltipContent>
           </Tooltip>
         </TooltipProvider>
-        <ConnectionStatus />
+        <ConnectionStatus
+          socketUrl='wss://ws.bitmex.com/realtime'
+          exchange='Bitmex'
+        />
       </Flex>
     </>
   );

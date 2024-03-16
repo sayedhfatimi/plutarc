@@ -10,6 +10,12 @@ import {
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
+import {
   addToTerminalLayout,
   setOrderPanelSide,
   setShow24hRange,
@@ -18,7 +24,7 @@ import {
   setShowVWAP,
 } from '@/lib/redux/features/user/userContext';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
-import { Box, Flex, Heading } from '@radix-ui/themes';
+import { Flex, Heading } from '@radix-ui/themes';
 import {
   LuEye,
   LuEyeOff,
@@ -26,15 +32,15 @@ import {
   LuPanelLeft,
   LuPanelRight,
 } from 'react-icons/lu';
-import ConnectionStatus from '../bitmex/_components/ConnectionStatus';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+import ConnectionStatus from './ConnectionStatus';
 
-const TerminalSettingsDrawer = () => {
+const TerminalSettingsDrawer = ({
+  socketUrl,
+  exchange,
+}: {
+  socketUrl: string;
+  exchange: string;
+}) => {
   const orderPanelSide = useAppSelector(
     (state) => state.userContext.orderPanelSide,
   );
@@ -67,7 +73,7 @@ const TerminalSettingsDrawer = () => {
               <DrawerTitle>Terminal Settings</DrawerTitle>
               <DrawerDescription>Customize your terminal.</DrawerDescription>
             </DrawerHeader>
-            <ConnectionStatus />
+            <ConnectionStatus socketUrl={socketUrl} exchange={exchange} />
           </Flex>
           <Flex className='w-full space-x-6 p-4'>
             <Flex direction='column' className='w-1/5 space-y-2'>

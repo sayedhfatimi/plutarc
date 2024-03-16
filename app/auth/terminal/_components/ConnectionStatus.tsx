@@ -3,14 +3,20 @@ import { Box, Flex } from '@radix-ui/themes';
 import classNames from 'classnames';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
 
-const ConnectionStatus = () => {
-  const { readyState } = useWebSocket(`wss://ws.bitmex.com/realtime`, {
+const ConnectionStatus = ({
+  socketUrl,
+  exchange,
+}: {
+  socketUrl: string;
+  exchange: string;
+}) => {
+  const { readyState } = useWebSocket(socketUrl, {
     share: true,
   });
 
   const connectionStatus = {
     [ReadyState.CONNECTING]: 'Connecting...',
-    [ReadyState.OPEN]: 'Connected to Bitmex',
+    [ReadyState.OPEN]: `Connected to ${exchange}`,
     [ReadyState.CLOSING]: 'Closing...',
     [ReadyState.CLOSED]: 'Closed.',
     [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
