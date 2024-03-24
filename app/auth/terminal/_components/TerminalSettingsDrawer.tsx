@@ -17,7 +17,6 @@ import {
 } from '@/components/ui/tooltip';
 import {
   addToTerminalLayout,
-  setOrderPanelSide,
   setShow24hRange,
   setShowLastPrice,
   setShowTickerBar,
@@ -25,13 +24,7 @@ import {
 } from '@/lib/redux/features/user/userContext';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { Flex, Heading } from '@radix-ui/themes';
-import {
-  LuEye,
-  LuEyeOff,
-  LuPanelBottomOpen,
-  LuPanelLeft,
-  LuPanelRight,
-} from 'react-icons/lu';
+import { LuEye, LuEyeOff, LuPanelBottomOpen } from 'react-icons/lu';
 import ConnectionStatus from './ConnectionStatus';
 
 const TerminalSettingsDrawer = ({
@@ -41,9 +34,6 @@ const TerminalSettingsDrawer = ({
   socketUrl: string;
   exchange: string;
 }) => {
-  const orderPanelSide = useAppSelector(
-    (state) => state.userContext.orderPanelSide,
-  );
   const showTickerBar = useAppSelector(
     (state) => state.userContext.showTickerBar,
   );
@@ -80,31 +70,6 @@ const TerminalSettingsDrawer = ({
               <Heading>Layout Settings</Heading>
               <Flex direction='column' className='space-y-2'>
                 <TooltipProvider delayDuration={0}>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Flex
-                        align='center'
-                        justify='between'
-                        className='flex-col space-y-2 py-1 hover:bg-slate-200 dark:hover:bg-slate-900 md:flex-row md:space-y-0 md:px-2'
-                      >
-                        <Label htmlFor='orderPanelSide'>Order Panel</Label>
-                        <Flex align='center' className='space-x-2'>
-                          <LuPanelLeft />
-                          <Switch
-                            id='orderPanelSide'
-                            defaultChecked={orderPanelSide}
-                            onCheckedChange={() =>
-                              dispatch(setOrderPanelSide(!orderPanelSide))
-                            }
-                          />
-                          <LuPanelRight />
-                        </Flex>
-                      </Flex>
-                    </TooltipTrigger>
-                    <TooltipContent side='right' align='start' alignOffset={-7}>
-                      Choose which side you would like Order Panel to appear.
-                    </TooltipContent>
-                  </Tooltip>
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <Flex

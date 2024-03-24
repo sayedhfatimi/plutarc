@@ -1,7 +1,6 @@
 import QueryClientProvider from '@/Providers/QueryClientProvider';
 import StoreProvider from '@/Providers/StoreProvider';
 import { UserContextProvider } from '@/Providers/UserContextProvider';
-import NavBar from '@/app/auth/_components/NavBar';
 import { Toaster } from '@/components/ui/sonner';
 import { getApiKeys, getUser } from '@/lib/_actions';
 import { Box } from '@radix-ui/themes';
@@ -25,8 +24,7 @@ export default async function AuthLayout({
         passphraseHash={user?.passphraseHash!}
       >
         <QueryClientProvider>
-          <NavBar />
-          <Box className='h-full p-1'>{children}</Box>
+          <Box className='p-1'>{children}</Box>
           <Toaster richColors />
         </QueryClientProvider>
       </UserContextProvider>

@@ -35,12 +35,9 @@ export async function createPassphrase(
       where: { id: session!.user!.id },
       data: { passphraseHash: passphrase },
     });
-
-    revalidatePath('/auth/settings/user-api-keys', 'page');
   } catch (error) {
     return { error };
   }
-  redirect('/auth/settings/user-api-keys');
 }
 
 export async function resetPassphrase() {
@@ -128,13 +125,9 @@ export async function deleteApiKey(id: string) {
     await prisma.userAPIKeys.delete({
       where: { id: apiKey.id },
     });
-
-    revalidatePath('/auth/settings/user-api-keys', 'page');
   } catch (error) {
     return { error: error };
   }
-
-  redirect('/auth/settings/user-api-keys');
 }
 
 export async function getApiKeys() {

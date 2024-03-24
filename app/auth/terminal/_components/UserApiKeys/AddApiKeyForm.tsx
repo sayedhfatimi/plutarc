@@ -1,5 +1,5 @@
 'use client';
-import SetPassphraseForm from '@/app/auth/_components/SetPassphraseForm';
+import SetPassphraseForm from '@/app/auth/terminal/_components/SetPassphraseForm';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,

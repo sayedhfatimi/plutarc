@@ -76,7 +76,7 @@ const SignInButtons = () => {
   }[] = [
     {
       label: 'Google',
-      onClick: () => signIn('google', { callbackUrl: '/auth/dashboard' }),
+      onClick: () => signIn('google', { callbackUrl: '/auth/terminal/bitmex' }),
       icon: <FaGoogle />,
       hoverColor: 'hover:bg-red-600',
     },

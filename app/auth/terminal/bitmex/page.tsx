@@ -1,26 +1,17 @@
 'use client';
-import TerminalSettingsDrawer from '@/app/auth/terminal/_components/TerminalSettingsDrawer';
-import { Badge } from '@/components/ui/badge';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
 import {
   removeFromTerminalLayout,
   setTerminalLayout,
 } from '@/lib/redux/features/user/userContext';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
-import { Box, Flex } from '@radix-ui/themes';
+import { Box } from '@radix-ui/themes';
 import { useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 import { Responsive, WidthProvider } from 'react-grid-layout';
 import { LuPartyPopper, LuX } from 'react-icons/lu';
 import useWebSocket from 'react-use-websocket';
 import { toast } from 'sonner';
-import PageWrapper from '../../_components/PageWrapper';
-import ConnectionStatus from '../_components/ConnectionStatus';
+import PageWrapper from '../_components/PageWrapper';
 import BitmexOrderbook from './_components/BitmexOrderBook';
 import BitmexTrades from './_components/BitmexTrades';
 import TickerBar from './_components/TickerBar';
@@ -43,8 +34,16 @@ const BitmexTerminalPage = () => {
   const dispatch = useAppDispatch();
 
   const layoutChildren = [
-    { key: 'Orderbook', node: <BitmexOrderbook ticker={ticker} /> },
-    { key: 'RecentTrades', node: <BitmexTrades ticker={ticker} /> },
+    {
+      key: 'Orderbook',
+      label: 'Orderbook',
+      node: <BitmexOrderbook ticker={ticker} />,
+    },
+    {
+      key: 'RecentTrades',
+      label: 'Recent Trades',
+      node: <BitmexTrades ticker={ticker} />,
+    },
   ];
 
   const { sendJsonMessage } = useWebSocket(`wss://ws.bitmex.com/realtime`, {
@@ -123,33 +122,6 @@ const BitmexTerminalPage = () => {
           ))}
         </ResponsiveGridLayout>
       </PageWrapper>
-
-      <Flex
-        justify='between'
-        align='center'
-        className='absolute bottom-0 left-0 right-0 border bg-white px-2 py-2 shadow-md dark:bg-slate-900'
-      >
-        <Flex>
-          <Badge>{ticker.toUpperCase()}</Badge>
-        </Flex>
-        <TooltipProvider delayDuration={0}>
-          <Tooltip>
-            <TooltipTrigger>
-              <TerminalSettingsDrawer
-                socketUrl='wss://ws.bitmex.com/realtime'
-                exchange='Bitmex'
-              />
-            </TooltipTrigger>
-            <TooltipContent>Terminal Settings</TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-        <Box className='hidden md:block'>
-          <ConnectionStatus
-            socketUrl='wss://ws.bitmex.com/realtime'
-            exchange='Bitmex'
-          />
-        </Box>
-      </Flex>
     </>
   );
 };

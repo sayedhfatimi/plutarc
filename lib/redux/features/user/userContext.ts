@@ -5,7 +5,6 @@ import _ from 'lodash';
 import { Layout } from 'react-grid-layout';
 
 const initialState: UserContext = {
-  orderPanelSide: true,
   showTickerBar: true,
   showVWAP: true,
   show24hRange: true,
@@ -35,12 +34,6 @@ export const userContextSlice = createSlice({
       action: PayloadAction<UserContext['isEncrypted']>,
     ) => {
       return { ...state, isEncrypted: action.payload };
-    },
-    setOrderPanelSide: (
-      state: UserContext,
-      action: PayloadAction<UserContext['orderPanelSide']>,
-    ) => {
-      return { ...state, orderPanelSide: action.payload };
     },
     setShowTickerBar: (
       state: UserContext,
@@ -99,7 +92,6 @@ export const {
   setUserId,
   setPassphraseHash,
   setEncryptedStatus,
-  setOrderPanelSide,
   setShowTickerBar,
   setShowVWAP,
   setShow24hRange,
