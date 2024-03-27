@@ -45,7 +45,7 @@ const HomePage = () => {
           <ThemeToggle />
           {status === 'authenticated' ? (
             <Button asChild>
-              <Link href='/auth/dashboard'>Dashboard</Link>
+              <Link href='/auth/terminal/bitmex'>Terminal</Link>
             </Button>
           ) : (
             <Button>
