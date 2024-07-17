@@ -7,10 +7,6 @@ import {
   timestamp,
 } from 'drizzle-orm/pg-core';
 import type { AdapterAccountType } from 'next-auth/adapters';
-import { drizzle } from 'drizzle-orm/vercel-postgres';
-import { sql } from '@vercel/postgres';
-
-export const db = drizzle(sql);
 
 export const users = pgTable('user', {
   id: text('id')
