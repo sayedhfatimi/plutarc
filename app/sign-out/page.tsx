@@ -1,9 +1,7 @@
 import NavBar from '@/components/NavBar';
 import SignOutButton from '@/components/SignOutButton';
-import { Button } from '@/components/ui/button';
-import { auth, signOut } from '@/lib/auth';
+import { auth } from '@/lib/auth';
 import { redirect } from 'next/navigation';
-import { LuLogOut } from 'react-icons/lu';
 
 const SignOutPage = async () => {
   const session = await auth();

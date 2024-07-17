@@ -5,7 +5,7 @@ import { Button } from './ui/button';
 const SignOutButton = () => {
   return (
     <form
-      action={async (formData) => {
+      action={async () => {
         'use server';
         await signOut({ redirect: true, redirectTo: '/' });
       }}

@@ -24,7 +24,7 @@ const SignInPage = async () => {
           className='flex w-48 flex-col space-y-2'
         >
           <Input type='text' name='email' placeholder='Email' />
-          <Button className='space-x-2' type='submit'>
+          <Button className='space-x-2' type='submit' size='sm'>
             <LuMail className='size-4' />
             <span>Signin with Email</span>
           </Button>
