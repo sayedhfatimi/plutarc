@@ -1,8 +1,7 @@
+import { getApiKeys } from '@/lib/actions';
 import { auth } from '@/lib/auth';
-import { db } from '@/lib/db';
-import { apiKeys } from '@/lib/db/schema';
 import StoreProvider from '@/Providers/StoreProvider';
-import { eq } from 'drizzle-orm';
+import { redirect } from 'next/navigation';
 
 export default async function TerminalLayout({
   children,
@@ -10,15 +9,9 @@ export default async function TerminalLayout({
   children: React.ReactNode;
 }>) {
   const session = await auth();
-  if (!session) return;
+  if (!session) redirect('/sign-in');
 
-  const userId = session.user.id;
-  if (!userId) return;
+  const { apiKeyArr } = await getApiKeys();
 
-  const apiKeysArr = await db
-    .select()
-    .from(apiKeys)
-    .where(eq(apiKeys.userId, userId));
-
-  return <StoreProvider apiKeys={apiKeysArr}>{children}</StoreProvider>;
+  return <StoreProvider apiKeys={apiKeyArr!}>{children}</StoreProvider>;
 }

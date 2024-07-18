@@ -1,16 +1,19 @@
-import NavBar from '@/components/NavBar';
-import SignOutButton from '@/components/SignOutButton';
+'use client';
+import Spinner from '@/components/Spinner';
+import { signOut } from 'next-auth/react';
+import { useEffect } from 'react';
 
 const SignOutPage = () => {
+  useEffect(() => {
+    signOut({
+      redirect: true,
+      callbackUrl: '/',
+    });
+  });
+
   return (
-    <div className='space-y-4'>
-      <NavBar />
-      <div className='m-auto flex min-h-96 w-[640px] flex-col items-center justify-center space-y-4 border bg-secondary/50 p-4 shadow-lg backdrop-blur-sm'>
-        <h1 className='text-lg font-bold text-muted-foreground'>
-          Are you sure you want to sign out?
-        </h1>
-        <SignOutButton />
-      </div>
+    <div className='h-screen place-content-center place-items-center text-center'>
+      <Spinner />
     </div>
   );
 };
