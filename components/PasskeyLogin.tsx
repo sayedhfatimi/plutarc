@@ -14,7 +14,7 @@ const PasskeyLogin = () => {
           signIn('passkey', { redirect: true, redirectTo: '/terminal' })
         }
       >
-        <LuKeyRound className='size-4' />
+        <LuKeyRound size='24' />
         <span>Sign in with Passkey</span>
       </Button>
     </>
