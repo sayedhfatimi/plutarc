@@ -1,4 +1,5 @@
 import NavBar from '@/components/NavBar';
+import ScreenshotCarousel from '@/components/ScreenshotCarousel';
 import {
   Card,
   CardContent,
@@ -17,9 +18,9 @@ const HomePage = async () => {
   if (session) redirect('/terminal');
 
   return (
-    <div className='space-y-4'>
+    <div className='space-y-8'>
       <NavBar />
-      <div className='flex flex-col bg-slate-500/50 backdrop-blur-sm'>
+      <section className='flex flex-col bg-slate-500/50 backdrop-blur-sm'>
         <div className='px-8 py-4'>
           <h1 className='text-pretty text-6xl font-bold text-secondary-foreground'>
             Consistent. Fast. Ready. <br /> Never miss another trade.
@@ -34,8 +35,13 @@ const HomePage = async () => {
             <p>Always ready for any market move, whenever you are.</p>
           </h1>
         </div>
-      </div>
-      <div className='flex flex-col space-y-8 bg-slate-700/50 py-4 backdrop-blur-sm'>
+      </section>
+
+      <section className='px-20 py-4'>
+        <ScreenshotCarousel />
+      </section>
+
+      <section className='flex flex-col space-y-8 bg-slate-700/50 py-4 backdrop-blur-sm'>
         <div className='text-center text-6xl font-bold'>Why plutarc?</div>
         <div className='flex flex-row items-center justify-center space-x-4'>
           {CardData.map((card) => (
@@ -51,7 +57,7 @@ const HomePage = async () => {
             </Card>
           ))}
         </div>
-      </div>
+      </section>
     </div>
   );
 };
