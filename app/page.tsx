@@ -8,6 +8,7 @@ import {
 } from '@/components/ui/card';
 import { auth } from '@/lib/auth';
 import { redirect } from 'next/navigation';
+import React from 'react';
 import { LuCode2, LuFastForward, LuLock } from 'react-icons/lu';
 
 const HomePage = async () => {
@@ -34,48 +35,47 @@ const HomePage = async () => {
           </h1>
         </div>
       </div>
-      <div className='flex flex-row items-center justify-center space-x-4 bg-slate-700/50 py-4 backdrop-blur-sm'>
-        <Card className='h-[300px] w-[300px] shadow-sm'>
-          <CardHeader>
-            <CardTitle className='flex flex-row items-center space-x-2'>
-              <LuLock size='24' /> <span>Secure</span>
-            </CardTitle>
-            <CardDescription>All data is encrypted.</CardDescription>
-            <CardContent>
-              No data leaves or returns to the browser unencrypted.
-            </CardContent>
-          </CardHeader>
-        </Card>
-
-        <Card className='h-[300px] w-[300px] shadow-sm'>
-          <CardHeader>
-            <CardTitle className='flex flex-row items-center space-x-2'>
-              <LuFastForward size='24' />
-              <span>Fast</span>
-            </CardTitle>
-            <CardDescription>
-              Direct connectivity to the exchange.
-            </CardDescription>
-            <CardContent>
-              Your data, orders, position information does not proxy through our
-              servers. <br />
-              Secure WebSocket connection instantiated on launch.
-            </CardContent>
-          </CardHeader>
-        </Card>
-
-        <Card className='h-[300px] w-[300px] shadow-sm'>
-          <CardHeader>
-            <CardTitle className='flex flex-row items-center space-x-2'>
-              <LuCode2 size='24' /> <span>Open Source</span>
-            </CardTitle>
-            <CardDescription>Check the Github</CardDescription>
-            <CardContent></CardContent>
-          </CardHeader>
-        </Card>
+      <div className='flex flex-col space-y-8 bg-slate-700/50 py-4 backdrop-blur-sm'>
+        <div className='text-center text-6xl font-bold'>Why plutarc?</div>
+        <div className='flex flex-row items-center justify-center space-x-4'>
+          {CardData.map((card) => (
+            <Card className='h-[300px] w-[300px] shadow-sm' key={card.title}>
+              <CardHeader>
+                <CardTitle className='flex flex-row items-center space-x-2'>
+                  {React.createElement(card.titleIcon, { size: '24' })}
+                  <span>{card.title}</span>
+                </CardTitle>
+                <CardDescription>{card.description}</CardDescription>
+                <CardContent>{card.content}</CardContent>
+              </CardHeader>
+            </Card>
+          ))}
+        </div>
       </div>
     </div>
   );
 };
+
+const CardData = [
+  {
+    title: 'Secure',
+    titleIcon: LuLock,
+    description: 'All data is encrypted',
+    content: 'No data leaves or returns to the browser unencrypted.',
+  },
+  {
+    title: 'Fast',
+    titleIcon: LuFastForward,
+    description: 'Direct connectivity to the exchange',
+    content:
+      'Your data, orders, position information does not proxy through our servers. Secure WebSocket connection instantiated to the exchange on launch.',
+  },
+  {
+    title: 'Tech Stack',
+    titleIcon: LuCode2,
+    description: 'Next.js & React',
+    content: 'Written in Next.js and React.',
+  },
+];
 
 export default HomePage;

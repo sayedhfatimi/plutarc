@@ -12,8 +12,7 @@ export default async function TerminalLayout({
   const session = await auth();
   if (!session) return;
 
-  const userId = session?.user?.id;
-  console.log(userId);
+  const userId = session.user.id;
   if (!userId) return;
 
   const apiKeysArr = await db
