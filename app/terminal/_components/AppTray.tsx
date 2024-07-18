@@ -16,16 +16,11 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { auth } from '@/lib/auth';
 import Link from 'next/link';
-import {
-  LuBookKey,
-  LuKeyRound,
-  LuLogOut,
-  LuSettings2,
-  LuUser,
-  LuUser2,
-} from 'react-icons/lu';
+import { LuBookKey, LuKeyRound, LuLogOut, LuUser2 } from 'react-icons/lu';
+import ProfileSettingsDialog from './_profile/ProfileSettingsDialog';
 import DropdownDialogItem from './DropdownDialogItem';
 import SettingsDrawer from './SettingsDrawer';
+import ApiKeysDialog from './_apikeys/ApiKeysDialog';
 
 const AppTray = async () => {
   const session = await auth();
@@ -47,37 +42,10 @@ const AppTray = async () => {
                 {session?.user?.email}
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownDialogItem
-                triggerIcon={<LuUser size='16' />}
-                triggerTitle='Profile'
-              >
-                <DialogHeader>
-                  <DialogTitle className='flex flex-row items-center space-x-2'>
-                    <LuSettings2 size='24' />
-                    <span>Profile Settings</span>
-                  </DialogTitle>
-                  <DialogDescription>
-                    Edit Profile Settings Here
-                  </DialogDescription>
-                </DialogHeader>
-                <ContentWrapper>Profile Settings goes here</ContentWrapper>
-              </DropdownDialogItem>
 
-              <DropdownDialogItem
-                triggerIcon={<LuBookKey size='16' />}
-                triggerTitle='API Keys'
-              >
-                <DialogHeader>
-                  <DialogTitle className='flex flex-row items-center space-x-2'>
-                    <LuKeyRound size='24' />
-                    <span>API Keys</span>
-                  </DialogTitle>
-                  <DialogDescription>
-                    Manage your API Keys Here
-                  </DialogDescription>
-                </DialogHeader>
-                <ContentWrapper>Manage API Keys here</ContentWrapper>
-              </DropdownDialogItem>
+              <ProfileSettingsDialog />
+
+              <ApiKeysDialog />
 
               <DropdownMenuSeparator />
               <DropdownMenuItem className='space-x-2' asChild>

@@ -1,4 +1,5 @@
 import '@/app/globals.css';
+import { Toaster } from '@/components/ui/sonner';
 import { cn } from '@/lib/utils';
 import AuthProvider from '@/Providers/AuthProvider';
 import { ThemeProvider } from '@/Providers/ThemeProvider';
@@ -32,6 +33,7 @@ export default function RootLayout({
             {children}
             <SpeedInsights />
             <Analytics />
+            <Toaster />
           </AuthProvider>
         </ThemeProvider>
       </body>
