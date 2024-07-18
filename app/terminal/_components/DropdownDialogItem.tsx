@@ -8,7 +8,7 @@ import {
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import React from 'react';
 
-type Dialog = {
+type DropdownDialogItem = {
   triggerIcon: React.ReactNode;
   triggerTitle: string;
   children: React.ReactNode;
@@ -19,7 +19,7 @@ type Dialog = {
 
 const DropdownDialogItem = React.forwardRef<
   React.ElementRef<typeof DropdownMenuItem>,
-  React.PropsWithoutRef<Dialog>
+  React.PropsWithoutRef<DropdownDialogItem>
 >((props, forwadedRef) => {
   const {
     triggerIcon,

@@ -20,11 +20,11 @@ import {
   LuBookKey,
   LuKeyRound,
   LuLogOut,
-  LuMenu,
   LuSettings2,
   LuUser,
   LuUser2,
 } from 'react-icons/lu';
+import SettingsDrawer from './SettingsDrawer';
 import DropdownDialogItem from './DropdownDialogItem';
 
 const AppTray = async () => {
@@ -33,10 +33,7 @@ const AppTray = async () => {
   return (
     <>
       <div className='absolute bottom-0 flex h-[48px] w-screen flex-row items-center justify-between border-t bg-secondary/50 px-2 py-2 backdrop-blur-sm'>
-        <Button className='space-x-2' size='sm'>
-          <LuMenu size='16' />
-          <span>edit terminal</span>
-        </Button>
+        <SettingsDrawer />
         <div className='flex flex-row items-center space-x-2'>
           <ThemeToggle />
           <DropdownMenu>
@@ -63,9 +60,7 @@ const AppTray = async () => {
                     Edit Profile Settings Here
                   </DialogDescription>
                 </DialogHeader>
-                <ContentWrapper>
-                  <div>Profile Settings goes here</div>
-                </ContentWrapper>
+                <ContentWrapper>Profile Settings goes here</ContentWrapper>
               </DropdownDialogItem>
 
               <DropdownDialogItem
@@ -81,9 +76,7 @@ const AppTray = async () => {
                     Manage your API Keys Here
                   </DialogDescription>
                 </DialogHeader>
-                <ContentWrapper>
-                  <div>Manage API Keys here</div>
-                </ContentWrapper>
+                <ContentWrapper>Manage API Keys here</ContentWrapper>
               </DropdownDialogItem>
 
               <DropdownMenuSeparator />
