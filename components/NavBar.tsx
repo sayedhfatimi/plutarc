@@ -2,7 +2,6 @@ import { auth } from '@/lib/auth';
 import { gugiFont } from '@/lib/utils';
 import Link from 'next/link';
 import { LuLogIn } from 'react-icons/lu';
-import SignOutButton from './SignOutButton';
 import ThemeToggle from './ThemeToggle';
 import { Button } from './ui/button';
 
@@ -30,7 +29,6 @@ const NavBar = async () => {
             <Button asChild>
               <Link href='/terminal'>Terminal</Link>
             </Button>
-            <SignOutButton />
           </>
         )}
       </div>
