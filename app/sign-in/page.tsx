@@ -41,7 +41,7 @@ const SignInPage = async () => {
         </div>
 
         <div className='fixed right-4 top-0'>
-          <TooltipProvider delayDuration='400'>
+          <TooltipProvider delayDuration={400}>
             <Tooltip>
               <TooltipTrigger asChild>
                 <LuHelpCircle size='32' className='text-muted-foreground' />
