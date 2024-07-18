@@ -24,15 +24,15 @@ import {
   LuUser,
   LuUser2,
 } from 'react-icons/lu';
-import SettingsDrawer from './SettingsDrawer';
 import DropdownDialogItem from './DropdownDialogItem';
+import SettingsDrawer from './SettingsDrawer';
 
 const AppTray = async () => {
   const session = await auth();
 
   return (
     <>
-      <div className='absolute bottom-0 flex h-[48px] w-screen flex-row items-center justify-between border-t bg-secondary/50 px-2 py-2 backdrop-blur-sm'>
+      <div className='fixed bottom-0 flex h-[48px] w-full flex-row items-center justify-between border-t bg-secondary/50 px-2 py-2 backdrop-blur-sm'>
         <SettingsDrawer />
         <div className='flex flex-row items-center space-x-2'>
           <ThemeToggle />

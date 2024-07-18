@@ -84,3 +84,16 @@ export const authenticators = pgTable(
     }),
   }),
 );
+
+export const apiKeys = pgTable('apiKeys', {
+  id: text('id')
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  userId: text('userId')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+  label: text('label').notNull(),
+  apiKey: text('apiKey').notNull(),
+  apiSecret: text('apiSecret').notNull(),
+  exchange: text('exchange').notNull(),
+});
