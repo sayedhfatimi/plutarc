@@ -47,10 +47,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         return Response.redirect(redirectUrl);
       }
 
-      if (isLoggedIn) {
-        return Response.redirect('/terminal');
-      }
-
       return true;
     },
   },
