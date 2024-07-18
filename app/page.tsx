@@ -8,6 +8,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { auth } from '@/lib/auth';
+import { gugiFont } from '@/lib/utils';
 import { redirect } from 'next/navigation';
 import React from 'react';
 import { LuCode2, LuFastForward, LuLock } from 'react-icons/lu';
@@ -20,7 +21,8 @@ const HomePage = async () => {
   return (
     <div className='space-y-8'>
       <NavBar />
-      <section className='flex flex-col bg-slate-500/50 backdrop-blur-sm'>
+
+      <section className='flex flex-col bg-slate-500/50 shadow-md backdrop-blur-sm'>
         <div className='px-8 py-4'>
           <h1 className='text-pretty text-6xl font-bold text-secondary-foreground'>
             Consistent. Fast. Ready. <br /> Never miss another trade.
@@ -41,8 +43,10 @@ const HomePage = async () => {
         <ScreenshotCarousel />
       </section>
 
-      <section className='flex flex-col space-y-8 bg-slate-700/50 py-4 backdrop-blur-sm'>
-        <div className='text-center text-6xl font-bold'>Why plutarc?</div>
+      <section className='flex flex-col space-y-8 bg-slate-700/50 py-4 shadow-md backdrop-blur-sm'>
+        <div className='text-center text-4xl font-bold'>
+          Why <span className={gugiFont.className}>plutarc</span>?
+        </div>
         <div className='flex flex-row items-center justify-center space-x-4'>
           {CardData.map((card) => (
             <Card className='h-[300px] w-[300px] shadow-sm' key={card.title}>
@@ -56,6 +60,12 @@ const HomePage = async () => {
               </CardHeader>
             </Card>
           ))}
+        </div>
+      </section>
+
+      <section className='flex flex-col space-y-8 bg-slate-300/50 py-4 shadow-md backdrop-blur-sm'>
+        <div className='text-center text-4xl font-bold'>
+          Supported Exchanges
         </div>
       </section>
     </div>
