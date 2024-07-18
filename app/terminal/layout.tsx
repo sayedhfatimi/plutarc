@@ -1,9 +1,25 @@
+import { auth } from '@/lib/auth';
+import { db } from '@/lib/db';
+import { apiKeys } from '@/lib/db/schema';
 import StoreProvider from '@/Providers/StoreProvider';
+import { eq } from 'drizzle-orm';
 
-export default function TerminalLayout({
+export default async function TerminalLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <StoreProvider>{children}</StoreProvider>;
+  const session = await auth();
+  if (!session) return;
+
+  const userId = session?.user?.id;
+  if (!userId) return;
+
+  const apiKeysArr = await db
+    .select()
+    .from(apiKeys)
+    .where(eq(apiKeys.userId, userId));
+  if (!apiKeysArr) return;
+
+  return <StoreProvider apiKeys={apiKeysArr}>{children}</StoreProvider>;
 }

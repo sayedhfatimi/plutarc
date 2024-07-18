@@ -1,16 +1,13 @@
-import { apiKeys } from '@/lib/db/schema';
+import { TapiKey } from '@/lib/types/APIKeys';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { InferSelectModel } from 'drizzle-orm';
 
-type apiKey = InferSelectModel<typeof apiKeys>;
-
-const initialState: apiKey = {} as apiKey;
+const initialState: TapiKey = {} as TapiKey;
 
 export const selectedApiKeySlice = createSlice({
   name: 'selectedApiKey',
   initialState,
   reducers: {
-    setSelectedApiKey: (state: apiKey, action: PayloadAction<apiKey>) =>
+    setSelectedApiKey: (state: TapiKey, action: PayloadAction<TapiKey>) =>
       action.payload,
   },
 });
