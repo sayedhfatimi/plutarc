@@ -13,5 +13,12 @@ export default async function TerminalLayout({
 
   const { apiKeyArr } = await getApiKeys();
 
-  return <StoreProvider apiKeys={apiKeyArr!}>{children}</StoreProvider>;
+  return (
+    <StoreProvider
+      apiKeys={apiKeyArr!}
+      passphraseHash={session.user.passphraseHash}
+    >
+      {children}
+    </StoreProvider>
+  );
 }

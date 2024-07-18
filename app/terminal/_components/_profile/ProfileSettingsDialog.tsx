@@ -1,4 +1,5 @@
 import ContentWrapper from '@/components/ContentWrapper';
+import PasskeyRegister from '@/components/PasskeyRegister';
 import {
   DialogDescription,
   DialogHeader,
@@ -28,7 +29,7 @@ const ProfileSettingsDialog = async () => {
           </DialogTitle>
           <DialogDescription>Edit Profile Settings Here</DialogDescription>
         </DialogHeader>
-        <ContentWrapper className='p-4'>
+        <ContentWrapper className='space-y-4 p-4'>
           <section className='flex items-center justify-between'>
             <div className='flex flex-col space-y-2'>
               <div className='text-2xl font-bold'>
@@ -46,6 +47,10 @@ const ProfileSettingsDialog = async () => {
                 height='96'
               />
             </div>
+          </section>
+
+          <section>
+            <PasskeyRegister />
           </section>
 
           <section className='flex flex-col space-y-2'>
