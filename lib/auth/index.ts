@@ -34,12 +34,24 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     signOut: '/sign-out',
   },
   callbacks: {
-    authorized: async ({ auth }) => {
-      // Logged in users are authenticated, otherwise redirect to login page
-      return !!auth;
-    },
-    async signIn({ profile }) {
-      return !!profile?.email;
+    authorized({ auth, request: { nextUrl } }) {
+      const isLoggedIn = !!auth?.user;
+      const paths = ['/terminal', '/sign-out'];
+      const isProtected = paths.some((path) =>
+        nextUrl.pathname.startsWith(path),
+      );
+
+      if (isProtected && !isLoggedIn) {
+        const redirectUrl = new URL('sign-in', nextUrl.origin);
+        redirectUrl.searchParams.append('callbackUrl', nextUrl.href);
+        return Response.redirect(redirectUrl);
+      }
+
+      if (isLoggedIn) {
+        return Response.redirect('/terminal');
+      }
+
+      return true;
     },
   },
 });
