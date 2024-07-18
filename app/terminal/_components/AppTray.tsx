@@ -1,5 +1,11 @@
+import ContentWrapper from '@/components/ContentWrapper';
 import ThemeToggle from '@/components/ThemeToggle';
 import { Button } from '@/components/ui/button';
+import {
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,9 +14,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { auth } from '@/lib/auth';
 import Link from 'next/link';
-import { LuBookKey, LuLogOut, LuMenu, LuUser, LuUser2 } from 'react-icons/lu';
+import {
+  LuBookKey,
+  LuLogOut,
+  LuMenu,
+  LuSettings2,
+  LuUser,
+  LuUser2,
+} from 'react-icons/lu';
+import DialogItem from './DialogItem';
+import { auth } from '@/lib/auth';
 
 const AppTray = async () => {
   const session = await auth();
@@ -35,14 +49,36 @@ const AppTray = async () => {
                 {session?.user?.email}
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem className='space-x-2'>
-                <LuUser />
-                <span>Profile</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem className='space-x-2'>
-                <LuBookKey />
-                <span>API Keys</span>
-              </DropdownMenuItem>
+              <DialogItem triggerIcon={<LuUser />} triggerTitle='Profile'>
+                <DialogHeader>
+                  <DialogTitle className='flex flex-row items-center space-x-2'>
+                    <LuSettings2 className='size-6' />
+                    <span>Profile Settings</span>
+                  </DialogTitle>
+                  <DialogDescription>
+                    Edit Profile Settings Here
+                  </DialogDescription>
+                </DialogHeader>
+                <ContentWrapper>
+                  <div>Profile Settings goes here</div>
+                </ContentWrapper>
+              </DialogItem>
+
+              <DialogItem triggerIcon={<LuBookKey />} triggerTitle='API Keys'>
+                <DialogHeader>
+                  <DialogTitle className='flex flex-row items-center space-x-2'>
+                    <LuSettings2 className='size-6' />
+                    <span>API Keys</span>
+                  </DialogTitle>
+                  <DialogDescription>
+                    Manage your API Keys Here
+                  </DialogDescription>
+                </DialogHeader>
+                <ContentWrapper>
+                  <div>Manage API Keys here</div>
+                </ContentWrapper>
+              </DialogItem>
+
               <DropdownMenuSeparator />
               <DropdownMenuItem className='space-x-2' asChild>
                 <Link href='/sign-out'>
