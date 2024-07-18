@@ -1,13 +1,7 @@
 import NavBar from '@/components/NavBar';
 import SignOutButton from '@/components/SignOutButton';
-import { auth } from '@/lib/auth';
-import { redirect } from 'next/navigation';
 
-const SignOutPage = async () => {
-  const session = await auth();
-
-  if (!session) redirect('/sign-in');
-
+const SignOutPage = () => {
   return (
     <div className='space-y-4'>
       <NavBar />

@@ -13,10 +13,11 @@ type Dialog = {
   triggerTitle: string;
   children: React.ReactNode;
   onSelect?: React.SyntheticEvent;
+  open?: boolean;
   onOpenChange?: (open: boolean) => void;
 };
 
-const DialogItem = React.forwardRef<
+const DropdownDialogItem = React.forwardRef<
   React.ElementRef<typeof DropdownMenuItem>,
   React.PropsWithoutRef<Dialog>
 >((props, forwadedRef) => {
@@ -25,12 +26,13 @@ const DialogItem = React.forwardRef<
     triggerTitle,
     children,
     onSelect,
+    open,
     onOpenChange,
     ...itemProps
   } = props;
 
   return (
-    <Dialog onOpenChange={onOpenChange}>
+    <Dialog onOpenChange={onOpenChange} open={open}>
       <DialogTrigger asChild>
         <DropdownMenuItem
           {...itemProps}
@@ -54,6 +56,6 @@ const DialogItem = React.forwardRef<
   );
 });
 
-DialogItem.displayName = 'DialogItem';
+DropdownDialogItem.displayName = 'DropdownDialogItem';
 
-export default DialogItem;
+export default DropdownDialogItem;

@@ -14,17 +14,18 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { auth } from '@/lib/auth';
 import Link from 'next/link';
 import {
   LuBookKey,
+  LuKeyRound,
   LuLogOut,
   LuMenu,
   LuSettings2,
   LuUser,
   LuUser2,
 } from 'react-icons/lu';
-import DialogItem from './DialogItem';
-import { auth } from '@/lib/auth';
+import DropdownDialogItem from './DropdownDialogItem';
 
 const AppTray = async () => {
   const session = await auth();
@@ -33,7 +34,7 @@ const AppTray = async () => {
     <>
       <div className='absolute bottom-0 flex h-[48px] w-screen flex-row items-center justify-between border-t bg-secondary/50 px-2 py-2 backdrop-blur-sm'>
         <Button className='space-x-2' size='sm'>
-          <LuMenu className='size-4' />
+          <LuMenu size='16' />
           <span>edit terminal</span>
         </Button>
         <div className='flex flex-row items-center space-x-2'>
@@ -41,7 +42,7 @@ const AppTray = async () => {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button size='icon' variant='outline'>
-                <LuUser2 className='size-4' />
+                <LuUser2 size='16' />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
@@ -49,10 +50,13 @@ const AppTray = async () => {
                 {session?.user?.email}
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DialogItem triggerIcon={<LuUser />} triggerTitle='Profile'>
+              <DropdownDialogItem
+                triggerIcon={<LuUser size='16' />}
+                triggerTitle='Profile'
+              >
                 <DialogHeader>
                   <DialogTitle className='flex flex-row items-center space-x-2'>
-                    <LuSettings2 className='size-6' />
+                    <LuSettings2 size='24' />
                     <span>Profile Settings</span>
                   </DialogTitle>
                   <DialogDescription>
@@ -62,12 +66,15 @@ const AppTray = async () => {
                 <ContentWrapper>
                   <div>Profile Settings goes here</div>
                 </ContentWrapper>
-              </DialogItem>
+              </DropdownDialogItem>
 
-              <DialogItem triggerIcon={<LuBookKey />} triggerTitle='API Keys'>
+              <DropdownDialogItem
+                triggerIcon={<LuBookKey size='16' />}
+                triggerTitle='API Keys'
+              >
                 <DialogHeader>
                   <DialogTitle className='flex flex-row items-center space-x-2'>
-                    <LuSettings2 className='size-6' />
+                    <LuKeyRound size='24' />
                     <span>API Keys</span>
                   </DialogTitle>
                   <DialogDescription>
@@ -77,12 +84,12 @@ const AppTray = async () => {
                 <ContentWrapper>
                   <div>Manage API Keys here</div>
                 </ContentWrapper>
-              </DialogItem>
+              </DropdownDialogItem>
 
               <DropdownMenuSeparator />
               <DropdownMenuItem className='space-x-2' asChild>
                 <Link href='/sign-out'>
-                  <LuLogOut />
+                  <LuLogOut size='16' />
                   <span>Sign Out</span>
                 </Link>
               </DropdownMenuItem>

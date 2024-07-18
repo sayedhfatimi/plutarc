@@ -10,8 +10,8 @@ const SignOutButton = () => {
         await signOut({ redirect: true, redirectTo: '/' });
       }}
     >
-      <Button type='submit' className='space-x-2'>
-        <LuLogOut className='size-4' />
+      <Button type='submit' className='space-x-2' variant='destructive'>
+        <LuLogOut size='16' />
         <span>Sign Out</span>
       </Button>
     </form>
