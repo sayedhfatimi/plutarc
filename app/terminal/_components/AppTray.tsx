@@ -1,5 +1,4 @@
 import ThemeToggle from '@/components/ThemeToggle';
-import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,11 +9,12 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { auth } from '@/lib/auth';
 import Link from 'next/link';
-import { LuLogOut, LuUser2 } from 'react-icons/lu';
+import { LuLogOut } from 'react-icons/lu';
 import ApiKeysDialog from './_apikeys/ApiKeysDialog';
 import ApiKeysSelect from './_apikeys/ApiKeysSelect';
 import ProfileSettingsDialog from './_profile/ProfileSettingsDialog';
 import SettingsDrawer from './SettingsDrawer';
+import AppTrayAvatar from './AppTrayAvatar';
 
 const AppTray = async () => {
   const session = await auth();
@@ -27,10 +27,8 @@ const AppTray = async () => {
           <ApiKeysSelect />
           <ThemeToggle />
           <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button size='icon' variant='outline'>
-                <LuUser2 size='16' />
-              </Button>
+            <DropdownMenuTrigger>
+              <AppTrayAvatar />
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuLabel className='text-muted-foreground'>

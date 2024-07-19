@@ -1,4 +1,5 @@
 'use client';
+import Spinner from '@/components/Spinner';
 import { setUserProfileImage } from '@/lib/redux/features/userContext';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { UploadButton } from '@/lib/uploadthing';
@@ -25,11 +26,18 @@ const ProfileImage = () => {
           button({ ready }) {
             if (ready)
               return (
-                <div className='w-24 text-center text-sm font-bold'>
+                <div className='w-24 text-center text-sm font-bold text-muted-foreground hover:cursor-pointer hover:text-black dark:hover:text-white'>
                   Change Profile Image
                 </div>
               );
-            return 'Getting Ready...';
+            return (
+              <div className='w-24 text-center text-sm font-bold text-muted-foreground hover:cursor-pointer hover:text-black dark:hover:text-white'>
+                Getting Ready...
+              </div>
+            );
+          },
+          allowedContent({ isUploading }) {
+            if (isUploading) return <Spinner />;
           },
         }}
         onClientUploadComplete={(res) => {
