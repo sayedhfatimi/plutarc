@@ -1,6 +1,6 @@
 import { Layout } from 'react-grid-layout';
 
-export interface UserContext {
+export type TUserContext = {
   userId: string;
   passphraseHash: string;
   isEncrypted: boolean;
@@ -11,4 +11,4 @@ export interface UserContext {
   showTickerBar: boolean;
   terminalLayout: Layout[];
   terminalComponents: Layout[];
-}
+};

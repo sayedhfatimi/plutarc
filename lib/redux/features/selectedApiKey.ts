@@ -1,13 +1,13 @@
-import { TapiKey } from '@/lib/types/APIKeys';
+import { TAPIKeys } from '@/lib/types/APIKeys';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-const initialState: TapiKey = {} as TapiKey;
+const initialState: TAPIKeys = {} as TAPIKeys;
 
 export const selectedApiKeySlice = createSlice({
   name: 'selectedApiKey',
   initialState,
   reducers: {
-    setSelectedApiKey: (state: TapiKey, action: PayloadAction<TapiKey>) =>
+    setSelectedApiKey: (state: TAPIKeys, action: PayloadAction<TAPIKeys>) =>
       action.payload,
   },
 });

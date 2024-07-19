@@ -1,72 +1,72 @@
 import { terminalLayout } from '@/lib/consts';
-import { UserContext } from '@/lib/types/UserContext';
+import { TUserContext } from '@/lib/types/UserContext';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import _ from 'lodash';
 import { Layout } from 'react-grid-layout';
 
-const initialState: UserContext = {
+const initialState: TUserContext = {
   showTickerBar: true,
   showVWAP: true,
   show24hRange: true,
   showLastPrice: true,
   terminalLayout: terminalLayout,
   terminalComponents: [] as Layout[],
-} as UserContext;
+} as TUserContext;
 
 export const userContextSlice = createSlice({
   name: 'userContext',
   initialState,
   reducers: {
     setUserId: (
-      state: UserContext,
-      action: PayloadAction<UserContext['userId']>,
+      state: TUserContext,
+      action: PayloadAction<TUserContext['userId']>,
     ) => {
       return { ...state, userId: action.payload };
     },
     setPassphraseHash: (
-      state: UserContext,
-      action: PayloadAction<UserContext['passphraseHash']>,
+      state: TUserContext,
+      action: PayloadAction<TUserContext['passphraseHash']>,
     ) => {
       return { ...state, passphraseHash: action.payload };
     },
     setEncryptedStatus: (
-      state: UserContext,
-      action: PayloadAction<UserContext['isEncrypted']>,
+      state: TUserContext,
+      action: PayloadAction<TUserContext['isEncrypted']>,
     ) => {
       return { ...state, isEncrypted: action.payload };
     },
     setShowTickerBar: (
-      state: UserContext,
-      action: PayloadAction<UserContext['showTickerBar']>,
+      state: TUserContext,
+      action: PayloadAction<TUserContext['showTickerBar']>,
     ) => {
       return { ...state, showTickerBar: action.payload };
     },
     setShowVWAP: (
-      state: UserContext,
-      action: PayloadAction<UserContext['showVWAP']>,
+      state: TUserContext,
+      action: PayloadAction<TUserContext['showVWAP']>,
     ) => {
       return { ...state, showVWAP: action.payload };
     },
     setShow24hRange: (
-      state: UserContext,
-      action: PayloadAction<UserContext['show24hRange']>,
+      state: TUserContext,
+      action: PayloadAction<TUserContext['show24hRange']>,
     ) => {
       return { ...state, show24hRange: action.payload };
     },
     setShowLastPrice: (
-      state: UserContext,
-      action: PayloadAction<UserContext['showLastPrice']>,
+      state: TUserContext,
+      action: PayloadAction<TUserContext['showLastPrice']>,
     ) => {
       return { ...state, showLastPrice: action.payload };
     },
     setTerminalLayout: (
-      state: UserContext,
-      action: PayloadAction<UserContext['terminalLayout']>,
+      state: TUserContext,
+      action: PayloadAction<TUserContext['terminalLayout']>,
     ) => {
       return { ...state, terminalLayout: action.payload };
     },
     removeFromTerminalLayout: (
-      state: UserContext,
+      state: TUserContext,
       action: PayloadAction<Layout>,
     ) => {
       return {
@@ -76,7 +76,7 @@ export const userContextSlice = createSlice({
       };
     },
     addToTerminalLayout: (
-      state: UserContext,
+      state: TUserContext,
       action: PayloadAction<Layout>,
     ) => {
       return {

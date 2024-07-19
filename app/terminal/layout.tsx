@@ -17,6 +17,7 @@ export default async function TerminalLayout({
     <StoreProvider
       apiKeys={apiKeyArr!}
       passphraseHash={session.user.passphraseHash}
+      userId={session.user.id}
     >
       {children}
     </StoreProvider>

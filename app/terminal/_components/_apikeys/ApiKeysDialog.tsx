@@ -6,6 +6,8 @@ import {
 } from '@/components/ui/dialog';
 import { LuBookKey, LuKeyRound } from 'react-icons/lu';
 import DropdownDialogItem from '../DropdownDialogItem';
+import ApiKeysTable from './ApiKeysTable';
+import ApiKeysAddDialog from './ApiKeysAddDialog';
 
 const ApiKeysDialog = () => {
   return (
@@ -13,14 +15,21 @@ const ApiKeysDialog = () => {
       triggerIcon={<LuBookKey size='16' />}
       triggerTitle='API Keys'
     >
-      <DialogHeader>
-        <DialogTitle className='flex flex-row items-center space-x-2'>
-          <LuKeyRound size='24' />
-          <span>API Keys</span>
-        </DialogTitle>
-        <DialogDescription>Manage your API Keys Here</DialogDescription>
-      </DialogHeader>
-      <ContentWrapper>Manage API Keys here</ContentWrapper>
+      <div className='flex items-center justify-between pr-6'>
+        <DialogHeader>
+          <DialogTitle className='flex flex-row items-center space-x-2'>
+            <LuKeyRound size='24' />
+            <span>API Keys</span>
+          </DialogTitle>
+          <DialogDescription>Manage your API Keys Here</DialogDescription>
+        </DialogHeader>
+
+        <ApiKeysAddDialog />
+      </div>
+
+      <ContentWrapper>
+        <ApiKeysTable />
+      </ContentWrapper>
     </DropdownDialogItem>
   );
 };

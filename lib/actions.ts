@@ -1,17 +1,13 @@
 'use server';
+import { createApiKeySchema } from '@/schemas/createApiKeySchema';
+import { createPassphraseSchema } from '@/schemas/createPassphraseSchema';
 import { eq } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
 import { auth } from './auth';
 import { db } from './db';
-import {
-  accounts,
-  apiKeys,
-  insertAPIKeySchema,
-  insertUserSchema,
-  users,
-} from './db/schema';
+import { accounts, apiKeys, users } from './db/schema';
 
 export async function getUser() {
   const session = await auth();
@@ -29,10 +25,8 @@ export async function getUser() {
   }
 }
 
-const passphraseHashSchema = insertUserSchema.pick({ passphraseHash: true });
-
 export async function createPassphrase(
-  data: z.infer<typeof passphraseHashSchema>,
+  data: z.infer<typeof createPassphraseSchema>,
 ) {
   const session = await auth();
   if (!session) return { error: 'Not authorized for this action.' };
@@ -40,16 +34,16 @@ export async function createPassphrase(
   if (!data || data === null || data === undefined)
     return { error: 'No data received.' };
 
-  const validation = passphraseHashSchema.safeParse(data);
+  const validation = createPassphraseSchema.safeParse(data);
 
   if (!validation.success) return { error: validation.error.errors };
 
-  const { passphraseHash } = data;
+  const { passphrase } = data;
 
   try {
     await db
       .update(users)
-      .set({ passphraseHash })
+      .set({ passphraseHash: passphrase })
       .where(eq(users.id, session.user.id));
   } catch (error) {
     return { error };
@@ -107,25 +101,28 @@ export async function getApiKeys() {
   }
 }
 
-export async function createApiKey(data: z.infer<typeof insertAPIKeySchema>) {
+export async function createApiKey(data: z.infer<typeof createApiKeySchema>) {
   const session = await auth();
   if (!session) return { error: 'Not authorized for this action.' };
 
   if (!data) return { error: 'No data received.' };
 
-  const validation = insertAPIKeySchema.safeParse(data);
+  const validation = createApiKeySchema.safeParse(data);
   if (!validation.success) return { error: validation.error.errors };
 
   const { label, apiKey, apiSecret, exchange } = data;
 
   try {
-    const res = await db.insert(apiKeys).values({
-      userId: session.user.id,
-      label,
-      apiKey,
-      apiSecret,
-      exchange,
-    });
+    const res = await db
+      .insert(apiKeys)
+      .values({
+        userId: session.user.id,
+        label,
+        apiKey,
+        apiSecret,
+        exchange,
+      })
+      .returning();
 
     return { res };
   } catch (error) {

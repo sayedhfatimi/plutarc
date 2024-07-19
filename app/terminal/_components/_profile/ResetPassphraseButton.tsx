@@ -14,7 +14,7 @@ import { Button } from '@/components/ui/button';
 import { resetPassphrase } from '@/lib/actions';
 import { useAppSelector } from '@/lib/redux/hooks';
 import { useState } from 'react';
-import { LuAlertTriangle } from 'react-icons/lu';
+import { LuAlertTriangle, LuBomb } from 'react-icons/lu';
 import { toast } from 'sonner';
 
 const ResetPassphraseButton = () => {
@@ -54,24 +54,22 @@ const ResetPassphraseButton = () => {
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-            <AlertDialogDescription className='space-y-4'>
-              <p>
-                On confirmation, your passphrase will be reset and all
-                associated API keys deleted from the server, you will be
-                automatically logged out and will need to log back in again.
-              </p>
-              <p className='text-red-600'>
-                This action cannot be undone. This will reset your passphrase
-                and delete all API keys associated with this account.
-              </p>
+            <AlertDialogDescription>
+              On confirmation, your passphrase will be reset and all associated
+              API keys deleted from the server, you will be automatically logged
+              out and will need to log back in again.
             </AlertDialogDescription>
           </AlertDialogHeader>
+          <span className='text-red-600'>
+            This action cannot be undone. This will reset your passphrase and
+            delete all API keys associated with this account.
+          </span>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction asChild className='bg-red-800 hover:bg-red-600'>
-              <Button onClick={confirmResetPassphrase}>
-                <LuAlertTriangle className='mr-2 h-4 w-4' />
-                RESET PASSPHRASE!
+              <Button onClick={confirmResetPassphrase} className='space-x-2'>
+                <LuBomb size='16' />
+                <span>RESET PASSPHRASE!</span>
               </Button>
             </AlertDialogAction>
           </AlertDialogFooter>

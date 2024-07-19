@@ -3,19 +3,22 @@ import { initialiseState } from '@/lib/redux/features/apiKeys';
 import {
   setEncryptedStatus,
   setPassphraseHash,
+  setUserId,
 } from '@/lib/redux/features/userContext';
 import { AppStore, makeStore } from '@/lib/redux/store';
-import { TapiKey } from '@/lib/types/APIKeys';
+import { TAPIKeys } from '@/lib/types/APIKeys';
 import { useRef } from 'react';
 import { Provider } from 'react-redux';
 
 export default function StoreProvider({
   apiKeys,
   passphraseHash,
+  userId,
   children,
 }: {
-  apiKeys: TapiKey[];
+  apiKeys: TAPIKeys[];
   passphraseHash: string;
+  userId: string;
   children: React.ReactNode;
 }) {
   const storeRef = useRef<AppStore>();
@@ -23,6 +26,7 @@ export default function StoreProvider({
     // Create the store instance the first time this renders
     storeRef.current = makeStore();
     // initialise store
+    if (userId) storeRef.current.dispatch(setUserId(userId));
     if (passphraseHash)
       storeRef.current.dispatch(setPassphraseHash(passphraseHash));
     if (apiKeys.length !== 0)
