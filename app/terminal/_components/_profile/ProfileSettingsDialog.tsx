@@ -6,12 +6,11 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { auth } from '@/lib/auth';
-import defaultpp from '@/public/images/default-pp.jpg';
-import Image from 'next/image';
 import { LuSettings2, LuSkull, LuUser } from 'react-icons/lu';
 import DropdownDialogItem from '../DropdownDialogItem';
 import DeleteAccountButton from './DeleteAccountButton';
 import ResetPassphraseButton from './ResetPassphraseButton';
+import ProfileImage from './ProfileImage';
 
 const ProfileSettingsDialog = async () => {
   const session = await auth();
@@ -30,7 +29,7 @@ const ProfileSettingsDialog = async () => {
           <DialogDescription>Edit Profile Settings Here</DialogDescription>
         </DialogHeader>
         <ContentWrapper className='space-y-4 p-4'>
-          <section className='flex items-center justify-between'>
+          <section className='flex items-start justify-between'>
             <div className='flex flex-col space-y-2'>
               <div className='text-2xl font-bold'>
                 Name: {session?.user.name || 'No Name'}
@@ -38,19 +37,11 @@ const ProfileSettingsDialog = async () => {
               <div className='text-sm text-slate-600'>
                 email: {session?.user.email}
               </div>
+              <div>
+                <PasskeyRegister />
+              </div>
             </div>
-            <div className='flex'>
-              <Image
-                src={session?.user.image || defaultpp}
-                alt='User Avatar'
-                width='96'
-                height='96'
-              />
-            </div>
-          </section>
-
-          <section>
-            <PasskeyRegister />
+            <ProfileImage />
           </section>
 
           <section className='flex flex-col space-y-2'>

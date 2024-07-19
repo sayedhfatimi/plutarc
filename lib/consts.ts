@@ -1,6 +1,7 @@
 import bitmexIcon from '@/public/images/exchangeIcons/bitmex.png';
 import binanceIcon from '@/public/images/exchangeIcons/binance.png';
 import phemexIcon from '@/public/images/exchangeIcons/phemex.png';
+import coinbaseIcon from '@/public/images/exchangeIcons/coinbase.png';
 import { StaticImageData } from 'next/image';
 
 export const supportedExchanges: {
@@ -11,6 +12,7 @@ export const supportedExchanges: {
 }[] = [
   { key: 'binance', value: 'BINANCE', text: 'Binance', icon: binanceIcon },
   { key: 'bitmex', value: 'BITMEX', text: 'BitMex', icon: bitmexIcon },
+  { key: 'coinbase', value: 'COINBASE', text: 'Coinbase', icon: coinbaseIcon },
   { key: 'phemex', value: 'PHEMEX', text: 'Phemex', icon: phemexIcon },
 ];
 
@@ -21,7 +23,7 @@ export const terminalLayout = [
     y: Infinity,
     w: 18,
     h: 18,
-    isResizable: false,
+    isResizable: true,
     isBounded: true,
   },
   {
@@ -30,7 +32,7 @@ export const terminalLayout = [
     y: Infinity,
     w: 18,
     h: 18,
-    isResizable: false,
+    isResizable: true,
     isBounded: true,
   },
   //   {

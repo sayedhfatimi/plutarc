@@ -29,6 +29,12 @@ export const userContextSlice = createSlice({
     ) => {
       return { ...state, passphraseHash: action.payload };
     },
+    setUserProfileImage: (
+      state: TUserContext,
+      action: PayloadAction<TUserContext['userProfileImage']>,
+    ) => {
+      return { ...state, userProfileImage: action.payload };
+    },
     setEncryptedStatus: (
       state: TUserContext,
       action: PayloadAction<TUserContext['isEncrypted']>,
@@ -91,6 +97,7 @@ export const userContextSlice = createSlice({
 export const {
   setUserId,
   setPassphraseHash,
+  setUserProfileImage,
   setEncryptedStatus,
   setShowTickerBar,
   setShowVWAP,

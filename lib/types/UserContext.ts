@@ -3,6 +3,7 @@ import { Layout } from 'react-grid-layout';
 export type TUserContext = {
   userId: string;
   passphraseHash: string;
+  userProfileImage: string;
   isEncrypted: boolean;
   orderPanelSide: boolean;
   showVWAP: boolean;

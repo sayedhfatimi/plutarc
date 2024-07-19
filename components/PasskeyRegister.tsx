@@ -11,7 +11,7 @@ const PasskeyRegister = () => {
       size='sm'
       onClick={() => signIn('passkey', { action: 'register' })}
     >
-      <LuKeyRound size='32' />
+      <LuKeyRound size='24' />
       <span>Register New Passkey</span>
     </Button>
   );
