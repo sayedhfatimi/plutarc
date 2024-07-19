@@ -27,7 +27,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { createApiKey } from '@/lib/actions';
-import { exchangeOptions } from '@/lib/consts';
+import { supportedExchanges } from '@/lib/consts';
 import { addApiKey } from '@/lib/redux/features/apiKeys';
 import { setEncryptedStatus } from '@/lib/redux/features/userContext';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
@@ -46,6 +46,8 @@ import {
 } from 'react-icons/lu';
 import { toast } from 'sonner';
 import { z } from 'zod';
+
+import Image from 'next/image';
 
 const ApiKeysAddForm = () => {
   const [open, setOpen] = useState(false); // dialog open state
@@ -216,9 +218,17 @@ const ApiKeysAddForm = () => {
                       </FormControl>
 
                       <SelectContent>
-                        {exchangeOptions.map((option) => (
+                        {supportedExchanges.map((option) => (
                           <SelectItem value={option.value} key={option.key}>
-                            {option.text}
+                            <div className='flex flex-row items-center space-x-2'>
+                              <Image
+                                src={option.icon}
+                                alt={option.key}
+                                height={22}
+                                width={22}
+                              />
+                              <span>{option.text}</span>
+                            </div>
                           </SelectItem>
                         ))}
                       </SelectContent>
