@@ -17,6 +17,7 @@ import { type TAPIKeys } from '@/lib/types/APIKeys';
 import { useState } from 'react';
 import { LuAlertTriangle, LuBomb, LuTrash } from 'react-icons/lu';
 import { toast } from 'sonner';
+import ErrorDialog from '../ErrorDialog';
 
 const ApiKeysDeleteButton = ({ apiKeyObj }: { apiKeyObj: TAPIKeys }) => {
   const [error, setError] = useState(false);
@@ -74,22 +75,7 @@ const ApiKeysDeleteButton = ({ apiKeyObj }: { apiKeyObj: TAPIKeys }) => {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-      <AlertDialog open={error}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Error</AlertDialogTitle>
-            <AlertDialogDescription>
-              An error occurred whilst attempting to delete. Please contact
-              support.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setError(false)}>
-              Close
-            </AlertDialogCancel>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      <ErrorDialog error={error} setError={setError} />
     </>
   );
 };

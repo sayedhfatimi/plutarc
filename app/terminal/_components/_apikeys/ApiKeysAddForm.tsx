@@ -36,7 +36,6 @@ import { createApiKeySchema } from '@/schemas/createApiKeySchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import bcryptjs from 'bcryptjs';
 import _ from 'lodash';
-import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {

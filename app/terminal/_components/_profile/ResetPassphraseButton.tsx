@@ -16,6 +16,7 @@ import { useAppSelector } from '@/lib/redux/hooks';
 import { useState } from 'react';
 import { LuAlertTriangle, LuBomb } from 'react-icons/lu';
 import { toast } from 'sonner';
+import ErrorDialog from '../ErrorDialog';
 
 const ResetPassphraseButton = () => {
   const [error, setError] = useState(false);
@@ -75,22 +76,7 @@ const ResetPassphraseButton = () => {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-      <AlertDialog open={error}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Error</AlertDialogTitle>
-            <AlertDialogDescription>
-              An error occurred whilst attempting this action. Please contact
-              support.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setError(false)}>
-              Close
-            </AlertDialogCancel>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      <ErrorDialog error={error} setError={setError} />
     </>
   );
 };

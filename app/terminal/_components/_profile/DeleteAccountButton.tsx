@@ -15,6 +15,7 @@ import { AlertDialogTrigger } from '@radix-ui/react-alert-dialog';
 import { useState } from 'react';
 import { LuAlertTriangle, LuBomb } from 'react-icons/lu';
 import { toast } from 'sonner';
+import ErrorDialog from '../ErrorDialog';
 
 const DeleteAccountButton = () => {
   const [error, setError] = useState(false);
@@ -69,22 +70,7 @@ const DeleteAccountButton = () => {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-      <AlertDialog open={error}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Error</AlertDialogTitle>
-            <AlertDialogDescription>
-              An error occurred whilst attempting this action. Please contact
-              support.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setError(false)}>
-              Close
-            </AlertDialogCancel>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      <ErrorDialog error={error} setError={setError} />
     </>
   );
 };
