@@ -93,8 +93,8 @@ const ApiKeysAddForm = () => {
         // update the redux store with the returned data
         dispatch(
           addApiKey({
-            ...apiKeyObj[0], // spread the received object into an empty object
-            apiSecret: decryptString(apiKeyObj[0].apiSecret, data.passphrase!), // decrypt the apiSecret
+            ...apiKeyObj, // spread the received object into an empty object
+            apiSecret: decryptString(apiKeyObj.apiSecret, data.passphrase!), // decrypt the apiSecret
           }),
         );
 
@@ -126,8 +126,9 @@ const ApiKeysAddForm = () => {
     <>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button>
-            <LuPlus className='mr-2 h-4 w-4' /> Add New Key
+          <Button className='space-x-2' size='sm' variant='outline'>
+            <LuPlus size='16' />
+            <span>Add New Key</span>
           </Button>
         </DialogTrigger>
         <DialogContent>

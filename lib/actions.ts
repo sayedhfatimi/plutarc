@@ -14,7 +14,7 @@ export async function getUser() {
   if (!session) return { error: 'Not authorized for this action.' };
 
   try {
-    const user = await db
+    const [user] = await db
       .select()
       .from(users)
       .where(eq(users.id, session.user.id));
@@ -113,7 +113,7 @@ export async function createApiKey(data: z.infer<typeof createApiKeySchema>) {
   const { label, apiKey, apiSecret, exchange } = data;
 
   try {
-    const res = await db
+    const [res] = await db
       .insert(apiKeys)
       .values({
         userId: session.user.id,

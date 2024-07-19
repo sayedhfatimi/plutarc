@@ -18,6 +18,7 @@ import { useState } from 'react';
 import { LuAlertTriangle, LuBomb, LuTrash } from 'react-icons/lu';
 import { toast } from 'sonner';
 import ErrorDialog from '../ErrorDialog';
+import DestructiveActionAlert from '../DestructiveActionAlert';
 
 const ApiKeysDeleteButton = ({ apiKeyObj }: { apiKeyObj: TAPIKeys }) => {
   const [error, setError] = useState(false);
@@ -50,31 +51,13 @@ const ApiKeysDeleteButton = ({ apiKeyObj }: { apiKeyObj: TAPIKeys }) => {
 
   return (
     <>
-      <AlertDialog>
-        <AlertDialogTrigger asChild>
-          <Button size='sm' variant='destructive' disabled={isDeleting}>
-            <LuTrash size='16' />
-          </Button>
-        </AlertDialogTrigger>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-            <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete this
-              API key.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction asChild className='bg-red-800 hover:bg-red-600'>
-              <Button onClick={confirmDeleteApiKey} className='space-x-2'>
-                <LuBomb size='16' />
-                <span>DELETE!</span>
-              </Button>
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      <DestructiveActionAlert
+        triggerDisabled={isDeleting}
+        triggerIcon={LuTrash}
+        alertDescription='This action cannot be undone. This will permanently delete this API key.'
+        confirmTitle='DELETE!'
+        confirmFn={confirmDeleteApiKey}
+      />
       <ErrorDialog error={error} setError={setError} />
     </>
   );

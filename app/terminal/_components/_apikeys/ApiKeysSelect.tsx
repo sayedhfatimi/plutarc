@@ -52,7 +52,7 @@ const ApiKeysSelect = () => {
             }
           />
         </SelectTrigger>
-        <SelectContent position='popper' align='end'>
+        <SelectContent position='item-aligned' align='end'>
           {apiKeysArr.map((item: TAPIKeys) => (
             <SelectItem key={item.label} value={JSON.stringify(item)}>
               {item.label}
