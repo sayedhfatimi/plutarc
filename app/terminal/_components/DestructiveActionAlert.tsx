@@ -67,7 +67,10 @@ const DestructiveActionAlert = React.forwardRef<
         ) : null}
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction asChild className='bg-red-800 hover:bg-red-600'>
+          <AlertDialogAction
+            asChild
+            className='bg-red-800 font-bold text-white hover:bg-red-600'
+          >
             <Button onClick={confirmFn} className='space-x-2'>
               <LuBomb size='16' />
               <span>{confirmTitle}</span>
