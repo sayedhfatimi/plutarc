@@ -35,13 +35,13 @@ export const terminalLayout = [
     isResizable: true,
     isBounded: true,
   },
-  //   {
-  //     i: 'PositionsOrders',
-  //     x: 0,
-  //     y: Infinity,
-  //     w: 50,
-  //     h: 20,
-  //     isResizable: false,
-  //     isBounded: true,
-  //   },
+  {
+    i: 'PositionsOrders',
+    x: 42,
+    y: Infinity,
+    w: 18,
+    h: 18,
+    isResizable: true,
+    isBounded: true,
+  },
 ];
