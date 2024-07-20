@@ -39,7 +39,7 @@ const HomePage = async () => {
         </div>
       </section>
 
-      <section className='px-20 py-4'>
+      <section className='py-4 md:px-20'>
         <ScreenshotCarousel />
       </section>
 
@@ -47,7 +47,7 @@ const HomePage = async () => {
         <div className='text-center text-4xl font-bold'>
           Why <span className={gugiFont.className}>plutarc</span>?
         </div>
-        <div className='flex flex-row items-center justify-center space-x-4'>
+        <div className='flex flex-col items-center justify-center space-y-4 md:flex-row md:space-x-4 md:space-y-0'>
           {CardData.map((card) => (
             <Card className='h-[300px] w-[300px] shadow-sm' key={card.title}>
               <CardHeader>

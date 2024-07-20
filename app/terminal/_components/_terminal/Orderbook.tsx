@@ -43,7 +43,12 @@ const Orderbook = React.forwardRef<
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lastJsonMessage]);
 
-  if (!data || data.length === 0) return <Spinner />;
+  if (!data || data.length === 0)
+    return (
+      <div className='h-full place-content-center place-items-center text-center'>
+        <Spinner />
+      </div>
+    );
 
   // get total of size of bids from all bids in state
   const bidSizeTotal: number = data
