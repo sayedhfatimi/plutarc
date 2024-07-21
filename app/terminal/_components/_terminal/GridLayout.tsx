@@ -71,9 +71,10 @@ const GridLayout = () => {
               data-grid={item}
               gridunitheight={item.h}
               gridunitwidth={item.w}
-              rowHeight={rowHeight}
+              rowheight={rowHeight}
             >
-              <div className='drag absolute top-0 hidden w-full cursor-move justify-end border-b bg-background/50 p-1 backdrop-blur-sm group-hover:flex'>
+              <div className='drag absolute top-0 hidden w-full cursor-move items-center justify-between border-b bg-background/50 p-1 backdrop-blur-sm group-hover:flex'>
+                <span>{component.label}</span>
                 <LuX
                   className='noDrag animate-pulse cursor-pointer text-muted-foreground'
                   size='16'

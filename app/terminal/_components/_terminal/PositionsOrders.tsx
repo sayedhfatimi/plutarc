@@ -20,7 +20,7 @@ const PositionsOrders = React.forwardRef<
     return (
       <div
         style={{ ...style }}
-        className={cn('', className)}
+        className={cn('font-mono text-xs', className)}
         ref={ref}
         onMouseDown={onMouseDown}
         onMouseUp={onMouseUp}

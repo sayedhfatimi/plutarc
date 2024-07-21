@@ -13,8 +13,10 @@ export const terminalLayout = [
     i: 'RecentTrades',
     x: 1,
     y: 1,
-    w: 2,
-    h: 1,
+    w: 10,
+    h: 4,
+    minH: 4,
+    minW: 6,
     isResizable: true,
   },
   {

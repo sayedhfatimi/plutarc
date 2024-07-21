@@ -10,7 +10,7 @@ import useWebSocket from 'react-use-websocket';
 import classNames from 'classnames';
 
 type TOrderbookProps = {
-  rowHeight: number;
+  rowheight: number;
   gridunitheight: number;
   gridunitwidth: number;
 };
@@ -27,7 +27,7 @@ const Orderbook = React.forwardRef<
       onMouseUp,
       onTouchEnd,
       children,
-      rowHeight,
+      rowheight,
       gridunitheight,
       gridunitwidth,
       ...props
@@ -72,7 +72,7 @@ const Orderbook = React.forwardRef<
         </div>
       );
 
-    let n = (rowHeight * gridunitheight + 4 * (gridunitheight - 1)) / 16;
+    let n = (rowheight * gridunitheight + 4 * (gridunitheight - 1)) / 16;
 
     if (gridunitwidth < 8) n = n / 2;
 
@@ -90,12 +90,12 @@ const Orderbook = React.forwardRef<
       .slice(0, n - 1);
 
     const bidSizeTotal: number = bids.reduce(
-      (acc: any, val: orderBookL2) => acc + val.size,
+      (acc: number, val: orderBookL2) => acc + val.size,
       0,
     );
 
     const askSizeTotal: number = asks.reduce(
-      (acc: any, val: orderBookL2) => acc + val.size,
+      (acc: number, val: orderBookL2) => acc + val.size,
       0,
     );
 
@@ -148,6 +148,7 @@ const Orderbook = React.forwardRef<
                     style={{
                       backgroundColor: '#22c55e',
                       width: `${(bidTotal / bidSizeTotal) * 100}%`,
+                      maxWidth: '150%',
                     }}
                   >
                     <span>{(bidTotal += item.size).toLocaleString()}</span>
@@ -186,6 +187,7 @@ const Orderbook = React.forwardRef<
                     style={{
                       backgroundColor: '#dc2626',
                       width: `${(askTotal / askSizeTotal) * 100}%`,
+                      maxWidth: '150%',
                     }}
                   >
                     <span>{(askTotal += item.size).toLocaleString()}</span>
