@@ -13,24 +13,6 @@ import PositionsOrders from './PositionsOrders';
 import RecentTrades from './RecentTrades';
 import { useMemo } from 'react';
 
-const terminalComponents = [
-  {
-    key: 'Orderbook',
-    label: 'Orderbook',
-    node: Orderbook,
-  },
-  {
-    key: 'RecentTrades',
-    label: 'Recent Trades',
-    node: RecentTrades,
-  },
-  {
-    key: 'PositionsOrders',
-    label: 'Positions & Orders',
-    node: PositionsOrders,
-  },
-];
-
 const GridLayout = () => {
   const dispatch = useAppDispatch();
   const terminalLayout = useAppSelector(
@@ -39,6 +21,24 @@ const GridLayout = () => {
 
   const ResponsiveGridLayout = useMemo(() => WidthProvider(Responsive), []);
 
+  const terminalComponents = [
+    {
+      key: 'Orderbook',
+      label: 'Orderbook',
+      node: Orderbook,
+    },
+    {
+      key: 'RecentTrades',
+      label: 'Recent Trades',
+      node: RecentTrades,
+    },
+    {
+      key: 'PositionsOrders',
+      label: 'Positions & Orders',
+      node: PositionsOrders,
+    },
+  ];
+
   return (
     <ResponsiveGridLayout
       className='layout'
@@ -46,7 +46,8 @@ const GridLayout = () => {
         md: terminalLayout,
       }}
       resizeHandles={['se']}
-      useCSSTransforms={true}
+      useCSSTransforms
+      transformScale={1}
       breakpoints={{ md: 996 }}
       cols={{ md: 50 }}
       rowHeight={5}
@@ -63,6 +64,7 @@ const GridLayout = () => {
             <component.node
               key={item.i}
               className='group relative overflow-hidden border bg-white shadow-md dark:bg-slate-900'
+              data-grid={item}
             >
               <div
                 className='noDrag absolute right-1 top-1 size-4 animate-pulse cursor-pointer bg-slate-200 dark:bg-transparent md:hidden md:group-hover:block'
