@@ -4,9 +4,9 @@ export const terminalLayout = [
     x: 1,
     y: 1,
     w: 6,
-    h: 3,
-    minH: 3,
-    minW: 6,
+    h: 4,
+    minH: 4,
+    minW: 4,
     isResizable: true,
   },
   {

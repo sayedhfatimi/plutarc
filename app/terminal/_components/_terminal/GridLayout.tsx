@@ -39,6 +39,8 @@ const GridLayout = () => {
     },
   ];
 
+  const rowHeight = 48;
+
   return (
     <ResponsiveGridLayout
       className='layout'
@@ -50,13 +52,14 @@ const GridLayout = () => {
       transformScale={1}
       breakpoints={{ md: 996 }}
       cols={{ md: 24 }}
-      rowHeight={48}
-      margin={[5, 5]}
+      rowHeight={rowHeight}
+      margin={[4, 4]}
       draggableCancel='.noDrag'
       draggableHandle='.drag'
       isResizable
       isDraggable
       onLayoutChange={(layout) => dispatch(setTerminalLayout(layout))}
+      verticalCompact={false}
     >
       {terminalLayout.map((item) =>
         terminalComponents
@@ -67,6 +70,8 @@ const GridLayout = () => {
               className='group relative border bg-white shadow-md dark:bg-slate-900'
               data-grid={item}
               gridunitheight={item.h}
+              gridunitwidth={item.w}
+              rowHeight={rowHeight}
             >
               <div className='drag absolute top-0 hidden w-full cursor-move justify-end border-b bg-background/50 p-1 backdrop-blur-sm group-hover:flex'>
                 <LuX

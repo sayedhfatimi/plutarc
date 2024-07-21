@@ -7,9 +7,12 @@ import type {
 import { bitmexDeltaParser, cn, numberParser } from '@/lib/utils';
 import React, { useEffect, useState } from 'react';
 import useWebSocket from 'react-use-websocket';
+import classNames from 'classnames';
 
 type TOrderbookProps = {
+  rowHeight: number;
   gridunitheight: number;
+  gridunitwidth: number;
 };
 
 const Orderbook = React.forwardRef<
@@ -24,7 +27,9 @@ const Orderbook = React.forwardRef<
       onMouseUp,
       onTouchEnd,
       children,
+      rowHeight,
       gridunitheight,
+      gridunitwidth,
       ...props
     },
     ref,
@@ -67,7 +72,12 @@ const Orderbook = React.forwardRef<
         </div>
       );
 
-    const n = (48 * gridunitheight + 5 * (gridunitheight - 1)) / 16;
+    let n = (rowHeight * gridunitheight + 4 * (gridunitheight - 1)) / 16;
+
+    if (gridunitwidth < 8) n = n / 2;
+
+    let bidTotal: number = 0;
+    let askTotal: number = 0;
 
     const bids = data
       .filter((item: orderBookL2) => item.side === 'Buy')
@@ -89,14 +99,15 @@ const Orderbook = React.forwardRef<
       0,
     );
 
-    let bidTotal: number = 0;
-    let askTotal: number = 0;
-
     return (
       <div
         style={{ ...style }}
         className={cn(
-          'flex flex-row items-start justify-evenly overflow-clip font-mono text-xs font-thin',
+          classNames({
+            'flex overflow-clip font-mono text-xs font-thin': true,
+            'flex-row items-start justify-evenly': gridunitwidth >= 8,
+            'flex-col-reverse justify-end': gridunitwidth < 8,
+          }),
           className,
         )}
         ref={ref}
@@ -106,11 +117,19 @@ const Orderbook = React.forwardRef<
         {...props}
       >
         <table
-          className='w-full table-auto border-collapse text-right'
-          style={{ direction: 'rtl' }}
+          className={classNames({
+            'w-full table-auto border-collapse': true,
+            'text-right [direction:rtl]': gridunitwidth >= 8,
+            'text-left': gridunitwidth < 8,
+          })}
           cellSpacing='0'
         >
-          <thead className='text-slate-600'>
+          <thead
+            className={classNames({
+              'text-slate-600': true,
+              hidden: gridunitwidth < 8,
+            })}
+          >
             <tr className='h-4 leading-none'>
               <th className='w-1/3'>Bid</th>
               <th className='w-1/3'>Size</th>
@@ -123,7 +142,7 @@ const Orderbook = React.forwardRef<
                 key={item.id}
                 className='h-4 leading-none hover:bg-slate-200/50 dark:hover:bg-slate-200/50'
               >
-                <td>
+                <td className='w-1/3'>
                   <div
                     className='whitespace-nowrap'
                     style={{
@@ -134,10 +153,10 @@ const Orderbook = React.forwardRef<
                     <span>{(bidTotal += item.size).toLocaleString()}</span>
                   </div>
                 </td>
-                <td className='text-green-400 dark:text-green-600'>
+                <td className='w-1/3 text-green-400 dark:text-green-600'>
                   {item.size.toLocaleString()}
                 </td>
-                <td className='text-green-400 dark:text-green-600'>
+                <td className='w-1/3 text-green-400 dark:text-green-600'>
                   {numberParser(item.price)}
                 </td>
               </tr>
@@ -161,7 +180,7 @@ const Orderbook = React.forwardRef<
                 key={item.id}
                 className='h-4 leading-none hover:bg-slate-200/50 dark:hover:bg-slate-200/50'
               >
-                <td>
+                <td className='w-1/3'>
                   <div
                     className='whitespace-nowrap'
                     style={{
@@ -172,10 +191,10 @@ const Orderbook = React.forwardRef<
                     <span>{(askTotal += item.size).toLocaleString()}</span>
                   </div>
                 </td>
-                <td className='text-red-400 dark:text-red-600'>
+                <td className='w-1/3 text-red-400 dark:text-red-600'>
                   {item.size.toLocaleString()}
                 </td>
-                <td className='text-red-400 dark:text-red-600'>
+                <td className='w-1/3 text-red-400 dark:text-red-600'>
                   {numberParser(item.price)}
                 </td>
               </tr>
