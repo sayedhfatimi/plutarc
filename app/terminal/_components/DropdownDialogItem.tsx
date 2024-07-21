@@ -20,7 +20,7 @@ type TDropdownDialogItem = {
 const DropdownDialogItem = React.forwardRef<
   React.ElementRef<typeof DropdownMenuItem>,
   React.PropsWithoutRef<TDropdownDialogItem>
->((props, forwardedRef) => {
+>((props, ref) => {
   const {
     triggerIcon,
     triggerTitle,
@@ -36,7 +36,7 @@ const DropdownDialogItem = React.forwardRef<
       <DialogTrigger asChild>
         <DropdownMenuItem
           {...itemProps}
-          ref={forwardedRef}
+          ref={ref}
           className='space-x-2'
           onSelect={(e) => {
             e.preventDefault();

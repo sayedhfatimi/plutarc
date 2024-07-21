@@ -28,7 +28,7 @@ type TDestructiveActionAlert = {
 const DestructiveActionAlert = React.forwardRef<
   React.ElementRef<typeof Button>,
   React.PropsWithoutRef<TDestructiveActionAlert>
->((props, forwardedRef) => {
+>((props, ref) => {
   const {
     triggerDisabled,
     triggerTitle,
@@ -45,7 +45,7 @@ const DestructiveActionAlert = React.forwardRef<
       <AlertDialogTrigger asChild>
         <Button
           {...itemProps}
-          ref={forwardedRef}
+          ref={ref}
           variant='destructive'
           className='space-x-2'
           size='sm'

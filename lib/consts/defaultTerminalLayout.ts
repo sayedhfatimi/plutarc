@@ -6,7 +6,6 @@ export const terminalLayout = [
     w: 18,
     h: 18,
     isResizable: true,
-    isBounded: true,
   },
   {
     i: 'RecentTrades',
@@ -15,7 +14,6 @@ export const terminalLayout = [
     w: 18,
     h: 18,
     isResizable: true,
-    isBounded: true,
   },
   {
     i: 'PositionsOrders',
@@ -24,6 +22,5 @@ export const terminalLayout = [
     w: 18,
     h: 18,
     isResizable: true,
-    isBounded: true,
   },
 ];
