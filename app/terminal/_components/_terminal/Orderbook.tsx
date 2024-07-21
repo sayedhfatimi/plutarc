@@ -74,7 +74,9 @@ const Orderbook = React.forwardRef<
 
     let n = (rowheight * gridunitheight + 4 * (gridunitheight - 1)) / 16;
 
-    if (gridunitwidth < 8) n = n / 2;
+    const gridBreak = 6;
+
+    if (gridunitwidth < gridBreak) n = n / 2;
 
     let bidTotal: number = 0;
     let askTotal: number = 0;
@@ -105,8 +107,8 @@ const Orderbook = React.forwardRef<
         className={cn(
           classNames({
             'flex overflow-clip font-mono text-xs font-thin': true,
-            'flex-row items-start justify-evenly': gridunitwidth >= 8,
-            'flex-col-reverse justify-end': gridunitwidth < 8,
+            'flex-row items-start justify-evenly': gridunitwidth >= gridBreak,
+            'flex-col-reverse justify-end': gridunitwidth < gridBreak,
           }),
           className,
         )}
@@ -119,15 +121,15 @@ const Orderbook = React.forwardRef<
         <table
           className={classNames({
             'w-full table-auto border-collapse': true,
-            'text-right [direction:rtl]': gridunitwidth >= 8,
-            'text-left': gridunitwidth < 8,
+            'text-right [direction:rtl]': gridunitwidth >= gridBreak,
+            'text-left': gridunitwidth < gridBreak,
           })}
           cellSpacing='0'
         >
           <thead
             className={classNames({
               'text-slate-600': true,
-              hidden: gridunitwidth < 8,
+              hidden: gridunitwidth < gridBreak,
             })}
           >
             <tr className='h-4 leading-none'>
