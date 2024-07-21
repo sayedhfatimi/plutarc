@@ -4,6 +4,7 @@ import {
   setTerminalLayout,
 } from '@/lib/redux/features/userContext';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
+import { useMemo } from 'react';
 import { Responsive, WidthProvider } from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
 import { LuX } from 'react-icons/lu';
@@ -11,7 +12,6 @@ import 'react-resizable/css/styles.css';
 import Orderbook from './Orderbook';
 import PositionsOrders from './PositionsOrders';
 import RecentTrades from './RecentTrades';
-import { useMemo } from 'react';
 
 const GridLayout = () => {
   const dispatch = useAppDispatch();
@@ -49,10 +49,11 @@ const GridLayout = () => {
       useCSSTransforms
       transformScale={1}
       breakpoints={{ md: 996 }}
-      cols={{ md: 50 }}
-      rowHeight={5}
+      cols={{ md: 24 }}
+      rowHeight={48}
       margin={[5, 5]}
       draggableCancel='.noDrag'
+      draggableHandle='.drag'
       isResizable
       isDraggable
       onLayoutChange={(layout) => dispatch(setTerminalLayout(layout))}
@@ -63,14 +64,16 @@ const GridLayout = () => {
           .map((component) => (
             <component.node
               key={item.i}
-              className='group relative overflow-hidden border bg-white shadow-md dark:bg-slate-900'
+              className='group relative border bg-white shadow-md dark:bg-slate-900'
               data-grid={item}
+              gridunitheight={item.h}
             >
-              <div
-                className='noDrag absolute right-1 top-1 size-4 animate-pulse cursor-pointer bg-slate-200 dark:bg-transparent md:hidden md:group-hover:block'
-                onClick={() => dispatch(removeFromTerminalLayout(item))}
-              >
-                <LuX size='16' />
+              <div className='drag absolute top-0 hidden w-full cursor-move justify-end border-b bg-background/50 p-1 backdrop-blur-sm group-hover:flex'>
+                <LuX
+                  className='noDrag animate-pulse cursor-pointer text-muted-foreground'
+                  size='16'
+                  onClick={() => dispatch(removeFromTerminalLayout(item))}
+                />
               </div>
             </component.node>
           )),

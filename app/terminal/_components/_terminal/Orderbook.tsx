@@ -8,9 +8,13 @@ import { bitmexDeltaParser, cn, numberParser } from '@/lib/utils';
 import React, { useEffect, useState } from 'react';
 import useWebSocket from 'react-use-websocket';
 
+type TOrderbookProps = {
+  gridunitheight: number;
+};
+
 const Orderbook = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
+  React.HTMLAttributes<HTMLDivElement> & TOrderbookProps
 >(
   (
     {
@@ -20,6 +24,7 @@ const Orderbook = React.forwardRef<
       onMouseUp,
       onTouchEnd,
       children,
+      gridunitheight,
       ...props
     },
     ref,
@@ -62,17 +67,27 @@ const Orderbook = React.forwardRef<
         </div>
       );
 
-    // get total of size of bids from all bids in state
-    const bidSizeTotal: number = data
-      .filter((item: orderBookL2) => item.side === 'Buy')
-      .slice(0, 25)
-      .reduce((acc: any, val: orderBookL2) => acc + val.size, 0);
+    const n = (48 * gridunitheight + 5 * (gridunitheight - 1)) / 16;
 
-    // get total of size of asks from all asks in state
-    const askSizeTotal: number = data
+    const bids = data
+      .filter((item: orderBookL2) => item.side === 'Buy')
+      .sort((a: orderBookL2, b: orderBookL2) => b.price - a.price)
+      .slice(0, n - 1);
+
+    const asks = data
       .filter((item: orderBookL2) => item.side === 'Sell')
-      .slice(0, 25)
-      .reduce((acc: any, val: orderBookL2) => acc + val.size, 0);
+      .sort((a: orderBookL2, b: orderBookL2) => a.price - b.price)
+      .slice(0, n - 1);
+
+    const bidSizeTotal: number = bids.reduce(
+      (acc: any, val: orderBookL2) => acc + val.size,
+      0,
+    );
+
+    const askSizeTotal: number = asks.reduce(
+      (acc: any, val: orderBookL2) => acc + val.size,
+      0,
+    );
 
     let bidTotal: number = 0;
     let askTotal: number = 0;
@@ -81,7 +96,7 @@ const Orderbook = React.forwardRef<
       <div
         style={{ ...style }}
         className={cn(
-          'grid grid-cols-2 font-mono text-xs font-thin',
+          'flex flex-row items-start justify-evenly overflow-clip font-mono text-xs font-thin',
           className,
         )}
         ref={ref}
@@ -91,87 +106,80 @@ const Orderbook = React.forwardRef<
         {...props}
       >
         <table
-          className='text-right'
+          className='w-full table-auto border-collapse text-right'
           style={{ direction: 'rtl' }}
           cellSpacing='0'
         >
           <thead className='text-slate-600'>
-            <tr className='max-h-6 min-h-6'>
+            <tr className='h-4 leading-none'>
               <th className='w-1/3'>Bid</th>
               <th className='w-1/3'>Size</th>
               <th className='w-1/3'>Price</th>
             </tr>
           </thead>
-          <tbody>
-            {data
-              .filter((item: orderBookL2) => item.side === 'Buy')
-              .sort((a: orderBookL2, b: orderBookL2) => b.price - a.price)
-              .slice(0, 25)
-              .map((item: orderBookL2) => (
-                <tr
-                  key={item.id}
-                  className='max-h-6 min-h-6 hover:bg-slate-200/50 dark:hover:bg-slate-200/50'
-                >
-                  <td>
-                    <div
-                      className='whitespace-nowrap'
-                      style={{
-                        backgroundColor: '#22c55e',
-                        width: `${(bidTotal / bidSizeTotal) * 100}%`,
-                        maxWidth: '150%',
-                      }}
-                    >
-                      <span>{(bidTotal += item.size).toLocaleString()}</span>
-                    </div>
-                  </td>
-                  <td className='text-green-400 dark:text-green-600'>
-                    {item.size.toLocaleString()}
-                  </td>
-                  <td className='text-green-400 dark:text-green-600'>
-                    {numberParser(item.price)}
-                  </td>
-                </tr>
-              ))}
+          <tbody className='box-border'>
+            {bids.map((item: orderBookL2) => (
+              <tr
+                key={item.id}
+                className='h-4 leading-none hover:bg-slate-200/50 dark:hover:bg-slate-200/50'
+              >
+                <td>
+                  <div
+                    className='whitespace-nowrap'
+                    style={{
+                      backgroundColor: '#22c55e',
+                      width: `${(bidTotal / bidSizeTotal) * 100}%`,
+                    }}
+                  >
+                    <span>{(bidTotal += item.size).toLocaleString()}</span>
+                  </div>
+                </td>
+                <td className='text-green-400 dark:text-green-600'>
+                  {item.size.toLocaleString()}
+                </td>
+                <td className='text-green-400 dark:text-green-600'>
+                  {numberParser(item.price)}
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
-        <table className='text-left' cellSpacing='0'>
+        <table
+          className='w-full table-auto border-collapse text-left'
+          cellSpacing='0'
+        >
           <thead className='text-slate-600'>
-            <tr className='max-h-6 min-h-6'>
+            <tr className='h-4 leading-none'>
               <th className='w-1/3'>Ask</th>
               <th className='w-1/3'>Size</th>
               <th className='w-1/3'>Price</th>
             </tr>
           </thead>
-          <tbody>
-            {data
-              .filter((item: orderBookL2) => item.side === 'Sell')
-              .sort((a: orderBookL2, b: orderBookL2) => a.price - b.price)
-              .slice(0, 25)
-              .map((item: orderBookL2) => (
-                <tr
-                  key={item.id}
-                  className='max-h-6 min-h-6 hover:bg-slate-200/50 dark:hover:bg-slate-200/50'
-                >
-                  <td>
-                    <div
-                      className='whitespace-nowrap'
-                      style={{
-                        backgroundColor: '#dc2626',
-                        width: `${(askTotal / askSizeTotal) * 100}%`,
-                        maxWidth: '150%',
-                      }}
-                    >
-                      <span>{(askTotal += item.size).toLocaleString()}</span>
-                    </div>
-                  </td>
-                  <td className='text-red-400 dark:text-red-600'>
-                    {item.size.toLocaleString()}
-                  </td>
-                  <td className='text-red-400 dark:text-red-600'>
-                    {numberParser(item.price)}
-                  </td>
-                </tr>
-              ))}
+          <tbody className='box-border'>
+            {asks.map((item: orderBookL2) => (
+              <tr
+                key={item.id}
+                className='h-4 leading-none hover:bg-slate-200/50 dark:hover:bg-slate-200/50'
+              >
+                <td>
+                  <div
+                    className='whitespace-nowrap'
+                    style={{
+                      backgroundColor: '#dc2626',
+                      width: `${(askTotal / askSizeTotal) * 100}%`,
+                    }}
+                  >
+                    <span>{(askTotal += item.size).toLocaleString()}</span>
+                  </div>
+                </td>
+                <td className='text-red-400 dark:text-red-600'>
+                  {item.size.toLocaleString()}
+                </td>
+                <td className='text-red-400 dark:text-red-600'>
+                  {numberParser(item.price)}
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
         {children}
