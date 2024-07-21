@@ -1,26 +1,7 @@
-import {
-  BitmexWebSocketResponse,
-  orderBookL2,
-} from '@/lib/types/BitmexDataTypes';
-import { type ClassValue, clsx } from 'clsx';
-import CryptoJS from 'crypto-js';
 import _ from 'lodash';
-import { Gugi } from 'next/font/google';
-import { twMerge } from 'tailwind-merge';
+import { BitmexWebSocketResponse } from '@/lib/types/BitmexDataTypes';
 
-export const gugiFont = Gugi({ subsets: ['latin'], weight: ['400'] });
-
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
-}
-
-export const encryptString = (plaintext: string, passphrase: string) =>
-  CryptoJS.AES.encrypt(plaintext, passphrase).toString();
-
-export const decryptString = (hash: string, passphrase: string) =>
-  CryptoJS.AES.decrypt(hash, passphrase).toString(CryptoJS.enc.Utf8);
-
-export function bitmexDataParser<T>(
+export default function bitmexDeltaParser<T>(
   JSONResponse: BitmexWebSocketResponse<T>, // JSON parsed websocket response from react-use-websocket
   data: T[], // state data
   setData: React.Dispatch<React.SetStateAction<T[]>>, // state action
@@ -99,17 +80,4 @@ export function bitmexDataParser<T>(
 
 function updateItem(item: any, newData: any) {
   return { ...item, ...newData };
-}
-
-export function numberParser(x: number) {
-  if (x < 1)
-    return x.toLocaleString(undefined, {
-      minimumSignificantDigits: 4,
-      maximumSignificantDigits: 4,
-    });
-  else
-    return x.toLocaleString(undefined, {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    });
 }

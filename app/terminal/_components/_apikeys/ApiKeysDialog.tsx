@@ -6,8 +6,8 @@ import {
 } from '@/components/ui/dialog';
 import { LuBookKey, LuKeyRound } from 'react-icons/lu';
 import DropdownDialogItem from '../DropdownDialogItem';
-import ApiKeysTable from './ApiKeysTable';
 import ApiKeysAddDialog from './ApiKeysAddDialog';
+import ApiKeysTable from './ApiKeysTable';
 
 const ApiKeysDialog = () => {
   return (

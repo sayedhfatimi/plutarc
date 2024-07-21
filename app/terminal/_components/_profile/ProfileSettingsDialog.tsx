@@ -9,8 +9,8 @@ import { auth } from '@/lib/auth';
 import { LuSettings2, LuSkull, LuUser } from 'react-icons/lu';
 import DropdownDialogItem from '../DropdownDialogItem';
 import DeleteAccountButton from './DeleteAccountButton';
-import ResetPassphraseButton from './ResetPassphraseButton';
 import ProfileImage from './ProfileImage';
+import ResetPassphraseButton from './ResetPassphraseButton';
 
 const ProfileSettingsDialog = async () => {
   const session = await auth();

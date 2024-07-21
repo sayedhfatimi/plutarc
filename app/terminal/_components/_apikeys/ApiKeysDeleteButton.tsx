@@ -1,24 +1,12 @@
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
-import { Button } from '@/components/ui/button';
 import { deleteApiKey } from '@/lib/actions';
 import { removeApiKey } from '@/lib/redux/features/apiKeys';
 import { useAppDispatch } from '@/lib/redux/hooks';
 import { type TAPIKeys } from '@/lib/types/APIKeys';
 import { useState } from 'react';
-import { LuAlertTriangle, LuBomb, LuTrash } from 'react-icons/lu';
+import { LuAlertTriangle, LuTrash } from 'react-icons/lu';
 import { toast } from 'sonner';
-import ErrorDialog from '../ErrorDialog';
 import DestructiveActionAlert from '../DestructiveActionAlert';
+import ErrorDialog from '../ErrorDialog';
 
 const ApiKeysDeleteButton = ({ apiKeyObj }: { apiKeyObj: TAPIKeys }) => {
   const [error, setError] = useState(false);

@@ -60,7 +60,7 @@ const GridLayout = () => {
           className='group relative overflow-hidden border bg-white shadow-md dark:bg-slate-900'
         >
           <div
-            className='noDrag absolute right-1 top-1 z-50 h-4 w-4 animate-pulse cursor-pointer bg-slate-200 dark:bg-transparent md:hidden md:group-hover:block'
+            className='noDrag absolute right-1 top-1 z-50 size-4 animate-pulse cursor-pointer bg-slate-200 dark:bg-transparent md:hidden md:group-hover:block'
             onClick={() => dispatch(removeFromTerminalLayout(item))}
           >
             <LuX size='16' />

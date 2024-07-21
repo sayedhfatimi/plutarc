@@ -1,10 +1,10 @@
 'use client';
 import Spinner from '@/components/Spinner';
-import {
+import type {
   BitmexWebSocketResponse,
-  type orderBookL2,
+  orderBookL2,
 } from '@/lib/types/BitmexDataTypes';
-import { bitmexDataParser, cn, numberParser } from '@/lib/utils';
+import { bitmexDeltaParser, cn, numberParser } from '@/lib/utils';
 import React, { useEffect, useState } from 'react';
 import useWebSocket from 'react-use-websocket';
 
@@ -34,7 +34,7 @@ const Orderbook = React.forwardRef<
   );
 
   useEffect(() => {
-    bitmexDataParser<orderBookL2>(
+    bitmexDeltaParser<orderBookL2>(
       lastJsonMessage,
       data,
       setData,

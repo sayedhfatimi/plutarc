@@ -8,10 +8,10 @@ import {
 } from '@/components/ui/select';
 import { setSelectedApiKey } from '@/lib/redux/features/selectedApiKey';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
+import { TAPIKeys } from '@/lib/types/APIKeys';
 import { LuInfo, LuKeyRound } from 'react-icons/lu';
 import { toast } from 'sonner';
 import ApiKeysDecryptionDialog from './ApiKeysDecryptionDialog';
-import { TAPIKeys } from '@/lib/types/APIKeys';
 
 const ApiKeysSelect = () => {
   const dispatch = useAppDispatch(); // redux dispatch hook
