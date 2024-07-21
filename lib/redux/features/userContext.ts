@@ -1,4 +1,4 @@
-import { terminalLayout } from '@/lib/consts';
+import { terminalLayout } from '@/lib/consts/defaultTerminalLayout';
 import { TUserContext } from '@/lib/types/UserContext';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import _ from 'lodash';
