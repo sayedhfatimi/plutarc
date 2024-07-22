@@ -48,8 +48,6 @@ const GridLayout = () => {
           <component.node
             key={item.i}
             className='group relative border bg-white shadow-md dark:bg-slate-900'
-            itemh={item.h}
-            itemw={item.w}
           >
             <div className='drag absolute top-0 hidden w-full cursor-move items-center justify-between border-b bg-background/50 p-1 backdrop-blur-sm group-hover:flex'>
               <span>{component.label}</span>
@@ -62,7 +60,8 @@ const GridLayout = () => {
           </component.node>
         )),
     );
-  }, [terminalLayout]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <ResponsiveGridLayout

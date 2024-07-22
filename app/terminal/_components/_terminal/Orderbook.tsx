@@ -4,20 +4,16 @@ import {
   gridComponentMargin,
   gridRowHeight,
 } from '@/lib/consts/terminal/config';
+import { useAppSelector } from '@/lib/redux/hooks';
 import type { orderBookL2 } from '@/lib/types/BitmexDataTypes';
 import { bitmexDeltaParser, cn, numberParser } from '@/lib/utils';
 import classNames from 'classnames';
 import React, { useState } from 'react';
 import useWebSocket from 'react-use-websocket';
 
-type TOrderbookProps = {
-  itemh: number;
-  itemw: number;
-};
-
 const Orderbook = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement> & TOrderbookProps
+  React.HTMLAttributes<HTMLDivElement>
 >(
   (
     {
@@ -26,14 +22,18 @@ const Orderbook = React.forwardRef<
       onMouseDown,
       onMouseUp,
       onTouchEnd,
-      itemh,
-      itemw,
       children,
       ...props
     },
     ref,
   ) => {
     const [data, setData] = useState([] as orderBookL2[]);
+    const terminalLayout = useAppSelector(
+      (state) => state.userContext.terminalLayout,
+    );
+
+    const itemw = terminalLayout.filter((item) => item.i === 'Orderbook')[0].w;
+    const itemh = terminalLayout.filter((item) => item.i === 'Orderbook')[0].h;
 
     useWebSocket('wss://ws.bitmex.com/realtime?subscribe=orderBookL2:XBTUSD', {
       filter: (message) => {
