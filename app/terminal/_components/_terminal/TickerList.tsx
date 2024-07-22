@@ -52,7 +52,12 @@ const TickerList = () => {
         </Button>
       </PopoverTrigger>
       <PopoverContent className='w-[800px]'>
-        <TickerListTable columns={TickerListColumns} data={data} />
+        <TickerListTable
+          columns={TickerListColumns}
+          data={data
+            .filter((ticker) => ticker.state !== 'Unlisted')
+            .filter((ticker) => ticker.volume24h !== 0)}
+        />
       </PopoverContent>
     </Popover>
   );
