@@ -10,8 +10,8 @@ import type { Instrument } from '@/lib/types/BitmexDataTypes';
 import { bitmexDeltaParser } from '@/lib/utils';
 import { useState } from 'react';
 import useWebSocket from 'react-use-websocket';
-import { columns } from './TickerList/columns';
-import { DataTable } from './TickerList/data-table';
+import { TickerListColumns } from './TickerList/TickerListColumns';
+import { TickerListTable } from './TickerList/TickerListTable';
 
 const TickerList = () => {
   const [data, setData] = useState([] as Instrument[]);
@@ -52,7 +52,7 @@ const TickerList = () => {
         </Button>
       </PopoverTrigger>
       <PopoverContent className='w-[800px]'>
-        <DataTable columns={columns} data={data} />
+        <TickerListTable columns={TickerListColumns} data={data} />
       </PopoverContent>
     </Popover>
   );

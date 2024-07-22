@@ -1,5 +1,4 @@
 'use client';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
   Table,
@@ -21,15 +20,15 @@ import {
 } from '@tanstack/react-table';
 import * as React from 'react';
 
-interface DataTableProps<TData, TValue> {
+interface TickerListTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-export function DataTable<TData, TValue>({
+export function TickerListTable<TData, TValue>({
   columns,
   data,
-}: DataTableProps<TData, TValue>) {
+}: TickerListTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     [],
@@ -59,9 +58,9 @@ export function DataTable<TData, TValue>({
           }
         />
       </div>
-      <div className='h-[600px] overflow-y-scroll border'>
+      <div className='relative h-[600px] overflow-y-scroll border'>
         <Table>
-          <TableHeader>
+          <TableHeader className='sticky top-0'>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
@@ -87,7 +86,7 @@ export function DataTable<TData, TValue>({
                   data-state={row.getIsSelected() && 'selected'}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell key={cell.id} className='py-2'>
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext(),

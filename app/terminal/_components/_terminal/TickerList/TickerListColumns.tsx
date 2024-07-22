@@ -1,24 +1,15 @@
 'use client';
-import { Button } from '@/components/ui/button';
 import { Instrument } from '@/lib/types/BitmexDataTypes';
 import { numberParser } from '@/lib/utils';
 import { ColumnDef } from '@tanstack/react-table';
 import classNames from 'classnames';
-import { LuArrowUpDown, LuMoreHorizontal } from 'react-icons/lu';
+import ColumnHeaderButton from './ColumnHeaderButton';
 
-export const columns: ColumnDef<Instrument>[] = [
+export const TickerListColumns: ColumnDef<Instrument>[] = [
   {
     accessorKey: 'symbol',
     header: ({ column }) => {
-      return (
-        <Button
-          variant='link'
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          Ticker
-          <LuArrowUpDown className='ml-2 h-4 w-4' />
-        </Button>
-      );
+      return <ColumnHeaderButton column={column} label='Ticker' />;
     },
     cell: ({ row }) => {
       return (
@@ -30,13 +21,9 @@ export const columns: ColumnDef<Instrument>[] = [
     accessorKey: 'lastPrice',
     header: ({ column }) => {
       return (
-        <Button
-          variant='link'
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          Last Price
-          <LuArrowUpDown className='ml-2 h-4 w-4' />
-        </Button>
+        <div className='flex justify-end'>
+          <ColumnHeaderButton column={column} label='Last Price' />
+        </div>
       );
     },
     cell: ({ row }) => {
@@ -52,13 +39,9 @@ export const columns: ColumnDef<Instrument>[] = [
     accessorKey: 'lastChangePcnt',
     header: ({ column }) => {
       return (
-        <Button
-          variant='link'
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          24h Change
-          <LuArrowUpDown className='ml-2 h-4 w-4' />
-        </Button>
+        <div className='flex justify-end'>
+          <ColumnHeaderButton column={column} label='24h Change' />
+        </div>
       );
     },
     cell: ({ row }) => {
@@ -80,13 +63,9 @@ export const columns: ColumnDef<Instrument>[] = [
     accessorKey: 'volume24h',
     header: ({ column }) => {
       return (
-        <Button
-          variant='link'
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          24h Volume
-          <LuArrowUpDown className='ml-2 h-4 w-4' />
-        </Button>
+        <div className='flex justify-end'>
+          <ColumnHeaderButton column={column} label='24h Volume' />
+        </div>
       );
     },
     cell: ({ row }) => {
