@@ -1,9 +1,11 @@
 // Generic WebSocket Response
 export type BitmexWebSocketResponse<T> = {
   table: string;
-  action: string;
+  action: 'partial' | 'update' | 'insert' | 'delete';
   data: T[];
-  keys: string[];
+  keys?: string[];
+  types?: { [key: string]: string };
+  filter?: { account?: number; symbol?: string };
 };
 
 // orderBookL2_25 types

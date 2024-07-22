@@ -27,7 +27,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { createApiKey } from '@/lib/actions';
-import { supportedExchanges } from '@/lib/consts/supportedExchanges';
+import { supportedExchanges } from '@/lib/consts/terminal/supportedExchanges';
 import { addApiKey } from '@/lib/redux/features/apiKeys';
 import { setEncryptedStatus } from '@/lib/redux/features/userContext';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';

@@ -1,23 +1,22 @@
 'use client';
 import Spinner from '@/components/Spinner';
+import {
+  gridComponentMargin,
+  GridItem_Orderbook,
+  gridRowHeight,
+} from '@/lib/consts/terminal/config';
 import type {
   BitmexWebSocketResponse,
   orderBookL2,
 } from '@/lib/types/BitmexDataTypes';
 import { bitmexDeltaParser, cn, numberParser } from '@/lib/utils';
+import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import useWebSocket from 'react-use-websocket';
-import classNames from 'classnames';
-
-type TOrderbookProps = {
-  rowheight: number;
-  gridunitheight: number;
-  gridunitwidth: number;
-};
 
 const Orderbook = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement> & TOrderbookProps
+  React.HTMLAttributes<HTMLDivElement>
 >(
   (
     {
@@ -27,9 +26,6 @@ const Orderbook = React.forwardRef<
       onMouseUp,
       onTouchEnd,
       children,
-      rowheight,
-      gridunitheight,
-      gridunitwidth,
       ...props
     },
     ref,
@@ -72,11 +68,14 @@ const Orderbook = React.forwardRef<
         </div>
       );
 
-    let n = (rowheight * gridunitheight + 4 * (gridunitheight - 1)) / 16;
+    let n =
+      (gridRowHeight * GridItem_Orderbook.h +
+        gridComponentMargin[0] * (GridItem_Orderbook.h - 1)) /
+      16;
 
     const gridBreak = 6;
 
-    if (gridunitwidth < gridBreak) n = n / 2;
+    if (GridItem_Orderbook.w < gridBreak) n = n / 2;
 
     let bidTotal: number = 0;
     let askTotal: number = 0;
@@ -107,8 +106,9 @@ const Orderbook = React.forwardRef<
         className={cn(
           classNames({
             'flex overflow-clip font-mono text-xs font-thin': true,
-            'flex-row items-start justify-evenly': gridunitwidth >= gridBreak,
-            'flex-col-reverse justify-end': gridunitwidth < gridBreak,
+            'flex-row items-start justify-evenly':
+              GridItem_Orderbook.w >= gridBreak,
+            'flex-col-reverse justify-end': GridItem_Orderbook.w < gridBreak,
           }),
           className,
         )}
@@ -121,15 +121,15 @@ const Orderbook = React.forwardRef<
         <table
           className={classNames({
             'w-full table-auto border-collapse': true,
-            'text-right [direction:rtl]': gridunitwidth >= gridBreak,
-            'text-left': gridunitwidth < gridBreak,
+            'text-right [direction:rtl]': GridItem_Orderbook.w >= gridBreak,
+            'text-left': GridItem_Orderbook.w < gridBreak,
           })}
           cellSpacing='0'
         >
           <thead
             className={classNames({
               'text-slate-600': true,
-              hidden: gridunitwidth < gridBreak,
+              hidden: GridItem_Orderbook.w < gridBreak,
             })}
           >
             <tr className='h-4 leading-none'>
@@ -159,7 +159,12 @@ const Orderbook = React.forwardRef<
                 <td className='w-1/3 text-green-400 dark:text-green-600'>
                   {item.size.toLocaleString()}
                 </td>
-                <td className='w-1/3 text-green-400 dark:text-green-600'>
+                <td
+                  className={classNames({
+                    'w-1/3 text-green-400 dark:text-green-600': true,
+                    'text-right': GridItem_Orderbook.w < gridBreak,
+                  })}
+                >
                   {numberParser(item.price)}
                 </td>
               </tr>
@@ -174,7 +179,14 @@ const Orderbook = React.forwardRef<
             <tr className='h-4 leading-none'>
               <th className='w-1/3'>Ask</th>
               <th className='w-1/3'>Size</th>
-              <th className='w-1/3'>Price</th>
+              <th
+                className={classNames({
+                  'w-1/3': true,
+                  'text-right': GridItem_Orderbook.w < gridBreak,
+                })}
+              >
+                Price
+              </th>
             </tr>
           </thead>
           <tbody className='box-border'>
@@ -198,7 +210,12 @@ const Orderbook = React.forwardRef<
                 <td className='w-1/3 text-red-400 dark:text-red-600'>
                   {item.size.toLocaleString()}
                 </td>
-                <td className='w-1/3 text-red-400 dark:text-red-600'>
+                <td
+                  className={classNames({
+                    'w-1/3 text-red-400 dark:text-red-600': true,
+                    'text-right': GridItem_Orderbook.w < gridBreak,
+                  })}
+                >
                   {numberParser(item.price)}
                 </td>
               </tr>

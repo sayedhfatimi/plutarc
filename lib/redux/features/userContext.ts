@@ -1,4 +1,4 @@
-import { terminalLayout } from '@/lib/consts/defaultTerminalLayout';
+import { defaultTerminalLayout } from '@/lib/consts/terminal/config';
 import { TUserContext } from '@/lib/types/UserContext';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import _ from 'lodash';
@@ -9,7 +9,7 @@ const initialState: TUserContext = {
   showVWAP: true,
   show24hRange: true,
   showLastPrice: true,
-  terminalLayout: terminalLayout,
+  terminalLayout: defaultTerminalLayout,
   terminalComponents: [] as Layout[],
 } as TUserContext;
 

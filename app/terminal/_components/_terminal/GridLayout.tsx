@@ -1,4 +1,5 @@
 'use client';
+import { GridProps } from '@/lib/consts/terminal/config';
 import {
   removeFromTerminalLayout,
   setTerminalLayout,
@@ -39,27 +40,13 @@ const GridLayout = () => {
     },
   ];
 
-  const rowHeight = 48;
-
   return (
     <ResponsiveGridLayout
-      className='layout'
       layouts={{
         md: terminalLayout,
       }}
-      resizeHandles={['se']}
-      useCSSTransforms
-      transformScale={1}
-      breakpoints={{ md: 996 }}
-      cols={{ md: 24 }}
-      rowHeight={rowHeight}
-      margin={[4, 4]}
-      draggableCancel='.noDrag'
-      draggableHandle='.drag'
-      isResizable
-      isDraggable
       onLayoutChange={(layout) => dispatch(setTerminalLayout(layout))}
-      verticalCompact={false}
+      {...GridProps}
     >
       {terminalLayout.map((item) =>
         terminalComponents
@@ -68,10 +55,6 @@ const GridLayout = () => {
             <component.node
               key={item.i}
               className='group relative border bg-white shadow-md dark:bg-slate-900'
-              data-grid={item}
-              gridunitheight={item.h}
-              gridunitwidth={item.w}
-              rowheight={rowHeight}
             >
               <div className='drag absolute top-0 hidden w-full cursor-move items-center justify-between border-b bg-background/50 p-1 backdrop-blur-sm group-hover:flex'>
                 <span>{component.label}</span>
