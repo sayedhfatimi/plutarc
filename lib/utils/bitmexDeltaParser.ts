@@ -9,6 +9,7 @@ export default function bitmexDeltaParser<T>(
   storeMaxLength: number = 10_000, // maximum length of RecentTrades table, parameter? default = 100
 ) {
   // check the message exists
+  let key = table === 'instrument' ? 'symbol' : 'id';
   if (JSONResponse !== undefined)
     if (
       JSONResponse !== null && // check the message is not empty
@@ -42,7 +43,7 @@ export default function bitmexDeltaParser<T>(
           for (let i = 0; i < JSONResponse.data.length; i++) {
             let payloadObj = JSONResponse.data[i]; // get a single object from object array
 
-            const criteria = _.pick(payloadObj, 'id'); // create an object composed of the picked object properties
+            const criteria = _.pick(payloadObj, key); // create an object composed of the picked object properties
             const itemToUpdate: T = _.find(stateData, criteria) as T; // find the item with the set criteria in the state data
 
             // check if the message data contained an item that needed updating in the state
@@ -62,7 +63,7 @@ export default function bitmexDeltaParser<T>(
 
           // loop over message data
           for (let i = 0; i < JSONResponse.data.length; i++) {
-            const criteria = _.pick(JSONResponse.data[i], 'id'); // create an object composed of the picked object properties
+            const criteria = _.pick(JSONResponse.data[i], key); // create an object composed of the picked object properties
             const itemToRemove: T = _.find(stateData, criteria) as T; // find the item with the set criteria in the state data
 
             // check if the message data contained an item that needed removing from the state

@@ -13,8 +13,9 @@ import { LuLogOut } from 'react-icons/lu';
 import ApiKeysDialog from './_apikeys/ApiKeysDialog';
 import ApiKeysSelect from './_apikeys/ApiKeysSelect';
 import ProfileSettingsDialog from './_profile/ProfileSettingsDialog';
-import SettingsDrawer from './SettingsDrawer';
 import AppTrayAvatar from './AppTrayAvatar';
+import SettingsDrawer from './SettingsDrawer';
+import TickerList from './_terminal/TickerList';
 
 const AppTray = async () => {
   const session = await auth();
@@ -22,7 +23,10 @@ const AppTray = async () => {
   return (
     <>
       <div className='fixed bottom-0 flex h-[48px] w-full flex-row items-center justify-between border-t bg-secondary/50 px-2 py-2 backdrop-blur-sm'>
-        <SettingsDrawer />
+        <div className='flex flex-row items-center space-x-2'>
+          <SettingsDrawer />
+          <TickerList />
+        </div>
         <div className='flex grow flex-row items-center justify-end space-x-2'>
           <ApiKeysSelect />
           <ThemeToggle />

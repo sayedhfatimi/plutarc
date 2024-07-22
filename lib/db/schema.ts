@@ -6,7 +6,6 @@ import {
   text,
   timestamp,
 } from 'drizzle-orm/pg-core';
-import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import type { AdapterAccountType } from 'next-auth/adapters';
 
 export const users = pgTable('user', {
@@ -99,9 +98,3 @@ export const apiKeys = pgTable('apiKeys', {
   apiSecret: text('apiSecret').notNull(),
   exchange: text('exchange').notNull(),
 });
-
-export const selectUserSchema = createSelectSchema(users);
-export const insertUserSchema = createInsertSchema(users);
-
-export const selectAPIKeySchema = createSelectSchema(apiKeys);
-export const insertAPIKeySchema = createInsertSchema(apiKeys);

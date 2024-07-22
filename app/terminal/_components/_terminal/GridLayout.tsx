@@ -40,6 +40,30 @@ const GridLayout = () => {
     },
   ];
 
+  const gridChildren = useMemo(() => {
+    return terminalLayout.map((item) =>
+      terminalComponents
+        .filter((component) => component.key === item.i)
+        .map((component) => (
+          <component.node
+            key={item.i}
+            className='group relative border bg-white shadow-md dark:bg-slate-900'
+            itemh={item.h}
+            itemw={item.w}
+          >
+            <div className='drag absolute top-0 hidden w-full cursor-move items-center justify-between border-b bg-background/50 p-1 backdrop-blur-sm group-hover:flex'>
+              <span>{component.label}</span>
+              <LuX
+                className='noDrag animate-pulse cursor-pointer text-muted-foreground'
+                size='16'
+                onClick={() => dispatch(removeFromTerminalLayout(item))}
+              />
+            </div>
+          </component.node>
+        )),
+    );
+  }, [terminalLayout]);
+
   return (
     <ResponsiveGridLayout
       layouts={{
@@ -48,25 +72,7 @@ const GridLayout = () => {
       onLayoutChange={(layout) => dispatch(setTerminalLayout(layout))}
       {...GridProps}
     >
-      {terminalLayout.map((item) =>
-        terminalComponents
-          .filter((component) => component.key === item.i)
-          .map((component) => (
-            <component.node
-              key={item.i}
-              className='group relative border bg-white shadow-md dark:bg-slate-900'
-            >
-              <div className='drag absolute top-0 hidden w-full cursor-move items-center justify-between border-b bg-background/50 p-1 backdrop-blur-sm group-hover:flex'>
-                <span>{component.label}</span>
-                <LuX
-                  className='noDrag animate-pulse cursor-pointer text-muted-foreground'
-                  size='16'
-                  onClick={() => dispatch(removeFromTerminalLayout(item))}
-                />
-              </div>
-            </component.node>
-          )),
-      )}
+      {gridChildren}
     </ResponsiveGridLayout>
   );
 };

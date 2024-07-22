@@ -22,7 +22,7 @@ export const GridProps: ReactGridLayout.ResponsiveProps &
   verticalCompact: false,
 };
 
-export const GridItem_Orderbook: Layout = {
+const Orderbook: Layout = {
   i: 'Orderbook',
   x: 1,
   y: 1,
@@ -32,7 +32,7 @@ export const GridItem_Orderbook: Layout = {
   minW: 4,
   isResizable: true,
 };
-export const GridItem_RecentTrades: Layout = {
+const RecentTrades: Layout = {
   i: 'RecentTrades',
   x: 1,
   y: 1,
@@ -42,8 +42,7 @@ export const GridItem_RecentTrades: Layout = {
   minW: 6,
   isResizable: true,
 };
-
-export const GridItem_PositionsOrders: Layout = {
+const PositionsOrders: Layout = {
   i: 'PositionsOrders',
   x: 1,
   y: 1,
@@ -53,7 +52,7 @@ export const GridItem_PositionsOrders: Layout = {
 };
 
 export const defaultTerminalLayout: Layout[] = [
-  GridItem_Orderbook,
-  GridItem_RecentTrades,
-  GridItem_PositionsOrders,
+  Orderbook,
+  RecentTrades,
+  PositionsOrders,
 ];
