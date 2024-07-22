@@ -99,7 +99,7 @@ export type Instrument = {
   vwap: number;
   highPrice: number;
   lowPrice: number;
-  lastPrice: number;
+  lastPrice: string;
   lastPriceProtected: number;
   lastTickDirection: string;
   lastChangePcnt: number;
