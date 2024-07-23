@@ -30,27 +30,22 @@ const GridLayout = () => {
   const gridChildren = useMemo(() => {
     const terminalComponents = [
       {
-        key: 'Orderbook',
         label: 'Orderbook',
         node: Orderbook,
       },
       {
-        key: 'RecentTrades',
         label: 'Recent Trades',
         node: RecentTrades,
       },
       {
-        key: 'PositionsOrders',
         label: 'Positions & Orders',
         node: PositionsOrders,
       },
       {
-        key: 'ContractInfo',
         label: 'Contract Information',
         node: ContractInfo,
       },
       {
-        key: 'LastPrice',
         label: 'Last Price',
         node: LastPrice,
       },
@@ -58,7 +53,7 @@ const GridLayout = () => {
 
     return terminalLayout.map((item) =>
       terminalComponents
-        .filter((component) => component.key === item.i)
+        .filter((component) => component.label === item.i)
         .map((component) => (
           <component.node
             key={item.i}

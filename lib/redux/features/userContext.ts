@@ -1,6 +1,6 @@
 import { defaultTerminalLayout } from '@/lib/consts/terminal/config';
 import { TUserContext } from '@/lib/types/UserContext';
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import _ from 'lodash';
 import { Layout } from 'react-grid-layout';
 
@@ -53,7 +53,10 @@ export const userContextSlice = createSlice({
     removeComponent: (state: TUserContext, action: PayloadAction<Layout>) => {
       return {
         ...state,
-        terminalLayout: _.reject(state.terminalLayout, action.payload),
+        terminalLayout: _.reject(
+          state.terminalLayout,
+          (o) => o.i === action.payload.i,
+        ),
         terminalComponents: [...state.terminalComponents, action.payload],
       };
     },
@@ -61,7 +64,10 @@ export const userContextSlice = createSlice({
       return {
         ...state,
         terminalLayout: [...state.terminalLayout, action.payload],
-        terminalComponents: _.reject(state.terminalComponents, action.payload),
+        terminalComponents: _.reject(
+          state.terminalComponents,
+          (o) => o.i === action.payload.i,
+        ),
       };
     },
   },

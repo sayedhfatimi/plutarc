@@ -1,19 +1,26 @@
 'use client';
 import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import { addComponent } from '@/lib/redux/features/userContext';
+import { Switch } from '@/components/ui/switch';
+import { defaultTerminalLayout } from '@/lib/consts/terminal/config';
+import {
+  addComponent,
+  removeComponent,
+} from '@/lib/redux/features/userContext';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
+import _ from 'lodash';
 import { useEffect, useState } from 'react';
-import { LuSettings } from 'react-icons/lu';
+import { LuEye, LuEyeOff, LuSettings } from 'react-icons/lu';
 
 const TerminalSettings = () => {
   const [open, setOpen] = useState(false);
-  const terminalComponents = useAppSelector(
-    (state) => state.userContext.terminalComponents,
+  const terminalLayout = useAppSelector(
+    (state) => state.userContext.terminalLayout,
   );
   const dispatch = useAppDispatch();
 
@@ -38,15 +45,31 @@ const TerminalSettings = () => {
           </kbd>
         </Button>
       </PopoverTrigger>
-      <PopoverContent>
+      <PopoverContent className='w-[400px]'>
         <div className='flex flex-col space-y-2'>
-          {terminalComponents.map((component) => (
+          {defaultTerminalLayout.map((component) => (
             <div
               key={component.i}
-              className='cursor-pointer border bg-secondary p-2 font-mono hover:bg-secondary/50'
-              onClick={() => dispatch(addComponent(component))}
+              className='flex flex-row items-center justify-between px-1 py-2 hover:bg-secondary'
             >
-              {component.i}
+              <Label htmlFor={component.i} className='font-mono text-sm'>
+                {component.i}
+              </Label>
+              <div className='flex flex-row items-center space-x-4'>
+                <LuEyeOff />
+                <Switch
+                  id={component.i}
+                  checked={_.some(terminalLayout, (o) => o.i === component.i)}
+                  onCheckedChange={() => {
+                    if (_.some(terminalLayout, (o) => o.i === component.i)) {
+                      dispatch(removeComponent(component));
+                    } else {
+                      dispatch(addComponent(component));
+                    }
+                  }}
+                />
+                <LuEye />
+              </div>
             </div>
           ))}
         </div>

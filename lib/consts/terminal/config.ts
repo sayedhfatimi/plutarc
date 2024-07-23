@@ -33,7 +33,7 @@ const Orderbook: Layout = {
   isResizable: true,
 };
 const RecentTrades: Layout = {
-  i: 'RecentTrades',
+  i: 'Recent Trades',
   x: 1,
   y: 1,
   w: 10,
@@ -43,7 +43,7 @@ const RecentTrades: Layout = {
   isResizable: true,
 };
 const PositionsOrders: Layout = {
-  i: 'PositionsOrders',
+  i: 'Positions & Orders',
   x: 1,
   y: 1,
   w: 2,
@@ -51,7 +51,7 @@ const PositionsOrders: Layout = {
   isResizable: true,
 };
 const ContractInfo: Layout = {
-  i: 'ContractInfo',
+  i: 'Contract Information',
   x: 1,
   y: 1,
   w: 4,
@@ -59,7 +59,7 @@ const ContractInfo: Layout = {
   isResizable: false,
 };
 const LastPrice: Layout = {
-  i: 'LastPrice',
+  i: 'Last Price',
   x: 1,
   y: 1,
   w: 4,
