@@ -1,14 +1,13 @@
 import { defaultTerminalLayout } from '@/lib/consts/terminal/config';
 import { TUserContext } from '@/lib/types/UserContext';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import _ from 'lodash';
+import { Layout } from 'react-grid-layout';
 
 const initialState: TUserContext = {
   selectedTicker: 'XBTUSD',
-  showOrderbook: true,
-  showRecentTrades: true,
-  showPositionsOrders: true,
-  showContractInfo: true,
   terminalLayout: defaultTerminalLayout,
+  terminalComponents: [] as Layout[],
 } as TUserContext;
 
 export const userContextSlice = createSlice({
@@ -45,35 +44,25 @@ export const userContextSlice = createSlice({
     ) => {
       return { ...state, selectedTicker: action.payload };
     },
-    setShowOrderbook: (
-      state: TUserContext,
-      action: PayloadAction<TUserContext['showOrderbook']>,
-    ) => {
-      return { ...state, showOrderbook: action.payload };
-    },
-    setShowRecentTrades: (
-      state: TUserContext,
-      action: PayloadAction<TUserContext['showRecentTrades']>,
-    ) => {
-      return { ...state, showRecentTrades: action.payload };
-    },
-    setShowPositionsOrders: (
-      state: TUserContext,
-      action: PayloadAction<TUserContext['showPositionsOrders']>,
-    ) => {
-      return { ...state, showPositionsOrders: action.payload };
-    },
-    setShowContractInfo: (
-      state: TUserContext,
-      action: PayloadAction<TUserContext['showContractInfo']>,
-    ) => {
-      return { ...state, showContractInfo: action.payload };
-    },
     setTerminalLayout: (
       state: TUserContext,
       action: PayloadAction<TUserContext['terminalLayout']>,
     ) => {
       return { ...state, terminalLayout: action.payload };
+    },
+    removeComponent: (state: TUserContext, action: PayloadAction<Layout>) => {
+      return {
+        ...state,
+        terminalLayout: _.reject(state.terminalLayout, action.payload),
+        terminalComponents: [...state.terminalComponents, action.payload],
+      };
+    },
+    addComponent: (state: TUserContext, action: PayloadAction<Layout>) => {
+      return {
+        ...state,
+        terminalLayout: [...state.terminalLayout, action.payload],
+        terminalComponents: _.reject(state.terminalComponents, action.payload),
+      };
     },
   },
 });
@@ -84,10 +73,8 @@ export const {
   setUserProfileImage,
   setEncryptedStatus,
   setSelectedTicker,
-  setShowOrderbook,
-  setShowRecentTrades,
-  setShowPositionsOrders,
-  setShowContractInfo,
   setTerminalLayout,
+  removeComponent,
+  addComponent,
 } = userContextSlice.actions;
 export default userContextSlice.reducer;

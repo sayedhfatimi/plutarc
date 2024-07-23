@@ -1,10 +1,7 @@
 'use client';
 import { GridProps } from '@/lib/consts/terminal/config';
 import {
-  setShowContractInfo,
-  setShowOrderbook,
-  setShowPositionsOrders,
-  setShowRecentTrades,
+  removeComponent,
   setTerminalLayout,
 } from '@/lib/redux/features/userContext';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
@@ -17,22 +14,14 @@ import ContractInfo from './ContractInfo';
 import Orderbook from './Orderbook';
 import PositionsOrders from './PositionsOrders';
 import RecentTrades from './RecentTrades';
+import LastPrice from './LastPrice';
 
 const GridLayout = () => {
   const terminalLayout = useAppSelector(
     (state) => state.userContext.terminalLayout,
   );
-  const showOrderbook = useAppSelector(
-    (state) => state.userContext.showOrderbook,
-  );
-  const showRecentTrades = useAppSelector(
-    (state) => state.userContext.showRecentTrades,
-  );
-  const showPositionsOrders = useAppSelector(
-    (state) => state.userContext.showPositionsOrders,
-  );
-  const showContractInfo = useAppSelector(
-    (state) => state.userContext.showContractInfo,
+  const selectedTicker = useAppSelector(
+    (state) => state.userContext.selectedTicker,
   );
   const dispatch = useAppDispatch();
 
@@ -44,35 +33,31 @@ const GridLayout = () => {
         key: 'Orderbook',
         label: 'Orderbook',
         node: Orderbook,
-        show: showOrderbook,
-        dispatch: setShowOrderbook,
       },
       {
         key: 'RecentTrades',
         label: 'Recent Trades',
         node: RecentTrades,
-        show: showRecentTrades,
-        dispatch: setShowRecentTrades,
       },
       {
         key: 'PositionsOrders',
         label: 'Positions & Orders',
         node: PositionsOrders,
-        show: showPositionsOrders,
-        dispatch: setShowPositionsOrders,
       },
       {
         key: 'ContractInfo',
         label: 'Contract Information',
         node: ContractInfo,
-        show: showContractInfo,
-        dispatch: setShowContractInfo,
+      },
+      {
+        key: 'LastPrice',
+        label: 'Last Price',
+        node: LastPrice,
       },
     ];
 
     return terminalLayout.map((item) =>
       terminalComponents
-        .filter((component) => component.show)
         .filter((component) => component.key === item.i)
         .map((component) => (
           <component.node
@@ -80,24 +65,17 @@ const GridLayout = () => {
             className='flex flex-col border bg-white shadow-md dark:bg-slate-900'
           >
             <div className='drag flex w-full cursor-move items-center justify-between border-b bg-background/50 px-1 backdrop-blur-sm'>
-              <span>{component.label}</span>
+              <span>{`${component.label}: ${selectedTicker}`}</span>
               <LuX
                 className='noDrag cursor-pointer text-muted-foreground'
                 size='16'
-                onClick={() => dispatch(component.dispatch(false))}
+                onClick={() => dispatch(removeComponent(item))}
               />
             </div>
           </component.node>
         )),
     );
-  }, [
-    dispatch,
-    showContractInfo,
-    showOrderbook,
-    showPositionsOrders,
-    showRecentTrades,
-    terminalLayout,
-  ]);
+  }, [dispatch, selectedTicker, terminalLayout]);
 
   return (
     <ResponsiveGridLayout

@@ -16,6 +16,7 @@ import ProfileSettingsDialog from './_profile/ProfileSettingsDialog';
 import TickerList from './_terminal/TickerList';
 import TickerStrip from './_terminal/TickerStrip';
 import AppTrayAvatar from './AppTrayAvatar';
+import TerminalSettings from './_terminal/TerminalSettings';
 
 const AppTray = async () => {
   const session = await auth();
@@ -30,6 +31,7 @@ const AppTray = async () => {
         <div className='flex grow flex-row items-center justify-end space-x-2'>
           <ApiKeysSelect />
           <ThemeToggle />
+          <TerminalSettings />
           <DropdownMenu>
             <DropdownMenuTrigger>
               <AppTrayAvatar />

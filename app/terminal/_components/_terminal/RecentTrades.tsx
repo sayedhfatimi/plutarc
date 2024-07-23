@@ -61,7 +61,7 @@ const RecentTrades = React.forwardRef<
     return (
       <div
         style={{ ...style }}
-        className={cn('overflow-hidden font-mono text-xs', className)}
+        className={cn('overflow-hidden pb-2 font-mono text-xs', className)}
         ref={ref}
         onMouseDown={onMouseDown}
         onMouseUp={onMouseUp}

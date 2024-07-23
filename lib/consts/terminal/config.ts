@@ -19,7 +19,7 @@ export const GridProps: ReactGridLayout.ResponsiveProps &
   cols: gridCols,
   isResizable: true,
   isDraggable: true,
-  // verticalCompact: false,
+  verticalCompact: false,
 };
 
 const Orderbook: Layout = {
@@ -54,7 +54,15 @@ const ContractInfo: Layout = {
   i: 'ContractInfo',
   x: 1,
   y: 1,
-  w: 3,
+  w: 4,
+  h: 2,
+  isResizable: false,
+};
+const LastPrice: Layout = {
+  i: 'LastPrice',
+  x: 1,
+  y: 1,
+  w: 4,
   h: 2,
   isResizable: false,
 };
@@ -64,4 +72,5 @@ export const defaultTerminalLayout: Layout[] = [
   RecentTrades,
   PositionsOrders,
   ContractInfo,
+  LastPrice,
 ];
