@@ -1,11 +1,11 @@
+'use client';
 import Spinner from '@/components/Spinner';
-import { useAppSelector } from '@/lib/redux/hooks';
+import useData from '@/lib/hooks/useData';
 import { Instrument } from '@/lib/types/BitmexDataTypes';
-import { bitmexDeltaParser, cn, numberParser } from '@/lib/utils';
+import { cn, numberParser } from '@/lib/utils';
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React from 'react';
 import { LuArrowDown, LuArrowUp, LuMinus } from 'react-icons/lu';
-import useWebSocket from 'react-use-websocket';
 
 const LastPrice = React.forwardRef<
   HTMLDivElement,
@@ -23,37 +23,8 @@ const LastPrice = React.forwardRef<
     },
     ref,
   ) => {
-    const [data, setData] = useState([] as Instrument[]);
-    const selectedTicker = useAppSelector(
-      (state) => state.userContext.selectedTicker,
-    );
+    const { data } = useData<Instrument>('instrument', 'symbol');
 
-    useWebSocket(
-      `wss://ws.bitmex.com/realtime?subscribe=orderBookL2:${selectedTicker},trade:${selectedTicker},instrument:${selectedTicker}`,
-      {
-        filter: (message) => {
-          if (
-            message.data !== 'pong' &&
-            JSON.parse(message.data).table === 'instrument'
-          ) {
-            return true;
-          } else {
-            return false;
-          }
-        },
-        shouldReconnect: (closeEvent) => true,
-        retryOnError: true,
-        share: true,
-        onMessage: (message) =>
-          bitmexDeltaParser<Instrument>(
-            JSON.parse(message.data),
-            data,
-            setData,
-            'instrument',
-            'symbol',
-          ),
-      },
-    );
     return (
       <div
         style={{ ...style }}

@@ -1,14 +1,13 @@
 'use client';
 import Spinner from '@/components/Spinner';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { useAppSelector } from '@/lib/redux/hooks';
+import useData from '@/lib/hooks/useData';
 import type { RecentTrades } from '@/lib/types/BitmexDataTypes';
-import { bitmexDeltaParser, cn, numberParser } from '@/lib/utils';
+import { cn, numberParser } from '@/lib/utils';
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React from 'react';
 import { LuArrowUpDown, LuClock, LuFish } from 'react-icons/lu';
 import { TiArrowDown, TiArrowUp } from 'react-icons/ti';
-import useWebSocket from 'react-use-websocket';
 
 const RecentTrades = React.forwardRef<
   HTMLDivElement,
@@ -26,38 +25,7 @@ const RecentTrades = React.forwardRef<
     },
     ref,
   ) => {
-    const [data, setData] = useState([] as RecentTrades[]);
-    const selectedTicker = useAppSelector(
-      (state) => state.userContext.selectedTicker,
-    );
-
-    useWebSocket(
-      `wss://ws.bitmex.com/realtime?subscribe=orderBookL2:${selectedTicker},trade:${selectedTicker},instrument:${selectedTicker}`,
-      {
-        filter: (message) => {
-          if (
-            message.data !== 'pong' &&
-            JSON.parse(message.data).table === 'trade'
-          ) {
-            return true;
-          } else {
-            return false;
-          }
-        },
-        shouldReconnect: (closeEvent) => true,
-        retryOnError: true,
-        share: true,
-        onMessage: (message) =>
-          bitmexDeltaParser<RecentTrades>(
-            JSON.parse(message.data),
-            data,
-            setData,
-            'trade',
-            undefined,
-            100,
-          ),
-      },
-    );
+    const { data } = useData<RecentTrades>('trade', undefined, 100);
 
     return (
       <div

@@ -4,12 +4,12 @@ import {
   gridComponentMargin,
   gridRowHeight,
 } from '@/lib/consts/terminal/config';
+import useData from '@/lib/hooks/useData';
 import { useAppSelector } from '@/lib/redux/hooks';
 import type { orderBookL2 } from '@/lib/types/BitmexDataTypes';
-import { bitmexDeltaParser, cn, numberParser } from '@/lib/utils';
+import { cn, numberParser } from '@/lib/utils';
 import classNames from 'classnames';
-import React, { useState } from 'react';
-import useWebSocket from 'react-use-websocket';
+import React from 'react';
 
 const Orderbook = React.forwardRef<
   HTMLDivElement,
@@ -27,41 +27,13 @@ const Orderbook = React.forwardRef<
     },
     ref,
   ) => {
-    const [data, setData] = useState([] as orderBookL2[]);
-    const selectedTicker = useAppSelector(
-      (state) => state.userContext.selectedTicker,
-    );
     const terminalLayout = useAppSelector(
       (state) => state.userContext.terminalLayout,
     );
     const itemw = terminalLayout.filter((item) => item.i === 'Orderbook')[0].w;
     const itemh = terminalLayout.filter((item) => item.i === 'Orderbook')[0].h;
 
-    useWebSocket(
-      `wss://ws.bitmex.com/realtime?subscribe=orderBookL2:${selectedTicker},trade:${selectedTicker},instrument:${selectedTicker}`,
-      {
-        filter: (message) => {
-          if (
-            message.data !== 'pong' &&
-            JSON.parse(message.data).table === 'orderBookL2'
-          ) {
-            return true;
-          } else {
-            return false;
-          }
-        },
-        shouldReconnect: (closeEvent) => true,
-        retryOnError: true,
-        share: true,
-        onMessage: (message) =>
-          bitmexDeltaParser<orderBookL2>(
-            JSON.parse(message.data),
-            data,
-            setData,
-            'orderBookL2',
-          ),
-      },
-    );
+    const { data } = useData<orderBookL2>('orderBookL2');
 
     const gridBreak = 6;
 
