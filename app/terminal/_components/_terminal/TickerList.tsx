@@ -1,5 +1,6 @@
 'use client';
 import Spinner from '@/components/Spinner';
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
   Popover,
@@ -11,12 +12,13 @@ import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import type { Instrument } from '@/lib/types/BitmexDataTypes';
 import { bitmexDeltaParser, numberParser } from '@/lib/utils';
 import classNames from 'classnames';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useWebSocket from 'react-use-websocket';
 
 const TickerList = () => {
   const [data, setData] = useState([] as Instrument[]);
-  const [open, setOpen] = useState(true);
+  const [wsOpen, setWsOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [searchedVal, setSearchedVal] = useState('');
   const dispatch = useAppDispatch();
   const selectedTicker = useAppSelector(
@@ -43,11 +45,22 @@ const TickerList = () => {
           setData,
           'instrument',
         );
-        if (JSON.parse(message.data).action === 'partial') setOpen(false);
+        if (JSON.parse(message.data).action === 'partial') setWsOpen(false);
       },
     },
-    open, // TODO: currently this is a hack to fix blocking the rendering pipeline, consider moving to JS worker
+    wsOpen, // TODO: currently this is a hack to fix blocking the rendering pipeline, consider moving to JS worker
   );
+
+  useEffect(() => {
+    const down = (e: KeyboardEvent) => {
+      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        setOpen((open) => !open);
+      }
+    };
+    document.addEventListener('keydown', down);
+    return () => document.removeEventListener('keydown', down);
+  }, []);
 
   if (!data || data.length === 0)
     return (
@@ -56,10 +69,20 @@ const TickerList = () => {
       </div>
     );
 
-  console.log(data);
   return (
-    <Popover>
-      <PopoverTrigger>Select a ticker...</PopoverTrigger>
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button variant='outline' size='sm' className='space-x-2'>
+          <span>
+            {selectedTicker
+              ? `Ticker: ${selectedTicker}`
+              : 'Select a ticker...'}
+          </span>
+          <kbd className='pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100'>
+            <span className='text-xs'>CTRL/⌘+</span>K
+          </kbd>
+        </Button>
+      </PopoverTrigger>
       <PopoverContent className='w-[800px] space-y-2'>
         <div>
           <Input

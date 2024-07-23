@@ -1,16 +1,14 @@
 import { defaultTerminalLayout } from '@/lib/consts/terminal/config';
 import { TUserContext } from '@/lib/types/UserContext';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import _ from 'lodash';
-import { Layout } from 'react-grid-layout';
 
 const initialState: TUserContext = {
-  showVWAP: true,
-  show24hRange: true,
-  showLastPrice: true,
   selectedTicker: 'XBTUSD',
+  showOrderbook: true,
+  showRecentTrades: true,
+  showPositionsOrders: true,
+  showContractInfo: true,
   terminalLayout: defaultTerminalLayout,
-  terminalComponents: [] as Layout[],
 } as TUserContext;
 
 export const userContextSlice = createSlice({
@@ -41,55 +39,41 @@ export const userContextSlice = createSlice({
     ) => {
       return { ...state, isEncrypted: action.payload };
     },
-    setShowVWAP: (
-      state: TUserContext,
-      action: PayloadAction<TUserContext['showVWAP']>,
-    ) => {
-      return { ...state, showVWAP: action.payload };
-    },
-    setShow24hRange: (
-      state: TUserContext,
-      action: PayloadAction<TUserContext['show24hRange']>,
-    ) => {
-      return { ...state, show24hRange: action.payload };
-    },
-    setShowLastPrice: (
-      state: TUserContext,
-      action: PayloadAction<TUserContext['showLastPrice']>,
-    ) => {
-      return { ...state, showLastPrice: action.payload };
-    },
     setSelectedTicker: (
       state: TUserContext,
       action: PayloadAction<TUserContext['selectedTicker']>,
     ) => {
       return { ...state, selectedTicker: action.payload };
     },
+    setShowOrderbook: (
+      state: TUserContext,
+      action: PayloadAction<TUserContext['showOrderbook']>,
+    ) => {
+      return { ...state, showOrderbook: action.payload };
+    },
+    setShowRecentTrades: (
+      state: TUserContext,
+      action: PayloadAction<TUserContext['showRecentTrades']>,
+    ) => {
+      return { ...state, showRecentTrades: action.payload };
+    },
+    setShowPositionsOrders: (
+      state: TUserContext,
+      action: PayloadAction<TUserContext['showPositionsOrders']>,
+    ) => {
+      return { ...state, showPositionsOrders: action.payload };
+    },
+    setShowContractInfo: (
+      state: TUserContext,
+      action: PayloadAction<TUserContext['showContractInfo']>,
+    ) => {
+      return { ...state, showContractInfo: action.payload };
+    },
     setTerminalLayout: (
       state: TUserContext,
       action: PayloadAction<TUserContext['terminalLayout']>,
     ) => {
       return { ...state, terminalLayout: action.payload };
-    },
-    removeFromTerminalLayout: (
-      state: TUserContext,
-      action: PayloadAction<Layout>,
-    ) => {
-      return {
-        ...state,
-        terminalLayout: _.reject(state.terminalLayout, action.payload),
-        terminalComponents: [...state.terminalComponents, action.payload],
-      };
-    },
-    addToTerminalLayout: (
-      state: TUserContext,
-      action: PayloadAction<Layout>,
-    ) => {
-      return {
-        ...state,
-        terminalLayout: [...state.terminalLayout, action.payload],
-        terminalComponents: _.reject(state.terminalComponents, action.payload),
-      };
     },
   },
 });
@@ -99,12 +83,11 @@ export const {
   setPassphraseHash,
   setUserProfileImage,
   setEncryptedStatus,
-  setShowVWAP,
-  setShow24hRange,
-  setShowLastPrice,
   setSelectedTicker,
+  setShowOrderbook,
+  setShowRecentTrades,
+  setShowPositionsOrders,
+  setShowContractInfo,
   setTerminalLayout,
-  removeFromTerminalLayout,
-  addToTerminalLayout,
 } = userContextSlice.actions;
 export default userContextSlice.reducer;

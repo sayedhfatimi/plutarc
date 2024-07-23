@@ -32,7 +32,7 @@ const RecentTrades = React.forwardRef<
     );
 
     useWebSocket(
-      `wss://ws.bitmex.com/realtime?subscribe=trade:${selectedTicker}`,
+      `wss://ws.bitmex.com/realtime?subscribe=orderBookL2:${selectedTicker},trade:${selectedTicker},instrument:${selectedTicker}`,
       {
         filter: (message) => {
           if (
@@ -44,6 +44,8 @@ const RecentTrades = React.forwardRef<
             return false;
           }
         },
+        shouldReconnect: (closeEvent) => true,
+        retryOnError: true,
         share: true,
         onMessage: (message) =>
           bitmexDeltaParser<RecentTrades>(
@@ -56,13 +58,6 @@ const RecentTrades = React.forwardRef<
       },
     );
 
-    if (!data || data.length === 0)
-      return (
-        <div className='h-full place-content-center place-items-center text-center'>
-          <Spinner />
-        </div>
-      );
-
     return (
       <div
         style={{ ...style }}
@@ -73,60 +68,68 @@ const RecentTrades = React.forwardRef<
         onTouchEnd={onTouchEnd}
         {...props}
       >
-        <div className='grid w-full grid-cols-8 items-center border-b bg-white text-slate-600 dark:bg-slate-900'>
-          <div className='col-span-2 flex'>
-            <LuFish />
-          </div>
-          <div className='flex'>Side</div>
-          <div className='flex justify-end'>Size</div>
-          <div className='col-span-3 flex flex-row items-center justify-end space-x-2'>
-            <span>Price</span>
-            <LuArrowUpDown />
-          </div>
-          <div className='flex justify-end'>
-            <LuClock />
-          </div>
-        </div>
-        <ScrollArea className='h-full'>
-          <div className='flex flex-col-reverse'>
-            {data.map((item: RecentTrades) => (
-              <div
-                key={item.trdMatchID}
-                className={classNames({
-                  'grid grid-cols-8 hover:bg-slate-200/50 dark:hover:bg-slate-200/50':
-                    true,
-                  'bg-green-50 text-green-600 dark:bg-green-950/20 dark:text-green-600':
-                    item.side === 'Buy',
-                  'bg-red-50 text-red-400 dark:bg-red-950/20 dark:text-red-600':
-                    item.side === 'Sell',
-                })}
-              >
-                <div className='col-span-2 flex'>{item.symbol}</div>
-                <div className='flex'>{item.side}</div>
-                <div className='flex justify-end'>
-                  {item.size.toLocaleString()}
-                </div>
-                <div className='col-span-3 flex flex-row items-center justify-end space-x-2'>
-                  {item.tickDirection === 'PlusTick' ? (
-                    <TiArrowUp size='16' />
-                  ) : item.tickDirection === 'MinusTick' ? (
-                    <TiArrowDown size='16' />
-                  ) : null}
-                  <span>{numberParser(item.price)}</span>
-                </div>
-                <div className='flex justify-end text-slate-600'>
-                  {(
-                    (Date.now() - Date.parse(item.timestamp)) /
-                    1000
-                  ).toLocaleString(undefined, {
-                    maximumSignificantDigits: 3,
-                  }) + 's'}
-                </div>
-              </div>
-            ))}
-          </div>
-        </ScrollArea>
         {children}
+        {!data || data.length === 0 ? (
+          <div className='h-full place-content-center place-items-center text-center'>
+            <Spinner />
+          </div>
+        ) : (
+          <>
+            <div className='grid w-full grid-cols-8 items-center border-b bg-white text-slate-600 dark:bg-slate-900'>
+              <div className='col-span-2 flex'>
+                <LuFish />
+              </div>
+              <div className='flex'>Side</div>
+              <div className='flex justify-end'>Size</div>
+              <div className='col-span-3 flex flex-row items-center justify-end space-x-2'>
+                <span>Price</span>
+                <LuArrowUpDown />
+              </div>
+              <div className='flex justify-end'>
+                <LuClock />
+              </div>
+            </div>
+            <ScrollArea className='h-full'>
+              <div className='flex flex-col-reverse'>
+                {data.map((item: RecentTrades) => (
+                  <div
+                    key={item.trdMatchID}
+                    className={classNames({
+                      'grid grid-cols-8 hover:bg-slate-200/50 dark:hover:bg-slate-200/50':
+                        true,
+                      'bg-green-50 text-green-600 dark:bg-green-950/20 dark:text-green-600':
+                        item.side === 'Buy',
+                      'bg-red-50 text-red-400 dark:bg-red-950/20 dark:text-red-600':
+                        item.side === 'Sell',
+                    })}
+                  >
+                    <div className='col-span-2 flex'>{item.symbol}</div>
+                    <div className='flex'>{item.side}</div>
+                    <div className='flex justify-end'>
+                      {item.size.toLocaleString()}
+                    </div>
+                    <div className='col-span-3 flex flex-row items-center justify-end space-x-2'>
+                      {item.tickDirection === 'PlusTick' ? (
+                        <TiArrowUp size='16' />
+                      ) : item.tickDirection === 'MinusTick' ? (
+                        <TiArrowDown size='16' />
+                      ) : null}
+                      <span>{numberParser(item.price)}</span>
+                    </div>
+                    <div className='flex justify-end text-slate-600'>
+                      {(
+                        (Date.now() - Date.parse(item.timestamp)) /
+                        1000
+                      ).toLocaleString(undefined, {
+                        maximumSignificantDigits: 3,
+                      }) + 's'}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </ScrollArea>
+          </>
+        )}
       </div>
     );
   },

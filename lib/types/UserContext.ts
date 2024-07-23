@@ -5,11 +5,10 @@ export type TUserContext = {
   passphraseHash: string;
   userProfileImage: string;
   isEncrypted: boolean;
-  orderPanelSide: boolean;
-  showVWAP: boolean;
-  show24hRange: boolean;
-  showLastPrice: boolean;
+  showOrderbook: boolean;
+  showRecentTrades: boolean;
+  showPositionsOrders: boolean;
+  showContractInfo: boolean;
   selectedTicker: string;
   terminalLayout: Layout[];
-  terminalComponents: Layout[];
 };
