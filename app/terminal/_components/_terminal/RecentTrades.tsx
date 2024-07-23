@@ -53,6 +53,7 @@ const RecentTrades = React.forwardRef<
             data,
             setData,
             'trade',
+            undefined,
             100,
           ),
       },

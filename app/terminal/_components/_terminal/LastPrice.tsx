@@ -50,6 +50,7 @@ const LastPrice = React.forwardRef<
             data,
             setData,
             'instrument',
+            'symbol',
           ),
       },
     );

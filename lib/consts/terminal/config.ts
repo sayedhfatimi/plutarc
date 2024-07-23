@@ -25,9 +25,9 @@ export const GridProps: ReactGridLayout.ResponsiveProps &
 const Orderbook: Layout = {
   i: 'Orderbook',
   x: 12,
-  y: 8,
+  y: 2,
   w: 6,
-  h: 4,
+  h: 10,
   minH: 4,
   minW: 4,
   isResizable: true,

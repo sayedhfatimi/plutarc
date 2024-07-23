@@ -50,6 +50,7 @@ const ContractInfo = React.forwardRef<
             data,
             setData,
             'instrument',
+            'symbol',
           ),
       },
     );

@@ -34,6 +34,7 @@ const TickerStrip = () => {
           data,
           setData,
           'instrument',
+          'symbol',
         ),
     },
   );

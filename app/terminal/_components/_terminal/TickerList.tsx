@@ -44,6 +44,7 @@ const TickerList = () => {
           data,
           setData,
           'instrument',
+          'symbol',
         );
         if (JSON.parse(message.data).action === 'partial') setWsOpen(false);
       },
