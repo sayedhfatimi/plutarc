@@ -1,6 +1,7 @@
 'use client';
 import Spinner from '@/components/Spinner';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { useAppSelector } from '@/lib/redux/hooks';
 import type { RecentTrades } from '@/lib/types/BitmexDataTypes';
 import { bitmexDeltaParser, cn, numberParser } from '@/lib/utils';
 import classNames from 'classnames';
@@ -26,28 +27,34 @@ const RecentTrades = React.forwardRef<
     ref,
   ) => {
     const [data, setData] = useState([] as RecentTrades[]);
+    const selectedTicker = useAppSelector(
+      (state) => state.userContext.selectedTicker,
+    );
 
-    useWebSocket('wss://ws.bitmex.com/realtime?subscribe=trade:XBTUSD', {
-      filter: (message) => {
-        if (
-          message.data !== 'pong' &&
-          JSON.parse(message.data).table === 'trade'
-        ) {
-          return true;
-        } else {
-          return false;
-        }
+    useWebSocket(
+      `wss://ws.bitmex.com/realtime?subscribe=trade:${selectedTicker}`,
+      {
+        filter: (message) => {
+          if (
+            message.data !== 'pong' &&
+            JSON.parse(message.data).table === 'trade'
+          ) {
+            return true;
+          } else {
+            return false;
+          }
+        },
+        share: true,
+        onMessage: (message) =>
+          bitmexDeltaParser<RecentTrades>(
+            JSON.parse(message.data),
+            data,
+            setData,
+            'trade',
+            100,
+          ),
       },
-      share: true,
-      onMessage: (message) =>
-        bitmexDeltaParser<RecentTrades>(
-          JSON.parse(message.data),
-          data,
-          setData,
-          'trade',
-          100,
-        ),
-    });
+    );
 
     if (!data || data.length === 0)
       return (

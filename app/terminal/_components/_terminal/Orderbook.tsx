@@ -31,30 +31,36 @@ const Orderbook = React.forwardRef<
     const terminalLayout = useAppSelector(
       (state) => state.userContext.terminalLayout,
     );
+    const selectedTicker = useAppSelector(
+      (state) => state.userContext.selectedTicker,
+    );
 
     const itemw = terminalLayout.filter((item) => item.i === 'Orderbook')[0].w;
     const itemh = terminalLayout.filter((item) => item.i === 'Orderbook')[0].h;
 
-    useWebSocket('wss://ws.bitmex.com/realtime?subscribe=orderBookL2:XBTUSD', {
-      filter: (message) => {
-        if (
-          message.data !== 'pong' &&
-          JSON.parse(message.data).table === 'orderBookL2'
-        ) {
-          return true;
-        } else {
-          return false;
-        }
+    useWebSocket(
+      `wss://ws.bitmex.com/realtime?subscribe=orderBookL2:${selectedTicker}`,
+      {
+        filter: (message) => {
+          if (
+            message.data !== 'pong' &&
+            JSON.parse(message.data).table === 'orderBookL2'
+          ) {
+            return true;
+          } else {
+            return false;
+          }
+        },
+        share: true,
+        onMessage: (message) =>
+          bitmexDeltaParser<orderBookL2>(
+            JSON.parse(message.data),
+            data,
+            setData,
+            'orderBookL2',
+          ),
       },
-      share: true,
-      onMessage: (message) =>
-        bitmexDeltaParser<orderBookL2>(
-          JSON.parse(message.data),
-          data,
-          setData,
-          'orderBookL2',
-        ),
-    });
+    );
 
     if (!data || data.length === 0)
       return (

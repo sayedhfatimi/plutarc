@@ -9,7 +9,7 @@ export type TUserContext = {
   showVWAP: boolean;
   show24hRange: boolean;
   showLastPrice: boolean;
-  showTickerBar: boolean;
+  selectedTicker: string;
   terminalLayout: Layout[];
   terminalComponents: Layout[];
 };

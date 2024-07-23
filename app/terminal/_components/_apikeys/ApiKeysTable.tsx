@@ -1,13 +1,5 @@
 'use client';
 import { Badge } from '@/components/ui/badge';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
 import { useAppSelector } from '@/lib/redux/hooks';
 import { TAPIKeys } from '@/lib/types/APIKeys';
 import { LuDelete } from 'react-icons/lu';
@@ -20,36 +12,36 @@ const ApiKeysTable = () => {
   if (apiKeys.length === 0) return <ApiKeysAlert />;
 
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead>Label</TableHead>
-          <TableHead>Exchange</TableHead>
-          <TableHead className='text-right'>API Key</TableHead>
-          <TableHead>
+    <table className='w-full table-auto font-mono'>
+      <thead className='border-b'>
+        <tr>
+          <th className='py-1 text-left'>Label</th>
+          <th className='py-1 text-left'>Exchange</th>
+          <th className='py-1 text-right'>API Key</th>
+          <th className='py-1'>
             <div className='flex items-center justify-end'>
-              <LuDelete size='1.5rem' />
+              <LuDelete size='24' />
             </div>
-          </TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
+          </th>
+        </tr>
+      </thead>
+      <tbody className='divide-y'>
         {apiKeys.map((apiKey: TAPIKeys) => (
-          <TableRow key={apiKey.apiKey}>
-            <TableCell>
+          <tr key={apiKey.apiKey} className='hover:bg-secondary'>
+            <td className='py-2'>
               <Badge variant='secondary'>{apiKey.label}</Badge>
-            </TableCell>
-            <TableCell>{apiKey.exchange}</TableCell>
-            <TableCell className='text-right'>
+            </td>
+            <td className='py-2'>{apiKey.exchange}</td>
+            <td className='py-2 text-right'>
               <Badge>{apiKey.apiKey}</Badge>
-            </TableCell>
-            <TableCell className='text-right'>
+            </td>
+            <td className='py-2 text-right'>
               <ApiKeysDeleteButton apiKeyObj={apiKey} />
-            </TableCell>
-          </TableRow>
+            </td>
+          </tr>
         ))}
-      </TableBody>
-    </Table>
+      </tbody>
+    </table>
   );
 };
 

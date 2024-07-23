@@ -5,10 +5,10 @@ import _ from 'lodash';
 import { Layout } from 'react-grid-layout';
 
 const initialState: TUserContext = {
-  showTickerBar: true,
   showVWAP: true,
   show24hRange: true,
   showLastPrice: true,
+  selectedTicker: 'XBTUSD',
   terminalLayout: defaultTerminalLayout,
   terminalComponents: [] as Layout[],
 } as TUserContext;
@@ -41,12 +41,6 @@ export const userContextSlice = createSlice({
     ) => {
       return { ...state, isEncrypted: action.payload };
     },
-    setShowTickerBar: (
-      state: TUserContext,
-      action: PayloadAction<TUserContext['showTickerBar']>,
-    ) => {
-      return { ...state, showTickerBar: action.payload };
-    },
     setShowVWAP: (
       state: TUserContext,
       action: PayloadAction<TUserContext['showVWAP']>,
@@ -64,6 +58,12 @@ export const userContextSlice = createSlice({
       action: PayloadAction<TUserContext['showLastPrice']>,
     ) => {
       return { ...state, showLastPrice: action.payload };
+    },
+    setSelectedTicker: (
+      state: TUserContext,
+      action: PayloadAction<TUserContext['selectedTicker']>,
+    ) => {
+      return { ...state, selectedTicker: action.payload };
     },
     setTerminalLayout: (
       state: TUserContext,
@@ -99,10 +99,10 @@ export const {
   setPassphraseHash,
   setUserProfileImage,
   setEncryptedStatus,
-  setShowTickerBar,
   setShowVWAP,
   setShow24hRange,
   setShowLastPrice,
+  setSelectedTicker,
   setTerminalLayout,
   removeFromTerminalLayout,
   addToTerminalLayout,
