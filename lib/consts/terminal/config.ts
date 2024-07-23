@@ -24,8 +24,8 @@ export const GridProps: ReactGridLayout.ResponsiveProps &
 
 const Orderbook: Layout = {
   i: 'Orderbook',
-  x: 1,
-  y: 1,
+  x: 12,
+  y: 8,
   w: 6,
   h: 4,
   minH: 4,
@@ -34,9 +34,9 @@ const Orderbook: Layout = {
 };
 const RecentTrades: Layout = {
   i: 'Recent Trades',
-  x: 1,
-  y: 1,
-  w: 10,
+  x: 12,
+  y: 12,
+  w: 6,
   h: 4,
   minH: 4,
   minW: 6,
@@ -44,26 +44,34 @@ const RecentTrades: Layout = {
 };
 const PositionsOrders: Layout = {
   i: 'Positions & Orders',
-  x: 1,
-  y: 1,
-  w: 2,
-  h: 1,
+  x: 0,
+  y: 12,
+  w: 12,
+  h: 4,
   isResizable: true,
 };
 const ContractInfo: Layout = {
   i: 'Contract Information',
-  x: 1,
-  y: 1,
-  w: 4,
+  x: 15,
+  y: 0,
+  w: 3,
   h: 2,
   isResizable: false,
 };
 const LastPrice: Layout = {
   i: 'Last Price',
-  x: 1,
-  y: 1,
-  w: 4,
+  x: 12,
+  y: 0,
+  w: 3,
   h: 2,
+  isResizable: false,
+};
+const OrderForm: Layout = {
+  i: 'Order Form',
+  x: 18,
+  y: 0,
+  w: 6,
+  h: 16,
   isResizable: false,
 };
 
@@ -73,4 +81,5 @@ export const defaultTerminalLayout: Layout[] = [
   PositionsOrders,
   ContractInfo,
   LastPrice,
+  OrderForm,
 ];

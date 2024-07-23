@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils';
 import React from 'react';
 
-const PositionsOrders = React.forwardRef<
+const OrderForm = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(
@@ -33,6 +33,6 @@ const PositionsOrders = React.forwardRef<
   },
 );
 
-PositionsOrders.displayName = 'PositionsOrders';
+OrderForm.displayName = 'OrderForm';
 
-export default PositionsOrders;
+export default OrderForm;

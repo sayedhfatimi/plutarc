@@ -15,6 +15,7 @@ import Orderbook from './Orderbook';
 import PositionsOrders from './PositionsOrders';
 import RecentTrades from './RecentTrades';
 import LastPrice from './LastPrice';
+import OrderForm from './OrderForm';
 
 const GridLayout = () => {
   const terminalLayout = useAppSelector(
@@ -29,6 +30,7 @@ const GridLayout = () => {
 
   const gridChildren = useMemo(() => {
     const terminalComponents = [
+      { label: 'Order Form', node: OrderForm },
       {
         label: 'Orderbook',
         node: Orderbook,
