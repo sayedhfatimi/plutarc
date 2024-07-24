@@ -1,9 +1,9 @@
 'use client';
+import { useState } from 'react';
 import useWebSocket from 'react-use-websocket';
 import { useAppSelector } from '../redux/hooks';
-import { bitmexDeltaParser } from '../utils';
-import { useState } from 'react';
 import { bitmexClient } from '../utils/bitmex/bitmexClient';
+import bitmexDeltaParser from '../utils/bitmex/bitmexDeltaParser';
 
 const useData = <T>(tableName: string) => {
   const selectedTicker = useAppSelector(

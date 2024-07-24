@@ -7,11 +7,12 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import { bitmexClient } from '@/lib/bitmexClient';
 import { setSelectedTicker } from '@/lib/redux/features/userContext';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import type { Instrument } from '@/lib/types/BitmexDataTypes';
-import { bitmexDeltaParser, numberParser } from '@/lib/utils';
+import { numberParser } from '@/lib/utils';
+import { bitmexClient } from '@/lib/utils/bitmex/bitmexClient';
+import bitmexDeltaParser from '@/lib/utils/bitmex/bitmexDeltaParser';
 import classNames from 'classnames';
 import { useEffect, useState } from 'react';
 import useWebSocket from 'react-use-websocket';
@@ -48,7 +49,7 @@ const TickerList = () => {
             JSON.parse(message.data).table === 'instrument'
           ) {
             setData(
-              bitmexDeltaParser<Instrument[]>(
+              bitmexDeltaParser<Instrument>(
                 'instrument',
                 selectedTicker,
                 bitmexClient,
