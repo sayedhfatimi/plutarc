@@ -22,7 +22,7 @@ const ContractInfo = React.forwardRef<
     },
     ref,
   ) => {
-    const { data } = useData<Instrument>('instrument', 'symbol');
+    const { data } = useData<Instrument>('instrument');
 
     return (
       <div

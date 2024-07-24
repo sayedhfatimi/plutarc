@@ -56,7 +56,7 @@ const TerminalSettings = () => {
                 {component.i}
               </Label>
               <div className='flex flex-row items-center space-x-4'>
-                <LuEyeOff />
+                <LuEyeOff size='16' />
                 <Switch
                   id={component.i}
                   checked={_.some(terminalLayout, (o) => o.i === component.i)}
@@ -68,7 +68,7 @@ const TerminalSettings = () => {
                     }
                   }}
                 />
-                <LuEye />
+                <LuEye size='16' />
               </div>
             </div>
           ))}

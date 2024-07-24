@@ -7,6 +7,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
+import { bitmexClient } from '@/lib/bitmexClient';
 import { setSelectedTicker } from '@/lib/redux/features/userContext';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import type { Instrument } from '@/lib/types/BitmexDataTypes';
@@ -25,6 +26,8 @@ const TickerList = () => {
     (state) => state.userContext.selectedTicker,
   );
 
+  bitmexClient.invoke();
+
   useWebSocket(
     'wss://ws.bitmex.com/realtime?subscribe=instrument:CONTRACTS',
     {
@@ -39,13 +42,20 @@ const TickerList = () => {
         }
       },
       onMessage: (message) => {
-        bitmexDeltaParser<Instrument>(
-          JSON.parse(message.data),
-          data,
-          setData,
-          'instrument',
-          'symbol',
-        );
+        if (message !== undefined)
+          if (
+            message !== null &&
+            JSON.parse(message.data).table === 'instrument'
+          ) {
+            setData(
+              bitmexDeltaParser<Instrument[]>(
+                'instrument',
+                selectedTicker,
+                bitmexClient,
+                JSON.parse(message.data),
+              ),
+            );
+          }
         if (JSON.parse(message.data).action === 'partial') setWsOpen(false);
       },
     },

@@ -25,7 +25,7 @@ const RecentTrades = React.forwardRef<
     },
     ref,
   ) => {
-    const { data } = useData<RecentTrades>('trade', undefined, 100);
+    const { data } = useData<RecentTrades>('trade');
 
     return (
       <div

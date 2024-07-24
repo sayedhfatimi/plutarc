@@ -5,7 +5,7 @@ import { Instrument } from '@/lib/types/BitmexDataTypes';
 import { cn, numberParser } from '@/lib/utils';
 import classNames from 'classnames';
 import React from 'react';
-import { LuArrowDown, LuArrowUp, LuMinus } from 'react-icons/lu';
+import { LuArrowDown, LuArrowUp, LuCircle } from 'react-icons/lu';
 
 const LastPrice = React.forwardRef<
   HTMLDivElement,
@@ -23,7 +23,7 @@ const LastPrice = React.forwardRef<
     },
     ref,
   ) => {
-    const { data } = useData<Instrument>('instrument', 'symbol');
+    const { data } = useData<Instrument>('instrument');
 
     return (
       <div
@@ -57,7 +57,7 @@ const LastPrice = React.forwardRef<
                 ) : data[0].lastTickDirection === 'MinusTick' ? (
                   <LuArrowDown size='24' />
                 ) : (
-                  <LuMinus size='24' />
+                  <LuCircle size='24' />
                 )}
               </div>
               <div

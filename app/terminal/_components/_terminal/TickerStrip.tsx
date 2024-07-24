@@ -1,43 +1,13 @@
 'use client';
 import Spinner from '@/components/Spinner';
-import { useAppSelector } from '@/lib/redux/hooks';
+import useData from '@/lib/hooks/useData';
 import type { Instrument } from '@/lib/types/BitmexDataTypes';
-import { bitmexDeltaParser, numberParser } from '@/lib/utils';
+import { numberParser } from '@/lib/utils';
 import classNames from 'classnames';
-import { useState } from 'react';
 import { LuArrowDown, LuArrowUp, LuMinus } from 'react-icons/lu';
-import useWebSocket from 'react-use-websocket';
 
 const TickerStrip = () => {
-  const [data, setData] = useState([] as Instrument[]);
-  const selectedTicker = useAppSelector(
-    (state) => state.userContext.selectedTicker,
-  );
-
-  useWebSocket(
-    `wss://ws.bitmex.com/realtime?subscribe=orderBookL2:${selectedTicker},trade:${selectedTicker},instrument:${selectedTicker}`,
-    {
-      filter: (message) => {
-        if (
-          message.data !== 'pong' &&
-          JSON.parse(message.data).table === 'instrument'
-        ) {
-          return true;
-        } else {
-          return false;
-        }
-      },
-      share: true,
-      onMessage: (message) =>
-        bitmexDeltaParser<Instrument>(
-          JSON.parse(message.data),
-          data,
-          setData,
-          'instrument',
-          'symbol',
-        ),
-    },
-  );
+  const { data } = useData<Instrument>('instrument');
 
   if (!data || data.length === 0)
     return (

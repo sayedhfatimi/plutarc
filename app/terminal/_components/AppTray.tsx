@@ -25,7 +25,7 @@ const AppTray = async () => {
     <>
       <div className='fixed bottom-0 flex h-[48px] w-full flex-row items-center justify-between border-t bg-secondary/50 px-2 py-2 backdrop-blur-sm'>
         <div className='flex flex-row items-center'>
-          <TickerList />
+          {/* <TickerList /> */}
           <TickerStrip />
         </div>
         <div className='flex grow flex-row items-center justify-end space-x-2'>
