@@ -7,61 +7,25 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
+import { getTickerList } from '@/lib/actions';
 import { setSelectedTicker } from '@/lib/redux/features/userContext';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
-import type { Instrument } from '@/lib/types/BitmexDataTypes';
+import { Instrument } from '@/lib/types/BitmexDataTypes';
 import { numberParser } from '@/lib/utils';
-import { bitmexClient } from '@/lib/utils/bitmex/bitmexClient';
-import bitmexDeltaParser from '@/lib/utils/bitmex/bitmexDeltaParser';
+import { useQuery } from '@tanstack/react-query';
 import classNames from 'classnames';
 import { useEffect, useState } from 'react';
-import useWebSocket from 'react-use-websocket';
 
 const TickerList = () => {
-  const [data, setData] = useState([] as Instrument[]);
-  const [wsOpen, setWsOpen] = useState(true);
   const [open, setOpen] = useState(false);
   const [searchedVal, setSearchedVal] = useState('');
   const dispatch = useAppDispatch();
   const selectedTicker = useAppSelector(
     (state) => state.userContext.selectedTicker,
   );
+  const exchange = useAppSelector((state) => state.userContext.exchange);
 
-  bitmexClient.invoke();
-
-  useWebSocket(
-    'wss://ws.bitmex.com/realtime?subscribe=instrument:CONTRACTS',
-    {
-      filter: (message) => {
-        if (
-          message.data !== 'pong' &&
-          JSON.parse(message.data).table === 'instrument'
-        ) {
-          return true;
-        } else {
-          return false;
-        }
-      },
-      onMessage: (message) => {
-        if (message !== undefined)
-          if (
-            message !== null &&
-            JSON.parse(message.data).table === 'instrument'
-          ) {
-            setData(
-              bitmexDeltaParser<Instrument>(
-                'instrument',
-                selectedTicker,
-                bitmexClient,
-                JSON.parse(message.data),
-              ),
-            );
-          }
-        if (JSON.parse(message.data).action === 'partial') setWsOpen(false);
-      },
-    },
-    wsOpen, // TODO: currently this is a hack to fix blocking the rendering pipeline, consider moving to JS worker
-  );
+  const { data, isLoading } = useTickers<Instrument>(exchange);
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -74,7 +38,7 @@ const TickerList = () => {
     return () => document.removeEventListener('keydown', down);
   }, []);
 
-  if (!data || data.length === 0)
+  if (isLoading || !data || data.length === 0)
     return (
       <div className='h-full place-content-center place-items-center text-center'>
         <Spinner />
@@ -182,5 +146,14 @@ const TickerList = () => {
     </Popover>
   );
 };
+
+function useTickers<T>(exchange: string) {
+  return useQuery<T[]>({
+    queryKey: ['tickers', exchange],
+    queryFn: async () => await getTickerList(exchange),
+    staleTime: 60 * 1000,
+    retry: 3,
+  });
+}
 
 export default TickerList;

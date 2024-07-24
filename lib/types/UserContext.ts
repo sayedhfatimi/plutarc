@@ -6,6 +6,7 @@ export type TUserContext = {
   userProfileImage: string;
   isEncrypted: boolean;
   selectedTicker: string;
+  exchange: string;
   terminalLayout: Layout[];
   terminalComponents: Layout[];
 };

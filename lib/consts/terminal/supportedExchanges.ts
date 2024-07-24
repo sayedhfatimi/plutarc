@@ -9,9 +9,37 @@ export const supportedExchanges: {
   value: string;
   text: string;
   icon: StaticImageData;
+  restURL: string;
+  tickerEndpoint?: string;
 }[] = [
-  { key: 'binance', value: 'BINANCE', text: 'Binance', icon: binanceIcon },
-  { key: 'bitmex', value: 'BITMEX', text: 'BitMex', icon: bitmexIcon },
-  { key: 'coinbase', value: 'COINBASE', text: 'Coinbase', icon: coinbaseIcon },
-  { key: 'phemex', value: 'PHEMEX', text: 'Phemex', icon: phemexIcon },
+  {
+    key: 'binance',
+    value: 'BINANCE',
+    text: 'Binance',
+    icon: binanceIcon,
+    restURL: 'https://api.binance.com',
+    tickerEndpoint: '/api/v3/ticker',
+  },
+  {
+    key: 'bitmex',
+    value: 'BITMEX',
+    text: 'BitMex',
+    icon: bitmexIcon,
+    restURL: 'https://www.bitmex.com/api/v1',
+    tickerEndpoint: '/instrument/active',
+  },
+  {
+    key: 'coinbase',
+    value: 'COINBASE',
+    text: 'Coinbase',
+    icon: coinbaseIcon,
+    restURL: 'https://api.coinbase.com/api/v3/brokerage',
+  },
+  {
+    key: 'phemex',
+    value: 'PHEMEX',
+    text: 'Phemex',
+    icon: phemexIcon,
+    restURL: 'https://api.phemex.com',
+  },
 ];

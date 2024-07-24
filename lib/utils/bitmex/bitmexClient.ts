@@ -10,6 +10,6 @@ export type TBitmexClientData<T> = {
   };
 };
 
-export type TBitmexClientKeys = { [key: string]: string[] };
+export type TBitmexClientKeys = { [key: string]: string | string[] };
 
 export const bitmexClient = new BitmexClient();

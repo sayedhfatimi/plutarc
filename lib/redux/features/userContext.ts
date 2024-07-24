@@ -6,6 +6,7 @@ import { Layout } from 'react-grid-layout';
 
 const initialState: TUserContext = {
   selectedTicker: 'XBTUSD',
+  exchange: 'bitmex',
   terminalLayout: defaultTerminalLayout,
   terminalComponents: [] as Layout[],
 } as TUserContext;
@@ -43,6 +44,12 @@ export const userContextSlice = createSlice({
       action: PayloadAction<TUserContext['selectedTicker']>,
     ) => {
       return { ...state, selectedTicker: action.payload };
+    },
+    setEchange: (
+      state: TUserContext,
+      action: PayloadAction<TUserContext['exchange']>,
+    ) => {
+      return { ...state, exchange: action.payload };
     },
     setTerminalLayout: (
       state: TUserContext,

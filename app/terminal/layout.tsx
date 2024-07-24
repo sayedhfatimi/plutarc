@@ -1,5 +1,6 @@
 import { getApiKeys } from '@/lib/actions';
 import { auth } from '@/lib/auth';
+import QueryClientProvider from '@/Providers/QueryClientProvider';
 import StoreProvider from '@/Providers/StoreProvider';
 import { redirect } from 'next/navigation';
 
@@ -14,8 +15,10 @@ export default async function TerminalLayout({
   const { apiKeyArr } = await getApiKeys();
 
   return (
-    <StoreProvider apiKeys={apiKeyArr!} userSession={session}>
-      {children}
-    </StoreProvider>
+    <QueryClientProvider>
+      <StoreProvider apiKeys={apiKeyArr!} userSession={session}>
+        {children}
+      </StoreProvider>
+    </QueryClientProvider>
   );
 }
