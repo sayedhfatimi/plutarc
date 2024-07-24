@@ -4,7 +4,7 @@ import {
   gridComponentMargin,
   gridRowHeight,
 } from '@/lib/consts/terminal/config';
-import useData from '@/lib/hooks/useData';
+import useBitmexWs from '@/lib/hooks/useBitmexWs';
 import { useAppSelector } from '@/lib/redux/hooks';
 import type { orderBookL2 } from '@/lib/types/BitmexDataTypes';
 import { cn, numberParser } from '@/lib/utils';
@@ -33,7 +33,7 @@ const Orderbook = React.forwardRef<
     const itemw = terminalLayout.filter((item) => item.i === 'Orderbook')[0].w;
     const itemh = terminalLayout.filter((item) => item.i === 'Orderbook')[0].h;
 
-    const { data } = useData<orderBookL2>('orderBookL2');
+    const { data } = useBitmexWs<orderBookL2>('orderBookL2');
 
     const gridBreak = 6;
 

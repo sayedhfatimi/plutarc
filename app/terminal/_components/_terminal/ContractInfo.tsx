@@ -1,6 +1,6 @@
 'use client';
 import Spinner from '@/components/Spinner';
-import useData from '@/lib/hooks/useData';
+import useBitmexWs from '@/lib/hooks/useBitmexWs';
 import type { Instrument } from '@/lib/types/BitmexDataTypes';
 import { cn, numberParser } from '@/lib/utils';
 import classNames from 'classnames';
@@ -22,7 +22,7 @@ const ContractInfo = React.forwardRef<
     },
     ref,
   ) => {
-    const { data } = useData<Instrument>('instrument');
+    const { data } = useBitmexWs<Instrument>('instrument');
 
     return (
       <div

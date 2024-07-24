@@ -1,13 +1,13 @@
 'use client';
 import Spinner from '@/components/Spinner';
-import useData from '@/lib/hooks/useData';
+import useBitmexWs from '@/lib/hooks/useBitmexWs';
 import type { Instrument } from '@/lib/types/BitmexDataTypes';
 import { numberParser } from '@/lib/utils';
 import classNames from 'classnames';
 import { LuArrowDown, LuArrowUp, LuMinus } from 'react-icons/lu';
 
 const TickerStrip = () => {
-  const { data } = useData<Instrument>('instrument');
+  const { data } = useBitmexWs<Instrument>('instrument');
 
   if (!data || data.length === 0)
     return (

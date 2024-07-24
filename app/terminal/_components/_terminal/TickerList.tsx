@@ -15,10 +15,18 @@ import { numberParser } from '@/lib/utils';
 import { useQuery } from '@tanstack/react-query';
 import classNames from 'classnames';
 import { useEffect, useState } from 'react';
+import { LuChevronDown, LuChevronUp } from 'react-icons/lu';
 
 const TickerList = () => {
   const [open, setOpen] = useState(false);
   const [searchedVal, setSearchedVal] = useState('');
+  const [sortConfig, setSortConfig] = useState({
+    key: 'symbol',
+    direction: 'ascending',
+  } as {
+    key: keyof Instrument;
+    direction: string;
+  });
   const dispatch = useAppDispatch();
   const selectedTicker = useAppSelector(
     (state) => state.userContext.selectedTicker,
@@ -26,6 +34,14 @@ const TickerList = () => {
   const exchange = useAppSelector((state) => state.userContext.exchange);
 
   const { data, isLoading } = useTickers<Instrument>(exchange);
+
+  const requestSort = (key: keyof Instrument) => {
+    let direction = 'ascending';
+    if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+      direction = 'descending';
+    }
+    setSortConfig({ key, direction });
+  };
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -68,20 +84,86 @@ const TickerList = () => {
         </div>
         <div className='flex h-[600px] flex-col font-mono'>
           <div className='flex-grow overflow-auto'>
-            <table className='relative w-full'>
+            <table className='relative w-full table-fixed'>
               <thead>
                 <tr>
-                  <th className='sticky top-0 bg-secondary px-3 py-2 text-left font-bold'>
-                    Ticker
+                  <th className='sticky top-0 bg-secondary px-3 py-3'>
+                    <Button
+                      variant='link'
+                      size='sm'
+                      onClick={() => requestSort('symbol')}
+                      className='flex flex-row items-center space-x-2'
+                    >
+                      <span>Ticker</span>
+                      {sortConfig.key === 'symbol' &&
+                      sortConfig.direction === 'ascending' ? (
+                        <LuChevronUp />
+                      ) : null}
+                      {sortConfig.key === 'symbol' &&
+                      sortConfig.direction === 'descending' ? (
+                        <LuChevronDown />
+                      ) : null}
+                    </Button>
                   </th>
-                  <th className='sticky top-0 bg-secondary py-2 text-right font-bold'>
-                    Last Price
+                  <th className='sticky top-0 bg-secondary py-3'>
+                    <div className='inline-flex w-full justify-end'>
+                      <Button
+                        variant='link'
+                        size='sm'
+                        onClick={() => requestSort('lastPrice')}
+                        className='flex flex-row items-center space-x-2'
+                      >
+                        {sortConfig.key === 'lastPrice' &&
+                        sortConfig.direction === 'ascending' ? (
+                          <LuChevronUp />
+                        ) : null}
+                        {sortConfig.key === 'lastPrice' &&
+                        sortConfig.direction === 'descending' ? (
+                          <LuChevronDown />
+                        ) : null}
+                        <span>Last Price</span>
+                      </Button>
+                    </div>
                   </th>
-                  <th className='sticky top-0 bg-secondary py-2 text-right font-bold'>
-                    24h Change
+                  <th className='sticky top-0 bg-secondary py-3'>
+                    <div className='inline-flex w-full justify-end'>
+                      <Button
+                        variant='link'
+                        size='sm'
+                        onClick={() => requestSort('lastChangePcnt')}
+                        className='flex flex-row items-center space-x-2'
+                      >
+                        {sortConfig.key === 'lastChangePcnt' &&
+                        sortConfig.direction === 'ascending' ? (
+                          <LuChevronUp />
+                        ) : null}
+                        {sortConfig.key === 'lastChangePcnt' &&
+                        sortConfig.direction === 'descending' ? (
+                          <LuChevronDown />
+                        ) : null}
+                        <span>24h Change</span>
+                      </Button>
+                    </div>
                   </th>
-                  <th className='sticky top-0 bg-secondary px-3 py-2 text-right font-bold'>
-                    24h Volume
+                  <th className='sticky top-0 bg-secondary px-3 py-3'>
+                    <div className='inline-flex w-full justify-end'>
+                      <Button
+                        variant='link'
+                        size='sm'
+                        onClick={() => requestSort('volume24h')}
+                        className='flex flex-row items-center space-x-2'
+                      >
+                        {sortConfig.key === 'volume24h' &&
+                        sortConfig.direction === 'ascending' ? (
+                          <LuChevronUp />
+                        ) : null}
+                        {sortConfig.key === 'volume24h' &&
+                        sortConfig.direction === 'descending' ? (
+                          <LuChevronDown />
+                        ) : null}
+                        <span>24h Volume</span>
+                      </Button>
+                    </div>
                   </th>
                 </tr>
               </thead>
@@ -97,6 +179,15 @@ const TickerList = () => {
                         .toLowerCase()
                         .includes(searchedVal.toString().toLowerCase()),
                   )
+                  .sort((a, b) => {
+                    if (a[sortConfig.key] < b[sortConfig.key]) {
+                      return sortConfig.direction === 'ascending' ? -1 : 1;
+                    }
+                    if (a[sortConfig.key] > b[sortConfig.key]) {
+                      return sortConfig.direction === 'ascending' ? 1 : -1;
+                    }
+                    return 0;
+                  })
                   .map((ticker) => (
                     <tr
                       key={ticker.symbol}
@@ -134,6 +225,7 @@ const TickerList = () => {
                         {new Intl.NumberFormat('en-US', {
                           style: 'currency',
                           currency: 'USD',
+                          notation: 'compact',
                         }).format(ticker.volume24h)}
                       </td>
                     </tr>
@@ -151,7 +243,7 @@ function useTickers<T>(exchange: string) {
   return useQuery<T[]>({
     queryKey: ['tickers', exchange],
     queryFn: async () => await getTickerList(exchange),
-    staleTime: 60 * 1000,
+    staleTime: 60 * 1000, // 60s
     retry: 3,
   });
 }

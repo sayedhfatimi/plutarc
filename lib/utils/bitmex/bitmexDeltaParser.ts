@@ -53,12 +53,12 @@ function _partial<T>(
   wsResponse: BitmexWebSocketResponse<T>,
 ) {
   if (!client._data[tableName]) client._data[tableName] = {};
-  const dataArr = wsResponse.data || [];
+  const wsData = wsResponse.data || [];
 
-  client._data[tableName][symbol] = dataArr;
+  client._data[tableName][symbol] = wsData;
   client._keys[tableName] = wsResponse!.keys!;
 
-  return dataArr;
+  return wsData;
 }
 
 function _insert<T>(

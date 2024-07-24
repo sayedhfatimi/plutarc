@@ -5,7 +5,7 @@ import { useAppSelector } from '../redux/hooks';
 import { bitmexClient } from '../utils/bitmex/bitmexClient';
 import bitmexDeltaParser from '../utils/bitmex/bitmexDeltaParser';
 
-const useData = <T>(tableName: string) => {
+const useBitmexWs = <T>(tableName: string) => {
   const selectedTicker = useAppSelector(
     (state) => state.userContext.selectedTicker,
   );
@@ -51,4 +51,4 @@ const useData = <T>(tableName: string) => {
   return { data, sendJsonMessage };
 };
 
-export default useData;
+export default useBitmexWs;

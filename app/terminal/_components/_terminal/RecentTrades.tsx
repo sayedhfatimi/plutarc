@@ -1,7 +1,7 @@
 'use client';
 import Spinner from '@/components/Spinner';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import useData from '@/lib/hooks/useData';
+import useBitmexWs from '@/lib/hooks/useBitmexWs';
 import type { RecentTrades } from '@/lib/types/BitmexDataTypes';
 import { cn, numberParser } from '@/lib/utils';
 import classNames from 'classnames';
@@ -25,7 +25,7 @@ const RecentTrades = React.forwardRef<
     },
     ref,
   ) => {
-    const { data } = useData<RecentTrades>('trade');
+    const { data } = useBitmexWs<RecentTrades>('trade');
 
     return (
       <div
