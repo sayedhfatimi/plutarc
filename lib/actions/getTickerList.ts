@@ -1,5 +1,5 @@
 'use server';
-import { supportedExchanges } from '../consts/terminal/supportedExchanges';
+import { supportedExchanges } from '@/lib/consts/terminal/supportedExchanges';
 
 export default async function getTickerList(exchange: string) {
   const tickerUrl =

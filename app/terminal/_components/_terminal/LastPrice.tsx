@@ -69,7 +69,7 @@ const LastPrice = React.forwardRef<
                     data[0].lastTickDirection === 'MinusTick',
                 })}
               >
-                {numberParser(parseFloat(data[0].lastPrice))}
+                {numberParser(data[0].lastPrice)}
               </div>
             </div>
           </div>

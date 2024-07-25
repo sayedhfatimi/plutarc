@@ -52,7 +52,7 @@ const TickerStrip = () => {
                     ticker.lastTickDirection === 'MinusTick',
                 })}
               >
-                {numberParser(parseFloat(ticker.lastPrice))}
+                {numberParser(ticker.lastPrice)}
               </div>
             </div>
           </div>

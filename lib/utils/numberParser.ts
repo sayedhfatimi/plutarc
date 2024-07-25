@@ -1,4 +1,5 @@
-export default function numberParser(x: number) {
+export default function numberParser(x: number | string) {
+  if (!isNumber(x)) x = parseFloat(x);
   if (x < 1)
     return x.toLocaleString(undefined, {
       minimumSignificantDigits: 4,
@@ -9,4 +10,8 @@ export default function numberParser(x: number) {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     });
+}
+
+function isNumber(x: any) {
+  return typeof x === 'number';
 }

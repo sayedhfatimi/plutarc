@@ -56,7 +56,9 @@ const ContractInfo = React.forwardRef<
                     'text-red-500': data[0].fundingRate > 0.0002,
                     'text-green-500': data[0].fundingRate < 0.0002,
                   })}
-                >{`${(data[0].fundingRate * 100).toFixed(4)}%`}</div>
+                >
+                  {`${(data[0].fundingRate * 100).toFixed(4)}%`}
+                </div>
                 <div>
                   {new Intl.NumberFormat('en-US', {
                     style: 'currency',
