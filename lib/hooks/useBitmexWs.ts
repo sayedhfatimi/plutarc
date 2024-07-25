@@ -2,16 +2,13 @@
 import { useState } from 'react';
 import useWebSocket from 'react-use-websocket';
 import { useAppSelector } from '../redux/hooks';
-import { bitmexClient } from '../utils/bitmex/bitmexClient';
-import bitmexDeltaParser from '../utils/bitmex/bitmexDeltaParser';
+import { bitmexClient } from '../utils/clients/bitmexClient';
 
 const useBitmexWs = <T>(tableName: string) => {
   const selectedTicker = useAppSelector(
     (state) => state.userContext.selectedTicker,
   );
   const [data, setData] = useState([] as T[]);
-
-  bitmexClient.invoke();
 
   const { sendJsonMessage } = useWebSocket(
     `wss://ws.bitmex.com/realtime?subscribe=orderBookL2:${selectedTicker},trade:${selectedTicker},instrument:${selectedTicker}`,
@@ -36,10 +33,9 @@ const useBitmexWs = <T>(tableName: string) => {
             JSON.parse(message.data).table === tableName
           ) {
             setData(
-              bitmexDeltaParser<T>(
+              bitmexClient.deltaParser<T>(
                 tableName,
                 selectedTicker,
-                bitmexClient,
                 JSON.parse(message.data),
               ),
             );

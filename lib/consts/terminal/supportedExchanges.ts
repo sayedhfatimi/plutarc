@@ -41,5 +41,6 @@ export const supportedExchanges: {
     text: 'Phemex',
     icon: phemexIcon,
     restURL: 'https://api.phemex.com',
+    tickerEndpoint: '/public/products',
   },
 ];
