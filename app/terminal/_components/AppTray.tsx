@@ -8,15 +8,16 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { auth } from '@/lib/auth';
+import { ICON_SIZE_SMALL } from '@/lib/consts/UI';
 import Link from 'next/link';
 import { LuLogOut } from 'react-icons/lu';
 import ApiKeysDialog from './_apikeys/ApiKeysDialog';
 import ApiKeysSelect from './_apikeys/ApiKeysSelect';
 import ProfileSettingsDialog from './_profile/ProfileSettingsDialog';
+import TerminalSettings from './_terminal/TerminalSettings';
 import TickerList from './_terminal/TickerList';
 import TickerStrip from './_terminal/TickerStrip';
 import AppTrayAvatar from './AppTrayAvatar';
-import TerminalSettings from './_terminal/TerminalSettings';
 
 const AppTray = async () => {
   const session = await auth();
@@ -49,7 +50,7 @@ const AppTray = async () => {
               <DropdownMenuSeparator />
               <DropdownMenuItem className='space-x-2' asChild>
                 <Link href='/sign-out'>
-                  <LuLogOut size='16' />
+                  <LuLogOut size={ICON_SIZE_SMALL} />
                   <span>Sign Out</span>
                 </Link>
               </DropdownMenuItem>

@@ -25,6 +25,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { createPassphrase } from '@/lib/actions';
+import { ICON_SIZE_SMALL } from '@/lib/consts/UI';
 import { setPassphraseHash } from '@/lib/redux/features/userContext';
 import { useAppDispatch } from '@/lib/redux/hooks';
 import { createPassphraseSchema } from '@/schemas/createPassphraseSchema';
@@ -71,7 +72,7 @@ const SetPassphraseForm = () => {
           <TooltipTrigger asChild>
             <DialogTrigger asChild>
               <Button className='space-x-2' size='sm' variant='outline'>
-                <LuLock size='16' />
+                <LuLock size={ICON_SIZE_SMALL} />
                 <span>Set Passphrase</span>
               </Button>
             </DialogTrigger>

@@ -1,8 +1,8 @@
 'use client';
 import Spinner from '@/components/Spinner';
 import {
-  gridComponentMargin,
-  gridRowHeight,
+  GRID_COMPONENT_MARGIN,
+  GRID_ROW_HEIGHT,
 } from '@/lib/consts/terminal/config';
 import useBitmexWs from '@/lib/hooks/useBitmexWs';
 import { useAppSelector } from '@/lib/redux/hooks';
@@ -27,22 +27,29 @@ const Orderbook = React.forwardRef<
     },
     ref,
   ) => {
+    const ORDERBOOK_LEVEL_ROW_H = 16;
+    const GRID_BREAK_W = 6;
+    let BID_TOTAL = 0;
+    let ASK_TOTAL = 0;
+
     const terminalLayout = useAppSelector(
       (state) => state.userContext.terminalLayout,
     );
-    const itemw = terminalLayout.filter((item) => item.i === 'Orderbook')[0].w;
-    const itemh = terminalLayout.filter((item) => item.i === 'Orderbook')[0].h;
+    const COMPONENT_W = terminalLayout.filter(
+      (item) => item.i === 'Orderbook',
+    )[0].w;
+    const COMPONENT_H = terminalLayout.filter(
+      (item) => item.i === 'Orderbook',
+    )[0].h;
 
     const { data } = useBitmexWs<orderBookL2>('orderBookL2');
 
-    const gridBreak = 6;
+    let n =
+      (GRID_ROW_HEIGHT * COMPONENT_H +
+        GRID_COMPONENT_MARGIN[0] * (COMPONENT_H - 1)) /
+      ORDERBOOK_LEVEL_ROW_H;
 
-    let n = (gridRowHeight * itemh + gridComponentMargin[0] * (itemh - 1)) / 16;
-
-    if (itemw < gridBreak) n = n / 2 + 1;
-
-    let bidTotal: number = 0;
-    let askTotal: number = 0;
+    if (COMPONENT_W < GRID_BREAK_W) n = n / 2 + 1;
 
     const bids = data
       .filter((item: orderBookL2) => item.side === 'Buy')
@@ -84,22 +91,23 @@ const Orderbook = React.forwardRef<
           <div
             className={classNames({
               'flex overflow-clip font-mono text-xs font-thin': true,
-              'flex-row items-start justify-evenly': itemw >= gridBreak,
-              'flex-col-reverse justify-end': itemw < gridBreak,
+              'flex-row items-start justify-evenly':
+                COMPONENT_W >= GRID_BREAK_W,
+              'flex-col-reverse justify-end': COMPONENT_W < GRID_BREAK_W,
             })}
           >
             <table
               className={classNames({
-                'w-full table-auto border-collapse': true,
-                'text-right [direction:rtl]': itemw >= gridBreak,
-                'text-left': itemw < gridBreak,
+                'w-1/2 table-fixed border-collapse': true,
+                'text-right [direction:rtl]': COMPONENT_W >= GRID_BREAK_W,
+                'text-left': COMPONENT_W < GRID_BREAK_W,
               })}
               cellSpacing='0'
             >
               <thead
                 className={classNames({
                   'text-slate-600': true,
-                  hidden: itemw < gridBreak,
+                  hidden: COMPONENT_W < GRID_BREAK_W,
                 })}
               >
                 <tr className='h-4 leading-none'>
@@ -109,9 +117,9 @@ const Orderbook = React.forwardRef<
                 </tr>
               </thead>
               <tbody className='box-border'>
-                {bids.map((item: orderBookL2) => (
+                {bids.map((level: orderBookL2) => (
                   <tr
-                    key={item.id}
+                    key={level.id}
                     className='h-4 leading-none hover:bg-slate-200/50 dark:hover:bg-slate-200/50'
                   >
                     <td className='w-1/3'>
@@ -119,30 +127,32 @@ const Orderbook = React.forwardRef<
                         className='whitespace-nowrap'
                         style={{
                           backgroundColor: '#22c55e',
-                          width: `${(bidTotal / bidSizeTotal) * 100}%`,
+                          width: `${(BID_TOTAL / bidSizeTotal) * 100}%`,
                           maxWidth: '150%',
                         }}
                       >
-                        <span>{(bidTotal += item.size).toLocaleString()}</span>
+                        <span>
+                          {(BID_TOTAL += level.size).toLocaleString()}
+                        </span>
                       </div>
                     </td>
                     <td className='w-1/3 text-green-400 dark:text-green-600'>
-                      {item.size.toLocaleString()}
+                      {level.size.toLocaleString()}
                     </td>
                     <td
                       className={classNames({
                         'w-1/3 text-green-400 dark:text-green-600': true,
-                        'text-right': itemw < gridBreak,
+                        'text-right': COMPONENT_W < GRID_BREAK_W,
                       })}
                     >
-                      {numberParser(item.price)}
+                      {numberParser(level.price)}
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
             <table
-              className='w-full table-auto border-collapse text-left'
+              className='w-1/2 table-fixed border-collapse text-left'
               cellSpacing='0'
             >
               <thead className='text-slate-600'>
@@ -152,7 +162,7 @@ const Orderbook = React.forwardRef<
                   <th
                     className={classNames({
                       'w-1/3': true,
-                      'text-right': itemw < gridBreak,
+                      'text-right': COMPONENT_W < GRID_BREAK_W,
                     })}
                   >
                     Price
@@ -160,9 +170,9 @@ const Orderbook = React.forwardRef<
                 </tr>
               </thead>
               <tbody className='box-border'>
-                {asks.map((item: orderBookL2) => (
+                {asks.map((level: orderBookL2) => (
                   <tr
-                    key={item.id}
+                    key={level.id}
                     className='h-4 leading-none hover:bg-slate-200/50 dark:hover:bg-slate-200/50'
                   >
                     <td className='w-1/3'>
@@ -170,23 +180,25 @@ const Orderbook = React.forwardRef<
                         className='whitespace-nowrap'
                         style={{
                           backgroundColor: '#dc2626',
-                          width: `${(askTotal / askSizeTotal) * 100}%`,
+                          width: `${(ASK_TOTAL / askSizeTotal) * 100}%`,
                           maxWidth: '150%',
                         }}
                       >
-                        <span>{(askTotal += item.size).toLocaleString()}</span>
+                        <span>
+                          {(ASK_TOTAL += level.size).toLocaleString()}
+                        </span>
                       </div>
                     </td>
                     <td className='w-1/3 text-red-400 dark:text-red-600'>
-                      {item.size.toLocaleString()}
+                      {level.size.toLocaleString()}
                     </td>
                     <td
                       className={classNames({
                         'w-1/3 text-red-400 dark:text-red-600': true,
-                        'text-right': itemw < gridBreak,
+                        'text-right': COMPONENT_W < GRID_BREAK_W,
                       })}
                     >
-                      {numberParser(item.price)}
+                      {numberParser(level.price)}
                     </td>
                   </tr>
                 ))}

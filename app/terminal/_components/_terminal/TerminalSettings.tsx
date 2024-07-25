@@ -9,6 +9,10 @@ import {
 import { Switch } from '@/components/ui/switch';
 import { defaultTerminalLayout } from '@/lib/consts/terminal/config';
 import {
+  ICON_SIZE_SMALL,
+  KB_SHORTCUT_TERMINAL_SETTINGS,
+} from '@/lib/consts/UI';
+import {
   addComponent,
   removeComponent,
 } from '@/lib/redux/features/userContext';
@@ -26,7 +30,7 @@ const TerminalSettings = () => {
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
-      if (e.key === 'j' && (e.metaKey || e.ctrlKey)) {
+      if (e.key === KB_SHORTCUT_TERMINAL_SETTINGS && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
         setOpen((open) => !open);
       }
@@ -39,9 +43,10 @@ const TerminalSettings = () => {
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button variant='outline' className='space-x-2' size='sm'>
-          <LuSettings size='16' />
+          <LuSettings size={ICON_SIZE_SMALL} />
           <kbd className='pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100'>
-            <span className='text-xs'>CTRL/⌘+</span>J
+            <span className='text-xs'>CTRL/⌘+</span>
+            {KB_SHORTCUT_TERMINAL_SETTINGS.toUpperCase()}
           </kbd>
         </Button>
       </PopoverTrigger>
@@ -56,7 +61,7 @@ const TerminalSettings = () => {
                 {component.i}
               </Label>
               <div className='flex flex-row items-center space-x-4'>
-                <LuEyeOff size='16' />
+                <LuEyeOff size={ICON_SIZE_SMALL} />
                 <Switch
                   id={component.i}
                   checked={_.some(terminalLayout, (o) => o.i === component.i)}
@@ -68,7 +73,7 @@ const TerminalSettings = () => {
                     }
                   }}
                 />
-                <LuEye size='16' />
+                <LuEye size={ICON_SIZE_SMALL} />
               </div>
             </div>
           ))}

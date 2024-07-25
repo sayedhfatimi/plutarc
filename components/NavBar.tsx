@@ -1,4 +1,5 @@
 import { auth } from '@/lib/auth';
+import { ICON_SIZE_SMALL } from '@/lib/consts/UI';
 import { gugiFont } from '@/lib/utils';
 import Link from 'next/link';
 import { LuLogIn, LuTerminalSquare } from 'react-icons/lu';
@@ -20,7 +21,7 @@ const NavBar = async () => {
         {!session ? (
           <Button asChild>
             <Link href='/sign-in' className='space-x-2'>
-              <LuLogIn size='16' />
+              <LuLogIn size={ICON_SIZE_SMALL} />
               <span>Sign In</span>
             </Link>
           </Button>
@@ -28,7 +29,7 @@ const NavBar = async () => {
           <>
             <Button asChild size='sm'>
               <Link href='/terminal' className='space-x-2'>
-                <LuTerminalSquare size='16' />
+                <LuTerminalSquare size={ICON_SIZE_SMALL} />
                 <span>Terminal</span>
               </Link>
             </Button>

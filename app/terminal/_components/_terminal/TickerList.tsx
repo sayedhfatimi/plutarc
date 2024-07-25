@@ -8,6 +8,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { getTickerList } from '@/lib/actions';
+import { KB_SHORTCUT_TICKER_LIST } from '@/lib/consts/UI';
 import { setSelectedTicker } from '@/lib/redux/features/userContext';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { Instrument } from '@/lib/types/BitmexDataTypes';
@@ -46,7 +47,7 @@ const TickerList = () => {
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
-      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
+      if (e.key === KB_SHORTCUT_TICKER_LIST && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
         setOpen((open) => !open);
       }
@@ -97,7 +98,8 @@ const TickerList = () => {
               : 'Select a ticker...'}
           </span>
           <kbd className='pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100'>
-            <span className='text-xs'>CTRL/⌘+</span>K
+            <span className='text-xs'>CTRL/⌘+</span>
+            {KB_SHORTCUT_TICKER_LIST.toUpperCase()}
           </kbd>
         </Button>
       </PopoverTrigger>
@@ -281,10 +283,12 @@ const TickerList = () => {
 };
 
 function useTickers<T>(exchange: string) {
+  const REACT_QUERY_STALE_TIME = 60 * 1000;
+
   return useQuery<T[]>({
     queryKey: ['tickers', exchange],
     queryFn: async () => await getTickerList(exchange),
-    staleTime: 60 * 1000, // 60s
+    staleTime: REACT_QUERY_STALE_TIME, // 60s
     retry: 3,
   });
 }

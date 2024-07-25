@@ -1,4 +1,5 @@
 'use client';
+import { ICON_SIZE_MEDIUM } from '@/lib/consts/UI';
 import { signIn } from 'next-auth/webauthn';
 import { LuKeyRound } from 'react-icons/lu';
 import { Button } from './ui/button';
@@ -14,7 +15,7 @@ const PasskeyLogin = () => {
           signIn('passkey', { redirect: true, redirectTo: '/terminal' })
         }
       >
-        <LuKeyRound size='24' />
+        <LuKeyRound size={ICON_SIZE_MEDIUM} />
         <span>Sign in with Passkey</span>
       </Button>
     </>

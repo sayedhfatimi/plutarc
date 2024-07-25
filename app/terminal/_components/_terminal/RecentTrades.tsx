@@ -1,6 +1,7 @@
 'use client';
 import Spinner from '@/components/Spinner';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { ICON_SIZE_SMALL } from '@/lib/consts/UI';
 import useBitmexWs from '@/lib/hooks/useBitmexWs';
 import type { RecentTrades } from '@/lib/types/BitmexDataTypes';
 import { cn, numberParser } from '@/lib/utils';
@@ -25,6 +26,8 @@ const RecentTrades = React.forwardRef<
     },
     ref,
   ) => {
+    const DATE_MAXIMUM_SIGNIFICANT_DIGITS = 3;
+
     const { data } = useBitmexWs<RecentTrades>('trade');
 
     return (
@@ -79,9 +82,9 @@ const RecentTrades = React.forwardRef<
                     </div>
                     <div className='col-span-3 flex flex-row items-center justify-end space-x-2'>
                       {item.tickDirection === 'PlusTick' ? (
-                        <TiArrowUp size='16' />
+                        <TiArrowUp size={ICON_SIZE_SMALL} />
                       ) : item.tickDirection === 'MinusTick' ? (
-                        <TiArrowDown size='16' />
+                        <TiArrowDown size={ICON_SIZE_SMALL} />
                       ) : null}
                       <span>{numberParser(item.price)}</span>
                     </div>
@@ -90,7 +93,8 @@ const RecentTrades = React.forwardRef<
                         (Date.now() - Date.parse(item.timestamp)) /
                         1000
                       ).toLocaleString(undefined, {
-                        maximumSignificantDigits: 3,
+                        maximumSignificantDigits:
+                          DATE_MAXIMUM_SIGNIFICANT_DIGITS,
                       }) + 's'}
                     </div>
                   </div>

@@ -11,6 +11,7 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
+import { ICON_SIZE_SMALL } from '@/lib/consts/UI';
 import React from 'react';
 import { IconType } from 'react-icons/lib';
 import { LuBomb } from 'react-icons/lu';
@@ -72,7 +73,7 @@ const DestructiveActionAlert = React.forwardRef<
             className='bg-red-800 font-bold text-white hover:bg-red-600'
           >
             <Button onClick={confirmFn} className='space-x-2'>
-              <LuBomb size='16' />
+              <LuBomb size={ICON_SIZE_SMALL} />
               <span>{confirmTitle}</span>
             </Button>
           </AlertDialogAction>

@@ -1,5 +1,6 @@
 'use client';
 import { Badge } from '@/components/ui/badge';
+import { ICON_SIZE_MEDIUM } from '@/lib/consts/UI';
 import { useAppSelector } from '@/lib/redux/hooks';
 import { TAPIKeys } from '@/lib/types/APIKeys';
 import { LuDelete } from 'react-icons/lu';
@@ -20,7 +21,7 @@ const ApiKeysTable = () => {
           <th className='py-1 text-right'>API Key</th>
           <th className='py-1'>
             <div className='flex items-center justify-end'>
-              <LuDelete size='24' />
+              <LuDelete size={ICON_SIZE_MEDIUM} />
             </div>
           </th>
         </tr>

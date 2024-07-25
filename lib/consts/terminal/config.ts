@@ -1,9 +1,9 @@
 import { type Layout } from 'react-grid-layout';
 
-export const gridRowHeight: number = 48;
-export const gridComponentMargin: [x: number, y: number] = [4, 4];
-export const gridCols = { md: 24 };
-export const gridBreakpoints = { md: 996 };
+export const GRID_ROW_HEIGHT: number = 48;
+export const GRID_COMPONENT_MARGIN: [x: number, y: number] = [4, 4];
+export const GRID_COLS = { md: 24 };
+export const GRID_BREAKPOINTS = { md: 996 };
 
 export const GridProps: ReactGridLayout.ResponsiveProps &
   ReactGridLayout.WidthProviderProps = {
@@ -11,12 +11,12 @@ export const GridProps: ReactGridLayout.ResponsiveProps &
   draggableCancel: '.noDrag',
   draggableHandle: '.drag',
   useCSSTransforms: true,
-  rowHeight: gridRowHeight,
-  margin: gridComponentMargin,
+  rowHeight: GRID_ROW_HEIGHT,
+  margin: GRID_COMPONENT_MARGIN,
   transformScale: 1,
   resizeHandles: ['se'],
-  breakpoints: gridBreakpoints,
-  cols: gridCols,
+  breakpoints: GRID_BREAKPOINTS,
+  cols: GRID_COLS,
   isResizable: true,
   isDraggable: true,
 };

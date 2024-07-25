@@ -1,5 +1,6 @@
 'use client';
 import Spinner from '@/components/Spinner';
+import { ICON_SIZE_MEDIUM } from '@/lib/consts/UI';
 import useBitmexWs from '@/lib/hooks/useBitmexWs';
 import { Instrument } from '@/lib/types/BitmexDataTypes';
 import { cn, numberParser } from '@/lib/utils';
@@ -53,11 +54,11 @@ const LastPrice = React.forwardRef<
                 })}
               >
                 {data[0].lastTickDirection === 'PlusTick' ? (
-                  <LuArrowUp size='24' />
+                  <LuArrowUp size={ICON_SIZE_MEDIUM} />
                 ) : data[0].lastTickDirection === 'MinusTick' ? (
-                  <LuArrowDown size='24' />
+                  <LuArrowDown size={ICON_SIZE_MEDIUM} />
                 ) : (
-                  <LuCircle size='24' />
+                  <LuCircle size={ICON_SIZE_MEDIUM} />
                 )}
               </div>
               <div

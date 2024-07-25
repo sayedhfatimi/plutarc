@@ -1,11 +1,11 @@
 import _ from 'lodash';
-import crypto from 'crypto';
+import { createHmac } from 'crypto';
 import querystring from 'querystring';
 
 class BitmexClient<T> {
   invoke(): void {}
-  _data: TBitmexClientData<T> = {} as TBitmexClientData<T>;
-  _keys: TBitmexClientKeys = {} as TBitmexClientKeys;
+  _data: TBitmexClientData<T> = {};
+  _keys: { [key: string]: string | string[] } = {};
 
   signMessage(
     secret: string,
@@ -17,8 +17,7 @@ class BitmexClient<T> {
     if (!data || _.isEmpty(data)) data = '';
     else if (_.isObject(data)) data = JSON.stringify(data);
 
-    return crypto
-      .createHmac('sha256', secret)
+    return createHmac('sha256', secret)
       .update(verb + url + nonce + data)
       .digest('hex');
   }
@@ -40,7 +39,5 @@ export type TBitmexClientData<T> = {
     [key: string]: T[];
   };
 };
-
-export type TBitmexClientKeys = { [key: string]: string | string[] };
 
 export const bitmexClient = new BitmexClient();

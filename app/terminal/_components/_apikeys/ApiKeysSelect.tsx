@@ -6,6 +6,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { ICON_SIZE_SMALL } from '@/lib/consts/UI';
 import { setSelectedApiKey } from '@/lib/redux/features/selectedApiKey';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { TAPIKeys } from '@/lib/types/APIKeys';
@@ -46,7 +47,7 @@ const ApiKeysSelect = () => {
           <SelectValue
             placeholder={
               <div className='flex items-center justify-start space-x-2'>
-                <LuKeyRound size='16' />
+                <LuKeyRound size={ICON_SIZE_SMALL} />
                 <span>Select an API Key</span>
               </div>
             }

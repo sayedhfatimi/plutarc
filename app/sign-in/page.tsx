@@ -10,6 +10,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { auth, signIn } from '@/lib/auth';
+import { ICON_SIZE_LARGE } from '@/lib/consts/UI';
 import { redirect } from 'next/navigation';
 import { LuHelpCircle, LuMail } from 'react-icons/lu';
 
@@ -44,7 +45,10 @@ const SignInPage = async () => {
           <TooltipProvider delayDuration={400}>
             <Tooltip>
               <TooltipTrigger asChild>
-                <LuHelpCircle size='32' className='text-muted-foreground' />
+                <LuHelpCircle
+                  size={ICON_SIZE_LARGE}
+                  className='text-muted-foreground'
+                />
               </TooltipTrigger>
               <TooltipContent className='w-64 text-pretty text-center'>
                 You must login at least once using the email magic link and

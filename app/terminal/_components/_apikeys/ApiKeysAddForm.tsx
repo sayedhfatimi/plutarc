@@ -47,6 +47,7 @@ import {
 import { toast } from 'sonner';
 import { z } from 'zod';
 
+import { ICON_SIZE_SMALL } from '@/lib/consts/UI';
 import Image from 'next/image';
 
 const ApiKeysAddForm = () => {
@@ -129,7 +130,7 @@ const ApiKeysAddForm = () => {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <Button className='space-x-2' size='sm' variant='outline'>
-            <LuPlus size='16' />
+            <LuPlus size={ICON_SIZE_SMALL} />
             <span>Add New Key</span>
           </Button>
         </DialogTrigger>

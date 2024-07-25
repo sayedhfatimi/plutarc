@@ -1,5 +1,6 @@
 'use client';
 import { GridProps } from '@/lib/consts/terminal/config';
+import { ICON_SIZE_SMALL } from '@/lib/consts/UI';
 import {
   removeComponent,
   setTerminalLayout,
@@ -10,13 +11,13 @@ import { Responsive, WidthProvider } from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
 import { LuX } from 'react-icons/lu';
 import 'react-resizable/css/styles.css';
+import Chart from './Chart';
 import ContractInfo from './ContractInfo';
+import LastPrice from './LastPrice';
 import Orderbook from './Orderbook';
+import OrderForm from './OrderForm';
 import PositionsOrders from './PositionsOrders';
 import RecentTrades from './RecentTrades';
-import LastPrice from './LastPrice';
-import OrderForm from './OrderForm';
-import Chart from './Chart';
 
 const GridLayout = () => {
   const terminalLayout = useAppSelector(
@@ -31,8 +32,14 @@ const GridLayout = () => {
 
   const gridChildren = useMemo(() => {
     const terminalComponents = [
-      { label: 'Chart', node: Chart },
-      { label: 'Order Form', node: OrderForm },
+      {
+        label: 'Chart',
+        node: Chart,
+      },
+      {
+        label: 'Order Form',
+        node: OrderForm,
+      },
       {
         label: 'Orderbook',
         node: Orderbook,
@@ -67,7 +74,7 @@ const GridLayout = () => {
               <span>{`${component.label}: ${selectedTicker}`}</span>
               <LuX
                 className='noDrag cursor-pointer text-muted-foreground'
-                size='16'
+                size={ICON_SIZE_SMALL}
                 onClick={() => dispatch(removeComponent(item))}
               />
             </div>

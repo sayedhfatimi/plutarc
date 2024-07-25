@@ -6,6 +6,11 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { auth } from '@/lib/auth';
+import {
+  ICON_SIZE_LARGE,
+  ICON_SIZE_MEDIUM,
+  ICON_SIZE_SMALL,
+} from '@/lib/consts/UI';
 import { LuSettings2, LuSkull, LuUser } from 'react-icons/lu';
 import DropdownDialogItem from '../DropdownDialogItem';
 import DeleteAccountButton from './DeleteAccountButton';
@@ -18,12 +23,12 @@ const ProfileSettingsDialog = async () => {
   return (
     <>
       <DropdownDialogItem
-        triggerIcon={<LuUser size='16' />}
+        triggerIcon={<LuUser size={ICON_SIZE_SMALL} />}
         triggerTitle='Profile'
       >
         <DialogHeader>
           <DialogTitle className='flex flex-row items-center space-x-2'>
-            <LuSettings2 size='24' />
+            <LuSettings2 size={ICON_SIZE_MEDIUM} />
             <span>Profile Settings</span>
           </DialogTitle>
           <DialogDescription>Edit Profile Settings Here</DialogDescription>
@@ -46,7 +51,7 @@ const ProfileSettingsDialog = async () => {
 
           <section className='flex flex-col space-y-2'>
             <div className='flex flex-row items-center space-x-2 border-b p-2 text-red-800'>
-              <LuSkull size='32' />
+              <LuSkull size={ICON_SIZE_LARGE} />
               <span className='text-xl font-bold'>Destructive Actions</span>
             </div>
             <div className='flex flex-row items-center justify-between p-2'>

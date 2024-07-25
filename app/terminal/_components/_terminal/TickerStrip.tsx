@@ -1,5 +1,6 @@
 'use client';
 import Spinner from '@/components/Spinner';
+import { ICON_SIZE_MEDIUM } from '@/lib/consts/UI';
 import useBitmexWs from '@/lib/hooks/useBitmexWs';
 import type { Instrument } from '@/lib/types/BitmexDataTypes';
 import { numberParser } from '@/lib/utils';
@@ -33,11 +34,11 @@ const TickerStrip = () => {
               })}
             >
               {ticker.lastTickDirection === 'PlusTick' ? (
-                <LuArrowUp size='24' />
+                <LuArrowUp size={ICON_SIZE_MEDIUM} />
               ) : ticker.lastTickDirection === 'MinusTick' ? (
-                <LuArrowDown size='24' />
+                <LuArrowDown size={ICON_SIZE_MEDIUM} />
               ) : (
-                <LuMinus size='24' />
+                <LuMinus size={ICON_SIZE_MEDIUM} />
               )}
             </div>
             <div className='flex flex-col'>

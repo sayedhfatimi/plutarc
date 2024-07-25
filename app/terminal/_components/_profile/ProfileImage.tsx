@@ -1,5 +1,9 @@
 'use client';
 import Spinner from '@/components/Spinner';
+import {
+  PROFILE_DIALOG_IMAGE_HEIGHT,
+  PROFILE_DIALOG_IMAGE_WIDTH,
+} from '@/lib/consts/UI';
 import { setUserProfileImage } from '@/lib/redux/features/userContext';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { UploadButton } from '@/lib/uploadthing';
@@ -17,8 +21,8 @@ const ProfileImage = () => {
       <Image
         src={userProfileImage || defaultpp}
         alt='User Avatar'
-        width='96'
-        height='96'
+        width={PROFILE_DIALOG_IMAGE_WIDTH}
+        height={PROFILE_DIALOG_IMAGE_HEIGHT}
       />
       <UploadButton
         endpoint='imageUploader'

@@ -1,7 +1,8 @@
 'use client';
+import { ICON_SIZE_MEDIUM } from '@/lib/consts/UI';
 import { signIn } from 'next-auth/webauthn';
-import { Button } from './ui/button';
 import { LuKeyRound } from 'react-icons/lu';
+import { Button } from './ui/button';
 
 const PasskeyRegister = () => {
   return (
@@ -11,7 +12,7 @@ const PasskeyRegister = () => {
       size='sm'
       onClick={() => signIn('passkey', { action: 'register' })}
     >
-      <LuKeyRound size='24' />
+      <LuKeyRound size={ICON_SIZE_MEDIUM} />
       <span>Register New Passkey</span>
     </Button>
   );

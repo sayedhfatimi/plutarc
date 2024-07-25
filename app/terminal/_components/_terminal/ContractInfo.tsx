@@ -22,6 +22,10 @@ const ContractInfo = React.forwardRef<
     },
     ref,
   ) => {
+    const FUNDING_THRESHOLD_SAFE = 0.0002;
+    const FUNDING_THRESHOLD_CAUTION = 0.0002;
+    const FUNDING_THRESHOLD_DANGER = 0.0003;
+
     const { data } = useBitmexWs<Instrument>('instrument');
 
     return (
@@ -52,9 +56,12 @@ const ContractInfo = React.forwardRef<
                 <div>{numberParser(data[0].markPrice)}</div>
                 <div
                   className={classNames({
-                    'text-red-800': data[0].fundingRate > 0.0003,
-                    'text-red-500': data[0].fundingRate > 0.0002,
-                    'text-green-500': data[0].fundingRate < 0.0002,
+                    'text-red-800':
+                      data[0].fundingRate > FUNDING_THRESHOLD_DANGER,
+                    'text-red-500':
+                      data[0].fundingRate > FUNDING_THRESHOLD_CAUTION,
+                    'text-green-500':
+                      data[0].fundingRate < FUNDING_THRESHOLD_SAFE,
                   })}
                 >
                   {`${(data[0].fundingRate * 100).toFixed(4)}%`}
@@ -86,9 +93,12 @@ const ContractInfo = React.forwardRef<
                 <div>{numberParser(data[0].indicativeSettlePrice)}</div>
                 <div
                   className={classNames({
-                    'text-red-800': data[0].fundingRate > 0.0003,
-                    'text-red-500': data[0].fundingRate > 0.0002,
-                    'text-green-500': data[0].fundingRate < 0.0002,
+                    'text-red-800':
+                      data[0].fundingRate > FUNDING_THRESHOLD_DANGER,
+                    'text-red-500':
+                      data[0].fundingRate > FUNDING_THRESHOLD_CAUTION,
+                    'text-green-500':
+                      data[0].fundingRate < FUNDING_THRESHOLD_SAFE,
                   })}
                 >{`${(data[0].indicativeFundingRate * 100).toFixed(4)}%`}</div>
                 <div>

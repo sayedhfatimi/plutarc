@@ -24,6 +24,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { ICON_SIZE_SMALL } from '@/lib/consts/UI';
 import { initialiseState } from '@/lib/redux/features/apiKeys';
 import { setEncryptedStatus } from '@/lib/redux/features/userContext';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
@@ -95,7 +96,8 @@ const ApiKeysDecryptionDialog = () => {
           <TooltipTrigger asChild>
             <DialogTrigger asChild>
               <Button className='space-x-2' size='sm'>
-                <LuUnlock size='16' /> <span>Decrypt API Keys</span>
+                <LuUnlock size={ICON_SIZE_SMALL} />
+                <span>Decrypt API Keys</span>
               </Button>
             </DialogTrigger>
           </TooltipTrigger>
