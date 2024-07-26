@@ -1,5 +1,5 @@
 // Generic WebSocket Response
-export type BitmexWebSocketResponse<T> = {
+export type TBitmexWebSocketResponse<T> = {
   table: string;
   action: 'partial' | 'update' | 'insert' | 'delete';
   data: T[];
@@ -9,7 +9,7 @@ export type BitmexWebSocketResponse<T> = {
 };
 
 // orderBookL2_25 types
-export type orderBookL2 = {
+export type TorderBookL2 = {
   symbol: string;
   id: number;
   side: string;
@@ -19,10 +19,10 @@ export type orderBookL2 = {
   transactTime: string;
 };
 
-export type orderBookL2_25 = orderBookL2;
+export type TorderBookL2_25 = TorderBookL2;
 
 // recent trades types
-export type RecentTrades = {
+export type TRecentTrades = {
   timestamp: string;
   symbol: string;
   side: string;
@@ -36,7 +36,7 @@ export type RecentTrades = {
   trdType: string;
 };
 
-export type Instrument = {
+export type TInstrument = {
   symbol: string;
   rootSymbol: string;
   state: string;

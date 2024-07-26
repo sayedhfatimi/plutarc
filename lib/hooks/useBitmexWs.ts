@@ -19,9 +19,8 @@ const useBitmexWs = <T>(tableName: string) => {
           JSON.parse(message.data).table === tableName
         ) {
           return true;
-        } else {
-          return false;
         }
+        return false;
       },
       shouldReconnect: (closeEvent) => true,
       retryOnError: true,

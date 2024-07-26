@@ -2,13 +2,13 @@
 import Spinner from '@/components/Spinner';
 import { ICON_SIZE_MEDIUM } from '@/lib/consts/UI';
 import useBitmexWs from '@/lib/hooks/useBitmexWs';
-import type { Instrument } from '@/lib/types/BitmexDataTypes';
+import type { TInstrument } from '@/lib/types/BitmexDataTypes';
 import { numberParser } from '@/lib/utils';
 import classNames from 'classnames';
 import { LuArrowDown, LuArrowUp, LuMinus } from 'react-icons/lu';
 
 const TickerStrip = () => {
-  const { data } = useBitmexWs<Instrument>('instrument');
+  const { data } = useBitmexWs<TInstrument>('instrument');
 
   if (!data || data.length === 0)
     return (

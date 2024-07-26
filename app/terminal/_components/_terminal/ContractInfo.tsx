@@ -1,7 +1,7 @@
 'use client';
 import Spinner from '@/components/Spinner';
 import useBitmexWs from '@/lib/hooks/useBitmexWs';
-import type { Instrument } from '@/lib/types/BitmexDataTypes';
+import type { TInstrument } from '@/lib/types/BitmexDataTypes';
 import { cn, numberParser } from '@/lib/utils';
 import classNames from 'classnames';
 import React from 'react';
@@ -26,7 +26,7 @@ const ContractInfo = React.forwardRef<
     const FUNDING_THRESHOLD_CAUTION = 0.0002;
     const FUNDING_THRESHOLD_DANGER = 0.0003;
 
-    const { data } = useBitmexWs<Instrument>('instrument');
+    const { data } = useBitmexWs<TInstrument>('instrument');
 
     return (
       <div

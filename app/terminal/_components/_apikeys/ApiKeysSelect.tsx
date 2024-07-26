@@ -9,7 +9,7 @@ import {
 import { ICON_SIZE_SMALL } from '@/lib/consts/UI';
 import { setSelectedApiKey } from '@/lib/redux/features/selectedApiKey';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
-import { TAPIKeys } from '@/lib/types/APIKeys';
+import type { TAPIKeys } from '@/lib/types/APIKeys';
 import { LuInfo, LuKeyRound } from 'react-icons/lu';
 import { toast } from 'sonner';
 import ApiKeysDecryptionDialog from './ApiKeysDecryptionDialog';

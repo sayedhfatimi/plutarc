@@ -1,5 +1,5 @@
-import { type TAPIKeys } from '@/lib/types/APIKeys';
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import type { TAPIKeys } from '@/lib/types/APIKeys';
+import { type PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 const initialState: TAPIKeys[] = [] as TAPIKeys[];
 

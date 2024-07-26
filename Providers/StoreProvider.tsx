@@ -6,9 +6,9 @@ import {
   setUserId,
   setUserProfileImage,
 } from '@/lib/redux/features/userContext';
-import { AppStore, makeStore } from '@/lib/redux/store';
-import { TAPIKeys } from '@/lib/types/APIKeys';
-import { Session } from 'next-auth';
+import { type AppStore, makeStore } from '@/lib/redux/store';
+import type { TAPIKeys } from '@/lib/types/APIKeys';
+import type { Session } from 'next-auth';
 import { useRef } from 'react';
 import { Provider } from 'react-redux';
 
@@ -21,7 +21,8 @@ export default function StoreProvider({
   userSession: Session;
   children: React.ReactNode;
 }) {
-  const { id, passphraseHash, image } = userSession!.user;
+  // biome-ignore lint/correctness/noUnsafeOptionalChaining: Object is passed as proper from SSR Layout component into client component
+  const { id, passphraseHash, image } = userSession?.user;
 
   const storeRef = useRef<AppStore>();
   if (!storeRef.current) {

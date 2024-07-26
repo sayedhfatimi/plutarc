@@ -3,7 +3,7 @@ import Spinner from '@/components/Spinner';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { ICON_SIZE_SMALL } from '@/lib/consts/UI';
 import useBitmexWs from '@/lib/hooks/useBitmexWs';
-import type { RecentTrades } from '@/lib/types/BitmexDataTypes';
+import type { TRecentTrades } from '@/lib/types/BitmexDataTypes';
 import { cn, numberParser } from '@/lib/utils';
 import classNames from 'classnames';
 import React from 'react';
@@ -28,7 +28,7 @@ const RecentTrades = React.forwardRef<
   ) => {
     const DATE_MAXIMUM_SIGNIFICANT_DIGITS = 3;
 
-    const { data } = useBitmexWs<RecentTrades>('trade');
+    const { data } = useBitmexWs<TRecentTrades>('trade');
 
     return (
       <div
@@ -63,7 +63,7 @@ const RecentTrades = React.forwardRef<
             </div>
             <ScrollArea className='h-full'>
               <div className='flex flex-col-reverse'>
-                {data.map((item: RecentTrades) => (
+                {data.map((item: TRecentTrades) => (
                   <div
                     key={item.trdMatchID}
                     className={classNames({
@@ -88,13 +88,13 @@ const RecentTrades = React.forwardRef<
                       <span>{numberParser(item.price)}</span>
                     </div>
                     <div className='flex justify-end text-slate-600'>
-                      {(
+                      {`${(
                         (Date.now() - Date.parse(item.timestamp)) /
                         1000
                       ).toLocaleString(undefined, {
                         maximumSignificantDigits:
                           DATE_MAXIMUM_SIGNIFICANT_DIGITS,
-                      }) + 's'}
+                      })}s`}
                     </div>
                   </div>
                 ))}

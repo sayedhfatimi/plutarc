@@ -2,7 +2,7 @@ import binanceIcon from '@/public/images/exchangeIcons/binance.png';
 import bitmexIcon from '@/public/images/exchangeIcons/bitmex.png';
 import coinbaseIcon from '@/public/images/exchangeIcons/coinbase.png';
 import phemexIcon from '@/public/images/exchangeIcons/phemex.png';
-import { StaticImageData } from 'next/image';
+import type { StaticImageData } from 'next/image';
 
 export const supportedExchanges: {
   key: string;

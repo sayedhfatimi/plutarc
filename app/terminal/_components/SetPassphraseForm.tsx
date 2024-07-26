@@ -35,7 +35,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { LuLock, LuPartyPopper } from 'react-icons/lu';
 import { toast } from 'sonner';
-import { z } from 'zod';
+import type { z } from 'zod';
 
 const SetPassphraseForm = () => {
   const [open, setOpen] = useState(false); // dialog open state

@@ -28,7 +28,7 @@ import { ICON_SIZE_SMALL } from '@/lib/consts/UI';
 import { initialiseState } from '@/lib/redux/features/apiKeys';
 import { setEncryptedStatus } from '@/lib/redux/features/userContext';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
-import { TAPIKeys } from '@/lib/types/APIKeys';
+import type { TAPIKeys } from '@/lib/types/APIKeys';
 import { decryptString } from '@/lib/utils';
 import { getPassphraseSchema } from '@/schemas/getPassphraseSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -38,7 +38,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { LuPartyPopper, LuUnlock } from 'react-icons/lu';
 import { toast } from 'sonner';
-import { z } from 'zod';
+import type { z } from 'zod';
 
 const ApiKeysDecryptionDialog = () => {
   const { data: session } = useSession();
@@ -59,6 +59,7 @@ const ApiKeysDecryptionDialog = () => {
     // cryptographically compare given passphrase to passphraseHash
     bcryptjs.compare(
       data.passphrase,
+      // biome-ignore lint/style/noNonNullAssertion: <explanation>
       session?.user.passphraseHash!,
       (err, res) => {
         // if user entered passphrase does not match send error to user

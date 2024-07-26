@@ -1,8 +1,8 @@
 import { defaultTerminalLayout } from '@/lib/consts/terminal/config';
-import { TUserContext } from '@/lib/types/UserContext';
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import type { TUserContext } from '@/lib/types/UserContext';
+import { type PayloadAction, createSlice } from '@reduxjs/toolkit';
 import _ from 'lodash';
-import { Layout } from 'react-grid-layout';
+import type { Layout } from 'react-grid-layout';
 
 const DEFAULT_TICKER = 'XBTUSD';
 const DEFAULT_EXCHANGE = 'bitmex';

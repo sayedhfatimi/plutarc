@@ -15,7 +15,7 @@ import { InstrumentMap } from '@/lib/consts/terminal/bitmex';
 import useKBShortcut from '@/lib/hooks/useKBShortcut';
 import { setSelectedTicker } from '@/lib/redux/features/userContext';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
-import { Instrument } from '@/lib/types/BitmexDataTypes';
+import type { TInstrument } from '@/lib/types/BitmexDataTypes';
 import { numberParser } from '@/lib/utils';
 import { useQuery } from '@tanstack/react-query';
 import classNames from 'classnames';
@@ -28,7 +28,7 @@ const TickerList = () => {
     key: 'symbol',
     direction: 'ascending',
   } as {
-    key: keyof Instrument;
+    key: keyof TInstrument;
     direction: string;
   });
   const [quoteCurrencyFilter, setQuoteCurrencyFilter] = useState<string | null>(
@@ -42,11 +42,11 @@ const TickerList = () => {
 
   const { open, setOpen } = useKBShortcut(KB_SHORTCUT_TICKER_LIST);
   const { data: tickerData, isLoading: tickerDataStatus } =
-    useTickers<Instrument>(exchange);
+    useTickers<TInstrument>(exchange);
   const { data: volumeData, isLoading: volumeDataStatus } =
     useTickerVolumes(exchange);
 
-  const requestSort = (key: keyof Instrument) => {
+  const requestSort = (key: keyof TInstrument) => {
     let direction = 'ascending';
     if (sortConfig.key === key && sortConfig.direction === 'ascending') {
       direction = 'descending';
@@ -68,7 +68,8 @@ const TickerList = () => {
       </div>
     );
 
-  let mergedData: any[] = [];
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  const mergedData: any[] = [];
 
   for (let i = 0; i < tickerData.length; i++) {
     mergedData.push({
@@ -130,6 +131,7 @@ const TickerList = () => {
             </span>
             <div className='flex flex-row space-x-4'>
               {['USDT', 'USD', 'XBT', 'ETH', 'EUR'].map((currency) => (
+                // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
                 <div
                   key={currency}
                   className={classNames({
@@ -239,6 +241,7 @@ const TickerList = () => {
               </thead>
               <tbody className='divide-y'>
                 {filteredData.map((ticker) => (
+                  // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
                   <tr
                     key={ticker.symbol}
                     className={classNames({

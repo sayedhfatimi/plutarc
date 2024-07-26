@@ -1,6 +1,6 @@
 'use server';
 import { createApiKeySchema } from '@/schemas/createApiKeySchema';
-import { z } from 'zod';
+import type { z } from 'zod';
 import { auth } from '../auth';
 import { db } from '../db';
 import { apiKeys } from '../db/schema';

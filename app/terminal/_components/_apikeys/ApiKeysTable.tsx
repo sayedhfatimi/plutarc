@@ -2,7 +2,7 @@
 import { Badge } from '@/components/ui/badge';
 import { ICON_SIZE_MEDIUM } from '@/lib/consts/UI';
 import { useAppSelector } from '@/lib/redux/hooks';
-import { TAPIKeys } from '@/lib/types/APIKeys';
+import type { TAPIKeys } from '@/lib/types/APIKeys';
 import { LuDelete } from 'react-icons/lu';
 import ApiKeysAlert from './ApiKeysAlert';
 import ApiKeysDeleteButton from './ApiKeysDeleteButton';

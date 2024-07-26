@@ -13,7 +13,7 @@ const useKBShortcut = (key: string) => {
     };
     document.addEventListener('keydown', down);
     return () => document.removeEventListener('keydown', down);
-  }, []);
+  }, [key]);
 
   return { open, setOpen };
 };

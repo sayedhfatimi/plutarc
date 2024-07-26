@@ -1,4 +1,4 @@
-import { type Layout } from 'react-grid-layout';
+import type { Layout } from 'react-grid-layout';
 import { Chart } from './Layouts/Chart';
 import { ContractInfo } from './Layouts/ContractInfo';
 import { LastPrice } from './Layouts/LastPrice';

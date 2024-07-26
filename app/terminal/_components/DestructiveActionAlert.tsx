@@ -13,7 +13,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { ICON_SIZE_SMALL } from '@/lib/consts/UI';
 import React from 'react';
-import { IconType } from 'react-icons/lib';
+import type { IconType } from 'react-icons/lib';
 import { LuBomb } from 'react-icons/lu';
 
 type TDestructiveActionAlert = {

@@ -1,17 +1,24 @@
+// biome-ignore lint/style/useNodejsImportProtocol: throws error with nextjs
 import { createHmac } from 'crypto';
+// biome-ignore lint/style/useNodejsImportProtocol: throws error with nextjs
 import querystring from 'querystring';
-import { BitmexWebSocketResponse } from '@/lib/types/BitmexDataTypes';
+import type { TBitmexWebSocketResponse } from '@/lib/types/BitmexDataTypes';
 import _ from 'lodash';
 
-class BitMEXClient {
-  _DATA: { [key: string]: { [key: string]: any[] } } = {};
+class BitMEXClient<T> {
+  _DATA: {
+    [key: string]: {
+      // biome-ignore lint/suspicious/noExplicitAny:
+      [key: string]: any[];
+    };
+  } = {};
   _KEYS: { [key: string]: string | string[] } = {};
   private STORE_MAX_LENGTH = 10_000;
 
   deltaParser<T>(
     tableName: string,
     symbol: string,
-    wsResponse: BitmexWebSocketResponse<T>,
+    wsResponse: TBitmexWebSocketResponse<T>,
   ) {
     switch (wsResponse.action) {
       case 'partial': {
@@ -37,13 +44,14 @@ class BitMEXClient {
   _partial<T>(
     tableName: string,
     symbol: string,
-    wsResponse: BitmexWebSocketResponse<T>,
+    wsResponse: TBitmexWebSocketResponse<T>,
   ) {
     if (!this._DATA[tableName]) this._DATA[tableName] = {};
     const wsData = wsResponse.data || [];
 
     this._DATA[tableName][symbol] = wsData;
-    this._KEYS[tableName] = wsResponse!.keys!;
+    // biome-ignore lint/style/noNonNullAssertion: data exists at this point of code execution
+    this._KEYS[tableName] = wsResponse?.keys!;
 
     return wsData;
   }
@@ -51,7 +59,7 @@ class BitMEXClient {
   _insert<T>(
     tableName: string,
     symbol: string,
-    wsResponse: BitmexWebSocketResponse<T>,
+    wsResponse: TBitmexWebSocketResponse<T>,
   ) {
     const store = this._DATA[tableName][symbol];
 
@@ -67,7 +75,7 @@ class BitMEXClient {
   _update<T>(
     tableName: string,
     symbol: string,
-    wsResponse: BitmexWebSocketResponse<T>,
+    wsResponse: TBitmexWebSocketResponse<T>,
   ) {
     const store = this._DATA[tableName][symbol];
 
@@ -91,7 +99,7 @@ class BitMEXClient {
   _delete<T>(
     tableName: string,
     symbol: string,
-    wsResponse: BitmexWebSocketResponse<T>,
+    wsResponse: TBitmexWebSocketResponse<T>,
   ) {
     const store = this._DATA[tableName][symbol];
 

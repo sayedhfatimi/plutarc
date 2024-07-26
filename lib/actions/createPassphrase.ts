@@ -1,7 +1,7 @@
 'use server';
 import { createPassphraseSchema } from '@/schemas/createPassphraseSchema';
 import { eq } from 'drizzle-orm';
-import { z } from 'zod';
+import type { z } from 'zod';
 import { auth } from '../auth';
 import { db } from '../db';
 import { users } from '../db/schema';

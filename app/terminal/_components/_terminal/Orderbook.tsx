@@ -6,7 +6,7 @@ import {
 } from '@/lib/consts/terminal/config';
 import useBitmexWs from '@/lib/hooks/useBitmexWs';
 import { useAppSelector } from '@/lib/redux/hooks';
-import type { orderBookL2 } from '@/lib/types/BitmexDataTypes';
+import type { TorderBookL2 } from '@/lib/types/BitmexDataTypes';
 import { cn, numberParser } from '@/lib/utils';
 import classNames from 'classnames';
 import React from 'react';
@@ -29,8 +29,8 @@ const Orderbook = React.forwardRef<
   ) => {
     const ORDERBOOK_LEVEL_ROW_H = 16;
     const GRID_BREAK_W = 6;
-    let BID_LEVEL_TOTAL = 0;
-    let ASK_LEVEL_TOTAL = 0;
+    let BID_LEVEL_ACCUMULATOR = 0;
+    let ASK_LEVEL_ACCUMULATOR = 0;
 
     const terminalLayout = useAppSelector(
       (state) => state.userContext.terminalLayout,
@@ -49,25 +49,25 @@ const Orderbook = React.forwardRef<
 
     if (COMPONENT_W < GRID_BREAK_W) n = n / 2 + 1;
 
-    const { data } = useBitmexWs<orderBookL2>('orderBookL2');
+    const { data } = useBitmexWs<TorderBookL2>('orderBookL2');
 
     const bids = data
-      .filter((item: orderBookL2) => item.side === 'Buy')
-      .sort((a: orderBookL2, b: orderBookL2) => b.price - a.price)
+      .filter((item: TorderBookL2) => item.side === 'Buy')
+      .sort((a: TorderBookL2, b: TorderBookL2) => b.price - a.price)
       .slice(0, n - 2);
 
     const asks = data
-      .filter((item: orderBookL2) => item.side === 'Sell')
-      .sort((a: orderBookL2, b: orderBookL2) => a.price - b.price)
+      .filter((item: TorderBookL2) => item.side === 'Sell')
+      .sort((a: TorderBookL2, b: TorderBookL2) => a.price - b.price)
       .slice(0, n - 2);
 
     const BID_SIZE_TOTAL: number = bids.reduce(
-      (acc: number, val: orderBookL2) => acc + val.size,
+      (acc: number, val: TorderBookL2) => acc + val.size,
       0,
     );
 
     const ASK_SIZE_TOTAL: number = asks.reduce(
-      (acc: number, val: orderBookL2) => acc + val.size,
+      (acc: number, val: TorderBookL2) => acc + val.size,
       0,
     );
 
@@ -117,7 +117,7 @@ const Orderbook = React.forwardRef<
                 </tr>
               </thead>
               <tbody className='box-border'>
-                {bids.map((level: orderBookL2) => (
+                {bids.map((level: TorderBookL2) => (
                   <tr
                     key={level.id}
                     className='h-4 leading-none hover:bg-slate-200/50 dark:hover:bg-slate-200/50'
@@ -127,12 +127,13 @@ const Orderbook = React.forwardRef<
                         className='whitespace-nowrap'
                         style={{
                           backgroundColor: '#22c55e',
-                          width: `${(BID_LEVEL_TOTAL / BID_SIZE_TOTAL) * 100}%`,
+                          width: `${(BID_LEVEL_ACCUMULATOR / BID_SIZE_TOTAL) * 100}%`,
                           maxWidth: '150%',
                         }}
                       >
                         <span>
-                          {(BID_LEVEL_TOTAL += level.size).toLocaleString()}
+                          {(BID_LEVEL_ACCUMULATOR +=
+                            level.size).toLocaleString()}
                         </span>
                       </div>
                     </td>
@@ -170,7 +171,7 @@ const Orderbook = React.forwardRef<
                 </tr>
               </thead>
               <tbody className='box-border'>
-                {asks.map((level: orderBookL2) => (
+                {asks.map((level: TorderBookL2) => (
                   <tr
                     key={level.id}
                     className='h-4 leading-none hover:bg-slate-200/50 dark:hover:bg-slate-200/50'
@@ -180,12 +181,13 @@ const Orderbook = React.forwardRef<
                         className='whitespace-nowrap'
                         style={{
                           backgroundColor: '#dc2626',
-                          width: `${(ASK_LEVEL_TOTAL / ASK_SIZE_TOTAL) * 100}%`,
+                          width: `${(ASK_LEVEL_ACCUMULATOR / ASK_SIZE_TOTAL) * 100}%`,
                           maxWidth: '150%',
                         }}
                       >
                         <span>
-                          {(ASK_LEVEL_TOTAL += level.size).toLocaleString()}
+                          {(ASK_LEVEL_ACCUMULATOR +=
+                            level.size).toLocaleString()}
                         </span>
                       </div>
                     </td>

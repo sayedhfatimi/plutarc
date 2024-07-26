@@ -1,4 +1,4 @@
-import { Layout } from 'react-grid-layout';
+import type { Layout } from 'react-grid-layout';
 
 export const OrderForm: Layout = {
   i: 'Order Form',

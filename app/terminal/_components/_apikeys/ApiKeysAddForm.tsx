@@ -45,7 +45,7 @@ import {
   LuRefreshCw,
 } from 'react-icons/lu';
 import { toast } from 'sonner';
-import { z } from 'zod';
+import type { z } from 'zod';
 
 import { ICON_SIZE_SMALL } from '@/lib/consts/UI';
 import Image from 'next/image';
@@ -63,11 +63,12 @@ const ApiKeysAddForm = () => {
     resolver: zodResolver(createApiKeySchema),
   });
 
-  if (passphraseHash === undefined || null) return <SetPassphraseForm />;
+  if (!passphraseHash) return <SetPassphraseForm />;
 
   // function to handle on form submit
   const onSubmit = async (data: z.infer<typeof createApiKeySchema>) => {
     // cryptographically compare given passphrase to passphraseHash
+    // biome-ignore lint/style/noNonNullAssertion: <explanation>
     bcryptjs.compare(data.passphrase!, passphraseHash, async (_err, res) => {
       // if user entered passphrase does not match send error to user
       if (!res)
@@ -82,11 +83,12 @@ const ApiKeysAddForm = () => {
         setSubmitting(true);
 
         // some mutation to ensure sensitive data isnt transmitted over the network
-        let safeData = _.omit(data, 'passphrase');
+        const safeData = _.omit(data, 'passphrase');
 
         // call server action, send data, await response
         const { res: apiKeyObj } = await createApiKey({
           ...safeData,
+          // biome-ignore lint/style/noNonNullAssertion: <explanation>
           apiSecret: encryptString(data.apiSecret, data.passphrase!),
         });
 
@@ -97,6 +99,7 @@ const ApiKeysAddForm = () => {
         dispatch(
           addApiKey({
             ...apiKeyObj, // spread the received object into an empty object
+            // biome-ignore lint/style/noNonNullAssertion: <explanation>
             apiSecret: decryptString(apiKeyObj.apiSecret, data.passphrase!), // decrypt the apiSecret
           }),
         );
