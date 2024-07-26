@@ -32,34 +32,13 @@ const GridLayout = () => {
 
   const gridChildren = useMemo(() => {
     const terminalComponents = [
-      {
-        label: 'Chart',
-        node: Chart,
-      },
-      {
-        label: 'Order Form',
-        node: OrderForm,
-      },
-      {
-        label: 'Orderbook',
-        node: Orderbook,
-      },
-      {
-        label: 'Recent Trades',
-        node: RecentTrades,
-      },
-      {
-        label: 'Positions & Orders',
-        node: PositionsOrders,
-      },
-      {
-        label: 'Contract Information',
-        node: ContractInfo,
-      },
-      {
-        label: 'Last Price',
-        node: LastPrice,
-      },
+      { label: 'Chart', node: Chart },
+      { label: 'Order Form', node: OrderForm },
+      { label: 'Orderbook', node: Orderbook },
+      { label: 'Recent Trades', node: RecentTrades },
+      { label: 'Positions & Orders', node: PositionsOrders },
+      { label: 'Contract Information', node: ContractInfo },
+      { label: 'Last Price', node: LastPrice },
     ];
 
     return terminalLayout.map((item) =>

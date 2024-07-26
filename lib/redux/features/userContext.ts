@@ -4,9 +4,12 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import _ from 'lodash';
 import { Layout } from 'react-grid-layout';
 
+const DEFAULT_TICKER = 'XBTUSD';
+const DEFAULT_EXCHANGE = 'bitmex';
+
 const initialState: TUserContext = {
-  selectedTicker: 'XBTUSD',
-  exchange: 'bitmex',
+  selectedTicker: DEFAULT_TICKER,
+  exchange: DEFAULT_EXCHANGE,
   terminalLayout: defaultTerminalLayout,
   terminalComponents: [] as Layout[],
 } as TUserContext;

@@ -29,8 +29,8 @@ const Orderbook = React.forwardRef<
   ) => {
     const ORDERBOOK_LEVEL_ROW_H = 16;
     const GRID_BREAK_W = 6;
-    let BID_TOTAL = 0;
-    let ASK_TOTAL = 0;
+    let BID_LEVEL_TOTAL = 0;
+    let ASK_LEVEL_TOTAL = 0;
 
     const terminalLayout = useAppSelector(
       (state) => state.userContext.terminalLayout,
@@ -42,14 +42,14 @@ const Orderbook = React.forwardRef<
       (item) => item.i === 'Orderbook',
     )[0].h;
 
-    const { data } = useBitmexWs<orderBookL2>('orderBookL2');
-
     let n =
       (GRID_ROW_HEIGHT * COMPONENT_H +
         GRID_COMPONENT_MARGIN[0] * (COMPONENT_H - 1)) /
       ORDERBOOK_LEVEL_ROW_H;
 
     if (COMPONENT_W < GRID_BREAK_W) n = n / 2 + 1;
+
+    const { data } = useBitmexWs<orderBookL2>('orderBookL2');
 
     const bids = data
       .filter((item: orderBookL2) => item.side === 'Buy')
@@ -61,12 +61,12 @@ const Orderbook = React.forwardRef<
       .sort((a: orderBookL2, b: orderBookL2) => a.price - b.price)
       .slice(0, n - 2);
 
-    const bidSizeTotal: number = bids.reduce(
+    const BID_SIZE_TOTAL: number = bids.reduce(
       (acc: number, val: orderBookL2) => acc + val.size,
       0,
     );
 
-    const askSizeTotal: number = asks.reduce(
+    const ASK_SIZE_TOTAL: number = asks.reduce(
       (acc: number, val: orderBookL2) => acc + val.size,
       0,
     );
@@ -127,12 +127,12 @@ const Orderbook = React.forwardRef<
                         className='whitespace-nowrap'
                         style={{
                           backgroundColor: '#22c55e',
-                          width: `${(BID_TOTAL / bidSizeTotal) * 100}%`,
+                          width: `${(BID_LEVEL_TOTAL / BID_SIZE_TOTAL) * 100}%`,
                           maxWidth: '150%',
                         }}
                       >
                         <span>
-                          {(BID_TOTAL += level.size).toLocaleString()}
+                          {(BID_LEVEL_TOTAL += level.size).toLocaleString()}
                         </span>
                       </div>
                     </td>
@@ -180,12 +180,12 @@ const Orderbook = React.forwardRef<
                         className='whitespace-nowrap'
                         style={{
                           backgroundColor: '#dc2626',
-                          width: `${(ASK_TOTAL / askSizeTotal) * 100}%`,
+                          width: `${(ASK_LEVEL_TOTAL / ASK_SIZE_TOTAL) * 100}%`,
                           maxWidth: '150%',
                         }}
                       >
                         <span>
-                          {(ASK_TOTAL += level.size).toLocaleString()}
+                          {(ASK_LEVEL_TOTAL += level.size).toLocaleString()}
                         </span>
                       </div>
                     </td>

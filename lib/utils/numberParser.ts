@@ -12,6 +12,6 @@ export default function numberParser(x: number | string) {
     });
 }
 
-function isNumber(x: any) {
+function isNumber(x: number | string) {
   return typeof x === 'number';
 }

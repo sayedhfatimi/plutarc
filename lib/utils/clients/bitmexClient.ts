@@ -6,7 +6,7 @@ import querystring from 'querystring';
 class BitMEXClient {
   _DATA: { [key: string]: { [key: string]: any[] } } = {};
   _KEYS: { [key: string]: string | string[] } = {};
-  STORE_MAX_LENGTH = 10_000;
+  private STORE_MAX_LENGTH = 10_000;
 
   deltaParser<T>(
     tableName: string,
@@ -80,7 +80,7 @@ class BitMEXClient {
       const itemToUpdate: T = _.find(mutableStore, criteria) as T;
 
       if (itemToUpdate) {
-        payloadObj = this.updateItem(itemToUpdate, payloadObj);
+        payloadObj = this.updateItem<T>(itemToUpdate, payloadObj);
         mutableStore[mutableStore.indexOf(itemToUpdate)] = payloadObj;
       }
     }
@@ -111,19 +111,19 @@ class BitMEXClient {
 
   // deltaParser Helper Functions
 
-  replaceStore<T>(tableName: string, symbol: string, newData: any[]) {
+  replaceStore<T>(tableName: string, symbol: string, newData: T[]) {
     if (
       this._DATA[tableName][symbol] &&
       !Array.isArray(this._DATA[tableName][symbol])
     ) {
-      this._DATA[tableName][symbol] = newData[0];
+      this._DATA[tableName][symbol] = newData[0] as T[];
     } else {
       this._DATA[tableName][symbol] = newData;
     }
     return this._DATA[tableName][symbol];
   }
 
-  updateItem(item: any, newData: any) {
+  updateItem<T>(item: T, newData: T) {
     return { ...item, ...newData };
   }
 
