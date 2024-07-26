@@ -53,7 +53,7 @@ const DestructiveActionAlert = React.forwardRef<
           disabled={triggerDisabled}
         >
           {triggerIcon
-            ? React.createElement(triggerIcon, { size: '16' })
+            ? React.createElement(triggerIcon, { size: ICON_SIZE_SMALL })
             : null}
           {triggerTitle ? <span>{triggerTitle}</span> : null}
         </Button>

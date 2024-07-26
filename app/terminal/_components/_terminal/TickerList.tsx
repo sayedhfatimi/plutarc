@@ -1,4 +1,5 @@
 'use client';
+import KBShortcutLabel from '@/components/KBShortcutLabel';
 import Spinner from '@/components/Spinner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,17 +10,17 @@ import {
 } from '@/components/ui/popover';
 import { getTickerList } from '@/lib/actions';
 import { KB_SHORTCUT_TICKER_LIST } from '@/lib/consts/UI';
+import useKBShortcut from '@/lib/hooks/useKBShortcut';
 import { setSelectedTicker } from '@/lib/redux/features/userContext';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { Instrument } from '@/lib/types/BitmexDataTypes';
 import { numberParser } from '@/lib/utils';
 import { useQuery } from '@tanstack/react-query';
 import classNames from 'classnames';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { LuChevronDown, LuChevronUp, LuX } from 'react-icons/lu';
 
 const TickerList = () => {
-  const [open, setOpen] = useState(false);
   const [searchedVal, setSearchedVal] = useState('');
   const [sortConfig, setSortConfig] = useState({
     key: 'symbol',
@@ -35,6 +36,7 @@ const TickerList = () => {
   );
   const exchange = useAppSelector((state) => state.userContext.exchange);
 
+  const { open, setOpen } = useKBShortcut(KB_SHORTCUT_TICKER_LIST);
   const { data, isLoading } = useTickers<Instrument>(exchange);
 
   const requestSort = (key: keyof Instrument) => {
@@ -44,17 +46,6 @@ const TickerList = () => {
     }
     setSortConfig({ key, direction });
   };
-
-  useEffect(() => {
-    const down = (e: KeyboardEvent) => {
-      if (e.key === KB_SHORTCUT_TICKER_LIST && (e.metaKey || e.ctrlKey)) {
-        e.preventDefault();
-        setOpen((open) => !open);
-      }
-    };
-    document.addEventListener('keydown', down);
-    return () => document.removeEventListener('keydown', down);
-  }, []);
 
   if (isLoading || !data || data.length === 0)
     return (
@@ -97,10 +88,7 @@ const TickerList = () => {
               ? `Ticker: ${selectedTicker}`
               : 'Select a ticker...'}
           </span>
-          <kbd className='pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100'>
-            <span className='text-xs'>CTRL/⌘+</span>
-            {KB_SHORTCUT_TICKER_LIST.toUpperCase()}
-          </kbd>
+          <KBShortcutLabel kbKey={KB_SHORTCUT_TICKER_LIST} />
         </Button>
       </PopoverTrigger>
       <PopoverContent className='w-[800px] space-y-4'>

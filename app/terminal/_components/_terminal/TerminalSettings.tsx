@@ -1,4 +1,5 @@
 'use client';
+import KBShortcutLabel from '@/components/KBShortcutLabel';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import {
@@ -12,42 +13,29 @@ import {
   ICON_SIZE_SMALL,
   KB_SHORTCUT_TERMINAL_SETTINGS,
 } from '@/lib/consts/UI';
+import useKBShortcut from '@/lib/hooks/useKBShortcut';
 import {
   addComponent,
   removeComponent,
 } from '@/lib/redux/features/userContext';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import _ from 'lodash';
-import { useEffect, useState } from 'react';
 import { LuEye, LuEyeOff, LuSettings } from 'react-icons/lu';
 
 const TerminalSettings = () => {
-  const [open, setOpen] = useState(false);
   const terminalLayout = useAppSelector(
     (state) => state.userContext.terminalLayout,
   );
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    const down = (e: KeyboardEvent) => {
-      if (e.key === KB_SHORTCUT_TERMINAL_SETTINGS && (e.metaKey || e.ctrlKey)) {
-        e.preventDefault();
-        setOpen((open) => !open);
-      }
-    };
-    document.addEventListener('keydown', down);
-    return () => document.removeEventListener('keydown', down);
-  }, []);
+  const { open, setOpen } = useKBShortcut(KB_SHORTCUT_TERMINAL_SETTINGS);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button variant='outline' className='space-x-2' size='sm'>
           <LuSettings size={ICON_SIZE_SMALL} />
-          <kbd className='pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100'>
-            <span className='text-xs'>CTRL/⌘+</span>
-            {KB_SHORTCUT_TERMINAL_SETTINGS.toUpperCase()}
-          </kbd>
+          <KBShortcutLabel kbKey={KB_SHORTCUT_TERMINAL_SETTINGS} />
         </Button>
       </PopoverTrigger>
       <PopoverContent className='w-[400px]'>

@@ -8,6 +8,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { auth } from '@/lib/auth';
+import { ICON_SIZE_MEDIUM } from '@/lib/consts/UI';
 import { gugiFont } from '@/lib/utils';
 import { redirect } from 'next/navigation';
 import React from 'react';
@@ -19,7 +20,7 @@ const HomePage = async () => {
   if (session) redirect('/terminal');
 
   return (
-    <div className='space-y-8'>
+    <main className='space-y-8'>
       <NavBar />
 
       <section className='flex flex-col bg-slate-500/50 shadow-md backdrop-blur-sm'>
@@ -52,7 +53,9 @@ const HomePage = async () => {
             <Card className='h-[300px] w-[300px] shadow-sm' key={card.title}>
               <CardHeader>
                 <CardTitle className='flex flex-row items-center space-x-2'>
-                  {React.createElement(card.titleIcon, { size: '24' })}
+                  {React.createElement(card.titleIcon, {
+                    size: ICON_SIZE_MEDIUM,
+                  })}
                   <span>{card.title}</span>
                 </CardTitle>
                 <CardDescription>{card.description}</CardDescription>
@@ -68,7 +71,7 @@ const HomePage = async () => {
           Supported Exchanges
         </div>
       </section>
-    </div>
+    </main>
   );
 };
 
