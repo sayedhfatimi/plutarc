@@ -1,6 +1,6 @@
 'use client';
-import { GridProps } from '@/lib/consts/terminal/config';
 import { ICON_SIZE_SMALL } from '@/lib/consts/UI';
+import { GridProps } from '@/lib/consts/terminal/config';
 import {
   removeComponent,
   setTerminalLayout,
@@ -14,8 +14,8 @@ import 'react-resizable/css/styles.css';
 import Chart from './Chart';
 import ContractInfo from './ContractInfo';
 import LastPrice from './LastPrice';
-import Orderbook from './Orderbook';
 import OrderForm from './OrderForm';
+import Orderbook from './Orderbook';
 import PositionsOrders from './PositionsOrders';
 import RecentTrades from './RecentTrades';
 

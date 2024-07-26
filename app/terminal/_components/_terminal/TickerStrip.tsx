@@ -42,7 +42,7 @@ const TickerStrip = () => {
               )}
             </div>
             <div className='flex flex-col'>
-              <div className='text-right text-xs text-muted-foreground'>
+              <div className='text-right text-muted-foreground text-xs'>
                 Last Price
               </div>
               <div
@@ -58,7 +58,7 @@ const TickerStrip = () => {
             </div>
           </div>
           <div className='flex flex-col px-4'>
-            <div className='text-right text-xs text-muted-foreground'>
+            <div className='text-right text-muted-foreground text-xs'>
               24h %
             </div>
             <div
@@ -71,19 +71,19 @@ const TickerStrip = () => {
             </div>
           </div>
           <div className='flex flex-col px-4'>
-            <div className='text-right text-xs text-muted-foreground'>High</div>
+            <div className='text-right text-muted-foreground text-xs'>High</div>
             <div>{numberParser(ticker.highPrice)}</div>
           </div>
           <div className='flex flex-col px-4'>
-            <div className='text-right text-xs text-muted-foreground'>Low</div>
+            <div className='text-right text-muted-foreground text-xs'>Low</div>
             <div>{numberParser(ticker.lowPrice)}</div>
           </div>
           <div className='flex flex-col px-4'>
-            <div className='text-right text-xs text-muted-foreground'>VWAP</div>
+            <div className='text-right text-muted-foreground text-xs'>VWAP</div>
             <div>{numberParser(ticker.vwap)}</div>
           </div>
           <div className='flex flex-col px-4'>
-            <div className='text-right text-xs text-muted-foreground'>
+            <div className='text-right text-muted-foreground text-xs'>
               24h Volume
             </div>
             <div className='text-right'>

@@ -1,6 +1,6 @@
 import { defaultTerminalLayout } from '@/lib/consts/terminal/config';
 import { TUserContext } from '@/lib/types/UserContext';
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import _ from 'lodash';
 import { Layout } from 'react-grid-layout';
 

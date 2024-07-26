@@ -1,7 +1,7 @@
-import { BitmexWebSocketResponse } from '@/lib/types/BitmexDataTypes';
 import { createHmac } from 'crypto';
-import _ from 'lodash';
 import querystring from 'querystring';
+import { BitmexWebSocketResponse } from '@/lib/types/BitmexDataTypes';
+import _ from 'lodash';
 
 class BitMEXClient {
   _DATA: { [key: string]: { [key: string]: any[] } } = {};

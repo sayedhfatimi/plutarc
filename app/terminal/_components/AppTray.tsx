@@ -11,13 +11,13 @@ import { auth } from '@/lib/auth';
 import { ICON_SIZE_SMALL } from '@/lib/consts/UI';
 import Link from 'next/link';
 import { LuLogOut } from 'react-icons/lu';
+import AppTrayAvatar from './AppTrayAvatar';
 import ApiKeysDialog from './_apikeys/ApiKeysDialog';
 import ApiKeysSelect from './_apikeys/ApiKeysSelect';
 import ProfileSettingsDialog from './_profile/ProfileSettingsDialog';
 import TerminalSettings from './_terminal/TerminalSettings';
 import TickerList from './_terminal/TickerList';
 import TickerStrip from './_terminal/TickerStrip';
-import AppTrayAvatar from './AppTrayAvatar';
 
 const AppTray = async () => {
   const session = await auth();

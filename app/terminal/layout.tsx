@@ -1,7 +1,7 @@
-import { getApiKeys } from '@/lib/actions';
-import { auth } from '@/lib/auth';
 import QueryClientProvider from '@/Providers/QueryClientProvider';
 import StoreProvider from '@/Providers/StoreProvider';
+import { getApiKeys } from '@/lib/actions';
+import { auth } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 
 export default async function TerminalLayout({

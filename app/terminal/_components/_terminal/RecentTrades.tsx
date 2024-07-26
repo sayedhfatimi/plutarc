@@ -67,8 +67,7 @@ const RecentTrades = React.forwardRef<
                   <div
                     key={item.trdMatchID}
                     className={classNames({
-                      'grid grid-cols-8 hover:bg-slate-200/50 dark:hover:bg-slate-200/50':
-                        true,
+                      'grid grid-cols-8 hover:bg-slate-200/50 dark:hover:bg-slate-200/50': true,
                       'bg-green-50 text-green-600 dark:bg-green-950/20 dark:text-green-600':
                         item.side === 'Buy',
                       'bg-red-50 text-red-400 dark:bg-red-950/20 dark:text-red-600':

@@ -41,7 +41,7 @@ const SignInPage = async () => {
           <PasskeyLogin />
         </div>
 
-        <div className='fixed right-4 top-0'>
+        <div className='fixed top-0 right-4'>
           <TooltipProvider delayDuration={400}>
             <Tooltip>
               <TooltipTrigger asChild>

@@ -30,12 +30,12 @@ const ProfileImage = () => {
           button({ ready }) {
             if (ready)
               return (
-                <div className='w-24 text-center text-sm font-bold text-muted-foreground hover:cursor-pointer hover:text-black dark:hover:text-white'>
+                <div className='w-24 text-center font-bold text-muted-foreground text-sm hover:cursor-pointer hover:text-black dark:hover:text-white'>
                   Change Profile Image
                 </div>
               );
             return (
-              <div className='w-24 text-center text-sm font-bold text-muted-foreground hover:cursor-pointer hover:text-black dark:hover:text-white'>
+              <div className='w-24 text-center font-bold text-muted-foreground text-sm hover:cursor-pointer hover:text-black dark:hover:text-white'>
                 Getting Ready...
               </div>
             );

@@ -10,8 +10,8 @@ import {
 } from '@/components/ui/popover';
 import { getTickerList } from '@/lib/actions';
 import getTickerVolumes from '@/lib/actions/bitmex/getTickerVolumes';
-import { InstrumentMap } from '@/lib/consts/terminal/bitmex';
 import { KB_SHORTCUT_TICKER_LIST } from '@/lib/consts/UI';
+import { InstrumentMap } from '@/lib/consts/terminal/bitmex';
 import useKBShortcut from '@/lib/hooks/useKBShortcut';
 import { setSelectedTicker } from '@/lib/redux/features/userContext';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
@@ -125,7 +125,7 @@ const TickerList = () => {
         </div>
         <div className='flex flex-row items-center justify-between border px-4 py-2'>
           <div className='flex flex-col space-y-1'>
-            <span className='text-xs text-muted-foreground'>
+            <span className='text-muted-foreground text-xs'>
               Filter by Quote Currency
             </span>
             <div className='flex flex-row space-x-4'>
@@ -133,8 +133,7 @@ const TickerList = () => {
                 <div
                   key={currency}
                   className={classNames({
-                    'bg-secondary px-4 py-2 font-mono text-xs hover:bg-primary hover:text-white dark:hover:text-black':
-                      true,
+                    'bg-secondary px-4 py-2 font-mono text-xs hover:bg-primary hover:text-white dark:hover:text-black': true,
                     'bg-slate-700 text-white dark:bg-slate-100 dark:text-slate-900':
                       currency === quoteCurrencyFilter,
                   })}
@@ -251,7 +250,7 @@ const TickerList = () => {
                     <td className='px-3 py-1'>
                       <div className='flex flex-row items-center justify-between'>
                         <span>{ticker.symbol}</span>
-                        <div className='flex flex-col items-end text-xs text-muted-foreground group-hover:text-black dark:group-hover:text-white'>
+                        <div className='flex flex-col items-end text-muted-foreground text-xs group-hover:text-black dark:group-hover:text-white'>
                           {InstrumentMap[ticker.typ]}
                         </div>
                       </div>
@@ -266,7 +265,7 @@ const TickerList = () => {
                       })}
                     >
                       <div className='flex flex-row items-center justify-between'>
-                        <span className='text-xs font-bold text-muted-foreground group-hover:text-black dark:group-hover:text-white'>
+                        <span className='font-bold text-muted-foreground text-xs group-hover:text-black dark:group-hover:text-white'>
                           {ticker.quoteCurrency}
                         </span>
                         <span>{numberParser(ticker.lastPrice)}</span>

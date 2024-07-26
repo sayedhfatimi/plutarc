@@ -8,11 +8,11 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { Switch } from '@/components/ui/switch';
-import { defaultTerminalLayout } from '@/lib/consts/terminal/config';
 import {
   ICON_SIZE_SMALL,
   KB_SHORTCUT_TERMINAL_SETTINGS,
 } from '@/lib/consts/UI';
+import { defaultTerminalLayout } from '@/lib/consts/terminal/config';
 import useKBShortcut from '@/lib/hooks/useKBShortcut';
 import {
   addComponent,

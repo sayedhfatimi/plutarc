@@ -36,10 +36,10 @@ const ProfileSettingsDialog = async () => {
         <ContentWrapper className='space-y-4 p-4'>
           <section className='flex items-start justify-between'>
             <div className='flex flex-col space-y-2'>
-              <div className='text-2xl font-bold'>
+              <div className='font-bold text-2xl'>
                 Name: {session?.user.name || 'No Name'}
               </div>
-              <div className='text-sm text-slate-600'>
+              <div className='text-slate-600 text-sm'>
                 email: {session?.user.email}
               </div>
               <div>
@@ -52,12 +52,12 @@ const ProfileSettingsDialog = async () => {
           <section className='flex flex-col space-y-2'>
             <div className='flex flex-row items-center space-x-2 border-b p-2 text-red-800'>
               <LuSkull size={ICON_SIZE_LARGE} />
-              <span className='text-xl font-bold'>Destructive Actions</span>
+              <span className='font-bold text-xl'>Destructive Actions</span>
             </div>
             <div className='flex flex-row items-center justify-between p-2'>
               <div>
-                <div className='text-xl font-bold'>Reset Passphrase</div>
-                <div className='text-sm text-slate-600'>
+                <div className='font-bold text-xl'>Reset Passphrase</div>
+                <div className='text-slate-600 text-sm'>
                   In the instance that you may have forgotten your passphrase,
                   use this button.
                 </div>
@@ -66,8 +66,8 @@ const ProfileSettingsDialog = async () => {
             </div>
             <div className='flex flex-row items-center justify-between p-2'>
               <div>
-                <div className='text-xl font-bold'>Delete Account</div>
-                <div className='text-sm text-slate-600'>
+                <div className='font-bold text-xl'>Delete Account</div>
+                <div className='text-slate-600 text-sm'>
                   This will delete your plutarc account and irrevocably remove
                   all associated data from our servers.
                 </div>

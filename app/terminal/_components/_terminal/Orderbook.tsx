@@ -90,7 +90,7 @@ const Orderbook = React.forwardRef<
         ) : (
           <div
             className={classNames({
-              'flex overflow-clip font-mono text-xs font-thin': true,
+              'flex overflow-clip font-mono font-thin text-xs': true,
               'flex-row items-start justify-evenly':
                 COMPONENT_W >= GRID_BREAK_W,
               'flex-col-reverse justify-end': COMPONENT_W < GRID_BREAK_W,
