@@ -9,6 +9,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { getTickerList } from '@/lib/actions';
+import { InstrumentMap } from '@/lib/consts/terminal/bitmex';
 import { KB_SHORTCUT_TICKER_LIST } from '@/lib/consts/UI';
 import useKBShortcut from '@/lib/hooks/useKBShortcut';
 import { setSelectedTicker } from '@/lib/redux/features/userContext';
@@ -91,7 +92,7 @@ const TickerList = () => {
           <KBShortcutLabel kbKey={KB_SHORTCUT_TICKER_LIST} />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className='w-[800px] space-y-4'>
+      <PopoverContent className='w-[900px] space-y-4'>
         <div>
           <Input
             placeholder='Search for a ticker...'
@@ -224,7 +225,14 @@ const TickerList = () => {
                     })}
                     onClick={() => dispatch(setSelectedTicker(ticker.symbol))}
                   >
-                    <td className='px-3 py-1'>{ticker.symbol}</td>
+                    <td className='px-3 py-1'>
+                      <div className='flex flex-row items-center justify-between'>
+                        <span>{ticker.symbol}</span>
+                        <span className='text-xs text-muted-foreground group-hover:text-black dark:group-hover:text-white'>
+                          {InstrumentMap[ticker.typ]}
+                        </span>
+                      </div>
+                    </td>
                     <td
                       className={classNames({
                         'px-3 py-1 text-right': true,

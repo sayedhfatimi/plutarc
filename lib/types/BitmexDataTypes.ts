@@ -19,6 +19,8 @@ export type orderBookL2 = {
   transactTime: string;
 };
 
+export type orderBookL2_25 = orderBookL2;
+
 // recent trades types
 export type RecentTrades = {
   timestamp: string;
