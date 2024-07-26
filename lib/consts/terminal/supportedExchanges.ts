@@ -11,6 +11,7 @@ export const supportedExchanges: {
   icon: StaticImageData;
   restURL: string;
   tickerEndpoint?: string;
+  volumeEndpoint?: string;
 }[] = [
   {
     key: 'binance',
@@ -27,6 +28,7 @@ export const supportedExchanges: {
     icon: bitmexIcon,
     restURL: 'https://www.bitmex.com/api/v1',
     tickerEndpoint: '/instrument/active',
+    volumeEndpoint: '/instrument/usdVolume',
   },
   {
     key: 'coinbase',

@@ -9,6 +9,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { getTickerList } from '@/lib/actions';
+import getTickerVolumes from '@/lib/actions/bitmex/getTickerVolumes';
 import { InstrumentMap } from '@/lib/consts/terminal/bitmex';
 import { KB_SHORTCUT_TICKER_LIST } from '@/lib/consts/UI';
 import useKBShortcut from '@/lib/hooks/useKBShortcut';
@@ -30,7 +31,9 @@ const TickerList = () => {
     key: keyof Instrument;
     direction: string;
   });
-  const [qCurrencyFilter, setQCurrencyFilter] = useState<string | null>(null);
+  const [quoteCurrencyFilter, setQuoteCurrencyFilter] = useState<string | null>(
+    null,
+  );
   const dispatch = useAppDispatch();
   const selectedTicker = useAppSelector(
     (state) => state.userContext.selectedTicker,
@@ -38,7 +41,10 @@ const TickerList = () => {
   const exchange = useAppSelector((state) => state.userContext.exchange);
 
   const { open, setOpen } = useKBShortcut(KB_SHORTCUT_TICKER_LIST);
-  const { data, isLoading } = useTickers<Instrument>(exchange);
+  const { data: tickerData, isLoading: tickerDataStatus } =
+    useTickers<Instrument>(exchange);
+  const { data: volumeData, isLoading: volumeDataStatus } =
+    useTickerVolumes(exchange);
 
   const requestSort = (key: keyof Instrument) => {
     let direction = 'ascending';
@@ -48,19 +54,36 @@ const TickerList = () => {
     setSortConfig({ key, direction });
   };
 
-  if (isLoading || !data || data.length === 0)
+  if (
+    tickerDataStatus ||
+    volumeDataStatus ||
+    !tickerData ||
+    tickerData.length === 0 ||
+    !volumeData ||
+    volumeData.length === 0
+  )
     return (
       <div className='h-full place-content-center place-items-center text-center'>
         <Spinner />
       </div>
     );
 
-  const filteredData = data
-    .filter((ticker) => ticker.state !== 'Unlisted')
-    .filter((ticker) => ticker.volume24h !== 0)
+  let mergedData: any[] = [];
+
+  for (let i = 0; i < tickerData.length; i++) {
+    mergedData.push({
+      ...tickerData[i],
+      ...volumeData.find(
+        (item: { symbol: string }) => item.symbol === tickerData[i].symbol,
+      ),
+    });
+  }
+
+  const filteredData = mergedData
+    .filter((ticker) => ticker.state === 'Open')
     .filter((ticker) => {
-      if (qCurrencyFilter === null) return true;
-      if (ticker.quoteCurrency === qCurrencyFilter) return true;
+      if (quoteCurrencyFilter === null) return true;
+      if (ticker.quoteCurrency === quoteCurrencyFilter) return true;
     })
     .filter(
       (ticker) =>
@@ -113,9 +136,9 @@ const TickerList = () => {
                     'bg-secondary px-4 py-2 font-mono text-xs hover:bg-primary hover:text-white dark:hover:text-black':
                       true,
                     'bg-slate-700 text-white dark:bg-slate-100 dark:text-slate-900':
-                      currency === qCurrencyFilter,
+                      currency === quoteCurrencyFilter,
                   })}
-                  onClick={() => setQCurrencyFilter(currency)}
+                  onClick={() => setQuoteCurrencyFilter(currency)}
                 >
                   <div>{currency}</div>
                 </div>
@@ -126,7 +149,7 @@ const TickerList = () => {
             className='space-x-2 rounded-none'
             variant='outline'
             size='sm'
-            onClick={() => setQCurrencyFilter(null)}
+            onClick={() => setQuoteCurrencyFilter(null)}
           >
             <LuX />
             <span>Clear Filter</span>
@@ -198,18 +221,18 @@ const TickerList = () => {
                       <Button
                         variant='link'
                         size='sm'
-                        onClick={() => requestSort('volume24h')}
+                        onClick={() => requestSort('turnover24h')}
                         className='flex flex-row items-center space-x-2'
                       >
-                        {sortConfig.key === 'volume24h' &&
+                        {sortConfig.key === 'turnover24h' &&
                           sortConfig.direction === 'ascending' && (
                             <LuChevronUp />
                           )}
-                        {sortConfig.key === 'volume24h' &&
+                        {sortConfig.key === 'turnover24h' &&
                           sortConfig.direction === 'descending' && (
                             <LuChevronDown />
                           )}
-                        <span>24h Volume</span>
+                        <span>24h Volume (USD)</span>
                       </Button>
                     </div>
                   </th>
@@ -228,9 +251,9 @@ const TickerList = () => {
                     <td className='px-3 py-1'>
                       <div className='flex flex-row items-center justify-between'>
                         <span>{ticker.symbol}</span>
-                        <span className='text-xs text-muted-foreground group-hover:text-black dark:group-hover:text-white'>
+                        <div className='flex flex-col items-end text-xs text-muted-foreground group-hover:text-black dark:group-hover:text-white'>
                           {InstrumentMap[ticker.typ]}
-                        </span>
+                        </div>
                       </div>
                     </td>
                     <td
@@ -260,12 +283,12 @@ const TickerList = () => {
                     >
                       {`${ticker.lastChangePcnt > 0 ? '+' : ''}${numberParser(ticker.lastChangePcnt * 100)} %`}
                     </td>
-                    <td className='px-3 py-1 text-right'>
+                    <td className='px-3 py-1 text-right font-bold'>
                       {new Intl.NumberFormat('en-US', {
                         style: 'currency',
                         currency: 'USD',
                         notation: 'compact',
-                      }).format(ticker.volume24h)}
+                      }).format(ticker.turnover24h)}
                     </td>
                   </tr>
                 ))}
@@ -278,12 +301,21 @@ const TickerList = () => {
   );
 };
 
-function useTickers<T>(exchange: string) {
-  const REACT_QUERY_STALE_TIME = 60 * 1000;
+const REACT_QUERY_STALE_TIME = 60 * 1000;
 
+function useTickers<T>(exchange: string) {
   return useQuery<T[]>({
     queryKey: ['tickers', exchange],
     queryFn: async () => await getTickerList(exchange),
+    staleTime: REACT_QUERY_STALE_TIME, // 60s
+    retry: 3,
+  });
+}
+
+function useTickerVolumes(exchange: string) {
+  return useQuery({
+    queryKey: ['tickers', 'volumes'],
+    queryFn: async () => await getTickerVolumes(exchange),
     staleTime: REACT_QUERY_STALE_TIME, // 60s
     retry: 3,
   });
