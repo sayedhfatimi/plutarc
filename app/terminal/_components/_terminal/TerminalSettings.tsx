@@ -21,11 +21,13 @@ import {
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import _ from 'lodash';
 import { LuEye, LuEyeOff, LuSettings } from 'react-icons/lu';
+import ConnectionStatus from './ConnectionStatus';
 
 const TerminalSettings = () => {
   const terminalLayout = useAppSelector(
     (state) => state.userContext.terminalLayout,
   );
+  const terminal = useAppSelector((state) => state.userContext.terminal);
   const dispatch = useAppDispatch();
 
   const { open, setOpen } = useKBShortcut(KB_SHORTCUT_TERMINAL_SETTINGS);
@@ -38,16 +40,27 @@ const TerminalSettings = () => {
           <KBShortcutLabel kbKey={KB_SHORTCUT_TERMINAL_SETTINGS} />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className='w-[400px]'>
+      <PopoverContent className='w-[400px] font-mono text-sm'>
         <div className='flex flex-col space-y-2'>
+          <div className='flex flex-row items-center justify-between border p-2'>
+            <div className='flex flex-row space-x-4'>
+              <div className='flex flex-col'>
+                <span className='text-muted-foreground'>Exchange</span>
+                <span>{terminal.exchange.toUpperCase()}</span>
+              </div>
+              <div className='flex flex-col'>
+                <span className='text-muted-foreground'>Ticker</span>
+                <span>{terminal.ticker}</span>
+              </div>
+            </div>
+            <ConnectionStatus />
+          </div>
           {defaultTerminalLayout.map((component) => (
             <div
               key={component.i}
               className='flex flex-row items-center justify-between px-1 py-2 hover:bg-secondary'
             >
-              <Label htmlFor={component.i} className='font-mono text-sm'>
-                {component.i}
-              </Label>
+              <Label htmlFor={component.i}>{component.i}</Label>
               <div className='flex flex-row items-center space-x-4'>
                 <LuEyeOff size={ICON_SIZE_SMALL} />
                 <Switch

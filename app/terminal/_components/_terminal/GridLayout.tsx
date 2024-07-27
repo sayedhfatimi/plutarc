@@ -23,9 +23,7 @@ const GridLayout = () => {
   const terminalLayout = useAppSelector(
     (state) => state.userContext.terminalLayout,
   );
-  const selectedTicker = useAppSelector(
-    (state) => state.userContext.selectedTicker,
-  );
+  const ticker = useAppSelector((state) => state.userContext.terminal.ticker);
   const dispatch = useAppDispatch();
 
   const ResponsiveGridLayout = useMemo(() => WidthProvider(Responsive), []);
@@ -47,10 +45,10 @@ const GridLayout = () => {
         .map((component) => (
           <component.node
             key={item.i}
-            className='flex flex-col border bg-white shadow-md dark:bg-slate-900'
+            className='flex select-none flex-col border bg-white shadow-md dark:bg-slate-900'
           >
             <div className='drag flex w-full cursor-move items-center justify-between border-b bg-background/50 px-1 backdrop-blur-sm'>
-              <span>{`${component.label}: ${selectedTicker}`}</span>
+              <span>{`${component.label}: ${ticker}`}</span>
               <LuX
                 className='noDrag cursor-pointer text-muted-foreground'
                 size={ICON_SIZE_SMALL}
@@ -60,7 +58,7 @@ const GridLayout = () => {
           </component.node>
         )),
     );
-  }, [dispatch, selectedTicker, terminalLayout]);
+  }, [dispatch, ticker, terminalLayout]);
 
   return (
     <ResponsiveGridLayout

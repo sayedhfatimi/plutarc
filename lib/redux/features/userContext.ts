@@ -8,8 +8,7 @@ const DEFAULT_TICKER = 'XBTUSD';
 const DEFAULT_EXCHANGE = 'bitmex';
 
 const initialState: TUserContext = {
-  selectedTicker: DEFAULT_TICKER,
-  exchange: DEFAULT_EXCHANGE,
+  terminal: { exchange: DEFAULT_EXCHANGE, ticker: DEFAULT_TICKER },
   terminalLayout: defaultTerminalLayout,
   terminalComponents: [] as Layout[],
 } as TUserContext;
@@ -42,17 +41,23 @@ export const userContextSlice = createSlice({
     ) => {
       return { ...state, isEncrypted: action.payload };
     },
-    setSelectedTicker: (
+    setTicker: (
       state: TUserContext,
-      action: PayloadAction<TUserContext['selectedTicker']>,
+      action: PayloadAction<TUserContext['terminal']['ticker']>,
     ) => {
-      return { ...state, selectedTicker: action.payload };
+      return {
+        ...state,
+        terminal: { ...state.terminal, ticker: action.payload },
+      };
     },
-    setEchange: (
+    setExchange: (
       state: TUserContext,
-      action: PayloadAction<TUserContext['exchange']>,
+      action: PayloadAction<TUserContext['terminal']['exchange']>,
     ) => {
-      return { ...state, exchange: action.payload };
+      return {
+        ...state,
+        terminal: { ...state.terminal, exchange: action.payload },
+      };
     },
     setTerminalLayout: (
       state: TUserContext,
@@ -88,7 +93,8 @@ export const {
   setPassphraseHash,
   setUserProfileImage,
   setEncryptedStatus,
-  setSelectedTicker,
+  setTicker,
+  setExchange,
   setTerminalLayout,
   removeComponent,
   addComponent,

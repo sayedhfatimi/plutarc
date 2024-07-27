@@ -14,9 +14,7 @@ const BitMEXRecentTrades = () => {
   const DATE_MAXIMUM_SIGNIFICANT_DIGITS = 3;
 
   const [subscribed, setSubscribed] = useState(false);
-  const selectedTicker = useAppSelector(
-    (state) => state.userContext.selectedTicker,
-  );
+  const ticker = useAppSelector((state) => state.userContext.terminal.ticker);
 
   const { data, sendJsonMessage } = useBitmexWs<TRecentTrades>('trade');
 
@@ -29,7 +27,7 @@ const BitMEXRecentTrades = () => {
       });
     sendJsonMessage({
       op: 'subscribe',
-      args: [`trade:${selectedTicker}`],
+      args: [`trade:${ticker}`],
     });
     setSubscribed(true);
 
@@ -40,7 +38,7 @@ const BitMEXRecentTrades = () => {
       });
       setSubscribed(false);
     };
-  }, [selectedTicker, sendJsonMessage]);
+  }, [ticker, sendJsonMessage]);
 
   return (
     <>
@@ -64,7 +62,7 @@ const BitMEXRecentTrades = () => {
               <LuClock />
             </div>
           </div>
-          <ScrollArea className='h-full'>
+          <ScrollArea className='mb-2 h-full'>
             <div className='flex flex-col-reverse'>
               {data.map((item: TRecentTrades) => (
                 <div

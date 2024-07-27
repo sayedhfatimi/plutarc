@@ -5,8 +5,10 @@ export type TUserContext = {
   passphraseHash: string;
   userProfileImage: string;
   isEncrypted: boolean;
-  selectedTicker: string;
-  exchange: string;
+  terminal: {
+    exchange: string;
+    ticker: string;
+  };
   terminalLayout: Layout[];
   terminalComponents: Layout[];
 };

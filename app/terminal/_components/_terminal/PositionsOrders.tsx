@@ -25,7 +25,9 @@ const PositionsOrders = React.forwardRef<
       (state) => state.userContext.isEncrypted,
     );
     const selectedApiKey = useAppSelector((state) => state.selectedApiKey);
-    const exchange = useAppSelector((state) => state.userContext.exchange);
+    const exchange = useAppSelector(
+      (state) => state.userContext.terminal.exchange,
+    );
 
     if (isEncrypted) {
       return (

@@ -10,9 +10,7 @@ import { LuArrowDown, LuArrowUp, LuCircle } from 'react-icons/lu';
 
 const BitMEXLastPrice = () => {
   const [subscribed, setSubscribed] = useState(false);
-  const selectedTicker = useAppSelector(
-    (state) => state.userContext.selectedTicker,
-  );
+  const ticker = useAppSelector((state) => state.userContext.terminal.ticker);
 
   const { data, sendJsonMessage } = useBitmexWs<TInstrument>('instrument');
 
@@ -25,7 +23,7 @@ const BitMEXLastPrice = () => {
       });
     sendJsonMessage({
       op: 'subscribe',
-      args: [`instrument:${selectedTicker}`],
+      args: [`instrument:${ticker}`],
     });
     setSubscribed(true);
 
@@ -36,7 +34,7 @@ const BitMEXLastPrice = () => {
       });
       setSubscribed(false);
     };
-  }, [selectedTicker, sendJsonMessage]);
+  }, [ticker, sendJsonMessage]);
 
   return (
     <>

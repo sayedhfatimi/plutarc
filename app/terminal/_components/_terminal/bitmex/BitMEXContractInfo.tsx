@@ -12,9 +12,7 @@ const BitMEXContractInfo = () => {
   const FUNDING_THRESHOLD_DANGER = 0.0003;
 
   const [subscribed, setSubscribed] = useState(false);
-  const selectedTicker = useAppSelector(
-    (state) => state.userContext.selectedTicker,
-  );
+  const ticker = useAppSelector((state) => state.userContext.terminal.ticker);
 
   const { data, sendJsonMessage } = useBitmexWs<TInstrument>('instrument');
 
@@ -27,7 +25,7 @@ const BitMEXContractInfo = () => {
       });
     sendJsonMessage({
       op: 'subscribe',
-      args: [`instrument:${selectedTicker}`],
+      args: [`instrument:${ticker}`],
     });
     setSubscribed(true);
 
@@ -38,7 +36,7 @@ const BitMEXContractInfo = () => {
       });
       setSubscribed(false);
     };
-  }, [selectedTicker, sendJsonMessage]);
+  }, [ticker, sendJsonMessage]);
 
   return (
     <>

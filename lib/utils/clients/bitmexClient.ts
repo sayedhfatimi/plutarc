@@ -8,7 +8,6 @@ import _ from 'lodash';
 class BitMEXClient<T> {
   _DATA: {
     [key: string]: {
-      // biome-ignore lint/suspicious/noExplicitAny:
       [key: string]: any[];
     };
   } = {};
@@ -152,13 +151,17 @@ class BitMEXClient<T> {
     verb: string,
     url: string,
     nonce: number,
-    data?: string | {},
+    data?: unknown,
   ) {
-    if (!data || _.isEmpty(data)) data = '';
-    else if (_.isObject(data)) data = JSON.stringify(data);
+    let parsedData: typeof data;
+    if (!data || _.isEmpty(data)) {
+      parsedData = '';
+    } else if (_.isObject(data)) {
+      parsedData = JSON.stringify(data);
+    }
 
     return createHmac('sha256', secret)
-      .update(verb + url + nonce + data)
+      .update(verb + url + nonce + parsedData)
       .digest('hex');
   }
 
@@ -171,6 +174,15 @@ class BitMEXClient<T> {
     };
 
     return querystring.stringify(query);
+  }
+
+  getAuthObj(apiKey: string, apiSecret: string) {
+    const expires = Math.round(Date.now() / 1000) + 5;
+    return {
+      'api-expires': expires,
+      'api-key': apiKey,
+      'api-signature': this.signMessage(apiSecret, 'GET', '/realtime', expires),
+    };
   }
 }
 

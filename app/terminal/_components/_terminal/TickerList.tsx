@@ -13,7 +13,7 @@ import getTickerVolumes from '@/lib/actions/bitmex/getTickerVolumes';
 import { KB_SHORTCUT_TICKER_LIST } from '@/lib/consts/UI';
 import { InstrumentMap } from '@/lib/consts/terminal/bitmex';
 import useKBShortcut from '@/lib/hooks/useKBShortcut';
-import { setSelectedTicker } from '@/lib/redux/features/userContext';
+import { setTicker } from '@/lib/redux/features/userContext';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import type { TInstrument } from '@/lib/types/BitmexDataTypes';
 import { numberParser } from '@/lib/utils';
@@ -35,10 +35,10 @@ const TickerList = () => {
     null,
   );
   const dispatch = useAppDispatch();
-  const selectedTicker = useAppSelector(
-    (state) => state.userContext.selectedTicker,
+  const ticker = useAppSelector((state) => state.userContext.terminal.ticker);
+  const exchange = useAppSelector(
+    (state) => state.userContext.terminal.exchange,
   );
-  const exchange = useAppSelector((state) => state.userContext.exchange);
 
   const { open, setOpen } = useKBShortcut(KB_SHORTCUT_TICKER_LIST);
   const { data: tickerData, isLoading: tickerDataStatus } =
@@ -108,11 +108,7 @@ const TickerList = () => {
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button variant='outline' size='sm' className='space-x-2'>
-          <span>
-            {selectedTicker
-              ? `Ticker: ${selectedTicker}`
-              : 'Select a ticker...'}
-          </span>
+          <span>{ticker ? `Ticker: ${ticker}` : 'Select a ticker...'}</span>
           <KBShortcutLabel kbKey={KB_SHORTCUT_TICKER_LIST} />
         </Button>
       </PopoverTrigger>
@@ -246,9 +242,9 @@ const TickerList = () => {
                     key={ticker.symbol}
                     className={classNames({
                       'group hover:bg-secondary': true,
-                      'bg-primary-foreground': ticker.symbol === selectedTicker,
+                      'bg-primary-foreground': ticker.symbol === ticker,
                     })}
-                    onClick={() => dispatch(setSelectedTicker(ticker.symbol))}
+                    onClick={() => dispatch(setTicker(ticker.symbol))}
                   >
                     <td className='px-3 py-1'>
                       <div className='flex flex-row items-center justify-between'>

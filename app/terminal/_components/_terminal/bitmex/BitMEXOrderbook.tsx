@@ -17,9 +17,7 @@ const BitMEXOrderbook = () => {
   let ASK_LEVEL_ACCUMULATOR = 0;
 
   const [subscribed, setSubscribed] = useState(false);
-  const selectedTicker = useAppSelector(
-    (state) => state.userContext.selectedTicker,
-  );
+  const ticker = useAppSelector((state) => state.userContext.terminal.ticker);
   const terminalLayout = useAppSelector(
     (state) => state.userContext.terminalLayout,
   );
@@ -46,7 +44,7 @@ const BitMEXOrderbook = () => {
       });
     sendJsonMessage({
       op: 'subscribe',
-      args: [`orderBookL2:${selectedTicker}`],
+      args: [`orderBookL2:${ticker}`],
     });
     setSubscribed(true);
 
@@ -57,7 +55,7 @@ const BitMEXOrderbook = () => {
       });
       setSubscribed(false);
     };
-  }, [selectedTicker, sendJsonMessage]);
+  }, [ticker, sendJsonMessage]);
 
   const bids = data
     .filter((item: TorderBookL2) => item.side === 'Buy')
@@ -97,7 +95,7 @@ const BitMEXOrderbook = () => {
             className={classNames({
               'w-1/2 table-fixed border-collapse': true,
               'text-right [direction:rtl]': COMPONENT_W >= GRID_BREAK_W,
-              'text-left': COMPONENT_W < GRID_BREAK_W,
+              'w-full text-left': COMPONENT_W < GRID_BREAK_W,
             })}
             cellSpacing='0'
           >
@@ -149,7 +147,10 @@ const BitMEXOrderbook = () => {
             </tbody>
           </table>
           <table
-            className='w-1/2 table-fixed border-collapse text-left'
+            className={classNames({
+              'w-1/2 table-fixed border-collapse text-left': true,
+              'w-full': COMPONENT_W < GRID_BREAK_W,
+            })}
             cellSpacing='0'
           >
             <thead className='text-slate-600'>

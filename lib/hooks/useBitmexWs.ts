@@ -4,10 +4,8 @@ import useWebSocket from 'react-use-websocket';
 import { useAppSelector } from '../redux/hooks';
 import { bitmexClient } from '../utils/clients/bitmexClient';
 
-const useBitmexWs = <T>(tableName: string) => {
-  const selectedTicker = useAppSelector(
-    (state) => state.userContext.selectedTicker,
-  );
+const useBitmexWs = <T>(tableName?: string) => {
+  const ticker = useAppSelector((state) => state.userContext.terminal.ticker);
   const apiKey = useAppSelector((state) => state.selectedApiKey.apiKey);
   const apiSecret = useAppSelector((state) => state.selectedApiKey.apiSecret);
   const [data, setData] = useState([] as T[]);
@@ -16,7 +14,7 @@ const useBitmexWs = <T>(tableName: string) => {
     return bitmexClient.getUrl(apiKey, apiSecret);
   }, [apiKey, apiSecret]);
 
-  const { sendJsonMessage } = useWebSocket(wsUrl, {
+  const { sendJsonMessage, readyState } = useWebSocket(wsUrl, {
     filter: (message) => {
       if (
         message.data !== 'pong' &&
@@ -35,7 +33,7 @@ const useBitmexWs = <T>(tableName: string) => {
           setData(
             bitmexClient.deltaParser<T>(
               tableName,
-              selectedTicker,
+              ticker,
               JSON.parse(message.data),
             ),
           );
@@ -43,7 +41,7 @@ const useBitmexWs = <T>(tableName: string) => {
     },
   });
 
-  return { data, sendJsonMessage };
+  return { data, sendJsonMessage, readyState };
 };
 
 export default useBitmexWs;

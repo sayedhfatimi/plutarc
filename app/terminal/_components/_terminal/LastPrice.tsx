@@ -20,7 +20,9 @@ const LastPrice = React.forwardRef<
     },
     ref,
   ) => {
-    const exchange = useAppSelector((state) => state.userContext.exchange);
+    const exchange = useAppSelector(
+      (state) => state.userContext.terminal.exchange,
+    );
 
     switch (exchange) {
       case 'bitmex': {
