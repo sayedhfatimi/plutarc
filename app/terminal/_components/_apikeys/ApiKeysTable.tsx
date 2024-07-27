@@ -1,9 +1,9 @@
 'use client';
 import { Badge } from '@/components/ui/badge';
-import { ICON_SIZE_MEDIUM } from '@/lib/consts/UI';
+import { ICON_SIZE_SMALL } from '@/lib/consts/UI';
 import { useAppSelector } from '@/lib/redux/hooks';
 import type { TAPIKeys } from '@/lib/types/APIKeys';
-import { LuDelete } from 'react-icons/lu';
+import { LuX } from 'react-icons/lu';
 import ApiKeysAlert from './ApiKeysAlert';
 import ApiKeysDeleteButton from './ApiKeysDeleteButton';
 
@@ -16,12 +16,12 @@ const ApiKeysTable = () => {
     <table className='w-full table-auto font-mono'>
       <thead className='border-b'>
         <tr>
-          <th className='py-1 text-left'>Label</th>
+          <th className='px-1 py-1 text-left'>Label</th>
           <th className='py-1 text-left'>Exchange</th>
           <th className='py-1 text-right'>API Key</th>
           <th className='py-1'>
-            <div className='flex items-center justify-end'>
-              <LuDelete size={ICON_SIZE_MEDIUM} />
+            <div className='flex items-center justify-end px-1'>
+              <LuX size={ICON_SIZE_SMALL} />
             </div>
           </th>
         </tr>

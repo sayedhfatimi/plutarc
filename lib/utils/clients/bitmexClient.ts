@@ -13,7 +13,17 @@ class BitMEXClient<T> {
     };
   } = {};
   _KEYS: { [key: string]: string | string[] } = {};
+  WS_URL = 'wss://ws.bitmex.com/realtime';
+  WS_AUTH_URL = '';
   private STORE_MAX_LENGTH = 10_000;
+
+  getUrl(apiKey?: string, apiSecret?: string) {
+    if (apiKey && apiSecret) {
+      this.WS_AUTH_URL = `${this.WS_URL}?${this.getWSAuthQuery(apiKey, apiSecret)}`;
+      return this.WS_AUTH_URL;
+    }
+    return this.WS_URL;
+  }
 
   deltaParser<T>(
     tableName: string,

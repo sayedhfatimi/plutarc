@@ -1,12 +1,8 @@
 'use client';
-import Spinner from '@/components/Spinner';
-import { ICON_SIZE_MEDIUM } from '@/lib/consts/UI';
-import useBitmexWs from '@/lib/hooks/useBitmexWs';
-import type { TInstrument } from '@/lib/types/BitmexDataTypes';
-import { cn, numberParser } from '@/lib/utils';
-import classNames from 'classnames';
+import { useAppSelector } from '@/lib/redux/hooks';
+import { cn } from '@/lib/utils';
 import React from 'react';
-import { LuArrowDown, LuArrowUp, LuCircle } from 'react-icons/lu';
+import BitMEXLastPrice from './bitmex/BitMEXLastPrice';
 
 const LastPrice = React.forwardRef<
   HTMLDivElement,
@@ -24,59 +20,26 @@ const LastPrice = React.forwardRef<
     },
     ref,
   ) => {
-    const { data } = useBitmexWs<TInstrument>('instrument');
+    const exchange = useAppSelector((state) => state.userContext.exchange);
 
-    return (
-      <div
-        style={{ ...style }}
-        className={cn('font-mono text-xs', className)}
-        ref={ref}
-        onMouseDown={onMouseDown}
-        onMouseUp={onMouseUp}
-        onTouchEnd={onTouchEnd}
-        {...props}
-      >
-        {children}
-        {!data || data.length === 0 ? (
-          <div className='h-full place-content-center place-items-center text-center'>
-            <Spinner />
+    switch (exchange) {
+      case 'bitmex': {
+        return (
+          <div
+            style={{ ...style }}
+            className={cn('font-mono text-xs', className)}
+            ref={ref}
+            onMouseDown={onMouseDown}
+            onMouseUp={onMouseUp}
+            onTouchEnd={onTouchEnd}
+            {...props}
+          >
+            {children}
+            <BitMEXLastPrice />
           </div>
-        ) : (
-          <div className='flex h-full flex-col place-content-center place-items-center p-2'>
-            <div className='text-muted-foreground'>Last Price</div>
-            <div className='flex flex-row items-center space-x-2'>
-              <div
-                className={classNames({
-                  'text-green-600 dark:text-green-600':
-                    data[0].lastTickDirection === 'PlusTick',
-                  'text-red-600 dark:text-red-600':
-                    data[0].lastTickDirection === 'MinusTick',
-                })}
-              >
-                {data[0].lastTickDirection === 'PlusTick' ? (
-                  <LuArrowUp size={ICON_SIZE_MEDIUM} />
-                ) : data[0].lastTickDirection === 'MinusTick' ? (
-                  <LuArrowDown size={ICON_SIZE_MEDIUM} />
-                ) : (
-                  <LuCircle size={ICON_SIZE_MEDIUM} />
-                )}
-              </div>
-              <div
-                className={classNames({
-                  'text-4xl': true,
-                  'text-green-600 dark:text-green-600':
-                    data[0].lastTickDirection === 'PlusTick',
-                  'text-red-600 dark:text-red-600':
-                    data[0].lastTickDirection === 'MinusTick',
-                })}
-              >
-                {numberParser(data[0].lastPrice)}
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-    );
+        );
+      }
+    }
   },
 );
 
