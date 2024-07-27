@@ -1,17 +1,6 @@
 import ThemeToggle from '@/components/ThemeToggle';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { auth } from '@/lib/auth';
-import { ICON_SIZE_SMALL } from '@/lib/consts/UI';
-import Link from 'next/link';
-import { LuLogOut } from 'react-icons/lu';
-import AppTrayAvatar from './AppTrayAvatar';
+import { redirect } from 'next/navigation';
 import ApiKeysDialog from './_apikeys/ApiKeysDialog';
 import ApiKeysSelect from './_apikeys/ApiKeysSelect';
 import ProfileSettingsDialog from './_profile/ProfileSettingsDialog';
@@ -21,6 +10,8 @@ import TickerStrip from './_terminal/TickerStrip';
 
 const AppTray = async () => {
   const session = await auth();
+
+  if (!session) redirect('/sign-in');
 
   return (
     <>
@@ -33,29 +24,8 @@ const AppTray = async () => {
           <ApiKeysSelect />
           <ThemeToggle />
           <TerminalSettings />
-          <DropdownMenu>
-            <DropdownMenuTrigger>
-              <AppTrayAvatar />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuLabel className='text-muted-foreground'>
-                {session?.user?.email}
-              </DropdownMenuLabel>
-              <DropdownMenuSeparator />
-
-              <ProfileSettingsDialog />
-
-              <ApiKeysDialog />
-
-              <DropdownMenuSeparator />
-              <DropdownMenuItem className='space-x-2' asChild>
-                <Link href='/sign-out'>
-                  <LuLogOut size={ICON_SIZE_SMALL} />
-                  <span>Sign Out</span>
-                </Link>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <ApiKeysDialog />
+          <ProfileSettingsDialog userSession={session} />
         </div>
       </div>
     </>
