@@ -2,11 +2,13 @@
   "name": "plutarc",
   "version": "0.1.0",
   "private": true,
+  "author": "Sayed Hamid Fatimi <sayedhfatimi@pm.me> (https://sayedhfatimi.com/)",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "biome lint"
+    "check": "biome check",
+    "format": "biome check --write"
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^1.4.1",

@@ -88,7 +88,7 @@ importers:
         version: 4.2.0
       drizzle-orm:
         specifier: ^0.32.1
-        version: 0.32.1(@neondatabase/serverless@0.9.4)(@types/pg@8.11.6)(@types/react@18.3.3)(@vercel/postgres@0.9.0)(mysql2@3.10.3)(pg@8.12.0)(postgres@3.4.4)(react@18.3.1)
+        version: 0.32.1(@neondatabase/serverless@0.9.4)(@types/pg@8.11.6)(@types/react@18.3.3)(@vercel/postgres@0.9.0)(mysql2@3.11.0)(pg@8.12.0)(postgres@3.4.4)(react@18.3.1)
       embla-carousel-autoplay:
         specifier: ^8.1.7
         version: 8.1.7(embla-carousel@8.1.7)
@@ -1808,8 +1808,8 @@ packages:
   ms@2.1.2:
     resolution: {integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==}
 
-  mysql2@3.10.3:
-    resolution: {integrity: sha512-k43gmH9i79rZD4hGPdj7pDuT0UBiFjs4UzXEy1cJrV0QqcSABomoLwvejqdbcXN+Vd7gi999CVM6o9vCPKq29g==}
+  mysql2@3.11.0:
+    resolution: {integrity: sha512-J9phbsXGvTOcRVPR95YedzVSxJecpW5A5+cQ57rhHIFXteTP10HCs+VBjS7DHIKfEaI1zQ5tlVrquCd64A6YvA==}
     engines: {node: '>= 8.0'}
 
   mz@2.7.0:
@@ -3521,13 +3521,13 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  drizzle-orm@0.32.1(@neondatabase/serverless@0.9.4)(@types/pg@8.11.6)(@types/react@18.3.3)(@vercel/postgres@0.9.0)(mysql2@3.10.3)(pg@8.12.0)(postgres@3.4.4)(react@18.3.1):
+  drizzle-orm@0.32.1(@neondatabase/serverless@0.9.4)(@types/pg@8.11.6)(@types/react@18.3.3)(@vercel/postgres@0.9.0)(mysql2@3.11.0)(pg@8.12.0)(postgres@3.4.4)(react@18.3.1):
     optionalDependencies:
       '@neondatabase/serverless': 0.9.4
       '@types/pg': 8.11.6
       '@types/react': 18.3.3
       '@vercel/postgres': 0.9.0
-      mysql2: 3.10.3
+      mysql2: 3.11.0
       pg: 8.12.0
       postgres: 3.4.4
       react: 18.3.1
@@ -3772,7 +3772,7 @@ snapshots:
 
   ms@2.1.2: {}
 
-  mysql2@3.10.3:
+  mysql2@3.11.0:
     dependencies:
       aws-ssl-profiles: 1.1.1
       denque: 2.1.0
