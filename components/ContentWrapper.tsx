@@ -6,7 +6,7 @@ const ContentWrapper = ({
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => {
   return (
-    <div
+    <main
       className={cn(
         'border bg-white/50 p-1 shadow-sm dark:bg-slate-900/50',
         className,
@@ -14,7 +14,7 @@ const ContentWrapper = ({
       {...props}
     >
       {children}
-    </div>
+    </main>
   );
 };
 

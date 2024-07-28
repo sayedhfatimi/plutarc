@@ -6,7 +6,8 @@ export const PROFILE_DIALOG_IMAGE_HEIGHT = 96;
 export const PROFILE_DIALOG_IMAGE_WIDTH = 96;
 
 // KEYBOARD SHORTCUT BINDINGS
-export const KB_SHORTCUT_TICKER_LIST = 'h';
+export const KB_SHORTCUT_TICKER_LIST = 'q';
+export const KB_SHORTCUT_WALLET = 'h';
 export const KB_SHORTCUT_TERMINAL_SETTINGS = 'j';
 export const KB_SHORTCUT_APIKEYS_SETTINGS = 'k';
 export const KB_SHORTCUT_PROFILE_SETTINGS = 'l';

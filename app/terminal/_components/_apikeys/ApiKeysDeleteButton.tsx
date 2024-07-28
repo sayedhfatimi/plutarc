@@ -1,14 +1,14 @@
 import { deleteApiKey } from '@/lib/actions';
 import { removeApiKey } from '@/lib/redux/features/apiKeys';
 import { useAppDispatch } from '@/lib/redux/hooks';
-import type { TAPIKeys } from '@/lib/types/APIKeys';
+import type { TAPIKey } from '@/lib/types/APIKey';
 import { useState } from 'react';
 import { LuAlertTriangle, LuTrash } from 'react-icons/lu';
 import { toast } from 'sonner';
 import DestructiveActionAlert from '../DestructiveActionAlert';
 import ErrorDialog from '../ErrorDialog';
 
-const ApiKeysDeleteButton = ({ apiKeyObj }: { apiKeyObj: TAPIKeys }) => {
+const ApiKeysDeleteButton = ({ apiKeyObj }: { apiKeyObj: TAPIKey }) => {
   const [error, setError] = useState(false);
   const [isDeleting, setDeleting] = useState(false);
 

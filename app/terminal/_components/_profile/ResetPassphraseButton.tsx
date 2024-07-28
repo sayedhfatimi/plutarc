@@ -11,7 +11,7 @@ const ResetPassphraseButton = () => {
   const [error, setError] = useState(false);
   const [isDeleting, setDeleting] = useState(false);
   const passphraseHash = useAppSelector(
-    (state) => state.userContext.passphraseHash,
+    (state) => state.userContext.user.passphraseHash,
   );
 
   const confirmResetPassphrase = async () => {

@@ -2,7 +2,7 @@
 import { eq } from 'drizzle-orm';
 import { auth } from '../auth';
 import { db } from '../db';
-import { apiKeys } from '../db/schema';
+import { APIKey } from '../db/schema';
 
 export default async function getApiKeys() {
   const session = await auth();
@@ -11,8 +11,8 @@ export default async function getApiKeys() {
   try {
     const apiKeyArr = await db
       .select()
-      .from(apiKeys)
-      .where(eq(apiKeys.userId, session.user.id));
+      .from(APIKey)
+      .where(eq(APIKey.userId, session.user.id));
 
     return { apiKeyArr };
   } catch (error) {

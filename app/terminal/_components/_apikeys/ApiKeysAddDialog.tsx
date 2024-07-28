@@ -5,7 +5,9 @@ import ApiKeysDecryptionDialog from './ApiKeysDecryptionDialog';
 
 const ApiKeysAddDialog = () => {
   const apiKeys = useAppSelector((state) => state.apiKeys);
-  const isEncrypted = useAppSelector((state) => state.userContext.isEncrypted);
+  const isEncrypted = useAppSelector(
+    (state) => state.userContext.terminal.isEncrypted,
+  );
   if (isEncrypted && apiKeys.length !== 0) return <ApiKeysDecryptionDialog />;
 
   return <ApiKeysAddForm />;

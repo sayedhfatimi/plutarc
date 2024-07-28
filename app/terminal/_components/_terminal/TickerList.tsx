@@ -105,21 +105,19 @@ const TickerList = () => {
     });
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover open={open} onOpenChange={setOpen} modal>
       <PopoverTrigger asChild>
         <Button variant='outline' size='sm' className='space-x-2'>
           <span>{ticker ? `Ticker: ${ticker}` : 'Select a ticker...'}</span>
           <KBShortcutLabel kbKey={KB_SHORTCUT_TICKER_LIST} />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className='w-[900px] space-y-4'>
-        <div>
-          <Input
-            placeholder='Search for a ticker...'
-            onChange={(e) => setSearchedVal(e.target.value)}
-            className='rounded-none'
-          />
-        </div>
+      <PopoverContent className='w-[900px] select-none space-y-4'>
+        <Input
+          placeholder='Search for a ticker...'
+          onChange={(e) => setSearchedVal(e.target.value)}
+          className='rounded-none'
+        />
         <div className='flex flex-row items-center justify-between border px-4 py-2'>
           <div className='flex flex-col space-y-1'>
             <span className='text-muted-foreground text-xs'>

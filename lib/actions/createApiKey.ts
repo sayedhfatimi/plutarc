@@ -3,7 +3,7 @@ import { createApiKeySchema } from '@/schemas/createApiKeySchema';
 import type { z } from 'zod';
 import { auth } from '../auth';
 import { db } from '../db';
-import { apiKeys } from '../db/schema';
+import { APIKey } from '../db/schema';
 
 export default async function createApiKey(
   data: z.infer<typeof createApiKeySchema>,
@@ -20,7 +20,7 @@ export default async function createApiKey(
 
   try {
     const [res] = await db
-      .insert(apiKeys)
+      .insert(APIKey)
       .values({
         userId: session.user.id,
         label,

@@ -1,14 +1,15 @@
 import Spinner from '@/components/Spinner';
+import { TABLE_NAME_ORDERBOOK } from '@/lib/consts/terminal/bitmex';
 import {
   GRID_COMPONENT_MARGIN,
   GRID_ROW_HEIGHT,
-} from '@/lib/consts/terminal/config';
+} from '@/lib/consts/terminal/gridConfig';
 import useBitmexWs from '@/lib/hooks/useBitmexWs';
 import { useAppSelector } from '@/lib/redux/hooks';
 import type { TorderBookL2 } from '@/lib/types/BitmexDataTypes';
 import { numberParser } from '@/lib/utils';
 import classNames from 'classnames';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const BitMEXOrderbook = () => {
   const ORDERBOOK_LEVEL_ROW_H = 16;
@@ -33,25 +34,26 @@ const BitMEXOrderbook = () => {
 
   if (COMPONENT_W < GRID_BREAK_W) n = n / 2 + 1;
 
-  const { data, sendJsonMessage } = useBitmexWs<TorderBookL2>('orderBookL2');
+  const { data, sendJsonMessage } =
+    useBitmexWs<TorderBookL2>(TABLE_NAME_ORDERBOOK);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: unnecessary rerender
   useEffect(() => {
     if (subscribed)
       sendJsonMessage({
         op: 'unsubscribe',
-        args: ['orderBookL2'],
+        args: [TABLE_NAME_ORDERBOOK],
       });
     sendJsonMessage({
       op: 'subscribe',
-      args: [`orderBookL2:${ticker}`],
+      args: [`${TABLE_NAME_ORDERBOOK}:${ticker}`],
     });
     setSubscribed(true);
 
     return () => {
       sendJsonMessage({
         op: 'unsubscribe',
-        args: ['orderBookL2'],
+        args: [TABLE_NAME_ORDERBOOK],
       });
       setSubscribed(false);
     };

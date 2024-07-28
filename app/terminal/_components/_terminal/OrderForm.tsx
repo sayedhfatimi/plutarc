@@ -21,9 +21,9 @@ const OrderForm = React.forwardRef<
     ref,
   ) => {
     const isEncrypted = useAppSelector(
-      (state) => state.userContext.isEncrypted,
+      (state) => state.userContext.terminal.isEncrypted,
     );
-    const selectedApiKey = useAppSelector((state) => state.selectedApiKey);
+    const APIKey = useAppSelector((state) => state.userContext.APIKey);
     const exchange = useAppSelector(
       (state) => state.userContext.terminal.exchange,
     );
@@ -47,7 +47,7 @@ const OrderForm = React.forwardRef<
       );
     }
 
-    if (Object.keys(selectedApiKey).length === 0) {
+    if (Object.keys(APIKey).length === 0) {
       return (
         <div
           style={{ ...style }}

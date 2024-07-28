@@ -6,7 +6,7 @@ import { LuUser2 } from 'react-icons/lu';
 
 const AppTrayAvatar = () => {
   const userProfileImage = useAppSelector(
-    (state) => state.userContext.userProfileImage,
+    (state) => state.userContext.user.profileImage,
   );
 
   return (

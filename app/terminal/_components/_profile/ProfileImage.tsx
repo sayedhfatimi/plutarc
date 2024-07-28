@@ -12,7 +12,7 @@ import Image from 'next/image';
 
 const ProfileImage = () => {
   const userProfileImage = useAppSelector(
-    (state) => state.userContext.userProfileImage,
+    (state) => state.userContext.user.profileImage,
   );
   const dispatch = useAppDispatch();
 
@@ -30,7 +30,7 @@ const ProfileImage = () => {
           button({ ready }) {
             if (ready)
               return (
-                <div className='w-24 text-center font-bold text-muted-foreground text-sm hover:cursor-pointer hover:text-black dark:hover:text-white'>
+                <div className='w-24 text-center font-bold text-muted-foreground text-xs hover:cursor-pointer hover:text-black dark:hover:text-white'>
                   Change Profile Image
                 </div>
               );

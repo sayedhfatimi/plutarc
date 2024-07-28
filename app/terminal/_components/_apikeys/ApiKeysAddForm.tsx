@@ -27,7 +27,6 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { createApiKey } from '@/lib/actions';
-import { supportedExchanges } from '@/lib/consts/terminal/supportedExchanges';
 import { addApiKey } from '@/lib/redux/features/apiKeys';
 import { setEncryptedStatus } from '@/lib/redux/features/userContext';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
@@ -48,13 +47,14 @@ import { toast } from 'sonner';
 import type { z } from 'zod';
 
 import { ICON_SIZE_SMALL } from '@/lib/consts/UI';
+import { SUPPORTED_EXCHANGES } from '@/lib/consts/terminal/supportedExchanges';
 import Image from 'next/image';
 
 const ApiKeysAddForm = () => {
   const [open, setOpen] = useState(false); // dialog open state
   const dispatch = useAppDispatch(); // redux dispatch hook
   const passphraseHash = useAppSelector(
-    (state) => state.userContext.passphraseHash,
+    (state) => state.userContext.user.passphraseHash,
   );
   const [error, setError] = useState(''); // error state
   const [isSubmitting, setSubmitting] = useState(false); // form submit state
@@ -222,7 +222,7 @@ const ApiKeysAddForm = () => {
                       </FormControl>
 
                       <SelectContent>
-                        {supportedExchanges.map((option) => (
+                        {SUPPORTED_EXCHANGES.map((option) => (
                           <SelectItem value={option.value} key={option.key}>
                             <div className='flex flex-row items-center space-x-2'>
                               <Image

@@ -86,7 +86,7 @@ export const authenticators = pgTable(
   }),
 );
 
-export const apiKeys = pgTable('apiKeys', {
+export const APIKey = pgTable('APIKey', {
   id: text('id')
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),

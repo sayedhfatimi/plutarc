@@ -1,8 +1,8 @@
 'use server';
-import { supportedExchanges } from '@/lib/consts/terminal/supportedExchanges';
+import { SUPPORTED_EXCHANGES } from '@/lib/consts/terminal/supportedExchanges';
 
 export default async function getTickerVolumes(exchange: string) {
-  const exchangeObj = supportedExchanges.filter(
+  const exchangeObj = SUPPORTED_EXCHANGES.filter(
     (items) => items.key === exchange,
   )[0];
   const tickerUrl = exchangeObj.restURL + exchangeObj.volumeEndpoint;

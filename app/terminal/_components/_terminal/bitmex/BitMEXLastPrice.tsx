@@ -1,5 +1,6 @@
 import Spinner from '@/components/Spinner';
 import { ICON_SIZE_MEDIUM } from '@/lib/consts/UI';
+import { TABLE_NAME_INSTRUMENT } from '@/lib/consts/terminal/bitmex';
 import useBitmexWs from '@/lib/hooks/useBitmexWs';
 import { useAppSelector } from '@/lib/redux/hooks';
 import type { TInstrument } from '@/lib/types/BitmexDataTypes';
@@ -12,25 +13,27 @@ const BitMEXLastPrice = () => {
   const [subscribed, setSubscribed] = useState(false);
   const ticker = useAppSelector((state) => state.userContext.terminal.ticker);
 
-  const { data, sendJsonMessage } = useBitmexWs<TInstrument>('instrument');
+  const { data, sendJsonMessage } = useBitmexWs<TInstrument>(
+    TABLE_NAME_INSTRUMENT,
+  );
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: unnecessary rerender
   useEffect(() => {
     if (subscribed)
       sendJsonMessage({
         op: 'unsubscribe',
-        args: ['instrument'],
+        args: [TABLE_NAME_INSTRUMENT],
       });
     sendJsonMessage({
       op: 'subscribe',
-      args: [`instrument:${ticker}`],
+      args: [`${TABLE_NAME_INSTRUMENT}:${ticker}`],
     });
     setSubscribed(true);
 
     return () => {
       sendJsonMessage({
         op: 'unsubscribe',
-        args: ['instrument'],
+        args: [TABLE_NAME_INSTRUMENT],
       });
       setSubscribed(false);
     };

@@ -17,18 +17,18 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { ICON_SIZE_SMALL } from '@/lib/consts/UI';
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from '@/components/ui/hover-card';
+import { Input } from '@/components/ui/input';
+import { Separator } from '@/components/ui/separator';
+import { ICON_SIZE_LARGE, ICON_SIZE_SMALL } from '@/lib/consts/UI';
 import { initialiseState } from '@/lib/redux/features/apiKeys';
 import { setEncryptedStatus } from '@/lib/redux/features/userContext';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
-import type { TAPIKeys } from '@/lib/types/APIKeys';
+import type { TAPIKey } from '@/lib/types/APIKey';
 import { decryptString } from '@/lib/utils';
 import { getPassphraseSchema } from '@/schemas/getPassphraseSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -36,14 +36,14 @@ import bcryptjs from 'bcryptjs';
 import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { LuPartyPopper, LuUnlock } from 'react-icons/lu';
+import { LuInfo, LuPartyPopper, LuUnlock } from 'react-icons/lu';
 import { toast } from 'sonner';
 import type { z } from 'zod';
 
 const ApiKeysDecryptionDialog = () => {
   const { data: session } = useSession();
-  const [open, setOpen] = useState(false); // dialog open state
-  const dispatch = useAppDispatch(); // redux dispatch hook
+  const [open, setOpen] = useState(false);
+  const dispatch = useAppDispatch();
 
   const apiKeysArr = useAppSelector((state) => state.apiKeys);
 
@@ -54,15 +54,12 @@ const ApiKeysDecryptionDialog = () => {
     },
   });
 
-  // function to handle on form submit
   const onSubmit = (data: z.infer<typeof getPassphraseSchema>) => {
-    // cryptographically compare given passphrase to passphraseHash
     bcryptjs.compare(
       data.passphrase,
       // biome-ignore lint/style/noNonNullAssertion: <explanation>
       session?.user.passphraseHash!,
       (err, res) => {
-        // if user entered passphrase does not match send error to user
         if (!res)
           return form.setError('passphrase', {
             type: 'manual',
@@ -70,18 +67,17 @@ const ApiKeysDecryptionDialog = () => {
               'Passphrase entered does not match with account passphrase.',
           });
 
-        // mutate apiKeysArr and set to new array
         // TODO: this should probably be in a trycatch block to handle errors (?)
-        const decryptedApiKeysArr = apiKeysArr.map((apiKey: TAPIKeys) => {
+        const decryptedApiKeysArr = apiKeysArr.map((apiKey: TAPIKey) => {
           return {
-            ...apiKey, // spread apiKey object into new object
-            apiSecret: decryptString(apiKey.apiSecret, data.passphrase), // decrypt apiSecret using user passphrase input and set as apiSecret in new array
+            ...apiKey,
+            apiSecret: decryptString(apiKey.apiSecret, data.passphrase),
           };
         });
 
-        dispatch(initialiseState(decryptedApiKeysArr)); // update redux store
-        dispatch(setEncryptedStatus(false)); // set encrypted status
-        // show success notification
+        dispatch(initialiseState(decryptedApiKeysArr));
+        dispatch(setEncryptedStatus(false));
+
         toast.success('Keys decrypted successfully!', {
           icon: <LuPartyPopper />,
           closeButton: true,
@@ -92,21 +88,33 @@ const ApiKeysDecryptionDialog = () => {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <DialogTrigger asChild>
-              <Button className='space-x-2' size='sm'>
-                <LuUnlock size={ICON_SIZE_SMALL} />
-                <span>Decrypt API Keys</span>
-              </Button>
-            </DialogTrigger>
-          </TooltipTrigger>
-          <TooltipContent className='w-[150px] text-pretty text-center'>
-            Please enter your Passphrase to decrypt your keys.
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+      <HoverCard>
+        <HoverCardTrigger asChild>
+          <DialogTrigger asChild>
+            <Button className='space-x-2' size='sm'>
+              <LuUnlock size={ICON_SIZE_SMALL} />
+              <span>Decrypt API Keys</span>
+            </Button>
+          </DialogTrigger>
+        </HoverCardTrigger>
+        <HoverCardContent className='space-y-2 font-mono'>
+          <header className='flex flex-row items-center justify-start space-x-2'>
+            <LuInfo size={ICON_SIZE_LARGE} />
+            <div className='flex flex-col'>
+              <h1 className='text-left text-2xl'>Info</h1>
+              <span className='text-muted-foreground text-xs'>
+                Your keys need decryption.
+              </span>
+            </div>
+          </header>
+          <Separator />
+          <p className='text-pretty text-justify text-xs'>
+            On initial load of the terminal or on a Hard Reload of the browser
+            your API keys are retrieved from the server in an encrypted state,
+            click this button and then follow the prompt to decrypt your keys.
+          </p>
+        </HoverCardContent>
+      </HoverCard>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Encryption Passphrase</DialogTitle>
@@ -114,7 +122,6 @@ const ApiKeysDecryptionDialog = () => {
             Please enter your Passphrase to decrypt your keys.
           </DialogDescription>
         </DialogHeader>
-
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
             <FormField

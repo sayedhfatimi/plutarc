@@ -4,7 +4,7 @@ import coinbaseIcon from '@/public/images/exchangeIcons/coinbase.png';
 import phemexIcon from '@/public/images/exchangeIcons/phemex.png';
 import type { StaticImageData } from 'next/image';
 
-export const supportedExchanges: {
+export const SUPPORTED_EXCHANGES: {
   key: string;
   value: string;
   text: string;

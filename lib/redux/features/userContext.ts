@@ -1,4 +1,5 @@
-import { defaultTerminalLayout } from '@/lib/consts/terminal/config';
+import { defaultTerminalLayout } from '@/lib/consts/terminal/gridConfig';
+import type { TAPIKey } from '@/lib/types/APIKey';
 import type { TUserContext } from '@/lib/types/UserContext';
 import { type PayloadAction, createSlice } from '@reduxjs/toolkit';
 import _ from 'lodash';
@@ -8,6 +9,7 @@ const DEFAULT_TICKER = 'XBTUSD';
 const DEFAULT_EXCHANGE = 'bitmex';
 
 const initialState: TUserContext = {
+  APIKey: {} as TAPIKey,
   terminal: { exchange: DEFAULT_EXCHANGE, ticker: DEFAULT_TICKER },
   terminalLayout: defaultTerminalLayout,
   terminalComponents: [] as Layout[],
@@ -19,27 +21,36 @@ export const userContextSlice = createSlice({
   reducers: {
     setUserId: (
       state: TUserContext,
-      action: PayloadAction<TUserContext['userId']>,
+      action: PayloadAction<TUserContext['user']['id']>,
     ) => {
-      return { ...state, userId: action.payload };
+      return { ...state, user: { ...state.user, id: action.payload } };
     },
     setPassphraseHash: (
       state: TUserContext,
-      action: PayloadAction<TUserContext['passphraseHash']>,
+      action: PayloadAction<TUserContext['user']['passphraseHash']>,
     ) => {
-      return { ...state, passphraseHash: action.payload };
+      return {
+        ...state,
+        user: { ...state.user, passphraseHash: action.payload },
+      };
     },
     setUserProfileImage: (
       state: TUserContext,
-      action: PayloadAction<TUserContext['userProfileImage']>,
+      action: PayloadAction<TUserContext['user']['profileImage']>,
     ) => {
-      return { ...state, userProfileImage: action.payload };
+      return {
+        ...state,
+        user: { ...state.user, profileImage: action.payload },
+      };
     },
     setEncryptedStatus: (
       state: TUserContext,
-      action: PayloadAction<TUserContext['isEncrypted']>,
+      action: PayloadAction<TUserContext['terminal']['isEncrypted']>,
     ) => {
-      return { ...state, isEncrypted: action.payload };
+      return {
+        ...state,
+        terminal: { ...state.terminal, isEncrypted: action.payload },
+      };
     },
     setTicker: (
       state: TUserContext,
@@ -58,6 +69,21 @@ export const userContextSlice = createSlice({
         ...state,
         terminal: { ...state.terminal, exchange: action.payload },
       };
+    },
+    setWsUrl: (
+      state: TUserContext,
+      action: PayloadAction<TUserContext['terminal']['wsUrl']>,
+    ) => {
+      return {
+        ...state,
+        terminal: { ...state.terminal, wsUrl: action.payload },
+      };
+    },
+    setAPIKey: (
+      state: TUserContext,
+      action: PayloadAction<TUserContext['APIKey']>,
+    ) => {
+      return { ...state, APIKey: action.payload };
     },
     setTerminalLayout: (
       state: TUserContext,
@@ -95,6 +121,8 @@ export const {
   setEncryptedStatus,
   setTicker,
   setExchange,
+  setWsUrl,
+  setAPIKey,
   setTerminalLayout,
   removeComponent,
   addComponent,

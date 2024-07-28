@@ -7,7 +7,7 @@ import {
   setUserProfileImage,
 } from '@/lib/redux/features/userContext';
 import { type AppStore, makeStore } from '@/lib/redux/store';
-import type { TAPIKeys } from '@/lib/types/APIKeys';
+import type { TAPIKey } from '@/lib/types/APIKey';
 import type { Session } from 'next-auth';
 import { useRef } from 'react';
 import { Provider } from 'react-redux';
@@ -17,7 +17,7 @@ export default function StoreProvider({
   userSession,
   children,
 }: {
-  apiKeys: TAPIKeys[];
+  apiKeys: TAPIKey[] | undefined;
   userSession: Session;
   children: React.ReactNode;
 }) {
@@ -33,7 +33,7 @@ export default function StoreProvider({
     if (passphraseHash)
       storeRef.current.dispatch(setPassphraseHash(passphraseHash));
     if (image) storeRef.current.dispatch(setUserProfileImage(image));
-    if (apiKeys.length !== 0)
+    if (apiKeys && apiKeys.length !== 0)
       storeRef.current.dispatch(initialiseState(apiKeys));
 
     storeRef.current.dispatch(setEncryptedStatus(true));

@@ -1,6 +1,6 @@
 'use client';
 import { ICON_SIZE_SMALL } from '@/lib/consts/UI';
-import { GridProps } from '@/lib/consts/terminal/config';
+import { GridProps } from '@/lib/consts/terminal/gridConfig';
 import {
   removeComponent,
   setTerminalLayout,
@@ -18,6 +18,7 @@ import OrderForm from './OrderForm';
 import Orderbook from './Orderbook';
 import PositionsOrders from './PositionsOrders';
 import RecentTrades from './RecentTrades';
+import WebsocketConnector from './WebsocketConnector';
 
 const GridLayout = () => {
   const terminalLayout = useAppSelector(
@@ -61,15 +62,18 @@ const GridLayout = () => {
   }, [dispatch, ticker, terminalLayout]);
 
   return (
-    <ResponsiveGridLayout
-      layouts={{
-        md: terminalLayout,
-      }}
-      onLayoutChange={(layout) => dispatch(setTerminalLayout(layout))}
-      {...GridProps}
-    >
-      {gridChildren}
-    </ResponsiveGridLayout>
+    <>
+      <WebsocketConnector />
+      <ResponsiveGridLayout
+        layouts={{
+          md: terminalLayout,
+        }}
+        onLayoutChange={(layout) => dispatch(setTerminalLayout(layout))}
+        {...GridProps}
+      >
+        {gridChildren}
+      </ResponsiveGridLayout>
+    </>
   );
 };
 

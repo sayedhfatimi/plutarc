@@ -1,18 +1,17 @@
 import NavBar from '@/components/NavBar';
 import PasskeyLogin from '@/components/PasskeyLogin';
 import { Button } from '@/components/ui/button';
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from '@/components/ui/hover-card';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
 import { auth, signIn } from '@/lib/auth';
 import { ICON_SIZE_LARGE } from '@/lib/consts/UI';
 import { redirect } from 'next/navigation';
-import { LuHelpCircle, LuMail } from 'react-icons/lu';
+import { LuHelpCircle, LuInfo, LuMail } from 'react-icons/lu';
 
 const SignInPage = async () => {
   const session = await auth();
@@ -40,22 +39,32 @@ const SignInPage = async () => {
         <div className='w-64'>
           <PasskeyLogin />
         </div>
-
         <div className='fixed top-0 right-4'>
-          <TooltipProvider delayDuration={400}>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <LuHelpCircle
-                  size={ICON_SIZE_LARGE}
-                  className='text-muted-foreground'
-                />
-              </TooltipTrigger>
-              <TooltipContent className='w-64 text-pretty text-center'>
+          <HoverCard>
+            <HoverCardTrigger>
+              <LuHelpCircle
+                size={ICON_SIZE_LARGE}
+                className='text-muted-foreground'
+              />
+            </HoverCardTrigger>
+            <HoverCardContent className='space-y-2 font-mono'>
+              <header className='flex flex-row items-center justify-start space-x-2'>
+                <LuInfo size={ICON_SIZE_LARGE} />
+                <div className='flex flex-col'>
+                  <h1 className='text-left text-2xl'>Info</h1>
+                  <span className='text-muted-foreground text-xs'>
+                    Your keys need decryption.
+                  </span>
+                </div>
+              </header>
+              <Separator />
+              <p className='text-pretty text-justify text-xs'>
                 You must login at least once using the email magic link and
-                register a Passkey before being able to login with a Passkey.
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+                register a Passkey before being able to login with a Passkey
+                alone.
+              </p>
+            </HoverCardContent>
+          </HoverCard>
         </div>
       </div>
     </div>

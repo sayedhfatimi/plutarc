@@ -5,72 +5,88 @@ import querystring from 'querystring';
 import type { TBitmexWebSocketResponse } from '@/lib/types/BitmexDataTypes';
 import _ from 'lodash';
 
-class BitMEXClient<T> {
+class BitMEXClient {
+  private static instance: BitMEXClient | null = null;
+  table: string | undefined;
+  symbol: string | undefined;
+
+  private constructor(table?: string, symbol?: string) {
+    this.table = table;
+    this.symbol = symbol;
+  }
+
+  public static getInstance(table?: string, symbol?: string): BitMEXClient {
+    if (BitMEXClient.instance === null) {
+      BitMEXClient.instance = new BitMEXClient(table, symbol);
+    }
+    return BitMEXClient.instance;
+  }
+
   _DATA: {
     [key: string]: {
+      // biome-ignore lint/suspicious/noExplicitAny: unknown
       [key: string]: any[];
     };
   } = {};
   _KEYS: { [key: string]: string | string[] } = {};
   WS_URL = 'wss://ws.bitmex.com/realtime';
-  WS_AUTH_URL = '';
   private STORE_MAX_LENGTH = 10_000;
 
   getUrl(apiKey?: string, apiSecret?: string) {
     if (apiKey && apiSecret) {
-      this.WS_AUTH_URL = `${this.WS_URL}?${this.getWSAuthQuery(apiKey, apiSecret)}`;
-      return this.WS_AUTH_URL;
+      const WS_AUTH_URL = `${this.WS_URL}?${this.getWSAuthQuery(apiKey, apiSecret)}`;
+      return WS_AUTH_URL;
     }
     return this.WS_URL;
   }
 
   deltaParser<T>(
-    tableName: string,
+    table: string,
     symbol: string,
     wsResponse: TBitmexWebSocketResponse<T>,
   ) {
     switch (wsResponse.action) {
       case 'partial': {
-        return this._partial<T>(tableName, symbol, wsResponse);
+        return this._partial<T>(table, symbol, wsResponse);
       }
 
       case 'insert': {
-        return this._insert<T>(tableName, symbol, wsResponse);
+        return this._insert<T>(table, symbol, wsResponse);
       }
 
       case 'update': {
-        return this._update<T>(tableName, symbol, wsResponse);
+        return this._update<T>(table, symbol, wsResponse);
       }
 
       case 'delete': {
-        return this._delete<T>(tableName, symbol, wsResponse);
+        return this._delete<T>(table, symbol, wsResponse);
       }
     }
   }
 
   // deltaParser Actions
 
-  _partial<T>(
-    tableName: string,
+  private _partial<T>(
+    table: string,
     symbol: string,
     wsResponse: TBitmexWebSocketResponse<T>,
   ) {
-    if (!this._DATA[tableName]) this._DATA[tableName] = {};
+    if (!this._DATA[table]) this._DATA[table] = {};
     const wsData = wsResponse.data || [];
 
-    this._DATA[tableName][symbol] = wsData;
+    this._DATA[table][symbol] = wsData;
     // biome-ignore lint/style/noNonNullAssertion: data exists at this point of code execution
-    this._KEYS[tableName] = wsResponse?.keys!;
+    this._KEYS[table] = wsResponse?.keys!;
 
     return wsData;
   }
 
-  _insert<T>(
-    tableName: string,
+  private _insert<T>(
+    table: string,
     symbol: string,
     wsResponse: TBitmexWebSocketResponse<T>,
   ) {
-    const store = this._DATA[tableName][symbol];
+    const store = this._DATA[table][symbol];
 
     const mutableStore = [...store, ...wsResponse.data];
 
@@ -78,22 +94,22 @@ class BitMEXClient<T> {
       mutableStore.splice(0, mutableStore.length - this.STORE_MAX_LENGTH);
     }
 
-    return this.replaceStore<T>(tableName, symbol, mutableStore);
+    return this.replaceStore<T>(table, symbol, mutableStore);
   }
 
-  _update<T>(
-    tableName: string,
+  private _update<T>(
+    table: string,
     symbol: string,
     wsResponse: TBitmexWebSocketResponse<T>,
   ) {
-    const store = this._DATA[tableName][symbol];
+    const store = this._DATA[table][symbol];
 
     const mutableStore = [...store] as T[];
 
     for (let i = 0; i < wsResponse.data.length; i++) {
       let payloadObj = wsResponse.data[i];
 
-      const criteria = _.pick(payloadObj, this._KEYS[tableName]);
+      const criteria = _.pick(payloadObj, this._KEYS[table]);
       const itemToUpdate: T = _.find(mutableStore, criteria) as T;
 
       if (itemToUpdate) {
@@ -102,20 +118,20 @@ class BitMEXClient<T> {
       }
     }
 
-    return this.replaceStore<T>(tableName, symbol, mutableStore);
+    return this.replaceStore<T>(table, symbol, mutableStore);
   }
 
-  _delete<T>(
-    tableName: string,
+  private _delete<T>(
+    table: string,
     symbol: string,
     wsResponse: TBitmexWebSocketResponse<T>,
   ) {
-    const store = this._DATA[tableName][symbol];
+    const store = this._DATA[table][symbol];
 
     let mutableStore = [...store] as T[];
 
     for (let i = 0; i < wsResponse.data.length; i++) {
-      const criteria = _.pick(wsResponse.data[i], this._KEYS[tableName]);
+      const criteria = _.pick(wsResponse.data[i], this._KEYS[table]);
       const itemToRemove: T = _.find(mutableStore, criteria) as T;
 
       if (itemToRemove) {
@@ -123,30 +139,30 @@ class BitMEXClient<T> {
       }
     }
 
-    return this.replaceStore<T>(tableName, symbol, mutableStore);
+    return this.replaceStore<T>(table, symbol, mutableStore);
   }
 
   // deltaParser Helper Functions
 
-  replaceStore<T>(tableName: string, symbol: string, newData: T[]) {
+  private replaceStore<T>(table: string, symbol: string, newData: T[]) {
     if (
-      this._DATA[tableName][symbol] &&
-      !Array.isArray(this._DATA[tableName][symbol])
+      this._DATA[table][symbol] &&
+      !Array.isArray(this._DATA[table][symbol])
     ) {
-      this._DATA[tableName][symbol] = newData[0] as T[];
+      this._DATA[table][symbol] = newData[0] as T[];
     } else {
-      this._DATA[tableName][symbol] = newData;
+      this._DATA[table][symbol] = newData;
     }
-    return this._DATA[tableName][symbol];
+    return this._DATA[table][symbol];
   }
 
-  updateItem<T>(item: T, newData: T) {
+  private updateItem<T>(item: T, newData: T) {
     return { ...item, ...newData };
   }
 
   // WS Auth Functions
 
-  signMessage(
+  private signMessage(
     secret: string,
     verb: string,
     url: string,
@@ -186,4 +202,4 @@ class BitMEXClient<T> {
   }
 }
 
-export const bitmexClient = new BitMEXClient();
+export default BitMEXClient;

@@ -2,7 +2,7 @@
 import { Badge } from '@/components/ui/badge';
 import { ICON_SIZE_SMALL } from '@/lib/consts/UI';
 import { useAppSelector } from '@/lib/redux/hooks';
-import type { TAPIKeys } from '@/lib/types/APIKeys';
+import type { TAPIKey } from '@/lib/types/APIKey';
 import { LuX } from 'react-icons/lu';
 import ApiKeysAlert from './ApiKeysAlert';
 import ApiKeysDeleteButton from './ApiKeysDeleteButton';
@@ -27,7 +27,7 @@ const ApiKeysTable = () => {
         </tr>
       </thead>
       <tbody className='divide-y'>
-        {apiKeys.map((apiKey: TAPIKeys) => (
+        {apiKeys.map((apiKey: TAPIKey) => (
           <tr key={apiKey.apiKey} className='hover:bg-secondary'>
             <td className='py-2'>
               <Badge variant='secondary'>{apiKey.label}</Badge>

@@ -16,7 +16,7 @@ export default async function TerminalLayout({
 
   return (
     <QueryClientProvider>
-      <StoreProvider apiKeys={apiKeyArr!} userSession={session}>
+      <StoreProvider apiKeys={apiKeyArr} userSession={session}>
         {children}
       </StoreProvider>
     </QueryClientProvider>

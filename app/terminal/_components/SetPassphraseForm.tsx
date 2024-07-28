@@ -18,12 +18,6 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
 import { createPassphrase } from '@/lib/actions';
 import { ICON_SIZE_SMALL } from '@/lib/consts/UI';
 import { setPassphraseHash } from '@/lib/redux/features/userContext';
@@ -38,8 +32,8 @@ import { toast } from 'sonner';
 import type { z } from 'zod';
 
 const SetPassphraseForm = () => {
-  const [open, setOpen] = useState(false); // dialog open state
-  const dispatch = useAppDispatch(); // redux dispatch hook
+  const [open, setOpen] = useState(false);
+  const dispatch = useAppDispatch();
 
   const form = useForm<z.infer<typeof createPassphraseSchema>>({
     resolver: zodResolver(createPassphraseSchema),
@@ -67,22 +61,12 @@ const SetPassphraseForm = () => {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <DialogTrigger asChild>
-              <Button className='space-x-2' size='sm' variant='outline'>
-                <LuLock size={ICON_SIZE_SMALL} />
-                <span>Set Passphrase</span>
-              </Button>
-            </DialogTrigger>
-          </TooltipTrigger>
-          <TooltipContent className='w-[150px] text-pretty text-center'>
-            To add your API Keys to your account you must first set a Passphrase
-            that will be used for End-to-End encryption.
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+      <DialogTrigger asChild>
+        <Button className='space-x-2' size='sm' variant='outline'>
+          <LuLock size={ICON_SIZE_SMALL} />
+          <span>Set Passphrase</span>
+        </Button>
+      </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Encryption Passphrase</DialogTitle>

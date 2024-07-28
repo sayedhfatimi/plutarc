@@ -3,7 +3,7 @@ import { eq } from 'drizzle-orm';
 import { redirect } from 'next/navigation';
 import { auth } from '../auth';
 import { db } from '../db';
-import { apiKeys, users } from '../db/schema';
+import { APIKey, users } from '../db/schema';
 
 export default async function resetPassphrase() {
   const session = await auth();
@@ -15,7 +15,7 @@ export default async function resetPassphrase() {
       .set({ passphraseHash: null })
       .where(eq(users.id, session.user.id));
 
-    await db.delete(apiKeys).where(eq(apiKeys.userId, session.user.id));
+    await db.delete(APIKey).where(eq(APIKey.userId, session.user.id));
   } catch (error) {
     return { error };
   }

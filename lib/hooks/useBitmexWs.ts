@@ -1,38 +1,30 @@
 'use client';
-import { useMemo, useState } from 'react';
+import BitMEXClient from '@/lib/utils/clients/bitmex';
+import { useState } from 'react';
 import useWebSocket from 'react-use-websocket';
 import { useAppSelector } from '../redux/hooks';
-import { bitmexClient } from '../utils/clients/bitmexClient';
 
-const useBitmexWs = <T>(tableName?: string) => {
+const bitmexClient = BitMEXClient.getInstance();
+
+const useBitmexWs = <T>(table: string) => {
   const ticker = useAppSelector((state) => state.userContext.terminal.ticker);
-  const apiKey = useAppSelector((state) => state.selectedApiKey.apiKey);
-  const apiSecret = useAppSelector((state) => state.selectedApiKey.apiSecret);
+  const wsUrl = useAppSelector((state) => state.userContext.terminal.wsUrl);
   const [data, setData] = useState([] as T[]);
 
-  const wsUrl = useMemo(() => {
-    return bitmexClient.getUrl(apiKey, apiSecret);
-  }, [apiKey, apiSecret]);
-
-  const { sendJsonMessage, readyState } = useWebSocket(wsUrl, {
+  const { sendJsonMessage } = useWebSocket(wsUrl, {
+    share: true,
     filter: (message) => {
-      if (
-        message.data !== 'pong' &&
-        JSON.parse(message.data).table === tableName
-      ) {
+      if (message.data !== 'pong' && JSON.parse(message.data).table === table) {
         return true;
       }
       return false;
     },
-    shouldReconnect: (closeEvent) => true,
-    retryOnError: true,
-    share: true,
     onMessage: (message) => {
       if (message !== undefined)
-        if (message !== null && JSON.parse(message.data).table === tableName) {
+        if (message !== null && JSON.parse(message.data).table === table) {
           setData(
             bitmexClient.deltaParser<T>(
-              tableName,
+              table,
               ticker,
               JSON.parse(message.data),
             ),
@@ -41,7 +33,7 @@ const useBitmexWs = <T>(tableName?: string) => {
     },
   });
 
-  return { data, sendJsonMessage, readyState };
+  return { data, sendJsonMessage };
 };
 
 export default useBitmexWs;
