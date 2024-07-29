@@ -5,7 +5,7 @@ export const Orderbook: Layout = {
   x: 12,
   y: 2,
   w: 6,
-  h: 10,
+  h: 6,
   minH: 4,
   minW: 4,
   isResizable: true,
