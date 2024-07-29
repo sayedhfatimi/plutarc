@@ -53,15 +53,22 @@ const SignInPage = async () => {
                 <div className='flex flex-col'>
                   <h1 className='text-left text-2xl'>Info</h1>
                   <span className='text-muted-foreground text-xs'>
-                    Your keys need decryption.
+                    How to use Passkey login?
                   </span>
                 </div>
               </header>
               <Separator />
               <p className='text-pretty text-justify text-xs'>
-                You must login at least once using the email magic link and
-                register a Passkey before being able to login with a Passkey
-                alone.
+                To login with a Passkey alone follow these steps:
+                <br />
+                <br />
+                <ol className='list-inside list-decimal'>
+                  <li>Login via magic link.</li>
+                  <li>Go to Profile Settings.</li>
+                  <li>Click Register Passkey.</li>
+                </ol>
+                <br />
+                All future logins can proceed with Passkey option alone.
               </p>
             </HoverCardContent>
           </HoverCard>
