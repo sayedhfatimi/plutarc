@@ -48,10 +48,10 @@ const GridLayout = () => {
             key={item.i}
             className='flex select-none flex-col border bg-white shadow-md dark:bg-slate-900'
           >
-            <div className='drag flex w-full cursor-move items-center justify-between border-b bg-background/50 px-1 backdrop-blur-sm'>
+            <div className='drag flex w-full cursor-move items-center justify-between border-b bg-slate-200 px-1 backdrop-blur-sm dark:bg-background/50'>
               <span>{`${component.label}: ${ticker}`}</span>
               <LuX
-                className='noDrag cursor-pointer text-muted-foreground'
+                className='noDrag cursor-pointer text-muted-foreground hover:bg-background dark:hover:bg-slate-700'
                 size={ICON_SIZE_SMALL}
                 onClick={() => dispatch(removeComponent(item))}
               />

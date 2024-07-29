@@ -9,17 +9,15 @@ const WebsocketConnector = () => {
   const exchange = useAppSelector(
     (state) => state.userContext.terminal.exchange,
   );
+  const ticker = useAppSelector((state) => state.userContext.terminal.ticker);
+  const apiKey = useAppSelector((state) => state.userContext.APIKey.apiKey);
+  const apiSecret = useAppSelector(
+    (state) => state.userContext.APIKey.apiSecret,
+  );
+  const dispatch = useAppDispatch();
 
   switch (exchange) {
     case 'bitmex': {
-      const ticker = useAppSelector(
-        (state) => state.userContext.terminal.ticker,
-      );
-      const apiKey = useAppSelector((state) => state.userContext.APIKey.apiKey);
-      const apiSecret = useAppSelector(
-        (state) => state.userContext.APIKey.apiSecret,
-      );
-      const dispatch = useAppDispatch();
       const bitmexClient = BitMEXClient.getInstance();
 
       const wsUrl = useMemo(() => {
