@@ -5,34 +5,29 @@ import querystring from 'querystring';
 import type { TBitmexWebSocketResponse } from '@/lib/types/BitmexDataTypes';
 import _ from 'lodash';
 
+type TBitMEXClient_DATA = { [key: string]: { [key: string]: any[] } };
+type TBitMEXClient_KEYS = { [key: string]: string | string[] };
+
 class BitMEXClient {
   private static instance: BitMEXClient | null = null;
-  table: string | undefined;
-  symbol: string | undefined;
 
-  private constructor(table?: string, symbol?: string) {
-    this.table = table;
-    this.symbol = symbol;
-  }
+  private constructor() {}
 
-  public static getInstance(table?: string, symbol?: string): BitMEXClient {
+  public static getInstance(): BitMEXClient {
     if (BitMEXClient.instance === null) {
-      BitMEXClient.instance = new BitMEXClient(table, symbol);
+      BitMEXClient.instance = new BitMEXClient();
     }
     return BitMEXClient.instance;
   }
 
-  _DATA: {
-    [key: string]: {
-      // biome-ignore lint/suspicious/noExplicitAny: unknown
-      [key: string]: any[];
-    };
-  } = {};
-  _KEYS: { [key: string]: string | string[] } = {};
-  WS_URL = 'wss://ws.bitmex.com/realtime';
+  // private properties
+
+  private _DATA: TBitMEXClient_DATA = {};
+  private _KEYS: TBitMEXClient_KEYS = {};
+  private WS_URL = 'wss://ws.bitmex.com/realtime';
   private STORE_MAX_LENGTH = 10_000;
 
-  getUrl(apiKey?: string, apiSecret?: string) {
+  public getUrl(apiKey?: string, apiSecret?: string) {
     if (apiKey && apiSecret) {
       const WS_AUTH_URL = `${this.WS_URL}?${this.getWSAuthQuery(apiKey, apiSecret)}`;
       return WS_AUTH_URL;
@@ -40,7 +35,7 @@ class BitMEXClient {
     return this.WS_URL;
   }
 
-  deltaParser<T>(
+  public deltaParser<T>(
     table: string,
     symbol: string,
     wsResponse: TBitmexWebSocketResponse<T>,
@@ -181,7 +176,7 @@ class BitMEXClient {
       .digest('hex');
   }
 
-  getWSAuthQuery(apiKey: string, apiSecret: string) {
+  public getWSAuthQuery(apiKey: string, apiSecret: string) {
     const expires = Math.round(Date.now() / 1000) + 5;
     const query = {
       'api-expires': expires,
@@ -192,7 +187,7 @@ class BitMEXClient {
     return querystring.stringify(query);
   }
 
-  getAuthObj(apiKey: string, apiSecret: string) {
+  public getAuthObj(apiKey: string, apiSecret: string) {
     const expires = Math.round(Date.now() / 1000) + 5;
     return {
       'api-expires': expires,

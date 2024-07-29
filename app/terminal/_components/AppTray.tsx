@@ -3,7 +3,7 @@ import { auth } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import ApiKeys from './_apikeys/ApiKeys';
 import ApiKeysSelect from './_apikeys/ApiKeysSelect';
-import ProfileSettings from './_profile/ProfileSettings';
+import Profile from './_profile/Profile';
 import TerminalSettings from './_terminal/TerminalSettings';
 import TickerList from './_terminal/TickerList';
 import TickerStrip from './_terminal/TickerStrip';
@@ -25,7 +25,7 @@ const AppTray = async () => {
         <Wallet />
         <TerminalSettings />
         <ApiKeys />
-        <ProfileSettings userSession={session} />
+        <Profile userSession={session} />
         <ThemeToggle />
       </div>
     </div>

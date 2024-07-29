@@ -239,7 +239,7 @@ const TickerList = () => {
                   <tr
                     key={ticker.symbol}
                     className={classNames({
-                      'group hover:bg-secondary': true,
+                      'group cursor-pointer hover:bg-secondary': true,
                       'bg-primary-foreground': ticker.symbol === ticker,
                     })}
                     onClick={() => dispatch(setTicker(ticker.symbol))}

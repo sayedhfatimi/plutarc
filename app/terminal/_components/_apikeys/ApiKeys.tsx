@@ -29,7 +29,7 @@ const ApiKeys = () => {
           <KBShortcutLabel kbKey={KB_SHORTCUT_APIKEYS_SETTINGS} />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className='w-[900px] space-y-2 text-pretty font-mono'>
+      <PopoverContent className='w-[900px] select-none space-y-2 text-pretty font-mono'>
         <div className='flex items-center justify-between'>
           <header className='flex flex-row items-center space-x-2'>
             <LuKeyRound size={ICON_SIZE_LARGE} />

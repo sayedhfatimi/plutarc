@@ -23,7 +23,7 @@ import DeleteAccountButton from './DeleteAccountButton';
 import ProfileImage from './ProfileImage';
 import ResetPassphraseButton from './ResetPassphraseButton';
 
-const ProfileSettings = ({ userSession }: { userSession: Session }) => {
+const Profile = ({ userSession }: { userSession: Session }) => {
   const { open, setOpen } = useKBShortcut(KB_SHORTCUT_PROFILE_SETTINGS);
 
   return (
@@ -34,7 +34,7 @@ const ProfileSettings = ({ userSession }: { userSession: Session }) => {
           <KBShortcutLabel kbKey={KB_SHORTCUT_PROFILE_SETTINGS} />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className='w-[900px] space-y-2 text-pretty font-mono'>
+      <PopoverContent className='w-[900px] select-none space-y-2 text-pretty font-mono'>
         <div className='flex items-center justify-between'>
           <header className='flex flex-row items-center space-x-2'>
             <LuSettings2 size={ICON_SIZE_LARGE} />
@@ -102,4 +102,4 @@ const ProfileSettings = ({ userSession }: { userSession: Session }) => {
   );
 };
 
-export default ProfileSettings;
+export default Profile;

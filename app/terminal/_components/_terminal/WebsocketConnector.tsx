@@ -20,20 +20,20 @@ const WebsocketConnector = () => {
         (state) => state.userContext.APIKey.apiSecret,
       );
       const dispatch = useAppDispatch();
-
       const bitmexClient = BitMEXClient.getInstance();
 
       const wsUrl = useMemo(() => {
         let WS_URL: string;
+
         if (apiKey && apiSecret) {
           WS_URL = bitmexClient.getUrl(apiKey, apiSecret);
-          dispatch(setWsUrl(WS_URL));
-          return WS_URL;
+        } else {
+          WS_URL = bitmexClient.getUrl();
         }
-        WS_URL = bitmexClient.getUrl();
+
         dispatch(setWsUrl(WS_URL));
         return WS_URL;
-      }, [apiKey, apiSecret, dispatch]);
+      }, [apiKey, apiSecret, dispatch, bitmexClient.getUrl]);
 
       const { sendJsonMessage } = useWebSocket(wsUrl, {
         share: true,

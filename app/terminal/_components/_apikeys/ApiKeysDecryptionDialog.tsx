@@ -88,7 +88,7 @@ const ApiKeysDecryptionDialog = () => {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <HoverCard>
+      <HoverCard defaultOpen={false}>
         <HoverCardTrigger asChild>
           <DialogTrigger asChild>
             <Button className='space-x-2' size='sm'>
@@ -97,7 +97,7 @@ const ApiKeysDecryptionDialog = () => {
             </Button>
           </DialogTrigger>
         </HoverCardTrigger>
-        <HoverCardContent className='space-y-2 font-mono'>
+        <HoverCardContent className='select-none space-y-2 font-mono'>
           <header className='flex flex-row items-center justify-start space-x-2'>
             <LuInfo size={ICON_SIZE_LARGE} />
             <div className='flex flex-col'>
@@ -115,7 +115,7 @@ const ApiKeysDecryptionDialog = () => {
           </p>
         </HoverCardContent>
       </HoverCard>
-      <DialogContent>
+      <DialogContent className='select-none'>
         <DialogHeader>
           <DialogTitle>Encryption Passphrase</DialogTitle>
           <DialogDescription>

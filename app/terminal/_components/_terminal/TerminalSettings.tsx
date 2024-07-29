@@ -42,7 +42,7 @@ const TerminalSettings = () => {
           <KBShortcutLabel kbKey={KB_SHORTCUT_TERMINAL_SETTINGS} />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className='w-[400px] font-mono text-sm'>
+      <PopoverContent className='w-[400px] select-none font-mono text-sm'>
         <div className='flex flex-col space-y-2'>
           <header className='flex flex-row items-center space-x-2'>
             <LuSettings size={ICON_SIZE_LARGE} />

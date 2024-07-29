@@ -26,7 +26,7 @@ const BitMEXWallet = () => {
           <KBShortcutLabel kbKey={KB_SHORTCUT_WALLET} />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className='w-[400px] font-mono text-sm'>
+      <PopoverContent className='w-[400px] select-none font-mono text-sm'>
         <div className='flex flex-col space-y-2'>
           <header className='flex flex-row items-center space-x-2'>
             <LuWallet size={ICON_SIZE_LARGE} />
