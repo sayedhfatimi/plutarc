@@ -49,7 +49,7 @@ const BitMEXWallet = () => {
               </div>
 
               <div className='flex flex-row items-center justify-end space-x-2'>
-                <span>
+                <span className='text-lg'>
                   {(
                     asset.amount /
                     10 **

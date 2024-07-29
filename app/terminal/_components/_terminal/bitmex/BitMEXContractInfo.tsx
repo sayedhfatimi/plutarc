@@ -57,7 +57,7 @@ const BitMEXContractInfo = () => {
               <div>24h Volume</div>
             </div>
             <div className='flex flex-col'>
-              <div>{numberParser(data[0].markPrice)}</div>
+              <div>{`${numberParser(data[0].markPrice)} ${data[0].quoteCurrency}`}</div>
               <div
                 className={classNames({
                   'text-red-800':
@@ -94,7 +94,7 @@ const BitMEXContractInfo = () => {
               <div>24h Turnover</div>
             </div>
             <div className='flex flex-col'>
-              <div>{numberParser(data[0].indicativeSettlePrice)}</div>
+              <div>{`${numberParser(data[0].indicativeSettlePrice)} ${data[0].quoteCurrency}`}</div>
               <div
                 className={classNames({
                   'text-red-800':
@@ -105,20 +105,8 @@ const BitMEXContractInfo = () => {
                     data[0].fundingRate < FUNDING_THRESHOLD_SAFE,
                 })}
               >{`${(data[0].indicativeFundingRate * 100).toFixed(4)}%`}</div>
-              <div>
-                {new Intl.NumberFormat('en-US', {
-                  style: 'currency',
-                  currency: 'USD',
-                  notation: 'compact',
-                }).format(data[0].openValue)}
-              </div>
-              <div>
-                {new Intl.NumberFormat('en-US', {
-                  style: 'currency',
-                  currency: 'USD',
-                  notation: 'compact',
-                }).format(data[0].turnover24h)}
-              </div>
+              <div>{`${numberParser(data[0].openValue / 10 ** 8)} ${data[0].rootSymbol}`}</div>
+              <div>{`${numberParser(data[0].turnover24h / 10 ** 8)} ${data[0].rootSymbol}`}</div>
             </div>
           </div>
         </div>

@@ -24,6 +24,7 @@ import {
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import _ from 'lodash';
 import { LuEye, LuEyeOff, LuSettings } from 'react-icons/lu';
+import ConnectionStatus from './ConnectionStatus';
 
 const TerminalSettings = () => {
   const terminalLayout = useAppSelector(
@@ -66,6 +67,7 @@ const TerminalSettings = () => {
                   <span>{terminal.ticker}</span>
                 </div>
               </div>
+              <ConnectionStatus />
             </div>
             {defaultTerminalLayout.map((component) => (
               <div
