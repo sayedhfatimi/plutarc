@@ -1,9 +1,11 @@
+import type { TGridComponentExtendedProps } from '@/lib/types/Terminal';
 import { cn } from '@/lib/utils';
 import React from 'react';
+import GridComponentTitleBar from './GridComponentTitleBar';
 
 const Chart = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
+  React.HTMLAttributes<HTMLDivElement> & TGridComponentExtendedProps
 >(
   (
     {
@@ -28,6 +30,7 @@ const Chart = React.forwardRef<
         {...props}
       >
         {children}
+        <GridComponentTitleBar item={props['data-grid']} />
       </div>
     );
   },

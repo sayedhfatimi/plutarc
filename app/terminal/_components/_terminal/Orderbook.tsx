@@ -1,12 +1,14 @@
 'use client';
 import { useAppSelector } from '@/lib/redux/hooks';
+import type { TGridComponentExtendedProps } from '@/lib/types/Terminal';
 import { cn } from '@/lib/utils';
 import React from 'react';
+import GridComponentTitleBar from './GridComponentTitleBar';
 import BitMEXOrderbook from './bitmex/BitMEXOrderbook';
 
 const Orderbook = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
+  React.HTMLAttributes<HTMLDivElement> & TGridComponentExtendedProps
 >(
   (
     {
@@ -37,6 +39,7 @@ const Orderbook = React.forwardRef<
             {...props}
           >
             {children}
+            <GridComponentTitleBar item={props['data-grid']} />
             <BitMEXOrderbook />
           </div>
         );

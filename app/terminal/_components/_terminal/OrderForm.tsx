@@ -1,12 +1,14 @@
 import { useAppSelector } from '@/lib/redux/hooks';
+import type { TGridComponentExtendedProps } from '@/lib/types/Terminal';
 import { cn } from '@/lib/utils';
 import React from 'react';
+import GridComponentTitleBar from './GridComponentTitleBar';
 import NoAPIKeySelected from './NoAPIKeySelected';
 import BitMEXOrderForm from './bitmex/BitMEXOrderForm';
 
 const OrderForm = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
+  React.HTMLAttributes<HTMLDivElement> & TGridComponentExtendedProps
 >(
   (
     {
@@ -37,6 +39,7 @@ const OrderForm = React.forwardRef<
           {...props}
         >
           {children}
+          <GridComponentTitleBar item={props['data-grid']} />
           <NoAPIKeySelected />
         </div>
       );
@@ -55,6 +58,7 @@ const OrderForm = React.forwardRef<
             {...props}
           >
             {children}
+            <GridComponentTitleBar item={props['data-grid']} />
             <BitMEXOrderForm />
           </div>
         );

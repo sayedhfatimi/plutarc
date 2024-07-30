@@ -1,13 +1,17 @@
 'use client';
+import { Separator } from '@/components/ui/separator';
 import { useAppSelector } from '@/lib/redux/hooks';
+import type { TGridComponentExtendedProps } from '@/lib/types/Terminal';
 import { cn } from '@/lib/utils';
-import React from 'react';
+import React, { useState } from 'react';
+import GridComponentTitleBar from './GridComponentTitleBar';
 import NoAPIKeySelected from './NoAPIKeySelected';
+import BitMEXOrders from './bitmex/BitMEXOrders';
 import BitMEXPositions from './bitmex/BitMEXPositions';
 
 const PositionsOrders = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
+  React.HTMLAttributes<HTMLDivElement> & TGridComponentExtendedProps
 >(
   (
     {
@@ -25,6 +29,7 @@ const PositionsOrders = React.forwardRef<
     const exchange = useAppSelector(
       (state) => state.userContext.terminal.exchange,
     );
+    const [tab, setTab] = useState('positions');
 
     if (Object.keys(APIKey).length === 0) {
       return (
@@ -38,6 +43,7 @@ const PositionsOrders = React.forwardRef<
           {...props}
         >
           {children}
+          <GridComponentTitleBar item={props['data-grid']} />
           <NoAPIKeySelected />
         </div>
       );
@@ -56,7 +62,27 @@ const PositionsOrders = React.forwardRef<
             {...props}
           >
             {children}
-            <BitMEXPositions />
+            <GridComponentTitleBar item={props['data-grid']}>
+              <div className='noDrag flex cursor-pointer flex-row space-x-2 border-b'>
+                {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
+                <div
+                  onClick={() => setTab('positions')}
+                  className='px-2 py-1 hover:bg-secondary'
+                >
+                  Positions
+                </div>
+                <Separator orientation='vertical' />
+                {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
+                <div
+                  onClick={() => setTab('orders')}
+                  className='px-2 py-1 hover:bg-secondary'
+                >
+                  Orders
+                </div>
+              </div>
+            </GridComponentTitleBar>
+            {tab === 'positions' && <BitMEXPositions />}
+            {tab === 'orders' && <BitMEXOrders />}
           </div>
         );
       }
