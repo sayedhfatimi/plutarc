@@ -22,6 +22,12 @@ const BitMEXPositions = () => {
     };
   }, [sendJsonMessage]);
 
+  const filteredData = data
+    .filter((position) => position.isOpen)
+    .filter((position) => position.liquidationPrice);
+
+  console.log(data);
+
   return (
     <table className='table-auto'>
       <thead>
@@ -48,80 +54,78 @@ const BitMEXPositions = () => {
           </tr>
         ) : (
           <>
-            {data
-              .filter((position) => position.isOpen)
-              .map((position) => (
-                <tr
-                  key={position.account + position.symbol + position.currency}
-                  className='h-4 leading-none hover:bg-secondary'
+            {filteredData.map((position) => (
+              <tr
+                key={position.account + position.symbol + position.currency}
+                className='h-4 leading-none hover:bg-secondary'
+              >
+                <td className='text-left'>
+                  <div
+                    className={classNames({
+                      'inline-flex h-4 w-1 items-center': true,
+                      'bg-green-600': position.homeNotional > 0,
+                      'bg-red-600': position.homeNotional < 0,
+                    })}
+                  >
+                    <span className='pl-2'>{position.symbol}</span>
+                  </div>
+                </td>
+                <td
+                  className={classNames({
+                    'text-right font-bold': true,
+                    'text-green-600': position.homeNotional > 0,
+                    'text-red-600': position.homeNotional < 0,
+                  })}
                 >
-                  <td className='text-left'>
-                    <div
-                      className={classNames({
-                        'inline-flex h-4 w-1 items-center': true,
-                        'bg-green-600': position.homeNotional > 0,
-                        'bg-red-600': position.homeNotional < 0,
-                      })}
-                    >
-                      <span className='pl-2'>{position.symbol}</span>
-                    </div>
-                  </td>
-                  <td
-                    className={classNames({
-                      'text-right font-bold': true,
-                      'text-green-600': position.homeNotional > 0,
-                      'text-red-600': position.homeNotional < 0,
-                    })}
-                  >
-                    {`${position.homeNotional} ${position.underlying}`}
-                  </td>
-                  <td className='text-right'>
-                    {Math.abs(position.foreignNotional)}
-                  </td>
-                  <td className='text-right'>{position.avgEntryPrice}</td>
-                  <td className='text-right'>{position.markPrice}</td>
-                  <td className='text-right font-bold text-red-600'>
-                    {position.liquidationPrice}
-                  </td>
-                  <td className='text-right'>
-                    {`${numberParser(position.posMargin / 10 ** 6)} ${position.currency}`}
-                  </td>
-                  <td className='text-right'>
-                    {position.crossMargin ? 'Cross' : position.leverage}
-                  </td>
-                  <td className='text-right'>{position.realisedCost}</td>
-                  <td
-                    className={classNames({
-                      'text-right font-bold': true,
-                      'text-green-600': position.unrealisedRoePcnt > 0,
-                      'text-red-600': position.unrealisedRoePcnt < 0,
-                    })}
-                  >
-                    {`${(position.unrealisedRoePcnt * 100).toFixed(2)} %`}
-                  </td>
-                  <td
-                    className={classNames({
-                      'text-right font-bold': true,
-                      'text-green-600': position.unrealisedPnl > 0,
-                      'text-red-600': position.unrealisedPnl < 0,
-                    })}
-                  >
-                    {`${numberParser(position.unrealisedPnl / 10 ** 6)} (${(position.unrealisedPnlPcnt * 100).toFixed(2)}%)`}
-                  </td>
-                  <td
-                    className={classNames({
-                      'text-right font-bold': true,
-                      'text-green-600': position.rebalancedPnl > 0,
-                      'text-red-600': position.rebalancedPnl < 0,
-                    })}
-                  >
-                    {numberParser(position.rebalancedPnl / 10 ** 6)}
-                  </td>
-                  <td className='text-right'>
-                    <button type='button'>Close</button>
-                  </td>
-                </tr>
-              ))}
+                  {`${position.homeNotional} ${position.underlying}`}
+                </td>
+                <td className='text-right'>
+                  {Math.abs(position.foreignNotional)}
+                </td>
+                <td className='text-right'>{position.avgEntryPrice}</td>
+                <td className='text-right'>{position.markPrice}</td>
+                <td className='text-right font-bold text-red-600'>
+                  {position.liquidationPrice}
+                </td>
+                <td className='text-right'>
+                  {`${numberParser(position.posMargin / 10 ** 6)} ${position.currency}`}
+                </td>
+                <td className='text-right'>
+                  {position.crossMargin ? 'Cross' : `${position.leverage}x`}
+                </td>
+                <td className='text-right'>{position.realisedCost}</td>
+                <td
+                  className={classNames({
+                    'text-right font-bold': true,
+                    'text-green-600': position.unrealisedRoePcnt > 0,
+                    'text-red-600': position.unrealisedRoePcnt < 0,
+                  })}
+                >
+                  {`${(position.unrealisedRoePcnt * 100).toFixed(2)} %`}
+                </td>
+                <td
+                  className={classNames({
+                    'text-right font-bold': true,
+                    'text-green-600': position.unrealisedPnl > 0,
+                    'text-red-600': position.unrealisedPnl < 0,
+                  })}
+                >
+                  {`${numberParser(position.unrealisedPnl / 10 ** 6)} (${(position.unrealisedPnlPcnt * 100).toFixed(2)}%)`}
+                </td>
+                <td
+                  className={classNames({
+                    'text-right font-bold': true,
+                    'text-green-600': position.rebalancedPnl > 0,
+                    'text-red-600': position.rebalancedPnl < 0,
+                  })}
+                >
+                  {numberParser(position.rebalancedPnl / 10 ** 6)}
+                </td>
+                <td className='text-right'>
+                  <button type='button'>Close</button>
+                </td>
+              </tr>
+            ))}
           </>
         )}
       </tbody>

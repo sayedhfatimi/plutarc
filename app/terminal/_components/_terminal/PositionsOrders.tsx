@@ -1,5 +1,4 @@
 'use client';
-import { Separator } from '@/components/ui/separator';
 import { useAppSelector } from '@/lib/redux/hooks';
 import type { TGridComponentExtendedProps } from '@/lib/types/Terminal';
 import { cn } from '@/lib/utils';
@@ -65,7 +64,7 @@ const PositionsOrders = React.forwardRef<
             {children}
             <GridComponentTitleBar item={props['data-grid']}>
               <div className='noDrag flex cursor-pointer flex-row space-x-2'>
-                {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
+                {/* biome-ignore lint/a11y/useKeyWithClickEvents: will implement later */}
                 <div
                   onClick={() => setTab('positions')}
                   className={classNames({
@@ -75,7 +74,7 @@ const PositionsOrders = React.forwardRef<
                 >
                   Positions
                 </div>
-                {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
+                {/* biome-ignore lint/a11y/useKeyWithClickEvents: will implement later */}
                 <div
                   onClick={() => setTab('orders')}
                   className={classNames({

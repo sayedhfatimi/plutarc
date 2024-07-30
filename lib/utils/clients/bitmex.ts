@@ -187,12 +187,19 @@ class BitMEXClient {
     return querystring.stringify(query);
   }
 
-  public getAuthObj(apiKey: string, apiSecret: string) {
-    const expires = Math.round(Date.now() / 1000) + 5;
+  public getAuthObj(
+    apiKey: string,
+    apiSecret: string,
+    verb: string,
+    url: string,
+    data?: unknown,
+  ) {
+    const expires = Math.round(new Date().getTime() / 1000) + 60;
+
     return {
       'api-expires': expires,
       'api-key': apiKey,
-      'api-signature': this.signMessage(apiSecret, 'GET', '/realtime', expires),
+      'api-signature': this.signMessage(apiSecret, verb, url, expires, data),
     };
   }
 }

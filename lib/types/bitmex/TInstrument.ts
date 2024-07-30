@@ -3,20 +3,20 @@ export type TInstrument = {
   rootSymbol: string;
   state: string;
   typ: string;
-  listing: string;
-  front: string;
-  expiry: string;
-  settle: string;
-  listedSettle: string;
+  listing: Date;
+  front: Date;
+  expiry: Date;
+  settle: Date;
+  listedSettle: Date;
   positionCurrency: string;
   underlying: string;
   quoteCurrency: string;
   underlyingSymbol: string;
   reference: string;
   referenceSymbol: string;
-  calcInterval: string;
-  publishInterval: string;
-  publishTime: string;
+  calcInterval: Date;
+  publishInterval: Date;
+  publishTime: Date;
   maxOrderQty: number;
   maxPrice: number;
   lotSize: number;
@@ -41,12 +41,12 @@ export type TInstrument = {
   fundingBaseSymbol: string;
   fundingQuoteSymbol: string;
   fundingPremiumSymbol: string;
-  fundingTimestamp: string;
-  fundingInterval: string;
+  fundingTimestamp: Date;
+  fundingInterval: Date;
   fundingRate: number;
   indicativeFundingRate: number;
-  rebalanceTimestamp: string;
-  rebalanceInterval: string;
+  rebalanceTimestamp: Date;
+  rebalanceInterval: Date;
   prevClosePrice: number;
   limitDownPrice: number;
   limitUpPrice: number;
@@ -65,11 +65,7 @@ export type TInstrument = {
   lowPrice: number;
   lastPrice: number;
   lastPriceProtected: number;
-  lastTickDirection:
-    | 'PlusTick'
-    | 'ZeroPlusTick'
-    | 'MinusTick'
-    | 'ZeroMinusTick';
+  lastTickDirection: string;
   lastChangePcnt: number;
   bidPrice: number;
   midPrice: number;
@@ -91,5 +87,5 @@ export type TInstrument = {
   settledPrice: number;
   instantPnl: boolean;
   minTick: number;
-  timestamp: string;
+  timestamp: Date;
 };

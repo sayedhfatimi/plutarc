@@ -19,12 +19,12 @@ export type TOrder = {
   contingencyType: string;
   ordStatus: string;
   triggered: string;
-  workingIndicator: true;
+  workingIndicator: boolean;
   ordRejReason: string;
   leavesQty: number;
   cumQty: number;
   avgPx: number;
   text: string;
-  transactTime: string;
-  timestamp: string;
+  transactTime: Date;
+  timestamp: Date;
 };

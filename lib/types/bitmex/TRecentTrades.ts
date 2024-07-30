@@ -1,7 +1,5 @@
-// recent trades types
-
 export type TRecentTrades = {
-  timestamp: string;
+  timestamp: Date;
   symbol: string;
   side: string;
   size: number;

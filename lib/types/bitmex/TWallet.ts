@@ -9,5 +9,5 @@ export type TWallet = {
   pendingCredit: number;
   pendingDebit: number;
   confirmedDebit: number;
-  timestamp: string;
+  timestamp: Date;
 };

@@ -40,7 +40,6 @@ export type TPosition = {
   posLoss: number;
   posMargin: number;
   posMaint: number;
-  posInit: number;
   initMargin: number;
   maintMargin: number;
   realisedPnl: number;
@@ -53,5 +52,5 @@ export type TPosition = {
   marginCallPrice: number;
   liquidationPrice: number;
   bankruptPrice: number;
-  timestamp: string;
+  timestamp: Date;
 };
