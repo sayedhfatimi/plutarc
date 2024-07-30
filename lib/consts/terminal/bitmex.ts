@@ -18,4 +18,5 @@ export const symbolSignificantFiguresMap: { [key: string]: number } = {
   trx: 8,
   usdt: 6,
   sol: 8,
+  matic: 8,
 };

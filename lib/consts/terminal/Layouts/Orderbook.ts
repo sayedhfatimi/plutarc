@@ -2,7 +2,7 @@ import type { Layout } from 'react-grid-layout';
 
 export const Orderbook: Layout = {
   i: 'Orderbook',
-  x: 12,
+  x: 13,
   y: 2,
   w: 6,
   h: 6,

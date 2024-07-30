@@ -2,7 +2,7 @@ import type { Layout } from 'react-grid-layout';
 
 export const RecentTrades: Layout = {
   i: 'Recent Trades',
-  x: 12,
+  x: 13,
   y: 8,
   w: 6,
   h: 4,

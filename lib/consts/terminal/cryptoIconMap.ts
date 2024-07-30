@@ -6,6 +6,7 @@ import bnb from '@/public/images/cryptoIcons/bnb.svg';
 import btc from '@/public/images/cryptoIcons/btc.svg';
 import eth from '@/public/images/cryptoIcons/eth.svg';
 import ltc from '@/public/images/cryptoIcons/ltc.svg';
+import matic from '@/public/images/cryptoIcons/matic.svg';
 import sol from '@/public/images/cryptoIcons/sol.svg';
 import trx from '@/public/images/cryptoIcons/trx.svg';
 import usdt from '@/public/images/cryptoIcons/usdt.svg';
@@ -25,4 +26,5 @@ export const CryptoIconMap: { [key: string]: StaticImageData } = {
   bnb: bnb,
   ltc: ltc,
   sol: sol,
+  matic: matic,
 };

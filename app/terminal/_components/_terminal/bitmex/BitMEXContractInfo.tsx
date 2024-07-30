@@ -62,9 +62,9 @@ const BitMEXContractInfo = () => {
                 className={classNames({
                   'text-red-800':
                     data[0].fundingRate > FUNDING_THRESHOLD_DANGER,
-                  'text-red-500':
+                  'text-red-600':
                     data[0].fundingRate > FUNDING_THRESHOLD_CAUTION,
-                  'text-green-500':
+                  'text-green-600':
                     data[0].fundingRate < FUNDING_THRESHOLD_SAFE,
                 })}
               >
@@ -99,9 +99,9 @@ const BitMEXContractInfo = () => {
                 className={classNames({
                   'text-red-800':
                     data[0].fundingRate > FUNDING_THRESHOLD_DANGER,
-                  'text-red-500':
+                  'text-red-600':
                     data[0].fundingRate > FUNDING_THRESHOLD_CAUTION,
-                  'text-green-500':
+                  'text-green-600':
                     data[0].fundingRate < FUNDING_THRESHOLD_SAFE,
                 })}
               >{`${(data[0].indicativeFundingRate * 100).toFixed(4)}%`}</div>

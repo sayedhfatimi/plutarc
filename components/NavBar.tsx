@@ -12,7 +12,7 @@ const NavBar = async () => {
   return (
     <div className='flex w-screen flex-row items-center justify-between border-b bg-secondary/50 px-4 py-2 shadow-lg backdrop-blur-sm'>
       <div>
-        <Link href='/' className={`${gugiFont.className} text-lg`}>
+        <Link href='/' className={`${gugiFont.className} text-2xl`}>
           plutarc
         </Link>
       </div>

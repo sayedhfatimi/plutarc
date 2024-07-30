@@ -55,7 +55,6 @@ const PositionsOrders = React.forwardRef<
             onTouchEnd={onTouchEnd}
             {...props}
           >
-            {children}
             <BitMEXPositions />
           </div>
         );

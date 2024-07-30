@@ -1,6 +1,8 @@
 import { TABLE_NAME_POSITION } from '@/lib/consts/terminal/bitmex';
 import useBitmexWs from '@/lib/hooks/useBitmexWs';
 import type { TPosition } from '@/lib/types/BitmexDataTypes';
+import { numberParser } from '@/lib/utils';
+import classNames from 'classnames';
 import { useEffect } from 'react';
 
 const BitMEXPositions = () => {
@@ -21,58 +23,91 @@ const BitMEXPositions = () => {
   }, [sendJsonMessage]);
 
   return (
-    <>
-      <table>
-        <thead className='border-b'>
+    <table className='table-auto'>
+      <thead className='border-b'>
+        <tr>
+          <th className='text-left'>Ticker</th>
+          <th className='text-right'>Size</th>
+          <th className='text-right'>Value</th>
+          <th className='text-right'>Entry</th>
+          <th className='text-right'>Mark</th>
+          <th className='text-right text-red-600'>Liquidation</th>
+          <th className='text-right'>Margin</th>
+          <th className='text-right'>Leverage</th>
+          <th className='text-right'>Position PnL</th>
+          <th className='text-right'>ROE %</th>
+          <th className='text-right'>Unrealised PnL</th>
+          <th className='text-right'>Realised PnL</th>
+          <th className='text-right'>Close</th>
+        </tr>
+      </thead>
+      <tbody className='box-border'>
+        {!data || data.length === 0 ? (
           <tr>
-            <th>Ticker</th>
-            <th>Size</th>
-            <th>Value</th>
-            <th>Entry</th>
-            <th>Mark</th>
-            <th>Liquidation</th>
-            <th>Margin</th>
-            <th>Leverage</th>
-            <th>Position PnL</th>
-            <th>ROE %</th>
-            <th>Unrealised PnL</th>
-            <th>Realised PnL</th>
-            <th>Close</th>
+            <td>No data</td>
           </tr>
-        </thead>
-        <tbody className='box-border'>
-          {!data || data.length === 0 ? (
-            <tr>
-              <td>No data</td>
-            </tr>
-          ) : (
-            <>
-              {data.map((position) => (
+        ) : (
+          <>
+            {data
+              .filter((position) => position.isOpen)
+              .map((position) => (
                 <tr
                   key={position.account + position.symbol + position.currency}
+                  className='h-4 leading-none hover:bg-secondary'
                 >
-                  <td>{position.symbol}</td>
-                  <td>{position.currentQty}</td>
-                  <td>{position.currentCost}</td>
-                  <td>{position.avgEntryPrice}</td>
-                  <td>{position.markPrice}</td>
-                  <td>{position.liquidationPrice}</td>
-                  <td>{position.posMargin}</td>
-                  <td>{position.leverage}</td>
-                  <td>{position.realisedCost}</td>
-                  <td>{position.unrealisedRoePcnt}</td>
-                  <td>{position.unrealisedPnl}</td>
-                  <td>{position.realisedPnl}</td>
-                  <td>
+                  <td className='text-left'>{position.symbol}</td>
+                  <td className='text-right'>{`${position.homeNotional} ${position.underlying}`}</td>
+                  <td className='text-right'>
+                    {Math.abs(position.foreignNotional)}
+                  </td>
+                  <td className='text-right'>{position.avgEntryPrice}</td>
+                  <td className='text-right'>{position.markPrice}</td>
+                  <td className='text-right font-bold text-red-600'>
+                    {position.liquidationPrice}
+                  </td>
+                  <td className='text-right'>
+                    {`${numberParser(position.posMargin / 10 ** 6)} ${position.currency}`}
+                  </td>
+                  <td className='text-right'>
+                    {position.crossMargin ? 'Cross' : position.leverage}
+                  </td>
+                  <td className='text-right'>{position.realisedCost}</td>
+                  <td
+                    className={classNames({
+                      'text-right font-bold': true,
+                      'text-green-600': position.unrealisedRoePcnt > 0,
+                      'text-red-600': position.unrealisedRoePcnt < 0,
+                    })}
+                  >
+                    {`${(position.unrealisedRoePcnt * 100).toFixed(2)} %`}
+                  </td>
+                  <td
+                    className={classNames({
+                      'text-right font-bold': true,
+                      'text-green-600': position.unrealisedPnl > 0,
+                      'text-red-600': position.unrealisedPnl < 0,
+                    })}
+                  >
+                    {`${numberParser(position.unrealisedPnl / 10 ** 6)} (${(position.unrealisedPnlPcnt * 100).toFixed(2)}%)`}
+                  </td>
+                  <td
+                    className={classNames({
+                      'text-right font-bold': true,
+                      'text-green-600': position.rebalancedPnl > 0,
+                      'text-red-600': position.rebalancedPnl < 0,
+                    })}
+                  >
+                    {numberParser(position.rebalancedPnl / 10 ** 6)}
+                  </td>
+                  <td className='text-right'>
                     <button type='button'>Close</button>
                   </td>
                 </tr>
               ))}
-            </>
-          )}
-        </tbody>
-      </table>
-    </>
+          </>
+        )}
+      </tbody>
+    </table>
   );
 };
 

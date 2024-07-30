@@ -23,14 +23,14 @@ const HomePage = async () => {
     <main className='space-y-8'>
       <NavBar />
 
-      <section className='flex flex-col bg-slate-500/50 shadow-md backdrop-blur-sm'>
+      <section className='flex flex-col border-y-2 bg-secondary/50 shadow-md backdrop-blur-sm'>
         <div className='px-8 py-4'>
           <h1 className='text-pretty font-bold text-6xl text-secondary-foreground'>
             Consistent. Fast. Ready. <br /> Never miss another trade.
           </h1>
         </div>
         <div className='px-8 py-4'>
-          <h1 className='text-pretty text-right font-bold text-2xl text-muted-foreground'>
+          <h1 className='text-pretty text-right font-semibold text-2xl text-muted-foreground'>
             <p>
               plutarc trading terminal helps remove the variability, providing a
               fast and familiar trading experience, regardless of your platform.
@@ -44,7 +44,7 @@ const HomePage = async () => {
         <ScreenshotCarousel />
       </section>
 
-      <section className='flex flex-col space-y-8 bg-slate-700/50 py-4 shadow-md backdrop-blur-sm'>
+      <section className='flex flex-col space-y-8 border-y-2 bg-secondary/50 py-4 shadow-md backdrop-blur-sm'>
         <div className='text-center font-bold text-4xl'>
           Why <span className={gugiFont.className}>plutarc</span>?
         </div>
@@ -66,7 +66,7 @@ const HomePage = async () => {
         </div>
       </section>
 
-      <section className='flex flex-col space-y-8 bg-slate-300/50 py-4 shadow-md backdrop-blur-sm'>
+      <section className='flex flex-col space-y-8 border-y-2 bg-secondary/50 py-4 shadow-md backdrop-blur-sm'>
         <div className='text-center font-bold text-4xl'>
           Supported Exchanges
         </div>
