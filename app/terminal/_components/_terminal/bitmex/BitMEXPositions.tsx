@@ -22,6 +22,8 @@ const BitMEXPositions = () => {
     };
   }, [sendJsonMessage]);
 
+  console.log(data);
+
   return (
     <table className='table-auto'>
       <thead className='border-b'>
@@ -55,8 +57,26 @@ const BitMEXPositions = () => {
                   key={position.account + position.symbol + position.currency}
                   className='h-4 leading-none hover:bg-secondary'
                 >
-                  <td className='text-left'>{position.symbol}</td>
-                  <td className='text-right'>{`${position.homeNotional} ${position.underlying}`}</td>
+                  <td className='text-left'>
+                    <div
+                      className={classNames({
+                        'inline-flex h-4 w-1 items-center': true,
+                        'bg-green-600': position.homeNotional > 0,
+                        'bg-red-600': position.homeNotional < 0,
+                      })}
+                    >
+                      <span className='pl-2'>{position.symbol}</span>
+                    </div>
+                  </td>
+                  <td
+                    className={classNames({
+                      'text-right font-bold': true,
+                      'text-green-600': position.homeNotional > 0,
+                      'text-red-600': position.homeNotional < 0,
+                    })}
+                  >
+                    {`${position.homeNotional} ${position.underlying}`}
+                  </td>
                   <td className='text-right'>
                     {Math.abs(position.foreignNotional)}
                   </td>
