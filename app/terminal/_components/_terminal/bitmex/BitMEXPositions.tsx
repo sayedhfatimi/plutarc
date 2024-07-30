@@ -22,8 +22,6 @@ const BitMEXPositions = () => {
     };
   }, [sendJsonMessage]);
 
-  console.log(data);
-
   return (
     <table className='table-auto'>
       <thead className='border-b'>
