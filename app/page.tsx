@@ -23,7 +23,7 @@ const HomePage = async () => {
     <main className='space-y-8'>
       <NavBar />
 
-      <section className='flex flex-col border-y-2 bg-secondary/50 shadow-md backdrop-blur-sm'>
+      <section className='flex flex-col border-t border-b bg-secondary/50 shadow-md backdrop-blur-sm'>
         <div className='px-8 py-4'>
           <h1 className='text-pretty font-bold text-6xl text-secondary-foreground'>
             Consistent. Fast. Ready. <br /> Never miss another trade.
@@ -44,7 +44,7 @@ const HomePage = async () => {
         <ScreenshotCarousel />
       </section>
 
-      <section className='flex flex-col space-y-8 border-y-2 bg-secondary/50 py-4 shadow-md backdrop-blur-sm'>
+      <section className='flex flex-col space-y-8 border-t border-b bg-secondary/50 py-4 shadow-md backdrop-blur-sm'>
         <div className='text-center font-bold text-4xl'>
           Why <span className={gugiFont.className}>plutarc</span>?
         </div>
@@ -66,7 +66,7 @@ const HomePage = async () => {
         </div>
       </section>
 
-      <section className='flex flex-col space-y-8 border-y-2 bg-secondary/50 py-4 shadow-md backdrop-blur-sm'>
+      <section className='flex flex-col space-y-8 border-t border-b bg-secondary/50 py-4 shadow-md backdrop-blur-sm'>
         <div className='text-center font-bold text-4xl'>
           Supported Exchanges
         </div>

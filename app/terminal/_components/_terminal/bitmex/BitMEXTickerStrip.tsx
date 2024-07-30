@@ -51,9 +51,9 @@ const BitMEXTickerStrip = () => {
       {data.map((ticker) => (
         <div
           key={ticker.symbol}
-          className='flex select-none flex-row items-center divide-x-2 font-mono'
+          className='flex select-none flex-row items-center space-x-2 divide-x-2 font-mono'
         >
-          <div className='flex flex-row items-center space-x-2 px-2'>
+          <div className='flex flex-row items-center space-x-2'>
             <div
               className={classNames({
                 'text-green-600 dark:text-green-600':
