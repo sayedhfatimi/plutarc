@@ -1,6 +1,6 @@
 import { TABLE_NAME_POSITION } from '@/lib/consts/terminal/bitmex';
 import useBitmexWs from '@/lib/hooks/useBitmexWs';
-import type { TPosition } from '@/lib/types/BitmexDataTypes';
+import type { TPosition } from '@/lib/types/bitmex/TPosition';
 import { numberParser } from '@/lib/utils';
 import classNames from 'classnames';
 import { useEffect } from 'react';
@@ -24,8 +24,8 @@ const BitMEXPositions = () => {
 
   return (
     <table className='table-auto'>
-      <thead className='border-b'>
-        <tr>
+      <thead>
+        <tr className='border-b'>
           <th className='text-left'>Ticker</th>
           <th className='text-right'>Size</th>
           <th className='text-right'>Value</th>

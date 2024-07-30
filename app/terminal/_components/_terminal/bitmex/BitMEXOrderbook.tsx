@@ -6,7 +6,7 @@ import {
 } from '@/lib/consts/terminal/gridConfig';
 import useBitmexWs from '@/lib/hooks/useBitmexWs';
 import { useAppSelector } from '@/lib/redux/hooks';
-import type { TorderBookL2 } from '@/lib/types/BitmexDataTypes';
+import type { TorderBook } from '@/lib/types/bitmex/TorderBook';
 import { numberParser } from '@/lib/utils';
 import classNames from 'classnames';
 import { useEffect, useState } from 'react';
@@ -35,7 +35,7 @@ const BitMEXOrderbook = () => {
   if (COMPONENT_W < GRID_BREAK_W) n = n / 2 + 1;
 
   const { data, sendJsonMessage } =
-    useBitmexWs<TorderBookL2>(TABLE_NAME_ORDERBOOK);
+    useBitmexWs<TorderBook>(TABLE_NAME_ORDERBOOK);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: unnecessary rerender
   useEffect(() => {
@@ -60,22 +60,22 @@ const BitMEXOrderbook = () => {
   }, [ticker, sendJsonMessage]);
 
   const bids = data
-    .filter((item: TorderBookL2) => item.side === 'Buy')
-    .sort((a: TorderBookL2, b: TorderBookL2) => b.price - a.price)
+    .filter((item: TorderBook) => item.side === 'Buy')
+    .sort((a: TorderBook, b: TorderBook) => b.price - a.price)
     .slice(0, n - 2);
 
   const asks = data
-    .filter((item: TorderBookL2) => item.side === 'Sell')
-    .sort((a: TorderBookL2, b: TorderBookL2) => a.price - b.price)
+    .filter((item: TorderBook) => item.side === 'Sell')
+    .sort((a: TorderBook, b: TorderBook) => a.price - b.price)
     .slice(0, n - 2);
 
   const BID_SIZE_TOTAL: number = bids.reduce(
-    (acc: number, val: TorderBookL2) => acc + val.size,
+    (acc: number, val: TorderBook) => acc + val.size,
     0,
   );
 
   const ASK_SIZE_TOTAL: number = asks.reduce(
-    (acc: number, val: TorderBookL2) => acc + val.size,
+    (acc: number, val: TorderBook) => acc + val.size,
     0,
   );
 
@@ -114,7 +114,7 @@ const BitMEXOrderbook = () => {
               </tr>
             </thead>
             <tbody className='box-border'>
-              {bids.map((level: TorderBookL2) => (
+              {bids.map((level: TorderBook) => (
                 <tr
                   key={level.id}
                   className='h-4 leading-none hover:bg-slate-200/50 dark:hover:bg-slate-200/50'
@@ -170,7 +170,7 @@ const BitMEXOrderbook = () => {
               </tr>
             </thead>
             <tbody className='box-border'>
-              {asks.map((level: TorderBookL2) => (
+              {asks.map((level: TorderBook) => (
                 <tr
                   key={level.id}
                   className='h-4 leading-none hover:bg-slate-200/50 dark:hover:bg-slate-200/50'

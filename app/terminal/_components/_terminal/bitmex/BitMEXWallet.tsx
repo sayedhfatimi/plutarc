@@ -10,7 +10,7 @@ import {
 } from '@/lib/consts/terminal/bitmex';
 import { CryptoIconMap } from '@/lib/consts/terminal/cryptoIconMap';
 import useBitmexWs from '@/lib/hooks/useBitmexWs';
-import type { TWallet } from '@/lib/types/BitmexDataTypes';
+import type { TWallet } from '@/lib/types/bitmex/TWallet';
 import Image from 'next/image';
 import { useEffect } from 'react';
 import { LuChevronDown } from 'react-icons/lu';

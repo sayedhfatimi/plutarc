@@ -3,6 +3,7 @@ import { Separator } from '@/components/ui/separator';
 import { useAppSelector } from '@/lib/redux/hooks';
 import type { TGridComponentExtendedProps } from '@/lib/types/Terminal';
 import { cn } from '@/lib/utils';
+import classNames from 'classnames';
 import React, { useState } from 'react';
 import GridComponentTitleBar from './GridComponentTitleBar';
 import NoAPIKeySelected from './NoAPIKeySelected';
@@ -63,19 +64,24 @@ const PositionsOrders = React.forwardRef<
           >
             {children}
             <GridComponentTitleBar item={props['data-grid']}>
-              <div className='noDrag flex cursor-pointer flex-row space-x-2 border-b'>
+              <div className='noDrag flex cursor-pointer flex-row space-x-2'>
                 {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
                 <div
                   onClick={() => setTab('positions')}
-                  className='px-2 py-1 hover:bg-secondary'
+                  className={classNames({
+                    'px-2 py-1 hover:bg-secondary': true,
+                    'bg-background': tab === 'positions',
+                  })}
                 >
                   Positions
                 </div>
-                <Separator orientation='vertical' />
                 {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
                 <div
                   onClick={() => setTab('orders')}
-                  className='px-2 py-1 hover:bg-secondary'
+                  className={classNames({
+                    'px-2 py-1 hover:bg-secondary': true,
+                    'bg-background': tab === 'orders',
+                  })}
                 >
                   Orders
                 </div>

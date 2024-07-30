@@ -2,7 +2,7 @@ import Spinner from '@/components/Spinner';
 import { TABLE_NAME_INSTRUMENT } from '@/lib/consts/terminal/bitmex';
 import useBitmexWs from '@/lib/hooks/useBitmexWs';
 import { useAppSelector } from '@/lib/redux/hooks';
-import type { TInstrument } from '@/lib/types/BitmexDataTypes';
+import type { TInstrument } from '@/lib/types/bitmex/TInstrument';
 import { numberParser } from '@/lib/utils';
 import classNames from 'classnames';
 import { useEffect, useState } from 'react';

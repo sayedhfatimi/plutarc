@@ -15,7 +15,7 @@ import { InstrumentMap } from '@/lib/consts/terminal/bitmex';
 import useKBShortcut from '@/lib/hooks/useKBShortcut';
 import { setTicker } from '@/lib/redux/features/userContext';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
-import type { TInstrument } from '@/lib/types/BitmexDataTypes';
+import type { TInstrument } from '@/lib/types/bitmex/TInstrument';
 import { numberParser } from '@/lib/utils';
 import { useQuery } from '@tanstack/react-query';
 import classNames from 'classnames';

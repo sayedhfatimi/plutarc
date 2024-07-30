@@ -2,7 +2,7 @@
 import { createHmac } from 'crypto';
 // biome-ignore lint/style/useNodejsImportProtocol: throws error with nextjs
 import querystring from 'querystring';
-import type { TBitmexWebSocketResponse } from '@/lib/types/BitmexDataTypes';
+import type { TWebSocketResponse } from '@/lib/types/bitmex/TWebSocketResponse';
 import _ from 'lodash';
 
 type TBitMEXClient_DATA = { [key: string]: { [key: string]: any[] } };
@@ -38,7 +38,7 @@ class BitMEXClient {
   public deltaParser<T>(
     table: string,
     symbol: string,
-    wsResponse: TBitmexWebSocketResponse<T>,
+    wsResponse: TWebSocketResponse<T>,
   ) {
     switch (wsResponse.action) {
       case 'partial': {
@@ -64,7 +64,7 @@ class BitMEXClient {
   private _partial<T>(
     table: string,
     symbol: string,
-    wsResponse: TBitmexWebSocketResponse<T>,
+    wsResponse: TWebSocketResponse<T>,
   ) {
     if (!this._DATA[table]) this._DATA[table] = {};
     const wsData = wsResponse.data || [];
@@ -79,7 +79,7 @@ class BitMEXClient {
   private _insert<T>(
     table: string,
     symbol: string,
-    wsResponse: TBitmexWebSocketResponse<T>,
+    wsResponse: TWebSocketResponse<T>,
   ) {
     const store = this._DATA[table][symbol];
 
@@ -95,7 +95,7 @@ class BitMEXClient {
   private _update<T>(
     table: string,
     symbol: string,
-    wsResponse: TBitmexWebSocketResponse<T>,
+    wsResponse: TWebSocketResponse<T>,
   ) {
     const store = this._DATA[table][symbol];
 
@@ -119,7 +119,7 @@ class BitMEXClient {
   private _delete<T>(
     table: string,
     symbol: string,
-    wsResponse: TBitmexWebSocketResponse<T>,
+    wsResponse: TWebSocketResponse<T>,
   ) {
     const store = this._DATA[table][symbol];
 

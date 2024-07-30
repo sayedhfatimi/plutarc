@@ -4,7 +4,7 @@ import { ICON_SIZE_SMALL } from '@/lib/consts/UI';
 import { TABLE_NAME_RECENTTRADES } from '@/lib/consts/terminal/bitmex';
 import useBitmexWs from '@/lib/hooks/useBitmexWs';
 import { useAppSelector } from '@/lib/redux/hooks';
-import type { TRecentTrades } from '@/lib/types/BitmexDataTypes';
+import type { TRecentTrades } from '@/lib/types/bitmex/TRecentTrades';
 import { numberParser } from '@/lib/utils';
 import classNames from 'classnames';
 import _ from 'lodash';
