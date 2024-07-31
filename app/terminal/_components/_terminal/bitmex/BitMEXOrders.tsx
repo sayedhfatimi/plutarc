@@ -67,7 +67,7 @@ const BitMEXOrders = () => {
         </tr>
       </thead>
       <tbody className='box-border'>
-        {!data || data.length === 0 ? (
+        {!filteredData || filteredData.length === 0 ? (
           <tr>
             <td>No data</td>
           </tr>

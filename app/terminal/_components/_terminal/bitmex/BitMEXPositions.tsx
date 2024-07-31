@@ -1,11 +1,16 @@
+import { createHmac } from 'crypto';
+import { Button } from '@/components/ui/button';
+import makeRequest from '@/lib/actions/bitmex/makeRequest';
 import { TABLE_NAME_POSITION } from '@/lib/consts/terminal/bitmex';
 import useBitmexWs from '@/lib/hooks/useBitmexWs';
+import { useAppSelector } from '@/lib/redux/hooks';
 import type { TPosition } from '@/lib/types/bitmex/TPosition';
 import { numberParser } from '@/lib/utils';
 import classNames from 'classnames';
 import { useEffect } from 'react';
 
 const BitMEXPositions = () => {
+  const APIKey = useAppSelector((state) => state.userContext.APIKey);
   const { data, sendJsonMessage } = useBitmexWs<TPosition>(TABLE_NAME_POSITION);
 
   useEffect(() => {
@@ -22,11 +27,32 @@ const BitMEXPositions = () => {
     };
   }, [sendJsonMessage]);
 
+  const handleClosePosition = async (formData: FormData) => {
+    const verb = 'POST';
+    const path = '/api/v1/order';
+    const expires = (Math.round(new Date().getTime() / 1000) + 60).toString();
+    const data = { symbol: formData.get('symbol'), execInst: 'Close' };
+    const postBody = JSON.stringify(data);
+
+    const signature = createHmac('sha256', APIKey.apiSecret)
+      .update(verb + path + expires + postBody)
+      .digest('hex');
+
+    const headers = {
+      'content-type': 'application/json',
+      Accept: 'application/json',
+      'X-Requested-With': 'XMLHttpRequest',
+      'api-expires': expires,
+      'api-key': APIKey.apiKey,
+      'api-signature': signature,
+    };
+
+    await makeRequest(verb, path, headers, postBody);
+  };
+
   const filteredData = data
     .filter((position) => position.isOpen)
     .filter((position) => position.liquidationPrice);
-
-  console.log(data);
 
   return (
     <table className='table-auto'>
@@ -48,7 +74,7 @@ const BitMEXPositions = () => {
         </tr>
       </thead>
       <tbody className='box-border'>
-        {!data || data.length === 0 ? (
+        {!filteredData || filteredData.length === 0 ? (
           <tr>
             <td>No data</td>
           </tr>
@@ -80,12 +106,16 @@ const BitMEXPositions = () => {
                   {`${position.homeNotional} ${position.underlying}`}
                 </td>
                 <td className='text-right'>
-                  {Math.abs(position.foreignNotional)}
+                  {`${numberParser(Math.abs(position.foreignNotional))} ${position.currency}`}
                 </td>
-                <td className='text-right'>{position.avgEntryPrice}</td>
-                <td className='text-right'>{position.markPrice}</td>
+                <td className='text-right'>
+                  {numberParser(position.avgEntryPrice)}
+                </td>
+                <td className='text-right'>
+                  {numberParser(position.markPrice)}
+                </td>
                 <td className='text-right font-bold text-red-600'>
-                  {position.liquidationPrice}
+                  {numberParser(position.liquidationPrice)}
                 </td>
                 <td className='text-right'>
                   {`${numberParser(position.posMargin / 10 ** 6)} ${position.currency}`}
@@ -122,7 +152,21 @@ const BitMEXPositions = () => {
                   {numberParser(position.rebalancedPnl / 10 ** 6)}
                 </td>
                 <td className='text-right'>
-                  <button type='button'>Close</button>
+                  <form action={handleClosePosition}>
+                    <input
+                      type='hidden'
+                      value={position.symbol}
+                      name='symbol'
+                    />
+                    <Button
+                      variant='outline'
+                      size='sm'
+                      type='submit'
+                      className='h-6 rounded-none px-1'
+                    >
+                      Cancel
+                    </Button>
+                  </form>
                 </td>
               </tr>
             ))}

@@ -14,17 +14,9 @@ const providers: Provider[] = [
   Passkey,
 ];
 
-export const providerMap = providers.map((provider) => {
-  if (typeof provider === 'function') {
-    const providerData = provider();
-    return { id: providerData.id, name: providerData.name };
-  }
-  return { id: provider.id, name: provider.name };
-});
-
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  adapter: DrizzleAdapter(db),
   providers,
+  adapter: DrizzleAdapter(db),
   experimental: { enableWebAuthn: true },
   trustHost: true,
   session: {

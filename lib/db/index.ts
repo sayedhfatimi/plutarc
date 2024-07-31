@@ -1,4 +1,7 @@
-import { sql } from '@vercel/postgres';
-import { drizzle } from 'drizzle-orm/vercel-postgres';
+import { drizzle } from 'drizzle-orm/postgres-js';
+import postgres from 'postgres';
 
-export const db = drizzle(sql);
+// biome-ignore lint/style/noNonNullAssertion: <explanation>
+const connectionString = process.env.DATABASE_URL!;
+const client = postgres(connectionString, { prepare: false });
+export const db = drizzle(client);

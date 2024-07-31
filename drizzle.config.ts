@@ -4,8 +4,11 @@ export default defineConfig({
   schema: './lib/db/schema.ts',
   dialect: 'postgresql',
   dbCredentials: {
+    ssl: {
+      rejectUnauthorized: false,
+    },
     // biome-ignore lint/style/noNonNullAssertion: .env variable
-    url: process.env.POSTGRES_URL!,
+    url: process.env.DATABASE_URL!,
   },
   verbose: true,
 });
