@@ -1,15 +1,9 @@
 'use client';
-import { ICON_SIZE_SMALL } from '@/lib/consts/UI';
+import { useVault } from '@/Providers/VaultProvider';
 import { GridProps } from '@/lib/consts/terminal/gridConfig';
-import {
-  removeComponent,
-  setTerminalLayout,
-} from '@/lib/redux/features/userContext';
-import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { useMemo } from 'react';
 import { Responsive, WidthProvider } from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
-import { LuX } from 'react-icons/lu';
 import 'react-resizable/css/styles.css';
 import Chart from './Chart';
 import ContractInfo from './ContractInfo';
@@ -21,10 +15,8 @@ import RecentTrades from './RecentTrades';
 import WebsocketConnector from './WebsocketConnector';
 
 const GridLayout = () => {
-  const terminalLayout = useAppSelector(
-    (state) => state.userContext.terminalLayout,
-  );
-  const dispatch = useAppDispatch();
+  const terminalLayout = useVault((state) => state.terminal.activeComponents);
+  const setTerminalLayout = useVault((state) => state.setTerminalLayout);
 
   const ResponsiveGridLayout = useMemo(() => WidthProvider(Responsive), []);
 
@@ -59,7 +51,7 @@ const GridLayout = () => {
         layouts={{
           md: terminalLayout,
         }}
-        onLayoutChange={(layout) => dispatch(setTerminalLayout(layout))}
+        onLayoutChange={(layout) => setTerminalLayout(layout)}
         {...GridProps}
       >
         {gridChildren}

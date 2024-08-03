@@ -1,11 +1,9 @@
 'use client';
-import { useAppSelector } from '@/lib/redux/hooks';
+import { useVault } from '@/Providers/VaultProvider';
 import BitMEXTickerStrip from './bitmex/BitMEXTickerStrip';
 
 const TickerStrip = () => {
-  const exchange = useAppSelector(
-    (state) => state.userContext.terminal.exchange,
-  );
+  const exchange = useVault((state) => state.terminal.exchange);
 
   switch (exchange) {
     case 'bitmex': {

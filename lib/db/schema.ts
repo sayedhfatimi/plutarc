@@ -16,7 +16,6 @@ export const users = pgTable('user', {
   email: text('email').notNull(),
   emailVerified: timestamp('emailVerified', { mode: 'date' }),
   image: text('image'),
-  passphraseHash: text('passphraseHash'),
 });
 
 export const accounts = pgTable(
@@ -85,16 +84,3 @@ export const authenticators = pgTable(
     }),
   }),
 );
-
-export const APIKey = pgTable('APIKey', {
-  id: text('id')
-    .primaryKey()
-    .$defaultFn(() => crypto.randomUUID()),
-  userId: text('userId')
-    .notNull()
-    .references(() => users.id, { onDelete: 'cascade' }),
-  label: text('label').notNull(),
-  apiKey: text('apiKey').notNull(),
-  apiSecret: text('apiSecret').notNull(),
-  exchange: text('exchange').notNull(),
-});

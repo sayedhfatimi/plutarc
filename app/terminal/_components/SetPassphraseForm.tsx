@@ -1,4 +1,5 @@
 'use client';
+import { useVault } from '@/Providers/VaultProvider';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -18,10 +19,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { createPassphrase } from '@/lib/actions';
 import { ICON_SIZE_SMALL } from '@/lib/consts/UI';
-import { setPassphraseHash } from '@/lib/redux/features/userContext';
-import { useAppDispatch } from '@/lib/redux/hooks';
 import { createPassphraseSchema } from '@/schemas/createPassphraseSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import bcryptjs from 'bcryptjs';
@@ -33,7 +31,7 @@ import type { z } from 'zod';
 
 const SetPassphraseForm = () => {
   const [open, setOpen] = useState(false);
-  const dispatch = useAppDispatch();
+  const setPassphraseHash = useVault((state) => state.setPassphraseHash);
 
   const form = useForm<z.infer<typeof createPassphraseSchema>>({
     resolver: zodResolver(createPassphraseSchema),
@@ -47,8 +45,7 @@ const SetPassphraseForm = () => {
     bcryptjs.genSalt(10, (err, salt) =>
       bcryptjs.hash(data.passphrase, salt, (err, hash) => {
         if (err) return { error: err.message }; // TODO: check error handling here
-        createPassphrase({ passphrase: hash, confirmPassphrase: hash });
-        dispatch(setPassphraseHash(hash));
+        setPassphraseHash(hash);
         setOpen(false);
 
         toast.success('Passphrase set successfully!', {

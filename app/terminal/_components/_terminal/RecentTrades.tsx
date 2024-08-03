@@ -1,6 +1,6 @@
 'use client';
-import { useAppSelector } from '@/lib/redux/hooks';
-import type { TGridComponentExtendedProps } from '@/lib/types/Terminal';
+import { useVault } from '@/Providers/VaultProvider';
+import type { TGridComponentExtendedProps } from '@/lib/types/terminal/TGridComponentExtendedProps';
 import { cn } from '@/lib/utils';
 import React from 'react';
 import GridComponentTitleBar from './GridComponentTitleBar';
@@ -22,9 +22,7 @@ const RecentTrades = React.forwardRef<
     },
     ref,
   ) => {
-    const exchange = useAppSelector(
-      (state) => state.userContext.terminal.exchange,
-    );
+    const exchange = useVault((state) => state.terminal.exchange);
 
     switch (exchange) {
       case 'bitmex': {

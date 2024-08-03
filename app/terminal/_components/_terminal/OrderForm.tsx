@@ -1,5 +1,5 @@
-import { useAppSelector } from '@/lib/redux/hooks';
-import type { TGridComponentExtendedProps } from '@/lib/types/Terminal';
+import { useVault } from '@/Providers/VaultProvider';
+import type { TGridComponentExtendedProps } from '@/lib/types/terminal/TGridComponentExtendedProps';
 import { cn } from '@/lib/utils';
 import React from 'react';
 import GridComponentTitleBar from './GridComponentTitleBar';
@@ -22,12 +22,10 @@ const OrderForm = React.forwardRef<
     },
     ref,
   ) => {
-    const APIKey = useAppSelector((state) => state.userContext.APIKey);
-    const exchange = useAppSelector(
-      (state) => state.userContext.terminal.exchange,
-    );
+    const selectedAPIKey = useVault((state) => state.terminal.selectedKey);
+    const exchange = useVault((state) => state.terminal.exchange);
 
-    if (Object.keys(APIKey).length === 0) {
+    if (Object.keys(selectedAPIKey).length === 0) {
       return (
         <div
           style={{ ...style }}

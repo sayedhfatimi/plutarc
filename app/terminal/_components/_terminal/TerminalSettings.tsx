@@ -1,4 +1,5 @@
 'use client';
+import { useVault } from '@/Providers/VaultProvider';
 import ContentWrapper from '@/components/ContentWrapper';
 import KBShortcutLabel from '@/components/KBShortcutLabel';
 import { Button } from '@/components/ui/button';
@@ -17,21 +18,15 @@ import {
 } from '@/lib/consts/UI';
 import { defaultTerminalLayout } from '@/lib/consts/terminal/gridConfig';
 import useKBShortcut from '@/lib/hooks/useKBShortcut';
-import {
-  addComponent,
-  removeComponent,
-} from '@/lib/redux/features/userContext';
-import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import _ from 'lodash';
 import { LuEye, LuEyeOff, LuSettings } from 'react-icons/lu';
 import ConnectionStatus from './ConnectionStatus';
 
 const TerminalSettings = () => {
-  const terminalLayout = useAppSelector(
-    (state) => state.userContext.terminalLayout,
-  );
-  const terminal = useAppSelector((state) => state.userContext.terminal);
-  const dispatch = useAppDispatch();
+  const terminalLayout = useVault((state) => state.terminal.activeComponents);
+  const terminal = useVault((state) => state.terminal);
+  const removeComponent = useVault((state) => state.removeComponent);
+  const addComponent = useVault((state) => state.addComponent);
 
   const { open, setOpen } = useKBShortcut(KB_SHORTCUT_TERMINAL_SETTINGS);
 
@@ -40,7 +35,7 @@ const TerminalSettings = () => {
       <PopoverTrigger asChild>
         <Button variant='outline' className='space-x-2' size='sm'>
           <LuSettings size={ICON_SIZE_SMALL} />
-          <KBShortcutLabel kbKey={KB_SHORTCUT_TERMINAL_SETTINGS} />
+          <KBShortcutLabel char={KB_SHORTCUT_TERMINAL_SETTINGS} />
         </Button>
       </PopoverTrigger>
       <PopoverContent className='w-[400px] select-none font-mono text-sm'>
@@ -82,9 +77,9 @@ const TerminalSettings = () => {
                     checked={_.some(terminalLayout, (o) => o.i === component.i)}
                     onCheckedChange={() => {
                       if (_.some(terminalLayout, (o) => o.i === component.i)) {
-                        dispatch(removeComponent(component));
+                        removeComponent(component);
                       } else {
-                        dispatch(addComponent(component));
+                        addComponent(component);
                       }
                     }}
                   />

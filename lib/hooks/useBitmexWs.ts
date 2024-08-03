@@ -1,14 +1,14 @@
 'use client';
+import { useVault } from '@/Providers/VaultProvider';
 import BitMEXClient from '@/lib/utils/clients/bitmex';
 import { useState } from 'react';
 import useWebSocket from 'react-use-websocket';
-import { useAppSelector } from '../redux/hooks';
 
 const bitmexClient = BitMEXClient.getInstance();
 
 const useBitmexWs = <T>(table: string) => {
-  const ticker = useAppSelector((state) => state.userContext.terminal.ticker);
-  const wsUrl = useAppSelector((state) => state.userContext.terminal.wsUrl);
+  const ticker = useVault((state) => state.terminal.ticker);
+  const wsUrl = useVault((state) => state.terminal.wsUrl);
   const [data, setData] = useState([] as T[]);
 
   const { sendJsonMessage } = useWebSocket(wsUrl, {

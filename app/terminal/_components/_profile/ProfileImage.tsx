@@ -1,16 +1,14 @@
 'use client';
+import { useVault } from '@/Providers/VaultProvider';
 import {
   PROFILE_DIALOG_IMAGE_HEIGHT,
   PROFILE_DIALOG_IMAGE_WIDTH,
 } from '@/lib/consts/UI';
-import { useAppSelector } from '@/lib/redux/hooks';
 import defaultpp from '@/public/images/default-pp.jpg';
 import Image from 'next/image';
 
 const ProfileImage = () => {
-  const userProfileImage = useAppSelector(
-    (state) => state.userContext.user.profileImage,
-  );
+  const userProfileImage = useVault((state) => state.user.profileImage);
 
   return (
     <div className='flex flex-col'>

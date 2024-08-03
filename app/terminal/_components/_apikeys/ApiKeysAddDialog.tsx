@@ -1,13 +1,11 @@
 'use client';
-import { useAppSelector } from '@/lib/redux/hooks';
+import { useVault } from '@/Providers/VaultProvider';
 import ApiKeysAddForm from './ApiKeysAddForm';
 import ApiKeysDecryptionDialog from './ApiKeysDecryptionDialog';
 
 const ApiKeysAddDialog = () => {
-  const apiKeys = useAppSelector((state) => state.apiKeys);
-  const isEncrypted = useAppSelector(
-    (state) => state.userContext.terminal.isEncrypted,
-  );
+  const apiKeys = useVault((state) => state.APIKeys);
+  const isEncrypted = useVault((state) => state.terminal.isEncrypted);
   if (isEncrypted && apiKeys.length !== 0) return <ApiKeysDecryptionDialog />;
 
   return <ApiKeysAddForm />;

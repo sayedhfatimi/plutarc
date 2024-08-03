@@ -1,16 +1,16 @@
 import { createHmac } from 'crypto';
+import { useVault } from '@/Providers/VaultProvider';
 import { Button } from '@/components/ui/button';
 import makeRequest from '@/lib/actions/bitmex/makeRequest';
 import { TABLE_NAME_POSITION } from '@/lib/consts/terminal/bitmex';
 import useBitmexWs from '@/lib/hooks/useBitmexWs';
-import { useAppSelector } from '@/lib/redux/hooks';
 import type { TPosition } from '@/lib/types/bitmex/TPosition';
 import { numberParser } from '@/lib/utils';
 import classNames from 'classnames';
 import { useEffect } from 'react';
 
 const BitMEXPositions = () => {
-  const APIKey = useAppSelector((state) => state.userContext.APIKey);
+  const selectedAPIKey = useVault((state) => state.terminal.selectedKey);
   const { data, sendJsonMessage } = useBitmexWs<TPosition>(TABLE_NAME_POSITION);
 
   useEffect(() => {
@@ -34,7 +34,7 @@ const BitMEXPositions = () => {
     const data = { symbol: formData.get('symbol'), execInst: 'Close' };
     const postBody = JSON.stringify(data);
 
-    const signature = createHmac('sha256', APIKey.apiSecret)
+    const signature = createHmac('sha256', selectedAPIKey.apiSecret)
       .update(verb + path + expires + postBody)
       .digest('hex');
 
@@ -43,7 +43,7 @@ const BitMEXPositions = () => {
       Accept: 'application/json',
       'X-Requested-With': 'XMLHttpRequest',
       'api-expires': expires,
-      'api-key': APIKey.apiKey,
+      'api-key': selectedAPIKey.apiKey,
       'api-signature': signature,
     };
 

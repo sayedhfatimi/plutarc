@@ -1,4 +1,5 @@
 'use client';
+import { useVault } from '@/Providers/VaultProvider';
 import KBShortcutLabel from '@/components/KBShortcutLabel';
 import Spinner from '@/components/Spinner';
 import { Button } from '@/components/ui/button';
@@ -13,8 +14,6 @@ import getTickerVolumes from '@/lib/actions/bitmex/getTickerVolumes';
 import { KB_SHORTCUT_TICKER_LIST } from '@/lib/consts/UI';
 import { InstrumentMap } from '@/lib/consts/terminal/bitmex';
 import useKBShortcut from '@/lib/hooks/useKBShortcut';
-import { setTicker } from '@/lib/redux/features/userContext';
-import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import type { TInstrument } from '@/lib/types/bitmex/TInstrument';
 import { numberParser } from '@/lib/utils';
 import { useQuery } from '@tanstack/react-query';
@@ -34,11 +33,9 @@ const TickerList = () => {
   const [quoteCurrencyFilter, setQuoteCurrencyFilter] = useState<string | null>(
     null,
   );
-  const dispatch = useAppDispatch();
-  const ticker = useAppSelector((state) => state.userContext.terminal.ticker);
-  const exchange = useAppSelector(
-    (state) => state.userContext.terminal.exchange,
-  );
+  const ticker = useVault((state) => state.terminal.ticker);
+  const exchange = useVault((state) => state.terminal.exchange);
+  const setTicker = useVault((state) => state.setTicker);
 
   const { open, setOpen } = useKBShortcut(KB_SHORTCUT_TICKER_LIST);
   const { data: tickerData, isLoading: tickerDataStatus } =
@@ -109,7 +106,7 @@ const TickerList = () => {
       <PopoverTrigger asChild>
         <Button variant='outline' size='sm' className='space-x-2'>
           <span>{ticker ? `Ticker: ${ticker}` : 'Select a ticker...'}</span>
-          <KBShortcutLabel kbKey={KB_SHORTCUT_TICKER_LIST} />
+          <KBShortcutLabel char={KB_SHORTCUT_TICKER_LIST} />
         </Button>
       </PopoverTrigger>
       <PopoverContent className='w-[900px] select-none space-y-4'>
@@ -242,7 +239,7 @@ const TickerList = () => {
                       'group cursor-pointer hover:bg-secondary': true,
                       'bg-primary-foreground': ticker.symbol === ticker,
                     })}
-                    onClick={() => dispatch(setTicker(ticker.symbol))}
+                    onClick={() => setTicker(ticker.symbol)}
                   >
                     <td className='px-3 py-1'>
                       <div className='flex flex-row items-center justify-between'>

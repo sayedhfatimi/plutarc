@@ -1,7 +1,7 @@
+import { useVault } from '@/Providers/VaultProvider';
 import Spinner from '@/components/Spinner';
 import { TABLE_NAME_INSTRUMENT } from '@/lib/consts/terminal/bitmex';
 import useBitmexWs from '@/lib/hooks/useBitmexWs';
-import { useAppSelector } from '@/lib/redux/hooks';
 import type { TInstrument } from '@/lib/types/bitmex/TInstrument';
 import { numberParser } from '@/lib/utils';
 import classNames from 'classnames';
@@ -13,7 +13,7 @@ const BitMEXContractInfo = () => {
   const FUNDING_THRESHOLD_DANGER = 0.0003;
 
   const [subscribed, setSubscribed] = useState(false);
-  const ticker = useAppSelector((state) => state.userContext.terminal.ticker);
+  const ticker = useVault((state) => state.terminal.ticker);
 
   const { data, sendJsonMessage } = useBitmexWs<TInstrument>(
     TABLE_NAME_INSTRUMENT,

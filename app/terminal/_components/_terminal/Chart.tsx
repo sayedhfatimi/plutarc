@@ -1,4 +1,4 @@
-import type { TGridComponentExtendedProps } from '@/lib/types/Terminal';
+import type { TGridComponentExtendedProps } from '@/lib/types/terminal/TGridComponentExtendedProps';
 import { cn } from '@/lib/utils';
 import React from 'react';
 import GridComponentTitleBar from './GridComponentTitleBar';

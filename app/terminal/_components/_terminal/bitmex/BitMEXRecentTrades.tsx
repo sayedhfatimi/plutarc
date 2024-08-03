@@ -1,13 +1,12 @@
+import { useVault } from '@/Providers/VaultProvider';
 import Spinner from '@/components/Spinner';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { ICON_SIZE_SMALL } from '@/lib/consts/UI';
 import { TABLE_NAME_RECENTTRADES } from '@/lib/consts/terminal/bitmex';
 import useBitmexWs from '@/lib/hooks/useBitmexWs';
-import { useAppSelector } from '@/lib/redux/hooks';
 import type { TRecentTrades } from '@/lib/types/bitmex/TRecentTrades';
 import { numberParser } from '@/lib/utils';
 import classNames from 'classnames';
-import _ from 'lodash';
 import { useEffect, useState } from 'react';
 import { LuArrowUpDown, LuClock } from 'react-icons/lu';
 import { TiArrowDown, TiArrowUp } from 'react-icons/ti';
@@ -16,7 +15,7 @@ const BitMEXRecentTrades = () => {
   const MAX_VISIBLE_TRADES = 100;
 
   const [subscribed, setSubscribed] = useState(false);
-  const ticker = useAppSelector((state) => state.userContext.terminal.ticker);
+  const ticker = useVault((state) => state.terminal.ticker);
 
   const { data, sendJsonMessage } = useBitmexWs<TRecentTrades>(
     TABLE_NAME_RECENTTRADES,

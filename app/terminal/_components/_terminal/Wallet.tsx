@@ -1,4 +1,5 @@
 'use client';
+import { useVault } from '@/Providers/VaultProvider';
 import ContentWrapper from '@/components/ContentWrapper';
 import KBShortcutLabel from '@/components/KBShortcutLabel';
 import { Button } from '@/components/ui/button';
@@ -14,13 +15,12 @@ import {
   KB_SHORTCUT_WALLET,
 } from '@/lib/consts/UI';
 import useKBShortcut from '@/lib/hooks/useKBShortcut';
-import { useAppSelector } from '@/lib/redux/hooks';
 import { LuWallet } from 'react-icons/lu';
 import NoAPIKeySelected from './NoAPIKeySelected';
 import WalletContent from './WalletContent';
 
 const Wallet = () => {
-  const APIKey = useAppSelector((state) => state.userContext.APIKey);
+  const selectedAPIKey = useVault((state) => state.terminal.selectedKey);
   const { open, setOpen } = useKBShortcut(KB_SHORTCUT_WALLET);
 
   return (
@@ -28,7 +28,7 @@ const Wallet = () => {
       <PopoverTrigger asChild>
         <Button variant='outline' className='space-x-2' size='sm'>
           <LuWallet size={ICON_SIZE_SMALL} />
-          <KBShortcutLabel kbKey={KB_SHORTCUT_WALLET} />
+          <KBShortcutLabel char={KB_SHORTCUT_WALLET} />
         </Button>
       </PopoverTrigger>
       <PopoverContent className='w-[400px] select-none font-mono text-sm'>
@@ -44,7 +44,7 @@ const Wallet = () => {
           </header>
           <Separator />
           <ContentWrapper className='space-y-2'>
-            {Object.keys(APIKey).length === 0 ? (
+            {Object.keys(selectedAPIKey).length === 0 ? (
               <NoAPIKeySelected />
             ) : (
               <WalletContent />

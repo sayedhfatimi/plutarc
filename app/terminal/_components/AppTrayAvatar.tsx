@@ -1,13 +1,11 @@
 'use client';
+import { useVault } from '@/Providers/VaultProvider';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { ICON_SIZE_SMALL } from '@/lib/consts/UI';
-import { useAppSelector } from '@/lib/redux/hooks';
 import { LuUser2 } from 'react-icons/lu';
 
 const AppTrayAvatar = () => {
-  const userProfileImage = useAppSelector(
-    (state) => state.userContext.user.profileImage,
-  );
+  const userProfileImage = useVault((state) => state.user.profileImage);
 
   return (
     <Avatar className='size-6'>

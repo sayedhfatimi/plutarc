@@ -26,7 +26,7 @@ const ApiKeys = () => {
       <PopoverTrigger asChild>
         <Button variant='outline' className='space-x-2' size='sm'>
           <LuKeyRound size={ICON_SIZE_SMALL} />
-          <KBShortcutLabel kbKey={KB_SHORTCUT_APIKEYS_SETTINGS} />
+          <KBShortcutLabel char={KB_SHORTCUT_APIKEYS_SETTINGS} />
         </Button>
       </PopoverTrigger>
       <PopoverContent className='w-[900px] select-none space-y-2 text-pretty font-mono'>

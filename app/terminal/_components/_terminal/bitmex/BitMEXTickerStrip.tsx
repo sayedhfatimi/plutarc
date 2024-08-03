@@ -1,8 +1,8 @@
+import { useVault } from '@/Providers/VaultProvider';
 import Spinner from '@/components/Spinner';
 import { ICON_SIZE_MEDIUM } from '@/lib/consts/UI';
 import { TABLE_NAME_INSTRUMENT } from '@/lib/consts/terminal/bitmex';
 import useBitmexWs from '@/lib/hooks/useBitmexWs';
-import { useAppSelector } from '@/lib/redux/hooks';
 import type { TInstrument } from '@/lib/types/bitmex/TInstrument';
 import { numberParser } from '@/lib/utils';
 import classNames from 'classnames';
@@ -11,7 +11,7 @@ import { LuArrowDown, LuArrowUp, LuMinus } from 'react-icons/lu';
 
 const BitMEXTickerStrip = () => {
   const [subscribed, setSubscribed] = useState(false);
-  const ticker = useAppSelector((state) => state.userContext.terminal.ticker);
+  const ticker = useVault((state) => state.terminal.ticker);
 
   const { data, sendJsonMessage } = useBitmexWs<TInstrument>(
     TABLE_NAME_INSTRUMENT,

@@ -1,3 +1,4 @@
+import { useVault } from '@/Providers/VaultProvider';
 import Spinner from '@/components/Spinner';
 import { TABLE_NAME_ORDERBOOK } from '@/lib/consts/terminal/bitmex';
 import {
@@ -5,7 +6,6 @@ import {
   GRID_ROW_HEIGHT,
 } from '@/lib/consts/terminal/gridConfig';
 import useBitmexWs from '@/lib/hooks/useBitmexWs';
-import { useAppSelector } from '@/lib/redux/hooks';
 import type { TorderBook } from '@/lib/types/bitmex/TorderBook';
 import { numberParser } from '@/lib/utils';
 import classNames from 'classnames';
@@ -18,10 +18,8 @@ const BitMEXOrderbook = () => {
   let ASK_LEVEL_ACCUMULATOR = 0;
 
   const [subscribed, setSubscribed] = useState(false);
-  const ticker = useAppSelector((state) => state.userContext.terminal.ticker);
-  const terminalLayout = useAppSelector(
-    (state) => state.userContext.terminalLayout,
-  );
+  const ticker = useVault((state) => state.terminal.ticker);
+  const terminalLayout = useVault((state) => state.terminal.activeComponents);
   const COMPONENT_W = terminalLayout.filter((item) => item.i === 'Orderbook')[0]
     .w;
   const COMPONENT_H = terminalLayout.filter((item) => item.i === 'Orderbook')[0]

@@ -1,6 +1,6 @@
 'use client';
-import { useAppSelector } from '@/lib/redux/hooks';
-import type { TGridComponentExtendedProps } from '@/lib/types/Terminal';
+import { useVault } from '@/Providers/VaultProvider';
+import type { TGridComponentExtendedProps } from '@/lib/types/terminal/TGridComponentExtendedProps';
 import { cn } from '@/lib/utils';
 import classNames from 'classnames';
 import React, { useState } from 'react';
@@ -25,13 +25,11 @@ const PositionsOrders = React.forwardRef<
     },
     ref,
   ) => {
-    const APIKey = useAppSelector((state) => state.userContext.APIKey);
-    const exchange = useAppSelector(
-      (state) => state.userContext.terminal.exchange,
-    );
+    const selectedAPIKey = useVault((state) => state.terminal.selectedKey);
+    const exchange = useVault((state) => state.terminal.exchange);
     const [tab, setTab] = useState('positions');
 
-    if (Object.keys(APIKey).length === 0) {
+    if (Object.keys(selectedAPIKey).length === 0) {
       return (
         <div
           style={{ ...style }}

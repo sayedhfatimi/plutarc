@@ -1,14 +1,14 @@
 'use client';
+import { useVault } from '@/Providers/VaultProvider';
 import { Badge } from '@/components/ui/badge';
 import { ICON_SIZE_SMALL } from '@/lib/consts/UI';
-import { useAppSelector } from '@/lib/redux/hooks';
-import type { TAPIKey } from '@/lib/types/APIKey';
+import type { TAPIKey } from '@/lib/types/terminal/TAPIKey';
 import { LuX } from 'react-icons/lu';
 import ApiKeysAlert from './ApiKeysAlert';
 import ApiKeysDeleteButton from './ApiKeysDeleteButton';
 
 const ApiKeysTable = () => {
-  const apiKeys = useAppSelector((state) => state.apiKeys);
+  const apiKeys = useVault((state) => state.APIKeys);
 
   if (apiKeys.length === 0) return <ApiKeysAlert />;
 
@@ -28,7 +28,7 @@ const ApiKeysTable = () => {
       </thead>
       <tbody className='divide-y'>
         {apiKeys.map((apiKey: TAPIKey) => (
-          <tr key={apiKey.apiKey} className='hover:bg-secondary'>
+          <tr key={apiKey.id} className='hover:bg-secondary'>
             <td className='py-2'>
               <Badge variant='secondary'>{apiKey.label}</Badge>
             </td>

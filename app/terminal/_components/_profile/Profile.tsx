@@ -31,7 +31,7 @@ const Profile = ({ userSession }: { userSession: Session }) => {
       <PopoverTrigger asChild>
         <Button variant='outline' className='space-x-2' size='sm'>
           <AppTrayAvatar />
-          <KBShortcutLabel kbKey={KB_SHORTCUT_PROFILE_SETTINGS} />
+          <KBShortcutLabel char={KB_SHORTCUT_PROFILE_SETTINGS} />
         </Button>
       </PopoverTrigger>
       <PopoverContent className='w-[900px] select-none space-y-2 text-pretty font-mono'>

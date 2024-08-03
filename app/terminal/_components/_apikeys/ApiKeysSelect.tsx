@@ -1,4 +1,5 @@
 'use client';
+import { useVault } from '@/Providers/VaultProvider';
 import {
   Select,
   SelectContent,
@@ -7,27 +8,23 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { ICON_SIZE_SMALL } from '@/lib/consts/UI';
-import { setAPIKey } from '@/lib/redux/features/userContext';
-import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
-import type { TAPIKey } from '@/lib/types/APIKey';
+import type { TAPIKey } from '@/lib/types/terminal/TAPIKey';
 import { LuInfo, LuKeyRound } from 'react-icons/lu';
 import { toast } from 'sonner';
 import ApiKeysDecryptionDialog from './ApiKeysDecryptionDialog';
 
 const ApiKeysSelect = () => {
-  const dispatch = useAppDispatch(); // redux dispatch hook
-  const apiKeysArr = useAppSelector((state) => state.apiKeys);
-  const APIKey = useAppSelector((state) => state.userContext.APIKey);
-  const isEncrypted = useAppSelector(
-    (state) => state.userContext.terminal.isEncrypted,
-  );
+  const APIKeys = useVault((state) => state.APIKeys);
+  const selectedAPIKey = useVault((state) => state.terminal.selectedKey);
+  const isEncrypted = useVault((state) => state.terminal.isEncrypted);
+  const setSelectedKey = useVault((state) => state.setSelectedKey);
 
-  if (apiKeysArr.length === 0) return null; // check if user has any apiKeys otherwise return null
+  if (APIKeys.length === 0) return null;
 
-  if (isEncrypted) return <ApiKeysDecryptionDialog />; // since user has apiKeys check if they are currently encrypted if true return decryption component
+  if (isEncrypted) return <ApiKeysDecryptionDialog />;
 
   const handleValueChange = (option: string) => {
-    dispatch(setAPIKey(JSON.parse(option)));
+    setSelectedKey(JSON.parse(option));
     toast.info('API Key Selected', {
       description: `Selected: ${JSON.parse(option).label}`,
       icon: <LuInfo />,
@@ -40,7 +37,9 @@ const ApiKeysSelect = () => {
       <Select
         onValueChange={handleValueChange}
         value={
-          Object.keys(APIKey).length === 0 ? undefined : JSON.stringify(APIKey)
+          Object.keys(selectedAPIKey).length === 0
+            ? undefined
+            : JSON.stringify(selectedAPIKey)
         }
       >
         <SelectTrigger className='max-w-[300px]'>
@@ -54,7 +53,7 @@ const ApiKeysSelect = () => {
           />
         </SelectTrigger>
         <SelectContent position='item-aligned' align='end'>
-          {apiKeysArr.map((item: TAPIKey) => (
+          {APIKeys.map((item: TAPIKey) => (
             <SelectItem key={item.label} value={JSON.stringify(item)}>
               {item.label}
             </SelectItem>

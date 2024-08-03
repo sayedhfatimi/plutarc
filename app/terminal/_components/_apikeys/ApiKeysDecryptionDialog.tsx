@@ -1,4 +1,5 @@
 'use client';
+import { useVault } from '@/Providers/VaultProvider';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -25,10 +26,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { ICON_SIZE_LARGE, ICON_SIZE_SMALL } from '@/lib/consts/UI';
-import { initialiseState } from '@/lib/redux/features/apiKeys';
-import { setEncryptedStatus } from '@/lib/redux/features/userContext';
-import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
-import type { TAPIKey } from '@/lib/types/APIKey';
+import type { TAPIKey } from '@/lib/types/terminal/TAPIKey';
 import { decryptString } from '@/lib/utils';
 import { getPassphraseSchema } from '@/schemas/getPassphraseSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -43,9 +41,11 @@ import type { z } from 'zod';
 const ApiKeysDecryptionDialog = () => {
   const { data: session } = useSession();
   const [open, setOpen] = useState(false);
-  const dispatch = useAppDispatch();
 
-  const apiKeysArr = useAppSelector((state) => state.apiKeys);
+  const apiKeysArr = useVault((state) => state.APIKeys);
+  const passphraseHash = useVault((state) => state.user.passphraseHash);
+  const setEncryptedStatus = useVault((state) => state.setEncryptedStatus);
+  const replaceAPIKeysState = useVault((state) => state.replaceAPIKeysState);
 
   const form = useForm<z.infer<typeof getPassphraseSchema>>({
     resolver: zodResolver(getPassphraseSchema),
@@ -55,35 +55,30 @@ const ApiKeysDecryptionDialog = () => {
   });
 
   const onSubmit = (data: z.infer<typeof getPassphraseSchema>) => {
-    bcryptjs.compare(
-      data.passphrase,
-      // biome-ignore lint/style/noNonNullAssertion: <explanation>
-      session?.user.passphraseHash!,
-      (err, res) => {
-        if (!res)
-          return form.setError('passphrase', {
-            type: 'manual',
-            message:
-              'Passphrase entered does not match with account passphrase.',
-          });
-
-        // TODO: this should probably be in a trycatch block to handle errors (?)
-        const decryptedApiKeysArr = apiKeysArr.map((apiKey: TAPIKey) => {
-          return {
-            ...apiKey,
-            apiSecret: decryptString(apiKey.apiSecret, data.passphrase),
-          };
+    // biome-ignore lint/style/noNonNullAssertion: <explanation>
+    bcryptjs.compare(data.passphrase, passphraseHash!, (err, res) => {
+      if (!res)
+        return form.setError('passphrase', {
+          type: 'manual',
+          message: 'Passphrase entered does not match with account passphrase.',
         });
 
-        dispatch(initialiseState(decryptedApiKeysArr));
-        dispatch(setEncryptedStatus(false));
+      // TODO: this should probably be in a trycatch block to handle errors (?)
+      const decryptedApiKeysArr = apiKeysArr.map((apiKey: TAPIKey) => {
+        return {
+          ...apiKey,
+          apiSecret: decryptString(apiKey.apiSecret, data.passphrase),
+        };
+      });
 
-        toast.success('Keys decrypted successfully!', {
-          icon: <LuPartyPopper />,
-          closeButton: true,
-        });
-      },
-    );
+      replaceAPIKeysState(decryptedApiKeysArr);
+      setEncryptedStatus(false);
+
+      toast.success('Keys decrypted successfully!', {
+        icon: <LuPartyPopper />,
+        closeButton: true,
+      });
+    });
   };
 
   return (

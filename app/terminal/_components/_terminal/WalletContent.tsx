@@ -1,10 +1,8 @@
-import { useAppSelector } from '@/lib/redux/hooks';
+import { useVault } from '@/Providers/VaultProvider';
 import BitMEXWallet from './bitmex/BitMEXWallet';
 
 const WalletContent = () => {
-  const exchange = useAppSelector(
-    (state) => state.userContext.terminal.exchange,
-  );
+  const exchange = useVault((state) => state.terminal.exchange);
 
   switch (exchange) {
     case 'bitmex':

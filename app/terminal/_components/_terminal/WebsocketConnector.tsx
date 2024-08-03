@@ -1,20 +1,15 @@
 'use client';
-import { setWsUrl } from '@/lib/redux/features/userContext';
-import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
+import { useVault } from '@/Providers/VaultProvider';
 import BitMEXClient from '@/lib/utils/clients/bitmex';
 import { useMemo } from 'react';
 import useWebSocket from 'react-use-websocket';
 
 const WebsocketConnector = () => {
-  const exchange = useAppSelector(
-    (state) => state.userContext.terminal.exchange,
-  );
-  const ticker = useAppSelector((state) => state.userContext.terminal.ticker);
-  const apiKey = useAppSelector((state) => state.userContext.APIKey.apiKey);
-  const apiSecret = useAppSelector(
-    (state) => state.userContext.APIKey.apiSecret,
-  );
-  const dispatch = useAppDispatch();
+  const exchange = useVault((state) => state.terminal.exchange);
+  const ticker = useVault((state) => state.terminal.ticker);
+  const apiKey = useVault((state) => state.terminal.selectedKey.apiKey);
+  const apiSecret = useVault((state) => state.terminal.selectedKey.apiSecret);
+  const setWsUrl = useVault((state) => state.setWsUrl);
 
   switch (exchange) {
     case 'bitmex': {
@@ -29,9 +24,9 @@ const WebsocketConnector = () => {
           WS_URL = bitmexClient.getUrl();
         }
 
-        dispatch(setWsUrl(WS_URL));
+        setWsUrl(WS_URL);
         return WS_URL;
-      }, [apiKey, apiSecret, dispatch, bitmexClient.getUrl]);
+      }, [apiKey, apiSecret, setWsUrl, bitmexClient.getUrl]);
 
       const { sendJsonMessage } = useWebSocket(wsUrl, {
         share: true,

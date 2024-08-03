@@ -23,7 +23,7 @@ type TDestructiveActionAlert = {
   alertDescription: string;
   alertContent?: string;
   confirmTitle: string;
-  confirmFn: () => Promise<void>;
+  confirmFn: () => void;
 };
 
 const DestructiveActionAlert = React.forwardRef<

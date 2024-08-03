@@ -1,11 +1,9 @@
 import { db } from '@/lib/db';
 import { DrizzleAdapter } from '@auth/drizzle-adapter';
-import { eq } from 'drizzle-orm';
 import NextAuth from 'next-auth';
 import type { Provider } from 'next-auth/providers';
 import Passkey from 'next-auth/providers/passkey';
 import Resend from 'next-auth/providers/resend';
-import { users } from '../db/schema';
 
 const providers: Provider[] = [
   Resend({
@@ -43,19 +41,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return true;
     },
     async session({ session, token }) {
-      const user = await db
-        .select()
-        .from(users)
-        // biome-ignore lint/style/noNonNullAssertion: <explanation>
-        .where(eq(users.id, token.sub!))
-        .limit(1);
-
       return {
         ...session,
         user: {
           ...session.user,
           id: token.sub,
-          passphraseHash: user[0].passphraseHash,
         },
       };
     },

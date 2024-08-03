@@ -1,53 +1,36 @@
-import { deleteApiKey } from '@/lib/actions';
-import { removeApiKey } from '@/lib/redux/features/apiKeys';
-import { useAppDispatch } from '@/lib/redux/hooks';
-import type { TAPIKey } from '@/lib/types/APIKey';
+import { useVault } from '@/Providers/VaultProvider';
+import type { TAPIKey } from '@/lib/types/terminal/TAPIKey';
 import { useState } from 'react';
 import { LuAlertTriangle, LuTrash } from 'react-icons/lu';
 import { toast } from 'sonner';
 import DestructiveActionAlert from '../DestructiveActionAlert';
-import ErrorDialog from '../ErrorDialog';
 
 const ApiKeysDeleteButton = ({ apiKeyObj }: { apiKeyObj: TAPIKey }) => {
-  const [error, setError] = useState(false);
   const [isDeleting, setDeleting] = useState(false);
 
-  const dispatch = useAppDispatch();
+  const removeKey = useVault((state) => state.removeKey);
 
-  const confirmDeleteApiKey = async () => {
-    try {
-      setDeleting(true);
-      await deleteApiKey(apiKeyObj.id);
+  const confirmDeleteApiKey = () => {
+    setDeleting(true);
 
-      dispatch(removeApiKey(apiKeyObj));
+    removeKey(apiKeyObj);
 
-      toast.warning('Key Deleted!', {
-        description: `Deleted: ${apiKeyObj.label}`,
-        icon: <LuAlertTriangle />,
-        closeButton: true,
-      });
-      setDeleting(false);
-    } catch (error) {
-      setDeleting(false);
-      setError(true);
-      toast.error('An unknown error has occurred.', {
-        icon: <LuAlertTriangle />,
-        closeButton: true,
-      });
-    }
+    toast.warning('Key Deleted!', {
+      description: `Deleted: ${apiKeyObj.label}`,
+      icon: <LuAlertTriangle />,
+      closeButton: true,
+    });
+    setDeleting(false);
   };
 
   return (
-    <>
-      <DestructiveActionAlert
-        triggerDisabled={isDeleting}
-        triggerIcon={LuTrash}
-        alertDescription='This action cannot be undone. This will permanently delete this API key.'
-        confirmTitle='DELETE!'
-        confirmFn={confirmDeleteApiKey}
-      />
-      <ErrorDialog error={error} setError={setError} />
-    </>
+    <DestructiveActionAlert
+      triggerDisabled={isDeleting}
+      triggerIcon={LuTrash}
+      alertDescription='This action cannot be undone. This will permanently delete this API key.'
+      confirmTitle='DELETE!'
+      confirmFn={confirmDeleteApiKey}
+    />
   );
 };
 
