@@ -66,6 +66,15 @@
   body {
     @apply dark:dark-bg light-bg bg-background text-foreground bg-fixed;
   }
+  .logo {
+    @apply dark:dark-logo light-logo bg-local bg-cover bg-no-repeat size-10
+  }
+  .light-logo {
+    background-image: url('/images/logo-black.png');
+  }
+  .dark-logo {
+    background-image: url('/images/logo-white.png');
+  }
   .light-bg {
     background-image: url('/images/light-bg.png');
   }
