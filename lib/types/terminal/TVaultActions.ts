@@ -3,13 +3,12 @@ import type { TAPIKey } from './TAPIKey';
 import type { TVaultState } from './TVaultState';
 
 export type TVaultActions = {
-  addKey: (payload: TAPIKey) => void;
+  addKey: (encryptedPayload: TAPIKey, decryptedPayload: TAPIKey) => void;
   removeKey: (payload: TAPIKey) => void;
-  replaceAPIKeysState: (payload: TAPIKey[]) => void;
+  replaceDAPIKeysState: (payload: TAPIKey[]) => void;
   setUserId: (payload: TVaultState['user']['id']) => void;
   setPassphraseHash: (payload: TVaultState['user']['passphraseHash']) => void;
   setUserProfileImage: (payload: TVaultState['user']['profileImage']) => void;
-  setEncryptedStatus: (payload: TVaultState['terminal']['isEncrypted']) => void;
   setTicker: (payload: TVaultState['terminal']['ticker']) => void;
   setExchange: (payload: TVaultState['terminal']['exchange']) => void;
   setWsUrl: (payload: TVaultState['terminal']['wsUrl']) => void;

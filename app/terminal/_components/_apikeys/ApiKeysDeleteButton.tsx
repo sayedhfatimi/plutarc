@@ -7,7 +7,6 @@ import DestructiveActionAlert from '../DestructiveActionAlert';
 
 const ApiKeysDeleteButton = ({ apiKeyObj }: { apiKeyObj: TAPIKey }) => {
   const [isDeleting, setDeleting] = useState(false);
-
   const removeKey = useVault((state) => state.removeKey);
 
   const confirmDeleteApiKey = () => {

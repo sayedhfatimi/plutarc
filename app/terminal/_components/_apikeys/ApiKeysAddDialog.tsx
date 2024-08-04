@@ -4,9 +4,10 @@ import ApiKeysAddForm from './ApiKeysAddForm';
 import ApiKeysDecryptionDialog from './ApiKeysDecryptionDialog';
 
 const ApiKeysAddDialog = () => {
-  const apiKeys = useVault((state) => state.APIKeys);
-  const isEncrypted = useVault((state) => state.terminal.isEncrypted);
-  if (isEncrypted && apiKeys.length !== 0) return <ApiKeysDecryptionDialog />;
+  const eAPIKeys = useVault((state) => state.eAPIKeys);
+  const dAPIKeys = useVault((state) => state.dAPIKeys);
+  if (eAPIKeys.length > 0 && dAPIKeys.length === 0)
+    return <ApiKeysDecryptionDialog />;
 
   return <ApiKeysAddForm />;
 };

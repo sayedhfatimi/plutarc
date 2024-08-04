@@ -13,7 +13,7 @@ export default async function TerminalLayout({
 
   return (
     <QueryClientProvider>
-      <VaultProvider>{children}</VaultProvider>
+      <VaultProvider userSession={session}>{children}</VaultProvider>
     </QueryClientProvider>
   );
 }

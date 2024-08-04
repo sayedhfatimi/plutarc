@@ -29,9 +29,11 @@ import {
 } from '@/components/ui/select';
 import { ICON_SIZE_SMALL } from '@/lib/consts/UI';
 import { SUPPORTED_EXCHANGES } from '@/lib/consts/terminal/supportedExchanges';
+import { encryptString } from '@/lib/utils';
 import { createApiKeySchema } from '@/schemas/createApiKeySchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import bcryptjs from 'bcryptjs';
+import _ from 'lodash';
 import { nanoid } from 'nanoid';
 import Image from 'next/image';
 import { useState } from 'react';
@@ -44,7 +46,6 @@ const ApiKeysAddForm = () => {
   const [open, setOpen] = useState(false);
   const passphraseHash = useVault((state) => state.user.passphraseHash);
   const addKey = useVault((state) => state.addKey);
-  const setEncryptedStatus = useVault((state) => state.setEncryptedStatus);
   const [isSubmitting, setSubmitting] = useState(false);
 
   const form = useForm<z.infer<typeof createApiKeySchema>>({
@@ -54,7 +55,7 @@ const ApiKeysAddForm = () => {
   if (!passphraseHash) return <SetPassphraseForm />;
 
   const onSubmit = async (data: z.infer<typeof createApiKeySchema>) => {
-    // biome-ignore lint/style/noNonNullAssertion: <explanation>
+    // biome-ignore lint/style/noNonNullAssertion: passphrase exists, form cannot be submitted without one
     bcryptjs.compare(data.passphrase!, passphraseHash, async (_err, res) => {
       if (!res)
         return form.setError('passphrase', {
@@ -63,10 +64,21 @@ const ApiKeysAddForm = () => {
         });
       setSubmitting(true);
 
-      const apiKey = { ...data, id: nanoid(), passphrase: null };
-      addKey(apiKey);
+      const apiKey = {
+        ...data,
+        id: nanoid(),
+      };
 
-      setEncryptedStatus(false);
+      const encryptedApiKey = {
+        ...apiKey,
+        // biome-ignore lint/style/noNonNullAssertion: passphrase exists, form cannot be submitted without one
+        apiSecret: encryptString(data.apiSecret, data.passphrase!),
+      };
+
+      addKey(
+        _.omit(encryptedApiKey, 'passphrase'),
+        _.omit(apiKey, 'passphrase'),
+      );
 
       setOpen(false);
       setSubmitting(false);

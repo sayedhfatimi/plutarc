@@ -2,7 +2,8 @@ import type { Layout } from 'react-grid-layout';
 import type { TAPIKey } from './TAPIKey';
 
 export type TVaultState = {
-  APIKeys: TAPIKey[];
+  eAPIKeys: TAPIKey[];
+  dAPIKeys: TAPIKey[];
   user: {
     id: string | undefined;
     passphraseHash: string | undefined;
@@ -11,7 +12,6 @@ export type TVaultState = {
   terminal: {
     exchange: string;
     ticker: string;
-    isEncrypted: boolean;
     wsUrl: string;
     selectedKey: TAPIKey;
     activeComponents: Layout[];

@@ -14,14 +14,14 @@ import { toast } from 'sonner';
 import ApiKeysDecryptionDialog from './ApiKeysDecryptionDialog';
 
 const ApiKeysSelect = () => {
-  const APIKeys = useVault((state) => state.APIKeys);
+  const eAPIKeys = useVault((state) => state.eAPIKeys);
+  const dAPIKeys = useVault((state) => state.dAPIKeys);
   const selectedAPIKey = useVault((state) => state.terminal.selectedKey);
-  const isEncrypted = useVault((state) => state.terminal.isEncrypted);
   const setSelectedKey = useVault((state) => state.setSelectedKey);
 
-  if (APIKeys.length === 0) return null;
+  if (eAPIKeys.length === 0) return null;
 
-  if (isEncrypted) return <ApiKeysDecryptionDialog />;
+  if (dAPIKeys.length === 0) return <ApiKeysDecryptionDialog />;
 
   const handleValueChange = (option: string) => {
     setSelectedKey(JSON.parse(option));
@@ -53,7 +53,7 @@ const ApiKeysSelect = () => {
           />
         </SelectTrigger>
         <SelectContent position='item-aligned' align='end'>
-          {APIKeys.map((item: TAPIKey) => (
+          {dAPIKeys.map((item: TAPIKey) => (
             <SelectItem key={item.label} value={JSON.stringify(item)}>
               {item.label}
             </SelectItem>

@@ -31,7 +31,6 @@ import { decryptString } from '@/lib/utils';
 import { getPassphraseSchema } from '@/schemas/getPassphraseSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import bcryptjs from 'bcryptjs';
-import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { LuInfo, LuPartyPopper, LuUnlock } from 'react-icons/lu';
@@ -39,13 +38,11 @@ import { toast } from 'sonner';
 import type { z } from 'zod';
 
 const ApiKeysDecryptionDialog = () => {
-  const { data: session } = useSession();
   const [open, setOpen] = useState(false);
 
-  const apiKeysArr = useVault((state) => state.APIKeys);
+  const eAPIKeys = useVault((state) => state.eAPIKeys);
   const passphraseHash = useVault((state) => state.user.passphraseHash);
-  const setEncryptedStatus = useVault((state) => state.setEncryptedStatus);
-  const replaceAPIKeysState = useVault((state) => state.replaceAPIKeysState);
+  const replaceDAPIKeysState = useVault((state) => state.replaceDAPIKeysState);
 
   const form = useForm<z.infer<typeof getPassphraseSchema>>({
     resolver: zodResolver(getPassphraseSchema),
@@ -63,16 +60,14 @@ const ApiKeysDecryptionDialog = () => {
           message: 'Passphrase entered does not match with account passphrase.',
         });
 
-      // TODO: this should probably be in a trycatch block to handle errors (?)
-      const decryptedApiKeysArr = apiKeysArr.map((apiKey: TAPIKey) => {
+      const dAPIKeys = eAPIKeys.map((apiKey: TAPIKey) => {
         return {
           ...apiKey,
           apiSecret: decryptString(apiKey.apiSecret, data.passphrase),
         };
       });
 
-      replaceAPIKeysState(decryptedApiKeysArr);
-      setEncryptedStatus(false);
+      replaceDAPIKeysState(dAPIKeys);
 
       toast.success('Keys decrypted successfully!', {
         icon: <LuPartyPopper />,

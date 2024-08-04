@@ -1,5 +1,6 @@
 'use client';
 import { type TVault, createVault } from '@/lib/vault';
+import type { Session } from 'next-auth';
 import { type ReactNode, createContext, useContext, useRef } from 'react';
 import { useStore } from 'zustand';
 
@@ -7,10 +8,13 @@ export type TVaultApi = ReturnType<typeof createVault>;
 
 export const VaultContext = createContext<TVaultApi | undefined>(undefined);
 
-export const VaultProvider = ({ children }: { children: ReactNode }) => {
+export const VaultProvider = ({
+  children,
+  userSession,
+}: { children: ReactNode; userSession: Session }) => {
   const vaultRef = useRef<TVaultApi>();
   if (!vaultRef.current) {
-    vaultRef.current = createVault();
+    vaultRef.current = createVault(userSession.user.id);
   }
 
   return (

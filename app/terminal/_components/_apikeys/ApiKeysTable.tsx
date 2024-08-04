@@ -8,7 +8,7 @@ import ApiKeysAlert from './ApiKeysAlert';
 import ApiKeysDeleteButton from './ApiKeysDeleteButton';
 
 const ApiKeysTable = () => {
-  const apiKeys = useVault((state) => state.APIKeys);
+  const apiKeys = useVault((state) => state.eAPIKeys);
 
   if (apiKeys.length === 0) return <ApiKeysAlert />;
 
