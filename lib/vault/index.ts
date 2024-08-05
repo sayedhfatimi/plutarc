@@ -35,20 +35,27 @@ const storage: PersistStorage<DeepPartial<TVaultState>> = {
   },
 };
 
-export const createVault = (userId: string) => {
+export const defaultInitState: TVaultState = {
+  eAPIKeys: [] as TAPIKey[],
+  dAPIKeys: [] as TAPIKey[],
+  user: {} as TVaultState['user'],
+  terminal: {
+    exchange: DEFAULT_EXCHANGE,
+    ticker: DEFAULT_TICKER,
+    selectedKey: {} as TAPIKey,
+    activeComponents: defaultTerminalLayout as Layout[],
+    inactiveComponents: [] as Layout[],
+  } as TVaultState['terminal'],
+};
+
+export const createVault = (
+  userId: string,
+  initState: TVaultState = defaultInitState,
+) => {
   return createStore<TVault>()(
     persist(
       (set, get) => ({
-        eAPIKeys: [] as TAPIKey[],
-        dAPIKeys: [] as TAPIKey[],
-        user: {} as TVaultState['user'],
-        terminal: {
-          exchange: DEFAULT_EXCHANGE,
-          ticker: DEFAULT_TICKER,
-          selectedKey: {} as TAPIKey,
-          activeComponents: defaultTerminalLayout as Layout[],
-          inactiveComponents: [] as Layout[],
-        } as TVaultState['terminal'],
+        ...initState,
         addKey: (encryptedPayload: TAPIKey, decryptedPayload: TAPIKey) =>
           set({
             ...get(),
@@ -134,10 +141,15 @@ export const createVault = (userId: string) => {
         partialize: (state) => ({
           eAPIKeys: state.eAPIKeys,
           user: state.user,
-          terminal: _.omit(state.terminal, ['selectedKey', 'wsUrl']),
+          terminal: _.pick(state.terminal, [
+            'exchange',
+            'ticker',
+            'activeComponents',
+            'inactiveComponents',
+          ]),
         }),
         merge: (persistedState, currentState) =>
-          _.merge(persistedState, currentState),
+          _.merge(currentState, persistedState),
       },
     ),
   );

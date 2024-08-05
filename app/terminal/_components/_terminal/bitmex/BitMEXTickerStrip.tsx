@@ -53,7 +53,7 @@ const BitMEXTickerStrip = () => {
           key={ticker.symbol}
           className='flex select-none flex-row items-center space-x-2 divide-x-2 font-mono'
         >
-          <div className='flex flex-row items-center space-x-2'>
+          <div className='flex flex-row items-center gap-x-2 px-2 py-1 hover:bg-secondary'>
             <div
               className={classNames({
                 'text-green-600 dark:text-green-600':
@@ -86,7 +86,7 @@ const BitMEXTickerStrip = () => {
               </div>
             </div>
           </div>
-          <div className='hidden flex-col px-2 xl:flex'>
+          <div className='hidden flex-col px-2 py-1 hover:bg-secondary xl:flex'>
             <div className='text-right text-muted-foreground text-xs'>
               24h %
             </div>
@@ -99,19 +99,19 @@ const BitMEXTickerStrip = () => {
               {`${ticker.lastChangePcnt > 0 ? '+' : ''}${numberParser(ticker.lastChangePcnt * 100)} %`}
             </div>
           </div>
-          <div className='hidden flex-col px-2 2xl:flex'>
+          <div className='hidden flex-col px-2 py-1 hover:bg-secondary 2xl:flex'>
             <div className='text-right text-muted-foreground text-xs'>High</div>
             <div>{numberParser(ticker.highPrice)}</div>
           </div>
-          <div className='hidden flex-col px-2 2xl:flex'>
+          <div className='hidden flex-col px-2 py-1 hover:bg-secondary 2xl:flex'>
             <div className='text-right text-muted-foreground text-xs'>Low</div>
             <div>{numberParser(ticker.lowPrice)}</div>
           </div>
-          <div className='hidden flex-col px-2 2xl:flex'>
+          <div className='hidden flex-col px-2 py-1 hover:bg-secondary 2xl:flex'>
             <div className='text-right text-muted-foreground text-xs'>VWAP</div>
             <div>{numberParser(ticker.vwap)}</div>
           </div>
-          <div className='hidden flex-col px-2 xl:flex'>
+          <div className='hidden flex-col px-2 py-1 hover:bg-secondary xl:flex'>
             <div className='text-right text-muted-foreground text-xs'>
               24h Volume
             </div>

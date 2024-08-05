@@ -23,8 +23,9 @@ import { LuEye, LuEyeOff, LuSettings } from 'react-icons/lu';
 import ConnectionStatus from './ConnectionStatus';
 
 const TerminalSettings = () => {
-  const terminalLayout = useVault((state) => state.terminal.activeComponents);
-  const terminal = useVault((state) => state.terminal);
+  const activeComponents = useVault((state) => state.terminal.activeComponents);
+  const ticker = useVault((state) => state.terminal.ticker);
+  const exchange = useVault((state) => state.terminal.exchange);
   const removeComponent = useVault((state) => state.removeComponent);
   const addComponent = useVault((state) => state.addComponent);
 
@@ -55,11 +56,11 @@ const TerminalSettings = () => {
               <div className='flex flex-row space-x-4'>
                 <div className='flex flex-col'>
                   <span className='text-muted-foreground'>Exchange</span>
-                  <span>{terminal.exchange.toUpperCase()}</span>
+                  <span>{exchange.toUpperCase()}</span>
                 </div>
                 <div className='flex flex-col'>
                   <span className='text-muted-foreground'>Ticker</span>
-                  <span>{terminal.ticker}</span>
+                  <span>{ticker}</span>
                 </div>
               </div>
               <ConnectionStatus />
@@ -74,9 +75,14 @@ const TerminalSettings = () => {
                   <LuEyeOff size={ICON_SIZE_SMALL} />
                   <Switch
                     id={component.i}
-                    checked={_.some(terminalLayout, (o) => o.i === component.i)}
+                    checked={_.some(
+                      activeComponents,
+                      (o) => o.i === component.i,
+                    )}
                     onCheckedChange={() => {
-                      if (_.some(terminalLayout, (o) => o.i === component.i)) {
+                      if (
+                        _.some(activeComponents, (o) => o.i === component.i)
+                      ) {
                         removeComponent(component);
                       } else {
                         addComponent(component);
