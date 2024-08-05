@@ -20,7 +20,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { ICON_SIZE_SMALL } from '@/lib/consts/UI';
-import { createPassphraseSchema } from '@/schemas/createPassphraseSchema';
+import { createPassphraseSchema } from '@/lib/schemas/createPassphraseSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import bcryptjs from 'bcryptjs';
 import { useState } from 'react';

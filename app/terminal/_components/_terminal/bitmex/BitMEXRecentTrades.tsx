@@ -43,61 +43,60 @@ const BitMEXRecentTrades = () => {
     };
   }, [ticker, sendJsonMessage]);
 
+  if (!data || data.length === 0)
+    return (
+      <div className='h-full place-content-center place-items-center text-center'>
+        <Spinner />
+      </div>
+    );
+
   const filteredData = data.toReversed().slice(0, MAX_VISIBLE_TRADES);
 
   return (
     <>
-      {!data || data.length === 0 ? (
-        <div className='h-full place-content-center place-items-center text-center'>
-          <Spinner />
+      <div className='grid w-full grid-cols-8 items-center border-b bg-white text-slate-600 dark:bg-slate-900'>
+        <div className='flex '>Side</div>
+        <div className='col-span-2 flex justify-end'>Size</div>
+        <div className='col-span-3 flex flex-row items-center justify-end space-x-2'>
+          <span>Price</span>
+          <LuArrowUpDown />
         </div>
-      ) : (
-        <>
-          <div className='grid w-full grid-cols-8 items-center border-b bg-white text-slate-600 dark:bg-slate-900'>
-            <div className='flex '>Side</div>
-            <div className='col-span-2 flex justify-end'>Size</div>
-            <div className='col-span-3 flex flex-row items-center justify-end space-x-2'>
-              <span>Price</span>
-              <LuArrowUpDown />
+        <div className='col-span-2 flex justify-end'>
+          <LuClock />
+        </div>
+      </div>
+      <ScrollArea className='mb-2 h-full'>
+        <div className='flex flex-col'>
+          {filteredData.map((item: TRecentTrades) => (
+            <div
+              key={item.trdMatchID}
+              className={classNames({
+                'grid grid-cols-8 hover:bg-slate-200/50 dark:hover:bg-slate-200/50': true,
+                'bg-green-50 text-green-600 dark:bg-green-950/20 dark:text-green-600':
+                  item.side === 'Buy',
+                'bg-red-50 text-red-400 dark:bg-red-950/20 dark:text-red-600':
+                  item.side === 'Sell',
+              })}
+            >
+              <div className='flex'>{item.side}</div>
+              <div className='col-span-2 flex justify-end'>
+                {item.size.toLocaleString()}
+              </div>
+              <div className='col-span-3 flex flex-row items-center justify-end space-x-2'>
+                {item.tickDirection === 'PlusTick' ? (
+                  <TiArrowUp size={ICON_SIZE_SMALL} />
+                ) : item.tickDirection === 'MinusTick' ? (
+                  <TiArrowDown size={ICON_SIZE_SMALL} />
+                ) : null}
+                <span>{numberParser(item.price)}</span>
+              </div>
+              <div className='col-span-2 flex justify-end text-slate-600'>
+                {new Date(item.timestamp).toLocaleTimeString()}
+              </div>
             </div>
-            <div className='col-span-2 flex justify-end'>
-              <LuClock />
-            </div>
-          </div>
-          <ScrollArea className='mb-2 h-full'>
-            <div className='flex flex-col'>
-              {filteredData.map((item: TRecentTrades) => (
-                <div
-                  key={item.trdMatchID}
-                  className={classNames({
-                    'grid grid-cols-8 hover:bg-slate-200/50 dark:hover:bg-slate-200/50': true,
-                    'bg-green-50 text-green-600 dark:bg-green-950/20 dark:text-green-600':
-                      item.side === 'Buy',
-                    'bg-red-50 text-red-400 dark:bg-red-950/20 dark:text-red-600':
-                      item.side === 'Sell',
-                  })}
-                >
-                  <div className='flex'>{item.side}</div>
-                  <div className='col-span-2 flex justify-end'>
-                    {item.size.toLocaleString()}
-                  </div>
-                  <div className='col-span-3 flex flex-row items-center justify-end space-x-2'>
-                    {item.tickDirection === 'PlusTick' ? (
-                      <TiArrowUp size={ICON_SIZE_SMALL} />
-                    ) : item.tickDirection === 'MinusTick' ? (
-                      <TiArrowDown size={ICON_SIZE_SMALL} />
-                    ) : null}
-                    <span>{numberParser(item.price)}</span>
-                  </div>
-                  <div className='col-span-2 flex justify-end text-slate-600'>
-                    {new Date(item.timestamp).toLocaleTimeString()}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </ScrollArea>
-        </>
-      )}
+          ))}
+        </div>
+      </ScrollArea>
     </>
   );
 };

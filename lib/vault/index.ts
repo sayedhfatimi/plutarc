@@ -1,4 +1,4 @@
-import { Redis } from '@upstash/redis';
+import redis from '@/lib/utils/clients/redis';
 import _ from 'lodash';
 import type { Layout } from 'react-grid-layout';
 import { createStore } from 'zustand';
@@ -11,7 +11,6 @@ import { defaultTerminalLayout } from '../consts/terminal/gridConfig';
 import type { TAPIKey } from '../types/terminal/TAPIKey';
 import type { TVaultActions } from '../types/terminal/TVaultActions';
 import type { TVaultState } from '../types/terminal/TVaultState';
-import redis from '../utils/clients/redis';
 
 const DEFAULT_TICKER = 'XBTUSD';
 const DEFAULT_EXCHANGE = 'bitmex';
@@ -22,40 +21,34 @@ type DeepPartial<T> = {
   [P in keyof T]?: DeepPartial<T[P]>;
 };
 
-export const defaultState: TVaultState = {
-  eAPIKeys: [] as TAPIKey[],
-  dAPIKeys: [] as TAPIKey[],
-  user: {} as TVaultState['user'],
-  terminal: {
-    exchange: DEFAULT_EXCHANGE,
-    ticker: DEFAULT_TICKER,
-    selectedKey: {} as TAPIKey,
-    activeComponents: defaultTerminalLayout as Layout[],
-    inactiveComponents: [] as Layout[],
-  } as TVaultState['terminal'],
-};
-
 const storage: PersistStorage<DeepPartial<TVaultState>> = {
   getItem: async (name) => {
-    const data = await redis.json.get<StorageValue<Partial<TVaultState>>>(name);
-    return data;
+    return (
+      (await redis.json.get<StorageValue<Partial<TVaultState>>>(name)) || null
+    );
   },
   setItem: async (name, value) => {
     await redis.json.set(name, '$', value);
   },
-  removeItem: (name) => {
-    console.log(name);
+  removeItem: async (name) => {
+    await redis.json.del(name, '$');
   },
 };
 
-export const createVault = (
-  userId: string,
-  initState: TVaultState = defaultState,
-) => {
+export const createVault = (userId: string) => {
   return createStore<TVault>()(
     persist(
       (set, get) => ({
-        ...initState,
+        eAPIKeys: [] as TAPIKey[],
+        dAPIKeys: [] as TAPIKey[],
+        user: {} as TVaultState['user'],
+        terminal: {
+          exchange: DEFAULT_EXCHANGE,
+          ticker: DEFAULT_TICKER,
+          selectedKey: {} as TAPIKey,
+          activeComponents: defaultTerminalLayout as Layout[],
+          inactiveComponents: [] as Layout[],
+        } as TVaultState['terminal'],
         addKey: (encryptedPayload: TAPIKey, decryptedPayload: TAPIKey) =>
           set({
             ...get(),

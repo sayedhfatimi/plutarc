@@ -41,77 +41,70 @@ const BitMEXContractInfo = () => {
     };
   }, [ticker, sendJsonMessage]);
 
+  if (!data || data.length === 0)
+    return (
+      <div className='h-full place-content-center place-items-center text-center'>
+        <Spinner />
+      </div>
+    );
+
   return (
-    <>
-      {!data || data.length === 0 ? (
-        <div className='h-full place-content-center place-items-center text-center'>
-          <Spinner />
+    <div className='group flex h-full items-center justify-evenly'>
+      <div className='flex flex-row space-x-2 group-hover:hidden'>
+        <div className='flex w-[96px] flex-col text-right'>
+          <div>Mark Price</div>
+          <div>Funding</div>
+          <div>O. Interest</div>
+          <div>24h Volume</div>
         </div>
-      ) : (
-        <div className='group flex h-full items-center justify-evenly'>
-          <div className='flex flex-row space-x-2 group-hover:hidden'>
-            <div className='flex w-[96px] flex-col text-right'>
-              <div>Mark Price</div>
-              <div>Funding</div>
-              <div>O. Interest</div>
-              <div>24h Volume</div>
-            </div>
-            <div className='flex flex-col'>
-              <div>{`${numberParser(data[0].markPrice)} ${data[0].quoteCurrency}`}</div>
-              <div
-                className={classNames({
-                  'text-red-800':
-                    data[0].fundingRate > FUNDING_THRESHOLD_DANGER,
-                  'text-red-600':
-                    data[0].fundingRate > FUNDING_THRESHOLD_CAUTION,
-                  'text-green-600':
-                    data[0].fundingRate < FUNDING_THRESHOLD_SAFE,
-                })}
-              >
-                {`${(data[0].fundingRate * 100).toFixed(4)}%`}
-              </div>
-              <div>
-                {new Intl.NumberFormat('en-US', {
-                  style: 'currency',
-                  currency: 'USD',
-                  notation: 'compact',
-                }).format(data[0].openInterest)}
-              </div>
-              <div>
-                {new Intl.NumberFormat('en-US', {
-                  style: 'currency',
-                  currency: 'USD',
-                  notation: 'compact',
-                }).format(data[0].volume24h)}
-              </div>
-            </div>
+        <div className='flex flex-col'>
+          <div>{`${numberParser(data[0].markPrice)} ${data[0].quoteCurrency}`}</div>
+          <div
+            className={classNames({
+              'text-red-800': data[0].fundingRate > FUNDING_THRESHOLD_DANGER,
+              'text-red-600': data[0].fundingRate > FUNDING_THRESHOLD_CAUTION,
+              'text-green-600': data[0].fundingRate < FUNDING_THRESHOLD_SAFE,
+            })}
+          >
+            {`${(data[0].fundingRate * 100).toFixed(4)}%`}
           </div>
-          <div className='hidden flex-row space-x-2 group-hover:flex'>
-            <div className='flex w-[96px] flex-col text-right'>
-              <div>Index Price</div>
-              <div>P. Funding</div>
-              <div>O. Value</div>
-              <div>24h Turnover</div>
-            </div>
-            <div className='flex flex-col'>
-              <div>{`${numberParser(data[0].indicativeSettlePrice)} ${data[0].quoteCurrency}`}</div>
-              <div
-                className={classNames({
-                  'text-red-800':
-                    data[0].fundingRate > FUNDING_THRESHOLD_DANGER,
-                  'text-red-600':
-                    data[0].fundingRate > FUNDING_THRESHOLD_CAUTION,
-                  'text-green-600':
-                    data[0].fundingRate < FUNDING_THRESHOLD_SAFE,
-                })}
-              >{`${(data[0].indicativeFundingRate * 100).toFixed(4)}%`}</div>
-              <div>{`${numberParser(data[0].openValue / 10 ** 8)} ${data[0].rootSymbol}`}</div>
-              <div>{`${numberParser(data[0].turnover24h / 10 ** 8)} ${data[0].rootSymbol}`}</div>
-            </div>
+          <div>
+            {new Intl.NumberFormat('en-US', {
+              style: 'currency',
+              currency: 'USD',
+              notation: 'compact',
+            }).format(data[0].openInterest)}
+          </div>
+          <div>
+            {new Intl.NumberFormat('en-US', {
+              style: 'currency',
+              currency: 'USD',
+              notation: 'compact',
+            }).format(data[0].volume24h)}
           </div>
         </div>
-      )}
-    </>
+      </div>
+      <div className='hidden flex-row space-x-2 group-hover:flex'>
+        <div className='flex w-[96px] flex-col text-right'>
+          <div>Index Price</div>
+          <div>P. Funding</div>
+          <div>O. Value</div>
+          <div>24h Turnover</div>
+        </div>
+        <div className='flex flex-col'>
+          <div>{`${numberParser(data[0].indicativeSettlePrice)} ${data[0].quoteCurrency}`}</div>
+          <div
+            className={classNames({
+              'text-red-800': data[0].fundingRate > FUNDING_THRESHOLD_DANGER,
+              'text-red-600': data[0].fundingRate > FUNDING_THRESHOLD_CAUTION,
+              'text-green-600': data[0].fundingRate < FUNDING_THRESHOLD_SAFE,
+            })}
+          >{`${(data[0].indicativeFundingRate * 100).toFixed(4)}%`}</div>
+          <div>{`${numberParser(data[0].openValue / 10 ** 8)} ${data[0].rootSymbol}`}</div>
+          <div>{`${numberParser(data[0].turnover24h / 10 ** 8)} ${data[0].rootSymbol}`}</div>
+        </div>
+      </div>
+    </div>
   );
 };
 

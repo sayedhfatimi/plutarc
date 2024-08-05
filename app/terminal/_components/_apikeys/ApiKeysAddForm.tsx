@@ -29,8 +29,8 @@ import {
 } from '@/components/ui/select';
 import { ICON_SIZE_SMALL } from '@/lib/consts/UI';
 import { SUPPORTED_EXCHANGES } from '@/lib/consts/terminal/supportedExchanges';
+import { createApiKeySchema } from '@/lib/schemas/createApiKeySchema';
 import { encryptString } from '@/lib/utils';
-import { createApiKeySchema } from '@/schemas/createApiKeySchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import bcryptjs from 'bcryptjs';
 import _ from 'lodash';

@@ -26,9 +26,9 @@ import {
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { ICON_SIZE_LARGE, ICON_SIZE_SMALL } from '@/lib/consts/UI';
+import { getPassphraseSchema } from '@/lib/schemas/getPassphraseSchema';
 import type { TAPIKey } from '@/lib/types/terminal/TAPIKey';
 import { decryptString } from '@/lib/utils';
-import { getPassphraseSchema } from '@/schemas/getPassphraseSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import bcryptjs from 'bcryptjs';
 import { useState } from 'react';

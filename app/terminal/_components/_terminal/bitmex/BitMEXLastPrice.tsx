@@ -39,47 +39,46 @@ const BitMEXLastPrice = () => {
     };
   }, [ticker, sendJsonMessage]);
 
+  if (!data || data.length === 0)
+    return (
+      <div className='h-full place-content-center place-items-center text-center'>
+        <Spinner />
+      </div>
+    );
+
   return (
-    <>
-      {!data || data.length === 0 ? (
-        <div className='h-full place-content-center place-items-center text-center'>
-          <Spinner />
+    <div className='flex h-full flex-col place-content-center place-items-center p-2'>
+      <div className='text-muted-foreground'>Last Price</div>
+      <div className='flex flex-row items-center space-x-2'>
+        <div
+          className={classNames({
+            'text-green-600 dark:text-green-600':
+              data[0].lastTickDirection === 'PlusTick',
+            'text-red-600 dark:text-red-600':
+              data[0].lastTickDirection === 'MinusTick',
+          })}
+        >
+          {data[0].lastTickDirection === 'PlusTick' ? (
+            <LuArrowUp size={ICON_SIZE_MEDIUM} />
+          ) : data[0].lastTickDirection === 'MinusTick' ? (
+            <LuArrowDown size={ICON_SIZE_MEDIUM} />
+          ) : (
+            <LuCircle size={ICON_SIZE_MEDIUM} />
+          )}
         </div>
-      ) : (
-        <div className='flex h-full flex-col place-content-center place-items-center p-2'>
-          <div className='text-muted-foreground'>Last Price</div>
-          <div className='flex flex-row items-center space-x-2'>
-            <div
-              className={classNames({
-                'text-green-600 dark:text-green-600':
-                  data[0].lastTickDirection === 'PlusTick',
-                'text-red-600 dark:text-red-600':
-                  data[0].lastTickDirection === 'MinusTick',
-              })}
-            >
-              {data[0].lastTickDirection === 'PlusTick' ? (
-                <LuArrowUp size={ICON_SIZE_MEDIUM} />
-              ) : data[0].lastTickDirection === 'MinusTick' ? (
-                <LuArrowDown size={ICON_SIZE_MEDIUM} />
-              ) : (
-                <LuCircle size={ICON_SIZE_MEDIUM} />
-              )}
-            </div>
-            <div
-              className={classNames({
-                'text-4xl': true,
-                'text-green-600 dark:text-green-600':
-                  data[0].lastTickDirection === 'PlusTick',
-                'text-red-600 dark:text-red-600':
-                  data[0].lastTickDirection === 'MinusTick',
-              })}
-            >
-              {numberParser(data[0].lastPrice)}
-            </div>
-          </div>
+        <div
+          className={classNames({
+            'text-4xl': true,
+            'text-green-600 dark:text-green-600':
+              data[0].lastTickDirection === 'PlusTick',
+            'text-red-600 dark:text-red-600':
+              data[0].lastTickDirection === 'MinusTick',
+          })}
+        >
+          {numberParser(data[0].lastPrice)}
         </div>
-      )}
-    </>
+      </div>
+    </div>
   );
 };
 
