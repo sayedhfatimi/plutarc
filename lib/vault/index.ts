@@ -1,13 +1,11 @@
-import redis from '@/lib/utils/clients/redis';
 import { deepmergeCustom } from 'deepmerge-ts';
 import _ from 'lodash';
 import type { Layout } from 'react-grid-layout';
 import { createStore } from 'zustand';
-import {
-  type PersistStorage,
-  type StorageValue,
-  persist,
-} from 'zustand/middleware';
+import { type PersistStorage, persist } from 'zustand/middleware';
+import deleteVaultState from '../actions/deleteVaultState';
+import getVaultState from '../actions/getVaultState';
+import setVaultState from '../actions/setVaultState';
 import { defaultTerminalLayout } from '../consts/terminal/gridConfig';
 import type { TAPIKey } from '../types/terminal/TAPIKey';
 import type { TVaultActions } from '../types/terminal/TVaultActions';
@@ -18,21 +16,17 @@ const DEFAULT_EXCHANGE = 'bitmex';
 
 export type TVault = TVaultState & TVaultActions;
 
-type DeepPartial<T> = {
+export type DeepPartial<T> = {
   [P in keyof T]?: DeepPartial<T[P]>;
 };
 
 const storage: PersistStorage<DeepPartial<TVaultState>> = {
-  getItem: async (name) => {
-    return (
-      (await redis.json.get<StorageValue<Partial<TVaultState>>>(name)) || null
-    );
-  },
+  getItem: async (name) => await getVaultState(name),
   setItem: async (name, value) => {
-    await redis.json.set(name, '$', value);
+    await setVaultState(name, value);
   },
   removeItem: async (name) => {
-    await redis.json.del(name, '$');
+    await deleteVaultState(name);
   },
 };
 
