@@ -1,4 +1,5 @@
 import redis from '@/lib/utils/clients/redis';
+import { deepmergeCustom } from 'deepmerge-ts';
 import _ from 'lodash';
 import type { Layout } from 'react-grid-layout';
 import { createStore } from 'zustand';
@@ -149,8 +150,10 @@ export const createVault = (
           ]),
         }),
         merge: (persistedState, currentState) =>
-          _.merge(currentState, persistedState),
+          deepmerge(persistedState, currentState),
       },
     ),
   );
 };
+
+const deepmerge = deepmergeCustom({ mergeArrays: (a) => a[0] });
