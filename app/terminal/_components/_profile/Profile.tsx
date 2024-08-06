@@ -17,10 +17,8 @@ import {
 import useKBShortcut from '@/lib/hooks/useKBShortcut';
 import type { Session } from 'next-auth';
 import Link from 'next/link';
-import { LuLogOut, LuSettings2, LuSkull } from 'react-icons/lu';
-import AppTrayAvatar from '../AppTrayAvatar';
+import { LuLogOut, LuSettings2, LuSkull, LuUser } from 'react-icons/lu';
 import DeleteAccountButton from './DeleteAccountButton';
-import ProfileImage from './ProfileImage';
 import ResetPassphraseButton from './ResetPassphraseButton';
 
 const Profile = ({ userSession }: { userSession: Session }) => {
@@ -30,7 +28,7 @@ const Profile = ({ userSession }: { userSession: Session }) => {
     <Popover onOpenChange={setOpen} open={open} modal>
       <PopoverTrigger asChild>
         <Button variant='outline' className='space-x-2' size='sm'>
-          <AppTrayAvatar />
+          <LuUser size={ICON_SIZE_SMALL} />
           <KBShortcutLabel char={KB_SHORTCUT_PROFILE_SETTINGS} />
         </Button>
       </PopoverTrigger>
@@ -66,7 +64,6 @@ const Profile = ({ userSession }: { userSession: Session }) => {
                 email: {userSession?.user.email}
               </div>
             </div>
-            <ProfileImage />
           </section>
 
           <section className='flex flex-col space-y-2'>
