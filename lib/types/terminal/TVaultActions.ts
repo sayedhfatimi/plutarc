@@ -14,6 +14,7 @@ export type TVaultActions = {
   setWsUrl: (payload: TVaultState['terminal']['wsUrl']) => void;
   setSelectedKey: (payload: TVaultState['terminal']['selectedKey']) => void;
   setTerminalLayout: (payload: Layout[]) => void;
+  resetTerminalLayout: (payload: Layout[]) => void;
   addComponent: (payload: Layout) => void;
   removeComponent: (payload: Layout) => void;
 };

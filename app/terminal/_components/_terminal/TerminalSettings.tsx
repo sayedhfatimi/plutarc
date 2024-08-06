@@ -20,6 +20,7 @@ import { defaultTerminalLayout } from '@/lib/consts/terminal/gridConfig';
 import useKBShortcut from '@/lib/hooks/useKBShortcut';
 import _ from 'lodash';
 import { LuEye, LuEyeOff, LuSettings } from 'react-icons/lu';
+import { MdLockReset } from 'react-icons/md';
 import ConnectionStatus from './ConnectionStatus';
 
 const TerminalSettings = () => {
@@ -28,6 +29,7 @@ const TerminalSettings = () => {
   const exchange = useVault((state) => state.terminal.exchange);
   const removeComponent = useVault((state) => state.removeComponent);
   const addComponent = useVault((state) => state.addComponent);
+  const resetTerminalLayout = useVault((state) => state.resetTerminalLayout);
 
   const { open, setOpen } = useKBShortcut(KB_SHORTCUT_TERMINAL_SETTINGS);
 
@@ -39,17 +41,28 @@ const TerminalSettings = () => {
           <KBShortcutLabel char={KB_SHORTCUT_TERMINAL_SETTINGS} />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className='w-[400px] select-none font-mono text-sm'>
+      <PopoverContent className='w-[500px] select-none font-mono text-sm'>
         <div className='flex flex-col space-y-2'>
-          <header className='flex flex-row items-center space-x-2'>
-            <LuSettings size={ICON_SIZE_LARGE} />
-            <div className='flex flex-col'>
-              <h1 className='font-bold text-2xl'>Terminal Settings</h1>
-              <span className='text-muted-foreground text-xs'>
-                Edit Terminal Settings
-              </span>
-            </div>
-          </header>
+          <div className='flex items-center justify-between'>
+            <header className='flex flex-row items-center space-x-2'>
+              <LuSettings size={ICON_SIZE_LARGE} />
+              <div className='flex flex-col'>
+                <h1 className='font-bold text-2xl'>Terminal Settings</h1>
+                <span className='text-muted-foreground text-xs'>
+                  Edit Terminal Settings
+                </span>
+              </div>
+            </header>
+            <Button
+              variant='outline'
+              size='sm'
+              className='space-x-2'
+              onClick={() => resetTerminalLayout(defaultTerminalLayout)}
+            >
+              <MdLockReset size={ICON_SIZE_SMALL} />
+              <span>Reset Layout</span>
+            </Button>
+          </div>
           <Separator />
           <ContentWrapper className='space-y-2'>
             <div className='flex flex-row items-center justify-between border p-2'>

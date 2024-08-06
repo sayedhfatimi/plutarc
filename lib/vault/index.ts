@@ -102,6 +102,15 @@ export const createVault = (
             ...get(),
             terminal: { ...get().terminal, activeComponents: payload },
           }),
+        resetTerminalLayout: (payload: Layout[]) =>
+          set({
+            ...get(),
+            terminal: {
+              ...get().terminal,
+              activeComponents: payload,
+              inactiveComponents: [],
+            },
+          }),
         addComponent: (payload: Layout) =>
           set({
             ...get(),
