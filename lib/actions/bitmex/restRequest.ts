@@ -1,13 +1,15 @@
 'use server';
-export default async function makeRequest(
+export default async function restRequest(
   verb: string,
   path: string,
   headers: HeadersInit,
   postBody: string,
 ) {
-  await fetch(`https://www.bitmex.com${path}`, {
+  const res = await fetch(`https://www.bitmex.com${path}`, {
     method: verb,
     headers,
     body: postBody,
   });
+
+  return res.json();
 }

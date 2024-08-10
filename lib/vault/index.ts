@@ -87,11 +87,6 @@ export const createVault = (
             ...get(),
             terminal: { ...get().terminal, exchange: payload },
           }),
-        setWsUrl: (payload: TVaultState['terminal']['wsUrl']) =>
-          set({
-            ...get(),
-            terminal: { ...get().terminal, wsUrl: payload },
-          }),
         setSelectedKey: (payload: TVaultState['terminal']['selectedKey']) =>
           set({
             ...get(),

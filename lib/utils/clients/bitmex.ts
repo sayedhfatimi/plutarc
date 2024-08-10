@@ -8,32 +8,25 @@ import _ from 'lodash';
 type TBitMEXClient_DATA = { [key: string]: { [key: string]: any[] } };
 type TBitMEXClient_KEYS = { [key: string]: string | string[] };
 
+let instance: BitMEXClient;
+
 class BitMEXClient {
-  private static instance: BitMEXClient | null = null;
-
-  private constructor() {}
-
-  public static getInstance(): BitMEXClient {
-    if (BitMEXClient.instance === null) {
-      BitMEXClient.instance = new BitMEXClient();
+  constructor() {
+    if (instance) {
+      throw new Error('You can only create one instance!');
     }
-    return BitMEXClient.instance;
+    instance = this;
+  }
+
+  getInstance() {
+    return this;
   }
 
   // private properties
 
   private _DATA: TBitMEXClient_DATA = {};
   private _KEYS: TBitMEXClient_KEYS = {};
-  private WS_URL = 'wss://ws.bitmex.com/realtime';
   private STORE_MAX_LENGTH = 10_000;
-
-  public getUrl(apiKey?: string, apiSecret?: string) {
-    if (apiKey && apiSecret) {
-      const WS_AUTH_URL = `${this.WS_URL}?${this.getWSAuthQuery(apiKey, apiSecret)}`;
-      return WS_AUTH_URL;
-    }
-    return this.WS_URL;
-  }
 
   public deltaParser<T>(
     table: string,
@@ -177,7 +170,7 @@ class BitMEXClient {
   }
 
   public getWSAuthQuery(apiKey: string, apiSecret: string) {
-    const expires = Math.round(Date.now() / 1000) + 5;
+    const expires = Math.round(Date.now() / 1000) + 60_000;
     const query = {
       'api-expires': expires,
       'api-key': apiKey,
@@ -194,7 +187,7 @@ class BitMEXClient {
     url: string,
     data?: unknown,
   ) {
-    const expires = Math.round(new Date().getTime() / 1000) + 60;
+    const expires = Math.round(new Date().getTime() / 1000) + 60_000;
 
     return {
       'api-expires': expires,
@@ -204,4 +197,5 @@ class BitMEXClient {
   }
 }
 
-export default BitMEXClient;
+const bitmexClient = Object.freeze(new BitMEXClient());
+export default bitmexClient;

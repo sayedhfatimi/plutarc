@@ -1,39 +1,24 @@
 'use client';
+// biome-ignore lint/style/useNodejsImportProtocol: importing browserified crypto
+import { createHmac } from 'crypto';
 import { useVault } from '@/Providers/VaultProvider';
-import BitMEXClient from '@/lib/utils/clients/bitmex';
-import { useMemo } from 'react';
+import { useEffect } from 'react';
 import useWebSocket from 'react-use-websocket';
 
 const WebsocketConnector = () => {
   const exchange = useVault((state) => state.terminal.exchange);
   const ticker = useVault((state) => state.terminal.ticker);
-  const apiKey = useVault((state) => state.terminal.selectedKey.apiKey);
-  const apiSecret = useVault((state) => state.terminal.selectedKey.apiSecret);
-  const setWsUrl = useVault((state) => state.setWsUrl);
+  const key = useVault((state) => state.terminal.selectedKey.apiKey);
+  const secret = useVault((state) => state.terminal.selectedKey.apiSecret);
 
   switch (exchange) {
     case 'bitmex': {
-      const bitmexClient = BitMEXClient.getInstance();
-
-      const wsUrl = useMemo(() => {
-        let WS_URL: string;
-
-        if (apiKey && apiSecret) {
-          WS_URL = bitmexClient.getUrl(apiKey, apiSecret);
-        } else {
-          WS_URL = bitmexClient.getUrl();
-        }
-
-        setWsUrl(WS_URL);
-        return WS_URL;
-      }, [apiKey, apiSecret, setWsUrl, bitmexClient.getUrl]);
-
-      const { sendJsonMessage } = useWebSocket(wsUrl, {
+      const { sendJsonMessage } = useWebSocket('wss://ws.bitmex.com/realtime', {
         share: true,
         filter: () => false,
-        shouldReconnect: (closeEvent) => true,
+        shouldReconnect: () => true,
         retryOnError: true,
-        onOpen: (message) => {
+        onOpen: () => {
           sendJsonMessage({
             op: 'subscribe',
             args: [
@@ -44,6 +29,23 @@ const WebsocketConnector = () => {
           });
         },
       });
+
+      useEffect(() => {
+        if (key && secret) {
+          const verb = 'GET';
+          const path = '/realtime';
+          const expires = Math.round(new Date().getTime() / 1000) + 60;
+
+          const signature = createHmac('sha256', secret)
+            .update(verb + path + expires)
+            .digest('hex');
+
+          sendJsonMessage({
+            op: 'authKeyExpires',
+            args: [key, expires, signature],
+          });
+        }
+      }, [key, secret, sendJsonMessage]);
     }
   }
 

@@ -15,7 +15,7 @@ export const GRID_BREAKPOINTS = { md: 996 };
 export const GridProps: ReactGridLayout.ResponsiveProps &
   ReactGridLayout.WidthProviderProps = {
   className: 'layout',
-  draggableCancel: '.noDrag',
+  draggableCancel: '.no-drag',
   draggableHandle: '.drag',
   useCSSTransforms: true,
   rowHeight: GRID_ROW_HEIGHT,

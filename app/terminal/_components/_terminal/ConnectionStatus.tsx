@@ -1,12 +1,9 @@
 'use client';
-import { useVault } from '@/Providers/VaultProvider';
 import useWebSocket from 'react-use-websocket';
 import ConnectionStatusLabel from './ConnectionStatusLabel';
 
 const ConnectionStatus = () => {
-  const wsUrl = useVault((state) => state.terminal.wsUrl);
-
-  const { readyState } = useWebSocket(wsUrl, {
+  const { readyState } = useWebSocket('wss://ws.bitmex.com/realtime', {
     share: true,
     filter: () => false,
   });

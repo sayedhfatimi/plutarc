@@ -68,7 +68,7 @@ const BitMEXLastPrice = () => {
         </div>
         <div
           className={classNames({
-            'text-4xl': true,
+            'text-xl 2xl:text-4xl': true,
             'text-green-600 dark:text-green-600':
               data[0].lastTickDirection === 'PlusTick',
             'text-red-600 dark:text-red-600':

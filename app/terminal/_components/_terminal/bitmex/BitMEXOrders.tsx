@@ -1,7 +1,8 @@
+// biome-ignore lint/style/useNodejsImportProtocol: importing browserified crypto
 import { createHmac } from 'crypto';
 import { useVault } from '@/Providers/VaultProvider';
 import { Button } from '@/components/ui/button';
-import makeRequest from '@/lib/actions/bitmex/makeRequest';
+import restRequest from '@/lib/actions/bitmex/restRequest';
 import { TABLE_NAME_ORDER } from '@/lib/consts/terminal/bitmex';
 import useBitmexWs from '@/lib/hooks/useBitmexWs';
 import type { TOrder } from '@/lib/types/bitmex/TOrder';
@@ -46,10 +47,12 @@ const BitMEXOrders = () => {
       'api-signature': signature,
     };
 
-    await makeRequest(verb, path, headers, postBody);
+    await restRequest(verb, path, headers, postBody);
   };
 
-  const filteredData = data.filter((order) => order.ordStatus !== 'Canceled');
+  const filteredData = data
+    .filter((order) => order.ordStatus !== 'Canceled')
+    .filter((order) => order.ordStatus !== 'Rejected');
 
   return (
     <table className='table-auto'>

@@ -12,7 +12,6 @@ export type TVaultState = {
   terminal: {
     exchange: string;
     ticker: string;
-    wsUrl: string;
     selectedKey: TAPIKey;
     activeComponents: Layout[];
     inactiveComponents: Layout[];

@@ -61,13 +61,14 @@ const PositionsOrders = React.forwardRef<
           >
             {children}
             <GridComponentTitleBar item={props['data-grid']}>
-              <div className='noDrag flex cursor-pointer flex-row space-x-2'>
+              <div className='no-drag flex cursor-pointer flex-row space-x-2'>
                 {/* biome-ignore lint/a11y/useKeyWithClickEvents: will implement later */}
                 <div
                   onClick={() => setTab('positions')}
                   className={classNames({
-                    'px-2 py-1 hover:bg-secondary': true,
-                    'bg-background': tab === 'positions',
+                    'px-2 py-1 hover:bg-secondary/50': true,
+                    'bg-secondary-foreground text-muted hover:text-muted-foreground':
+                      tab === 'positions',
                   })}
                 >
                   Positions
@@ -76,8 +77,9 @@ const PositionsOrders = React.forwardRef<
                 <div
                   onClick={() => setTab('orders')}
                   className={classNames({
-                    'px-2 py-1 hover:bg-secondary': true,
-                    'bg-background': tab === 'orders',
+                    'px-2 py-1 hover:bg-secondary/50': true,
+                    'bg-secondary-foreground text-muted hover:text-muted-foreground':
+                      tab === 'orders',
                   })}
                 >
                   Orders

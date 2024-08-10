@@ -1,7 +1,8 @@
+// biome-ignore lint/style/useNodejsImportProtocol: importing browserified crypto
 import { createHmac } from 'crypto';
 import { useVault } from '@/Providers/VaultProvider';
 import { Button } from '@/components/ui/button';
-import makeRequest from '@/lib/actions/bitmex/makeRequest';
+import restRequest from '@/lib/actions/bitmex/restRequest';
 import { TABLE_NAME_POSITION } from '@/lib/consts/terminal/bitmex';
 import useBitmexWs from '@/lib/hooks/useBitmexWs';
 import type { TPosition } from '@/lib/types/bitmex/TPosition';
@@ -47,7 +48,7 @@ const BitMEXPositions = () => {
       'api-signature': signature,
     };
 
-    await makeRequest(verb, path, headers, postBody);
+    await restRequest(verb, path, headers, postBody);
   };
 
   const filteredData = data

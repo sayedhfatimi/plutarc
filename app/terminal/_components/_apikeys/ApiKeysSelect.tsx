@@ -33,34 +33,32 @@ const ApiKeysSelect = () => {
   };
 
   return (
-    <>
-      <Select
-        onValueChange={handleValueChange}
-        value={
-          Object.keys(selectedAPIKey).length === 0
-            ? undefined
-            : JSON.stringify(selectedAPIKey)
-        }
-      >
-        <SelectTrigger className='max-w-[300px]'>
-          <SelectValue
-            placeholder={
-              <div className='flex items-center justify-start space-x-2'>
-                <LuKeyRound size={ICON_SIZE_SMALL} />
-                <span>Select an API Key</span>
-              </div>
-            }
-          />
-        </SelectTrigger>
-        <SelectContent position='item-aligned' align='end'>
-          {dAPIKeys.map((item: TAPIKey) => (
-            <SelectItem key={item.label} value={JSON.stringify(item)}>
-              {item.label}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-    </>
+    <Select
+      onValueChange={handleValueChange}
+      value={
+        Object.keys(selectedAPIKey).length === 0
+          ? undefined
+          : JSON.stringify(selectedAPIKey)
+      }
+    >
+      <SelectTrigger className='max-w-[300px]'>
+        <SelectValue
+          placeholder={
+            <div className='flex items-center justify-start space-x-2'>
+              <LuKeyRound size={ICON_SIZE_SMALL} />
+              <span>Select an API Key</span>
+            </div>
+          }
+        />
+      </SelectTrigger>
+      <SelectContent position='item-aligned' align='end'>
+        {dAPIKeys.map((key: TAPIKey) => (
+          <SelectItem key={key.label} value={JSON.stringify(key)}>
+            {key.label}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
   );
 };
 

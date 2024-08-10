@@ -14,7 +14,7 @@ const GridComponentTitleBar = ({
     <div className='drag flex w-full cursor-move items-center justify-between border-b bg-secondary px-1 text-muted-foreground backdrop-blur-sm hover:bg-background'>
       {children ? children : <span>{`${item.i}: ${ticker}`}</span>}
       <LuX
-        className='noDrag cursor-pointer hover:bg-background dark:hover:bg-slate-700'
+        className='no-drag cursor-pointer hover:bg-background dark:hover:bg-slate-700'
         size={ICON_SIZE_SMALL}
         onClick={() => removeComponent(item)}
       />

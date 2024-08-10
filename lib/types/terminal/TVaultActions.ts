@@ -11,7 +11,6 @@ export type TVaultActions = {
   setUserProfileImage: (payload: TVaultState['user']['profileImage']) => void;
   setTicker: (payload: TVaultState['terminal']['ticker']) => void;
   setExchange: (payload: TVaultState['terminal']['exchange']) => void;
-  setWsUrl: (payload: TVaultState['terminal']['wsUrl']) => void;
   setSelectedKey: (payload: TVaultState['terminal']['selectedKey']) => void;
   setTerminalLayout: (payload: Layout[]) => void;
   resetTerminalLayout: (payload: Layout[]) => void;
