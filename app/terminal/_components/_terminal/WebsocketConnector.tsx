@@ -2,6 +2,7 @@
 // biome-ignore lint/style/useNodejsImportProtocol: importing browserified crypto
 import { createHmac } from 'crypto';
 import { useVault } from '@/Providers/VaultProvider';
+import bitmexClient from '@/lib/utils/clients/bitmex';
 import { useEffect } from 'react';
 import useWebSocket from 'react-use-websocket';
 
@@ -10,10 +11,13 @@ const WebsocketConnector = () => {
   const ticker = useVault((state) => state.terminal.ticker);
   const key = useVault((state) => state.terminal.selectedKey.apiKey);
   const secret = useVault((state) => state.terminal.selectedKey.apiSecret);
+  const wsUrl = useVault((state) => state.terminal.wsUrl);
+  const setWsUrl = useVault((state) => state.setWsUrl);
 
   switch (exchange) {
     case 'bitmex': {
-      const { sendJsonMessage } = useWebSocket('wss://ws.bitmex.com/realtime', {
+      setWsUrl(bitmexClient.WS_URL);
+      const { sendJsonMessage } = useWebSocket(wsUrl, {
         share: true,
         filter: () => false,
         shouldReconnect: () => true,
@@ -34,15 +38,11 @@ const WebsocketConnector = () => {
         if (key && secret) {
           const verb = 'GET';
           const path = '/realtime';
-          const expires = Math.round(new Date().getTime() / 1000) + 60;
-
-          const signature = createHmac('sha256', secret)
-            .update(verb + path + expires)
-            .digest('hex');
+          const authObj = bitmexClient.getAuthObj(key, secret, verb, path);
 
           sendJsonMessage({
-            op: 'authKeyExpires',
-            args: [key, expires, signature],
+            op: 'authKey',
+            args: [key, authObj['api-expires'], authObj['api-signature']],
           });
         }
       }, [key, secret, sendJsonMessage]);

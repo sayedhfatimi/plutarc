@@ -5,10 +5,11 @@ import { useState } from 'react';
 import useWebSocket from 'react-use-websocket';
 
 const useBitmexWs = <T>(table: string) => {
+  const wsUrl = useVault((state) => state.terminal.wsUrl);
   const ticker = useVault((state) => state.terminal.ticker);
   const [data, setData] = useState([] as T[]);
 
-  const { sendJsonMessage } = useWebSocket('wss://ws.bitmex.com/realtime', {
+  const { sendJsonMessage } = useWebSocket(wsUrl, {
     share: true,
     filter: (message) => {
       if (message.data !== 'pong' && JSON.parse(message.data).table === table) {

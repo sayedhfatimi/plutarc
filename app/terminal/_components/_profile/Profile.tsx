@@ -58,7 +58,8 @@ const Profile = ({ userSession }: { userSession: Session }) => {
           <section className='flex items-start justify-between'>
             <div className='flex flex-col space-y-1'>
               <div className='font-bold text-2xl'>
-                Name: {userSession?.user.name || 'No Name'}
+                User ID:{' '}
+                <span className='select-text'>{userSession?.user.id}</span>
               </div>
               <div className='text-slate-600 text-sm'>
                 email: {userSession?.user.email}

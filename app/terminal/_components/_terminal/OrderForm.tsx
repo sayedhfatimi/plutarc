@@ -1,3 +1,4 @@
+// biome-ignore lint/style/useNodejsImportProtocol: importing browserified crypto
 import { createHmac } from 'crypto';
 import { useVault } from '@/Providers/VaultProvider';
 import { Button } from '@/components/ui/button';

@@ -10,6 +10,7 @@ export type TVaultState = {
     profileImage: string | undefined;
   };
   terminal: {
+    wsUrl: string;
     exchange: string;
     ticker: string;
     selectedKey: TAPIKey;

@@ -26,8 +26,8 @@ const ScreenshotCarousel = () => {
       ]}
     >
       <CarouselContent>
-        {CarouselItems.map((item, index) => (
-          <CarouselItem className='md:basis-1/3' key={index}>
+        {CarouselItems.map((item) => (
+          <CarouselItem className='md:basis-1/3' key={item.alt}>
             {React.createElement(Image, { src: item.image, alt: item.alt })}
           </CarouselItem>
         ))}

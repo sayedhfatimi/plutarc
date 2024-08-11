@@ -1,6 +1,6 @@
-// biome-ignore lint/style/useNodejsImportProtocol: throws error with nextjs
+// biome-ignore lint/style/useNodejsImportProtocol: importing browserified crypto
 import { createHmac } from 'crypto';
-// biome-ignore lint/style/useNodejsImportProtocol: throws error with nextjs
+// biome-ignore lint/style/useNodejsImportProtocol: importing browserified querystring
 import querystring from 'querystring';
 import type { TWebSocketResponse } from '@/lib/types/bitmex/TWebSocketResponse';
 import _ from 'lodash';
@@ -27,6 +27,7 @@ class BitMEXClient {
   private _DATA: TBitMEXClient_DATA = {};
   private _KEYS: TBitMEXClient_KEYS = {};
   private STORE_MAX_LENGTH = 10_000;
+  public WS_URL = 'wss://ws.bitmex.com/realtime';
 
   public deltaParser<T>(
     table: string,
