@@ -1,5 +1,6 @@
 import NavBar from '@/components/NavBar';
 import ScreenshotCarousel from '@/components/ScreenshotCarousel';
+import { TextEffect } from '@/components/TextEffect';
 import {
   Card,
   CardContent,
@@ -26,7 +27,10 @@ const HomePage = async () => {
       <section className='flex flex-col border-t border-b bg-secondary/50 shadow-md backdrop-blur-sm'>
         <div className='px-8 py-4'>
           <h1 className='text-pretty font-bold text-6xl text-secondary-foreground'>
-            Consistent. Fast. Ready. <br /> Never miss another trade.
+            <TextEffect per='word' preset='blur' as='span'>
+              Consistent. Fast. Ready.
+            </TextEffect>
+            <TextEffect>Never miss another trade.</TextEffect>
           </h1>
         </div>
         <div className='px-8 py-4'>
